@@ -89,6 +89,30 @@ super + @button{1-3}
 	bspc pointer -u
 
 #
+# bspwm Extras
+#
+
+# Change gap size on the fly
+alt + {minus,equal}
+    bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
+
+# Hide all windows (on all desktops)
+super + d
+    bspc control --toggle-visibility 
+
+# Tag focused window as locked (Prevents closing) (Highest priority)
+super + x
+    bspc window -t locked
+
+# Tag focused window as sticky (Window stay on that monitor regardless of what workspace you move to) (Middle priority)
+super + z
+    bspc window -t sticky
+
+# Tag focused window as private (Tries to maintain its size and position) (Lowest priority)
+super + v
+    bspc window -t private
+
+#
 # wm independent hotkeys
 #
 

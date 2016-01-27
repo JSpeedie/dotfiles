@@ -48,18 +48,20 @@ bspc config presel_border_color			"$gray"
 
 bspc config urgent_border_color			"$redl"
 
-# Ignores close message? Cannot be closed?
-bspc config focused_locked_border_color		"#A2A7B5"
-bspc config active_locked_border_color		"#2E2F33"
-bspc config normal_locked_border_color		"#2E2F33"
-bspc config presel_locked_border_color		"#4887BB" 
+# Locked windows cannot be closed
+bspc config focused_locked_border_color		"$blue"
+bspc config active_locked_border_color		"$bluel"
+bspc config normal_locked_border_color		"$bluel"
+bspc config presel_locked_border_color		"$bluel"
+
 # Stickied windows stay in the focused desktop of the windows monitor
-bspc config focused_sticky_border_color		"$green"
-bspc config active_sticky_border_color		"$greenl"
-bspc config normal_sticky_border_color		"$aqua"
-bspc config presel_sticky_border_color		"$gray"
+bspc config focused_sticky_border_color		"$aqua"
+bspc config active_sticky_border_color		"$aqual"
+bspc config normal_sticky_border_color		"$aqual"
+bspc config presel_sticky_border_color		"$aqual"
 
 # Tries to maintain its tiling position and size
 bspc config focused_private_border_color	"$purple"
 bspc config active_private_border_color		"$purplel"
-bspc config normal_private_border_color		"$blue"
+bspc config normal_private_border_color		"$purplel"
+bspc config presel_private_border_color		"$purplel"
