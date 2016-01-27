@@ -17,7 +17,7 @@ I use a lot of other things to achieve what I want in those programs (aesthetica
 
 Screenshots
 -----------
-Only single monitor pics for now. I'll update with dual monitor pics at a later point in time
+Only single monitor pics for now. I'll update with dual monitor pics at a later point in time. Rofi pics are outdated.
 ![Setup 4](https://u.teknik.io/W3hEGT.png)
 ![Setup 5](https://u.teknik.io/nJXHFl.png)
 ![Setup 5.5](https://u.teknik.io/IZdl0Q.png)
@@ -34,4 +34,3 @@ Bugs/To Be Fixed
 ----------------
 * Monitor support is absolutely terrible unless you have have the exact same setups as me. You will have to edit my bspwmrc and lbarout.sh/lbarout2.sh to get everything setup right.
 * Volume works on some systems but will you will most likely have to edit sxhkdrc and lbarout.sh/lbarout2.sh to get those to work properly
-* Rofi currently fairly transparent. One day when i feel motivated enough, I'll look into fixing that. Rn you can just not run compton and it won't be a problem.
