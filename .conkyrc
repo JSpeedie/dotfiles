@@ -1,0 +1,98 @@
+out_to_x no
+own_window no
+out_to_console yes
+background no
+max_text_width 0
+
+# Update interval in seconds
+update_interval 0.1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+short_units yes
+
+# How strict should if_up be when testing an interface for being up?
+# The value is one of up, link or address, to check for the interface
+# being solely up, being up and having link or being up, having link
+# and an assigned IP address. 
+if_up_strictness address
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+# use_spacer should have an argument of left, right, or none
+use_spacer left
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+# Stuff after 'TEXT' will be formatted on screen
+TEXT
+
+# To find the name of your network interface you can use the terminal command
+# "ip link show"
+# JSON for i3bar
+
+ [
+  { "full_text" : " ${uptime}", "color" : "\#282828" },
+  { "full_text" :
+	${if_up enp3s0}"e ${upspeedf enp3s0}kB/s"${else}
+	"w ${upspeedf wlp6s0}kB/s"
+	${endif},
+    "color" : "\#282828"
+  },
+  { "full_text" :
+	${if_up enp3s0}"e ${downspeedf enp3s0}kB/s"${else}
+	"w ${downspeedf wlp6s0}kB/s"
+	${endif},
+    "color" : "\#282828"
+  },
+  { "full_text" :
+	"ram ${memperc}%" ,
+    "color" :
+	${if_match ${memperc}<85}"\#282828"${else}
+	"\#9d0006"
+	${endif}
+  },
+  { "full_text" :
+	"cpu ${acpitemp}°C",
+    "color" :
+	${if_match ${acpitemp}<65}"\#282828"${else}
+	"\#9d0006"
+	${endif}
+  },
+  { "full_text" :
+	"cpu ${cpu cpu0}%",
+    "color" :
+	${if_match ${cpu cpu0}<85}"\#282828"${else}
+	"\#9d0006"
+	${endif}
+  },
+  { "full_text" : 
+	${if_match ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"}>66}
+		" ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%"}"${else}
+	${if_match ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"}>33}
+		" ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%"}"${else}
+	${if_match ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"}>=0}
+		" ${exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%"}"${else}
+	${endif}${endif}${endif},
+    "color" : "\#282828"
+  },
+  { "full_text" :
+	${if_match ${battery_percent}>80}" ${battery_percent}%"${else}
+	${if_match ${battery_percent}>60}" ${battery_percent}%"${else}
+	${if_match ${battery_percent}>40}" ${battery_percent}%"${else}
+	${if_match ${battery_percent}>20}" ${battery_percent}%"${else}
+	${if_match ${battery_percent}>0}" ${battery_percent}%"${else}
+	""${endif}${endif}${endif}${endif}${endif},
+    "color" :
+	${if_match ${battery_percent}>15}"\#282828"${else}"\#9d0006"${endif}
+  },
+  { "full_text" : " ${time %a %d/%m}", "color" : "\#282828"},
+  { "full_text" : " ${time %l:%M:%S %P}", "color" : "\#282828"}
+ ],

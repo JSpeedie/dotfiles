@@ -1,0 +1,90 @@
+#define bg #282828
+#define red #cc241d
+#define green #98971a
+#define green #98971a
+#define yellow #d79921
+#define blue #458588
+#define purple #b16286
+#define aqua #689d6a
+#define gray #a89984
+
+#define grayl #928374
+#define redl #fb4934
+#define greenl #b8bb26
+#define yellowl #fabd2f
+#define bluel #83a598
+#define purplel #d3869b
+#define aqual #8ec07c
+#define fg #ebdbb2
+
+#define bg0_h #282828
+#define bg1 #3c3836
+#define bg2 #504945
+#define bg3 #665c54
+#define bg4 #7c6f64
+#define orange #d56d0e
+
+#define bg0_s #32302f
+#define fg4 #a89984
+#define fg3 #bdae93
+#define fg2 #d5c4a1
+#define fg1 #ebdbb2
+#define fg0 #fbf1c7
+#define orangel #fe8019
+
+!! Urxvt configuration
+URxvt.scrollBar: false
+URxvt.font: xft:Hermit:size=10
+
+!! Text colour
+*foreground:	fg
+!! Background colour
+*background:	bg0_s
+*color0:	bg0_s
+*color1:	red
+*color2:	green
+*color3:	yellow
+*color4:	blue
+*color5:	purple
+*color6:	aqua
+*color7:	gray
+*color8:	grayl
+*color9:	redl
+*color10:	greenl
+*color11:	yellowl
+*color12:	bluel
+*color13:	purplel
+*color14:	aqual
+*color15:	fg
+*pointerColorBackground: bg0_s
+*pointerColorForeground: fg
+
+!! Rofi configuration
+rofi.width: 800
+!! Centered
+rofi.location: 0
+roft.yoffset: 0
+roft.xoffset: 0
+rofi.opacity: 66
+rofi.lines: 5
+rofi.font: hermit 11
+rofi.hide-scrollbar: true
+rofi.color-enabled: false
+rofi.fg: fg
+rofi.bg: bg0_s
+rofi.fg-active: fg
+rofi.fg-urgent: fg
+rofi.bg-active: bg0_s
+rofi.bg-urgent: bg0_s
+rofi.bgalt: bg0_s
+rofi.bc: fg
+rofi.bw: 4
+rofi.hlfg: bg0_s
+rofi.hlfg-active: fg
+rofi.hlfg-urgent: fg
+rofi.hlbg: fg
+rofi.hlbg-active: bg0_s
+rofi.hlbg-urgent: bg0_s
+rofi.separator-style: solid
+!! the separator style won't work unless you're on rofi v 0.15.10 or higher
+!! you can check your version with "rofi -v"
