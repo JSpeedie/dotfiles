@@ -62,12 +62,12 @@ URxvt.font: xft:Hermit:size=10
 !! Rofi configuration
 rofi.width: 800
 !! Centered
-rofi.location: 0
+rofi.location: 2
 roft.yoffset: 0
 roft.xoffset: 0
-rofi.opacity: 66
-rofi.lines: 5
-rofi.font: hermit 11
+rofi.opacity: 75
+rofi.lines: 12
+rofi.font: Hermit 10
 rofi.hide-scrollbar: true
 rofi.color-enabled: false
 rofi.fg: fg
@@ -77,7 +77,7 @@ rofi.fg-urgent: fg
 rofi.bg-active: bg0_s
 rofi.bg-urgent: bg0_s
 rofi.bgalt: bg0_s
-rofi.bc: fg
+rofi.bc: bg
 rofi.bw: 4
 rofi.hlfg: bg0_s
 rofi.hlfg-active: fg

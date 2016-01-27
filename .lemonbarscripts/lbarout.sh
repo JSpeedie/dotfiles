@@ -45,6 +45,11 @@ SEP2="  "
 SEP4="    "
 SEP6="      "
 
+# Create temp files
+mkdir -p /tmp/.lemonbarscripts
+echo "false" >/tmp/.lemonbarscripts/cputnotif
+echo "false" >/tmp/.lemonbarscripts/batterynotif
+
 bar() {
 	Battery() {
 		BATTERY=$(conky -q -c conkybar -t '$battery_percent')
