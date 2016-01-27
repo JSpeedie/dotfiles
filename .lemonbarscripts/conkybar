@@ -1,0 +1,22 @@
+override_utf8_locale yes
+alignment top_left
+uppercase no
+total_run_times 1
+out_to_console yes
+out_to_x no
+no_buffers yes
+uppercase no
+cpu_avg_samples 10
+net_avg_samples 10
+
+update_interval 0.05
+
+# { "full_text" : "memperc ${memperc}" },
+
+TEXT
+[
+  { "full_text" : ${if_up enp5s0}"up ${upspeedf enp5s0}"${else}"up ${upspeedf wlp6s0}"${endif} },
+  { "full_text" : ${if_up enp5s0}"down ${downspeedf enp5s0}"${else}"down ${downspeedf wlp6s0}"${endif} },
+  { "full_text" : "cpu ${cpu cpu0}" },
+  { "full_text" : "battery_percent ${battery_percent}" },
+ ],
