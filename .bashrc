@@ -2,9 +2,7 @@
 # ~/.bashrc
 #
 
-export GTK2_RC_FILES=/usr/share/themes/Industrial/gtk-2.0/gtkrc nautilus
-
-[[ $- != *i* ]] && return
+export GTK2_RC_FILES=/usr/share/themes/Paper/gtk-2.0/gtkrc nautilus
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+PS1=' \[\e[0;35m\]\u\[\e[0m\] :: \W » '
