@@ -17,7 +17,8 @@ I use a lot of other things to achieve what I want in those programs (aesthetica
 
 Screenshots
 -----------
-Only single monitor pics for now. I'll update with dual monitor pics at a later point in time. Rofi pics are outdated.
+Note: these are slightly outdated. Rofi, my bash prompt and some small compton.conf changes have occurred since these were taken, but there's not a huge difference.
+Only single monitor pics for now. I'll update with dual monitor pics at a later point in time.
 ![Setup 4](https://u.teknik.io/W3hEGT.png)
 ![Setup 5](https://u.teknik.io/nJXHFl.png)
 ![Setup 5.5](https://u.teknik.io/IZdl0Q.png)
