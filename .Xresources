@@ -58,6 +58,7 @@ URxvt.font: xft:Hermit:size=10
 *color15:	fg
 *pointerColorBackground: bg0_s
 *pointerColorForeground: fg
+URxvt.fading: 20
 
 !! Rofi configuration
 rofi.width: 800
