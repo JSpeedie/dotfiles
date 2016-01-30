@@ -4,6 +4,7 @@
 PKGLIST=(bspwm sxhkd conky rofi feh rxvt-unicode xorg-xinit dunst libnotify vim i3lock)
 OPKGLIST=(xorg-xrandr firefox alsa-utils scrot screenfetch flashplugin unzip)
 YPKGLIST=(compton lemonbar-xft-git)
+OYPKGLIST=(google-chrome)
 
 cd ~
 clear
@@ -14,18 +15,21 @@ echo "                   Distro: Arch"
 echo "                    Shell: bash"
 echo "                       WM: bspwm"
 echo "                Panel/Bar: lemonbar-xft-git"
+echo "        Terminal Emulator: urxvt"
 echo "                 Launcher: rofi"
 echo "                     Font: Hermit"
 echo "            Notifications: dunst"
 echo "               Compositor: compton"
 echo
-for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST"); do
+for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	if [[ $i == "PKGLIST" ]]; then
 		CPKGL=("${PKGLIST[@]}")
 	elif [[ $i == "OPKGLIST" ]]; then
 		CPKGL=("${OPKGLIST[@]}")
 	elif [[ $i == "YPKGLIST" ]]; then
 		CPKGL=("${YPKGLIST[@]}")
+	elif [[ $i == "OYPKGLIST" ]]; then
+		CPKGL=("${OYPKGLIST[@]}")
 	else
 		CPKGL=("${PKGLIST[@]}")
 	fi
@@ -35,36 +39,38 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST"); do
 	printf "Enter n° of packages to be installed (ex: 1 2 3) (enter=all) "
 	read -a INPUT
 	if [[ ${INPUT[*]} == "" ]]; then
-		printf "Ask for confirmation for each package? [Y/n] "
-		read ANS
-		for j in ${CPKGL[*]}; do
-			if [[ $ANS == "Y" ]]; then
-				sudo pacman -S $j
-			elif [[ $ANS == "n" ]]; then
-				sudo pacman -S $j --noconfirm
-			else
-				echo "Incorrect input. Exiting..."
-				exit 1
-			fi
+		pkg=""
+		num=1
+		for n in ${CPKGL[*]}; do
+			pkg+="$num "
+			let num+=1
 		done
-	elif [[ ${INPUT[*]} =~ ^([0-9]{1,}[ \t]*){1,}$ ]]; then
-		printf "Ask for confirmation for each package? [Y/n] "
-		read ANS
-		# manipulate input to get the numbers they wanna install.
-		# for loop through those numbers and install each package
-		for j in ${INPUT[*]}; do
-			if [[ $ANS == "Y" ]];
-			then
-				sudo pacman -S ${CPKGL[j-1]}
-			elif [[ $ANS == "n" ]];	then
-				sudo pacman -S ${CPKGL[j-1]} --noconfirm
-			else
-				echo "Incorrect input. Exiting..."
-				exit 1
-			fi
-		done
+		echo "Packages chosen: $pkg"
+	elif [[ ${INPUT[*]} =~ ^([ \t]*[0-9]{1,}[ \t]*){1,}$ ]]; then
+		pkg=${INPUT[*]}
+		echo "Packages chosen: $pkg"
 	else
-		echo "Incorrect input. Exiting..."
+		echo "Invalid input. Exiting..."
 		exit 1
 	fi
+	printf "Ask for confirmation for each package? [Y/n] "
+	read ANS
+	for j in $pkg; do
+		if [[ $ANS == "Y" ]]; then
+			if [[ $i == "YPKGLIST" ]]; then
+				yaourt ${CPKGL[j-1]}
+			else
+				sudo pacman -S ${CPKGL[j-1]}
+			fi
+		elif [[ $ANS == "n" ]]; then
+			if [[ $i == "YPKGLIST" ]]; then
+				yaourt ${CPKGL[j-1]} --noconfirm
+			else
+				sudo pacman -S ${CPKGL[j-1]} --noconfirm
+			fi
+		else
+			echo "Invalid input. Exiting..."
+			exit 1
+		fi
+	done
 done
