@@ -27,18 +27,6 @@ IWorkspaceFocused=""
 IWorkspaceUnfocused=""
 IWorkspaceEmpty=""
 
-# Get information about the system/setup like screen dimensions and number of screens
-# ScreenWidth script may have to be changed in the future because it won't work
-# on a multi monitor setup with different resolution monitors
-ScreenWidth=$(xrandr -q | grep "^.* connected" | grep -o "[0-9]\{1,\}x" | sed "s/x//")
-Dimensions=$(echo "$ScreenWidth x30+0+0" | sed "s/ //")
-ScreensTemp=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
-NumScreens=0
-for i in $(echo $ScreensTemp)
-do
-	let NumScreens++
-done
-
 # Separators
 SEP=" "
 SEP2="  "
@@ -49,6 +37,11 @@ SEP6="      "
 mkdir -p /tmp/.lemonbarscripts
 echo "false" >/tmp/.lemonbarscripts/cputnotif
 echo "false" >/tmp/.lemonbarscripts/batterynotif
+echo "0" >/tmp/.lemonbarscripts/netdown
+echo "0" >/tmp/.lemonbarscripts/netup
+
+# Names of all the screen outputs being used
+Screens=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
 
 bar() {
 	Battery() {
@@ -56,41 +49,38 @@ bar() {
 		if [ $BATTERY -lt 20 ];
 		then
 			# If battery is less than 15 (low imo) send a notification
-			if [[ $BATTERY -lt 15 ]];
-				then
+			if [[ $BATTERY -lt 15 ]]; then
 				NOTIF=$(cat /tmp/.lemonbarscripts/batterynotif)
 				# If the user has not been notified about the battery being low
-				if [[ $NOTIF != "true" ]];
-				then
+				if [[ $NOTIF != "true" ]]; then
 					# Sends a notification to their notification client. I use dunst
 					notify-send "Low battery" -u critical
 					# change the text in the file to say true so we know in the
 					# future to not notify them again too quickly (to avoid spam)
 					echo "true" >/tmp/.lemonbarscripts/batterynotif
 				fi
-			elif [[ $BATTERY -gt 15 ]];
-			then
-				# cpu temps are low so reallow sending the notification
+			elif [[ $BATTERY -gt 15 ]]; then
+				# cpu temps are low so re-allow sending the notification
 				echo "false" >/tmp/.lemonbarscripts/batterynotif
 			fi
-			echo %{F$yellow}$IBattery0$SEP$BATTERY%{F-}
-		elif [ $BATTERY -lt 40 ];
-		then
-			echo %{F$yellow}$IBattery1$SEP$BATTERY%{F-}
-		elif [ $BATTERY -lt 60 ];
-		then
-			echo %{F$yellow}$IBattery2$SEP$BATTERY%{F-}
-		elif [ $BATTERY -lt 80 ];
-		then
-			echo %{F$yellow}$IBattery3$SEP$BATTERY%{F-}
+			IBatteryN=$IBattery0
+		elif [ $BATTERY -lt 40 ]; then
+			IBatteryN=$IBattery1
+		elif [ $BATTERY -lt 60 ]; then
+			IBatteryN=$IBattery2
+		elif [ $BATTERY -lt 80 ]; then
+			IBatteryN=$IBattery3
 		else
-			echo %{F$yellow}$IBattery4$SEP$BATTERY%{F-}
+			IBatteryN=$IBattery4
 		fi
+		BATTERY+="%"
+		echo %{F$yellow}$IBatteryN$SEP$BATTERY%{F-}
 	} 
 
 	Brightness() {
 		BRIGHTNESS=$(xbacklight -get | grep -o "[0-9]\+\.[0-9]\?")
-		echo %{F$yellow}$IBrightness$SEP$BRIGHTNESS%{F-}
+		BRIGHTNESS+="%"
+		echo %{F$yellowl}$IBrightness$SEP$BRIGHTNESS%{F-}
 	}
 	
 	CpuTemp() {
@@ -128,6 +118,72 @@ bar() {
 		echo %{F$orangel}$IMem$SEP$MEMUSED%{F-}
 	}
 
+	NetworkDown() {
+		LASTSAMPLE=$(cat /tmp/.lemonbarscripts/netdown)
+		SAMPLE=$(cat /proc/net/dev | grep ".*:[ \t]\+[0-9]\+" | awk '{print $2}')
+		Down=0
+		for bytes in $(echo $SAMPLE); do
+			let Down+=$bytes
+		done
+		let FDown=$Down
+		let FDown-=$LASTSAMPLE
+		# convert from B to KB = /1000, from /0.05s to /s = *20
+		# We want KB/s then from there we'll chop it up into MB/s. We do that instead of
+		# just converting to MB/s because bash doesn't do floats so we have to simulate
+		# them with strings and string manipulations
+		# /1000 for KB, *20 for /s
+		let FDown/=20
+		FStrO=$(echo $FDown)
+		while [[ $(expr length $FStrO) < 4 ]]; do
+			FStrO="0"$FStrO
+		done
+		# Get the non decimal portion of the MB/s value
+		FStr=$(echo $FStrO | sed "s/[0-9]\{1,3\}$//")
+		FStr+="."
+		# Gets the decimal values for the MB/s value
+		FStr+=$(echo $FStrO | grep -o "[0-9]\{1,3\}$")
+		# Remove the last digit so that the final result is to 2 decimals
+		FStr=$(echo $FStr | sed "s/[0-9]$//")
+		FStr+="MB"
+
+		echo %{F$yellowl}$IDown$SEP$FStr%{F-}
+		# Save as "LASTSAMPLE"
+		echo $Down >/tmp/.lemonbarscripts/netdown
+	}
+
+	NetworkUp() {
+		LASTSAMPLE=$(cat /tmp/.lemonbarscripts/netup)
+		SAMPLE=$(cat /proc/net/dev | grep ".*:[ \t]\+[0-9]\+" | awk '{print $10}')
+		Up=0
+		for bytes in $(echo $SAMPLE); do
+			let Up+=$bytes
+		done
+		let FUp=$Up
+		let FUp-=$LASTSAMPLE
+		# convert from B to KB = /1000, from /0.05s to /s = *20
+		# We want KB/s then from there we'll chop it up into MB/s. We do that instead of
+		# just converting to MB/s because bash doesn't do floats so we have to simulate
+		# them with strings and string manipulations
+		# /1000 for KB, *20 for /s
+		let FUp/=20
+		FStrO=$(echo $FUp)
+		while [[ $(expr length $FStrO) < 4 ]]; do
+			FStrO="0"$FStrO
+		done
+		# Get the non decimal portion of the MB/s value
+		FStr=$(echo $FStrO | sed "s/[0-9]\{1,3\}$//")
+		FStr+="."
+		# Gets the decimal values for the MB/s value
+		FStr+=$(echo $FStrO | grep -o "[0-9]\{1,3\}$")
+		# Remove the last digit so that the final result is to 2 decimals
+		FStr=$(echo $FStr | sed "s/[0-9]$//")
+		FStr+="MB"
+
+		echo %{F$yellow}$IUp$SEP$FStr%{F-}
+		# Save as "LASTSAMPLE"
+		echo $Up >/tmp/.lemonbarscripts/netup
+	}
+
 	Time() {
 		TIME=$(date "+%l:%M:%S")
 		echo %{F$redl}$ITime$SEP$TIME%{F-}
@@ -163,25 +219,19 @@ bar() {
 		# this gives you a string like this
 		# 'WMDVI-D-1:oI:OII:fIII:fIV:fV:fVI:fVII:fVIII:fIX:fX:LT:mHDMI-1:ODesktop2:LT'
 		# the letter before the workspace name represents a quality of it
-		# 'o' means it has windows in it, but you are not in it
-		# 'O' means it has windows and you are in it
+		# 'o' means it has windows in it
 		# 'f' means it is empty
-		# 'F' means it is empty and you are in it
-		
-		if [[ $NumScreens > 2 ]];
-		then
-			# Only make use of 5 workspaces on this monitor
-			status=$(bspc control --get-status | grep -o "LT:.*:LT" | cut -d':' -f3-7 | tr ':' '\n')
-		else
-			# Make use of all 10 workspaces on this screen
-			status=$(bspc control --get-status | grep -o "^.*:LT" | cut -d':' -f2-11 | tr ':' '\n')
-		fi
+		# 'u' means it is urgent
+		# Any of these letters in capitals means you are in that workspace
+
+		# get the workspace status/workspace name lines from the --get-status command
+		bstatus=$(bspc control --get-status | tr ':' '\n' | grep "^[OFUofu]\{1,\}.*$")		
 		workspace="$SEP4"
 		num=1
-		for i in $(echo $status)
-		do
+		for i in $(echo $bstatus); do
 			case $i in
 			  [OFU]*)
+			  # get workspace name
 			  wsn=$(echo $i | sed 's/[OFUofu]//')
 			  # The workspace you are currently in
 			  workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceFocused%{A}%{F-}$SEP4";;
@@ -200,13 +250,25 @@ bar() {
 		echo "$workspace"
 	}
 
-	echo "%{l}$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(Brightness)\
+	echo "%{l}$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetworkUp)$SEP2$(NetworkDown)\
 		%{c}$(Workspaces)\
-		%{r}$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
+		%{r}$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
 }
 
-while true; do
-	echo "$(bar)"
-	sleep 0.01;
-done | lemonbar -g $Dimensions -a 11 -u 2 -o 0 -f "Hermit-10" -o -2 -f "FontAwesome-12" -B $bg0_s -F $fg | bash &
-sleep 1s
+# Make a new bar for each monitor the system has
+for screen in $(echo $Screens); do
+	# Get information about the screen like its dimensions
+	BarXY=$(xrandr | grep $screen | grep -o "+[0-9]\{1,\}+[0-9]\{1,\}")
+	ScreenWidth=$(xrandr | grep $screen | grep -o "[0-9]\{1,\}x" | sed "s/x//")
+	# Final qualities of the bar. Width and X and Y
+	Dimensions=$(echo "$ScreenWidth x30 $BarXY" | sed "s/ //")
+	while true; do
+		echo "$(bar)"
+		sleep 0.05;
+	done | lemonbar -g $Dimensions -a 11 -u 2 -o 0 -f "Hermit-10" -o -2 -f "FontAwesome-12" -B $bg0_s -F $fg | bash &
+done
+
+# add this to some setup script
+# sudo rm /etc/localtime
+# sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+# sudo hwclock --systohc --utc

@@ -137,7 +137,7 @@ alt + m
 
 # Change brightness
 alt + shift +  n
-	xbacklight -time 250 -steps 25 -dec 10
+	xbacklight -time 10 -steps 1 -dec 10
 
 alt + shift +  m
-       	xbacklight -time 250 -steps 25 -inc 10
+       	xbacklight -time 10 -steps 1 -inc 10
