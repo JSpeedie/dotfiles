@@ -23,6 +23,7 @@ ITime=""
 ILock=""
 IBrightness=""
 
+# Workspace Icons
 IWorkspaceFocused=""
 IWorkspaceUnfocused=""
 IWorkspaceEmpty=""
@@ -44,6 +45,7 @@ echo "0" >/tmp/.lemonbarscripts/netup
 Screens=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
 
 bar() {
+
 	Battery() {
 		BATTERY=$(conky -q -c conkybar -t '$battery_percent')
 		if [ $BATTERY -lt 20 ];
@@ -267,8 +269,3 @@ for screen in $(echo $Screens); do
 		sleep 0.05;
 	done | lemonbar -g $Dimensions -a 11 -u 2 -o 0 -f "Hermit-10" -o -2 -f "FontAwesome-12" -B $bg0_s -F $fg | bash &
 done
-
-# add this to some setup script
-# sudo rm /etc/localtime
-# sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
-# sudo hwclock --systohc --utc
