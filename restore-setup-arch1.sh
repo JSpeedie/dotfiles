@@ -1,10 +1,10 @@
 # Installs everything needed for this setup which is, primarily, bspwm + sxhkd but also all the things I use like
 # urxvt, xrandr, firefox, alsamixer, screenfetch, xinit, etc.
 
-PKGLIST=(bspwm sxhkd conky rofi feh rxvt-unicode xorg-xinit dunst libnotify vim i3lock)
+PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg-xinit dunst libnotify vim i3lock)
 OPKGLIST=(xorg-xrandr firefox alsa-utils scrot screenfetch flashplugin unzip)
 YPKGLIST=(compton lemonbar-xft-git)
-OYPKGLIST=(google-chrome)
+OYPKGLIST=(google-chrome sublime-text)
 
 cd ~
 clear

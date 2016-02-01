@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Colours, Icons and Separators {{{
 # Colours
 . ~/coloursconf
 
@@ -33,6 +34,7 @@ SEP=" "
 SEP2="  "
 SEP4="    "
 SEP6="      "
+# }}}
 
 # Create temp files
 mkdir -p /tmp/.lemonbarscripts
@@ -46,80 +48,106 @@ Screens=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
 
 bar() {
 
+	# Battery {{{
 	Battery() {
-		BATTERY=$(conky -q -c conkybar -t '$battery_percent')
-		if [ $BATTERY -lt 20 ];
-		then
-			# If battery is less than 15 (low imo) send a notification
-			if [[ $BATTERY -lt 15 ]]; then
-				NOTIF=$(cat /tmp/.lemonbarscripts/batterynotif)
-				# If the user has not been notified about the battery being low
-				if [[ $NOTIF != "true" ]]; then
-					# Sends a notification to their notification client. I use dunst
-					notify-send "Low battery" -u critical
-					# change the text in the file to say true so we know in the
-					# future to not notify them again too quickly (to avoid spam)
-					echo "true" >/tmp/.lemonbarscripts/batterynotif
+		# Can be 'Full', 'Discharging', 'Unknown' (lol. It means charging on my laptop)
+		STATUS=$(cat /sys/class/power_supply/BAT0/status)
+		BATTERY=$(cat /sys/class/power_supply/BAT0/capacity)
+		if [[ BATTERY != *"No such file or directory"* ]]; then
+			if [ $BATTERY -lt 20 ]; then
+				# If battery is less than 15 (low imo) send a notification
+				if [[ $BATTERY -lt 15 ]]; then
+					NOTIF=$(cat /tmp/.lemonbarscripts/batterynotif)
+					# If the user has not been notified about the battery being low
+					if [[ $NOTIF != "true" ]]; then
+						# Sends a notification to their notification client. I use dunst
+						notify-send "Low battery" -u critical
+						# change the text in the file to say true so we know in the
+						# future to not notify them again too quickly (to avoid spam)
+						echo "true" >/tmp/.lemonbarscripts/batterynotif
+					fi
+				elif [[ $BATTERY -gt 15 ]]; then
+					# cpu temps are low so re-allow sending the notification
+					echo "false" >/tmp/.lemonbarscripts/batterynotif
 				fi
-			elif [[ $BATTERY -gt 15 ]]; then
-				# cpu temps are low so re-allow sending the notification
-				echo "false" >/tmp/.lemonbarscripts/batterynotif
+				IBatteryN=$IBattery0
+			elif [ $BATTERY -lt 40 ]; then
+				IBatteryN=$IBattery1
+			elif [ $BATTERY -lt 60 ]; then
+				IBatteryN=$IBattery2
+			elif [ $BATTERY -lt 80 ]; then
+				IBatteryN=$IBattery3
+			else
+				IBatteryN=$IBattery4
 			fi
-			IBatteryN=$IBattery0
-		elif [ $BATTERY -lt 40 ]; then
-			IBatteryN=$IBattery1
-		elif [ $BATTERY -lt 60 ]; then
-			IBatteryN=$IBattery2
-		elif [ $BATTERY -lt 80 ]; then
-			IBatteryN=$IBattery3
+			BATTERY+="%"
+			echo %{F$fg}$IBatteryN$SEP$BATTERY%{F-}
 		else
-			IBatteryN=$IBattery4
+			echo ""
 		fi
-		BATTERY+="%"
-		echo %{F$yellow}$IBatteryN$SEP$BATTERY%{F-}
 	} 
+	# }}}
 
+	# Brightness {{{
 	Brightness() {
 		BRIGHTNESS=$(xbacklight -get | grep -o "[0-9]\+\.[0-9]\?")
 		BRIGHTNESS+="%"
-		echo %{F$yellowl}$IBrightness$SEP$BRIGHTNESS%{F-}
+		echo %{F$fg}$IBrightness$SEP$BRIGHTNESS%{F-}
 	}
-	
+	# }}}
+
+	# Cpu Temperature {{{
 	CpuTemp() {
-		CPUTEMP=$(conky -q -c conkybar -t '$acpitemp')
-		if [[ $CPUTEMP -gt 65 ]];
-		then
-			NOTIF=$(cat /tmp/.lemonbarscripts/cputnotif)
-			# If the user has not been notified about the cpu temp being high
-			if [[ $NOTIF != "true" ]];
+		# Get the temps of all the cores and calculate the average temp
+		CPUTEMPS=$(sensors | grep "Core" | sed "s/(.*)//" | grep -o "[0-9]\+\." | sed "s/\.//")
+		CPUTEMP=0
+		cores=0
+		for temp in $CPUTEMPS; do
+			let CPUTEMP+=$temp
+			let cores+=1
+		done
+		if [[ cores -gt 0 ]]; then
+			let CPUTEMP=$CPUTEMP/$cores
+			if [[ $CPUTEMP -gt 65 ]];
 			then
-				# Sends a notification to their notification client. I use dunst
-				notify-send "High cpu temps"
-				# change the text in the file to say true so we know in the
-				# future to not notify them again too quickly (to avoid spam)
-				echo "true" >/tmp/.lemonbarscripts/cputnotif
-			fi
-		elif [[ $CPUTEMP -lt 65 ]];
-		then
-			# cpu temps are low so reallow sending the notification
-			echo "false" >/tmp/.lemonbarscripts/cputnotif
+				NOTIF=$(cat /tmp/.lemonbarscripts/cputnotif)
+				# If the user has not been notified about the cpu temp being high
+				if [[ $NOTIF != "true" ]];
+				then
+					# Sends a notification to their notification client. I use dunst
+					notify-send "High cpu temps"
+					# change the text in the file to say true so we know in the
+					# future to not notify them again too quickly (to avoid spam)
+					echo "true" >/tmp/.lemonbarscripts/cputnotif
+				fi
+			else
+				# cpu temps are low so reallow sending the notification
+				echo "false" >/tmp/.lemonbarscripts/cputnotif
+			fi	
+			CPUTEMP+="°C"
+		else
+			CPUTEMP="--"
 		fi
-		
-		CPUTEMP+="°C"
-		echo %{F$orange}$ICpuTemp$SEP$CPUTEMP%{F-}
+		echo %{F$fg}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
-	 
+	# }}}
+ 
+	# Date {{{
 	Date() {
 		DATE=$(date "+%a %d/%m")
-		echo %{F$orange}$IDate$SEP$DATE%{F-}
+		echo %{F$fg}$IDate$SEP$DATE%{F-}
 	}
+	# }}}
 
+	# RAM/Memory {{{
 	Memory() {
 		MEMUSED=$(free -m | awk 'NR==2 {print $3}')
 		MEMUSED+="MB"
-		echo %{F$orangel}$IMem$SEP$MEMUSED%{F-}
+		echo %{F$fg}$IMem$SEP$MEMUSED%{F-}
 	}
+	# }}}
 
+	# Network Down Usage {{{
 	NetworkDown() {
 		LASTSAMPLE=$(cat /tmp/.lemonbarscripts/netdown)
 		SAMPLE=$(cat /proc/net/dev | grep ".*:[ \t]\+[0-9]\+" | awk '{print $2}')
@@ -148,11 +176,13 @@ bar() {
 		FStr=$(echo $FStr | sed "s/[0-9]$//")
 		FStr+="MB"
 
-		echo %{F$yellowl}$IDown$SEP$FStr%{F-}
+		echo %{F$fg}$IDown$SEP$FStr%{F-}
 		# Save as "LASTSAMPLE"
 		echo $Down >/tmp/.lemonbarscripts/netdown
 	}
+	# }}}
 
+	# Network Up Usage {{{
 	NetworkUp() {
 		LASTSAMPLE=$(cat /tmp/.lemonbarscripts/netup)
 		SAMPLE=$(cat /proc/net/dev | grep ".*:[ \t]\+[0-9]\+" | awk '{print $10}')
@@ -181,21 +211,27 @@ bar() {
 		FStr=$(echo $FStr | sed "s/[0-9]$//")
 		FStr+="MB"
 
-		echo %{F$yellow}$IUp$SEP$FStr%{F-}
+		echo %{F$fg}$IUp$SEP$FStr%{F-}
 		# Save as "LASTSAMPLE"
 		echo $Up >/tmp/.lemonbarscripts/netup
 	}
+	# }}}
 
+	# Time {{{
 	Time() {
 		TIME=$(date "+%l:%M:%S")
-		echo %{F$redl}$ITime$SEP$TIME%{F-}
+		echo %{F$fg}$ITime$SEP$TIME%{F-}
 	}
+	# }}}
 
+	# Up Time {{{
 	UpTime() {
-		UPTIME=$(conky -q -c conkybar -t '$uptime')
-                echo %{F$redl}$IUpTime$SEP$UPTIME%{F-}
+		UPTIME=$(uptime | grep -o "up [0-9]\+:[0-9]\+" | sed "s/up //")
+                echo %{F$fg}$IUpTime$SEP$UPTIME%{F-}
 	}
+	# }}}
 
+	# Volume {{{
 	Volume() {
 		# OUT=$(amixer -c 0 | grep -o "Invalid card number.")
 		# Card was found
@@ -212,9 +248,11 @@ bar() {
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
 		# VOL=$(amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" || echo "--")
 		VOL=50
-		echo %{F$orangel}%{A:urxvt -e "alsamixer -V all &":}$IVolS$SEP$VOL%{A}%{F-}
+		echo %{F$fg}%{A:urxvt -e "alsamixer -V all &":}$IVolS$SEP$VOL%{A}%{F-}
 	}
-	
+	# }}}
+
+	# Workspaces {{{
 	Workspaces() {
 		# for bspwm it works like this
 		# you get a status output from 'bspc control --get-status'
@@ -245,27 +283,26 @@ bar() {
 			  workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4";;
 			  u*)
                           # Urgent workspace you are not in
-                          workspace+="%{F$redl}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4";;
+                          workspace+="%{F$red}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4";;
 			esac
 			let num++
 		done
 		echo "$workspace"
 	}
+	# }}}
 
-	echo "%{l}$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetworkUp)$SEP2$(NetworkDown)\
-		%{c}$(Workspaces)\
-		%{r}$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
+	echo "%{l}$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetworkUp)$SEP2$(NetworkDown)%{c}$(Workspaces)%{r}$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
 }
 
 # Make a new bar for each monitor the system has
 for screen in $(echo $Screens); do
 	# Get information about the screen like its dimensions
-	BarXY=$(xrandr | grep $screen | grep -o "+[0-9]\{1,\}+[0-9]\{1,\}")
-	ScreenWidth=$(xrandr | grep $screen | grep -o "[0-9]\{1,\}x" | sed "s/x//")
+	BarXY=$(xrandr | grep $screen | grep -o "+[0-9]\++[0-9]\+")
+	ScreenWidth=$(xrandr | grep $screen | grep -o "[0-9]\+x" | sed "s/x//")
 	# Final qualities of the bar. Width and X and Y
 	Dimensions=$(echo "$ScreenWidth x30 $BarXY" | sed "s/ //")
 	while true; do
 		echo "$(bar)"
 		sleep 0.05;
-	done | lemonbar -g $Dimensions -a 11 -u 2 -o 0 -f "Hermit-10" -o -2 -f "FontAwesome-12" -B $bg0_s -F $fg | bash &
+	done | lemonbar -g $Dimensions -a 11 -u 2 -o 1 -f "Hermit-10" -o -1 -f "FontAwesome-11" -B $bg -F $fg | bash &
 done

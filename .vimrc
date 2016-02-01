@@ -8,13 +8,13 @@ syntax enable
 set number
 " Highlight the cursor line
 set cul
+" Set folding style
+set foldmethod=marker
 
-" Set the colorcscheme to gruvbox
+" Set the colorcscheme
 colorscheme gruvbox
 
 " Get the right color scheme thingy
-" let g:gruvbox_termcolors=16
 let g:gruvbox_underline=1
 let g:gruvbox_bold=1
 let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark='soft'
