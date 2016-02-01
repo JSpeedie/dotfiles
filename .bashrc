@@ -8,4 +8,4 @@ alias ls='ls --color=auto'
 alias dtest='sh ~/difftest.sh'
 alias lock='sh ~/lock.sh'
 
-PS1='\[\e[0;35m\]\u\[\e[0m\] :: \W » '
+PS1='\[\e[0;35m\]\u\[\e[0m\] \W » '

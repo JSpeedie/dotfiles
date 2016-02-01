@@ -7,7 +7,6 @@
 #define purple #b16286
 #define aqua #689d6a
 #define gray #a89984
-
 #define grayl #928374
 #define redl #fb4934
 #define greenl #b8bb26
@@ -23,7 +22,6 @@
 #define bg3 #665c54
 #define bg4 #7c6f64
 #define orange #d56d0e
-
 #define bg0_s #32302f
 #define fg4 #a89984
 #define fg3 #bdae93
@@ -35,12 +33,14 @@
 !! Urxvt configuration
 URxvt.scrollBar: false
 URxvt.font: xft:Hermit:size=10
+URxvt.internalBorder: 8
+URxvt.fading: 20
 
 !! Text colour
 *foreground:	fg
 !! Background colour
-*background:	bg0_s
-*color0:	bg0_s
+*background:	bg
+*color0:	bg
 *color1:	red
 *color2:	green
 *color3:	yellow
@@ -56,9 +56,8 @@ URxvt.font: xft:Hermit:size=10
 *color13:	purplel
 *color14:	aqual
 *color15:	fg
-*pointerColorBackground: bg0_s
+*pointerColorBackground: bg
 *pointerColorForeground: fg
-URxvt.fading: 20
 
 !! Rofi configuration
 rofi.width: 800
@@ -72,20 +71,20 @@ rofi.font: Hermit 10
 rofi.hide-scrollbar: true
 rofi.color-enabled: false
 rofi.fg: fg
-rofi.bg: bg0_s
+rofi.bg: bg
 rofi.fg-active: fg
 rofi.fg-urgent: fg
-rofi.bg-active: bg0_s
-rofi.bg-urgent: bg0_s
-rofi.bgalt: bg0_s
+rofi.bg-active: bg
+rofi.bg-urgent: bg
+rofi.bgalt: bg
 rofi.bc: bg
 rofi.bw: 4
-rofi.hlfg: bg0_s
+rofi.hlfg: bg
 rofi.hlfg-active: fg
 rofi.hlfg-urgent: fg
 rofi.hlbg: fg
-rofi.hlbg-active: bg0_s
-rofi.hlbg-urgent: bg0_s
+rofi.hlbg-active: bg
+rofi.hlbg-urgent: bg
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"
