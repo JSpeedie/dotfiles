@@ -2,7 +2,7 @@
 All my dotfiles that I've poured hours into. Don't get your hopes up. They're still terrible ;)
 
 ## Info
-This setup expects you to use {{{startx}}} ```startx``` {{{startx}}} upon boot as this setup does not use a display manager.
+This setup expects you to use ```startx``` upon boot as this setup does not use a display manager.
 
 So this setup consists of a lot of parts. The important ones are
 * bspwm (and sxhkd)
