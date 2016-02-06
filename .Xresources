@@ -1,61 +1,49 @@
-#define bg #282828
-#define red #cc241d
-#define green #98971a
-#define green #98971a
-#define yellow #d79921
-#define blue #458588
-#define purple #b16286
-#define aqua #689d6a
-#define gray #a89984
-#define grayl #928374
-#define redl #fb4934
-#define greenl #b8bb26
-#define yellowl #fabd2f
-#define bluel #83a598
-#define purplel #d3869b
-#define aqual #8ec07c
-#define fg #ebdbb2
+#define fg #f0f0f0
+#define bg #394952
 
-#define bg0_h #282828
-#define bg1 #3c3836
-#define bg2 #504945
-#define bg3 #665c54
-#define bg4 #7c6f64
-#define orange #d56d0e
-#define bg0_s #32302f
-#define fg4 #a89984
-#define fg3 #bdae93
-#define fg2 #d5c4a1
-#define fg1 #ebdbb2
-#define fg0 #fbf1c7
-#define orangel #fe8019
+#define black #394952
+#define gray #70838c
+#define red #99736e
+#define green #78a090
+#define yellow #bfb7a1
+#define blue #7c9fa6
+#define magenta #BF9C86
+#define cyan #99BFBA
+#define white #f0f0f
 
 !! Urxvt configuration
 URxvt.scrollBar: false
 URxvt.font: xft:Hermit:size=10
 URxvt.internalBorder: 8
-URxvt.fading: 20
+URxvt.fading: 10
 
-!! Text colour
-*foreground:	fg
-!! Background colour
-*background:	bg
-*color0:	bg
-*color1:	red
-*color2:	green
-*color3:	yellow
-*color4:	blue
-*color5:	purple
-*color6:	aqua
-*color7:	gray
-*color8:	grayl
-*color9:	redl
-*color10:	greenl
-*color11:	yellowl
-*color12:	bluel
-*color13:	purplel
-*color14:	aqual
-*color15:	fg
+*.foreground:   #f0f0f0
+*.background:   #394952
+*.cursorColor:  #f0f0f0
+! black. Second black is gray
+*.color0:       #394952
+*.color8:       #70838c
+! red
+*.color1:       #99736e
+*.color9:       #99736e
+! green
+*.color2:       #78a090
+*.color10:      #78a090
+! yellow
+*.color3:       #bfb7a1
+*.color11:      #bfb7a1
+! blue
+*.color4:       #7c9fa6
+*.color12:      #7c9fa6
+! magenta
+*.color5:       #BF9C86
+*.color13:      #BF9C86
+! cyan
+*.color6:       #99BFBA
+*.color14:      #99BFBA
+! white
+*.color7:       #f0f0f0
+*.color15:      #f0f0f0
 *pointerColorBackground: bg
 *pointerColorForeground: fg
 

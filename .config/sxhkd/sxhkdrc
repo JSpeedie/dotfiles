@@ -100,13 +100,13 @@ alt + {minus,equal}
 super + d
     bspc control --toggle-visibility 
 
-# Tag focused window as locked (Prevents closing) (Highest priority)
-super + x
-    bspc window -t locked
-
 # Tag focused window as sticky (Window stay on that monitor regardless of what workspace you move to) (Middle priority)
 super + z
     bspc window -t sticky
+
+# Tag focused window as locked (Prevents closing) (Highest priority)
+super + x
+    bspc window -t locked
 
 # Tag focused window as private (Tries to maintain its size and position) (Lowest priority)
 super + v
@@ -141,3 +141,8 @@ alt + shift +  n
 
 alt + shift +  m
        	xbacklight -time 10 -steps 1 -inc 10
+
+# Lock the system
+alt + Escape
+	sh ~/lock.sh
+
