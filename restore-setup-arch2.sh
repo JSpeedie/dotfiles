@@ -28,17 +28,15 @@ done
 # Remove trailing "\|"
 ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
 
-echo $ignoregrep
-
 # Wanna copy over the fonts here
-sudo cp font-awesome*/fonts/*.otf $fontdir/fonts/OTF/FontAwesome.otf
-sudo cp otf-hermit*/*.otf $fontdir/fonts/OTF/Hermit-medium.otf
+sudo cp font-awesome*/fonts/*.otf $fontdir/OTF/
+sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
 
 # All the files and folders we want to copy in a newline delimited list
 files=$(ls -A1 | grep -v "$ignoregrep")
 
 for file in $files; do
-	cp $file ~/$file
+	sudo cp -Rv $file ~
 done
 
 # Make bspwm config executable

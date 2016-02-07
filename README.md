@@ -37,6 +37,5 @@ Only single monitor pics for now. I'll update with dual monitor pics at a later 
 * Some randy scripts that I use. updatedotgit.sh is used for comparing files of the same name in 2 separate, user specified locations. Useful for making sure my dotfiles are all the latest before I push them. lock.sh for locking my system.
 
 ## Bugs/To Be Fixed
-* Monitor support for the bar may or may not work currently. I'll test it when I can, but for now I think it works, I'm just not sure.
 * Volume works on some systems but will you will most likely have to edit sxhkdrc and lbarout.sh/lbarout2.sh to get those to work properly
 * Wallpaper is good/10. I want it to be better.
