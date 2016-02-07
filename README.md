@@ -4,21 +4,24 @@ All my dotfiles that I've poured hours into. Don't get your hopes up. They're st
 ## Info
 This setup expects you to use ```startx``` upon boot as this setup does not use a display manager.
 
-So this setup consists of a lot of parts. The important ones are
-* bspwm (and sxhkd)
-* kryptn-bar/lemonbar-xft
-* urxvt
+The important parts of this setup are:
+* bspwm (and sxhkd) as my wm
+* kryptn-bar/lemonbar-xft as my bar
+* urxvt as my terminal emulator
 
-I use a lot of other things to achieve what I want in those programs (aesthetically and functionally). Here's a list of what I use
-* alsa-utils for volume and xorg-xbacklight for info on bar
-* dunst for notifications
-* compton for shadows and fading mostly but also transparency
-* FontAwesome and Hermit as my fonts
-* rofi as my launcher
+I use a couple of other, less important things to achieve what I want in my setup (aesthetically and functionally). Here's a list of what I use:
+* alsa-utils and xorg-xbacklight for volume and brightness info on the bar.
+* dunst for notifications.
+* compton for shadows, fading and transparency.
+* FontAwesome and Hermit as my fonts.
+* rofi as my launcher.
+* vim as my text editor
 
 ## Screenshots
 Note: I intend to change the wallpaper at some point. I think it's ok but doesn't quite suit the setup quite right.
+
 Only single monitor pics for now. I'll update with dual monitor pics at a later point in time (very soon^tm :) ).
+
 ![Setup 8](https://u.teknik.io/mVheP.png)
 ![Setup 9](https://u.teknik.io/N5bll.png)
 ![Setup 10](https://u.teknik.io/Skyoz.png)
