@@ -49,13 +49,14 @@ Screens=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
 bar() {
 
 	Battery() {
-		# Can be 'Full', 'Discharging', 'Unknown' or 'Charging'.
-		# Unknown sometimes means charging on my laptop???
-		STATUS=$(cat /sys/class/power_supply/BAT0/status)
-		BATTERY=$(cat /sys/class/power_supply/BAT0/capacity)
-		stat=$IBattery0
-		# If the system has a battery/is using BAT0
-		if [[ BATTERY != *"No such file or directory"* ]]; then
+		# If this system has a battery (needs work)
+		if [[ -e /sys/class/power_supply/BAT0/status ]] && [[ -e /sys/class/power_supply/BAT0/capacity ]]; then
+			# Can be 'Full', 'Discharging', 'Unknown' or 'Charging'.
+			# Unknown sometimes means charging on my laptop???
+			STATUS=$(cat /sys/class/power_supply/BAT0/status)
+			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity)
+			stat=$IBattery0
+			# If the system has a battery/is using BAT0
 			# Notifications {{{
 			# If battery is less than 15 (low imo) send a notification
 			if [[ $BATTERY -lt 15 ]]; then
@@ -278,11 +279,17 @@ bar() {
 
 # Make a new bar for each monitor the system has
 for screen in $(echo $Screens); do
+	echo
+	echo "this is the screen      $screen"
+	echo
 	# Get information about the screen like its dimensions
 	BarXY=$(xrandr | grep $screen | grep -o "+[0-9]\++[0-9]\+")
 	ScreenWidth=$(xrandr | grep $screen | grep -o "[0-9]\+x" | sed "s/x//")
 	# Final qualities of the bar. Width and X and Y
-	Dimensions=$(echo "$ScreenWidth x30 $BarXY" | sed "s/ //")
+	Dimensions=$(echo "${ScreenWidth}x30${BarXY}")
+	echo
+	echo "this is the bar final dimensions      $Dimensions"
+	echo
 	while true; do
 		echo "$(bar)"
 		sleep 0.05;
