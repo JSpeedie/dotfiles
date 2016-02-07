@@ -4,23 +4,42 @@
 #                                                                    #
 #           Replaces all existing files of the same names.           #
 #  This includes thins like .bashrc, .Xresources, etc. BE PREPARED!  #
+#        Make sure this script is RUN from the same directory        #
+#          You cloned the git repo into or it will not work.         #
 #                                                                    #
 ######################################################################
 
 # This script is used to "install" all the parts of the setup.
 
 fontdir=/usr/share/fonts
+MANUALINS=(font-awesome* otf-hermit*)
+IGNORELIST=(\\.git README.md)
+ignoregrep=""
+
+
+# Creates a string used in a grep statement to retrieve only
+# the files NOT in MANUALINS and IGNORELIST
+for ignore in ${IGNORELIST[*]}; do
+	ignoregrep=${ignoregrep}"\($ignore\)\|"
+done
+for ignore in ${MANUALINS[*]}; do
+	ignoregrep=${ignoregrep}"\($ignore\)\|"
+done
+# Remove trailing "\|"
+ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
+
+echo $ignoregrep
 
 # Wanna copy over the fonts here
-sudo cp font-awesome-*/fonts/*.otf $fontdir/fonts/OTF/FontAwesome.otf
-sudo cp otf-hermit-*/*.otf $fontdir/fonts/OTF/Hermit-medium.otf
+sudo cp font-awesome*/fonts/*.otf $fontdir/fonts/OTF/FontAwesome.otf
+sudo cp otf-hermit*/*.otf $fontdir/fonts/OTF/Hermit-medium.otf
 
-# Copy all my dotfiles to their location. Some need to be done
-# manually because of them not being located in the home directory
-sudo cp -R * ~
-# Remove files that will be separately "installed" or are part
-# of the repo, but don't need to be in your home folder
-# (like README.md, font-awesome, otf-hermit, .git and LICENSE)
+# All the files and folders we want to copy in a newline delimited list
+files=$(ls -A1 | grep -v "$ignoregrep")
+
+for file in $files; do
+	cp $file ~/$file
+done
 
 # Make bspwm config executable
 sudo chmod +x ~/.config/bspwm/bspwmrc
