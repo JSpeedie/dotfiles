@@ -9,7 +9,7 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 # Files that need to be updated
-FLIST=(.config/bspwm/bspwmrc .config/sxhkd/sxhkdrc .lemonbarscripts/lbarout.sh .Xresources .bash_profile .bashrc .gtkrc-2.0 .profile .vimrc .xinitrc compton.conf dunstrc restore-setup-arch1.sh restore-setup-arch2.sh updatedotgit.sh)
+FLIST=(.config/bspwm/bspwmrc .config/sxhkd/sxhkdrc .lemonbarscripts/lbarout.sh .Xresources .bash_profile .bashrc .gtkrc-2.0 .profile .vimrc .xinitrc compton.conf dunstrc restore-setup-arch1.sh restore-setup-arch2.sh updatedotgit.sh .vim/colors/gruvbox.vim .vim/colors/ryuuko.vim Pictures/Wallpapers/solid.jpg Pictures/Wallpapers/LifeGuardPostAtBeach.jpe coloursconf)
 
 First=(~/)
 Second=(~/dotfilesGit/)
@@ -27,6 +27,10 @@ if [[ $SecondRead != "" ]]; then
 printf "Only list files that differ from their counterparts? [Y/n] "
 read LISTIF
 echo
+if [[ $LISTIF != "Y" ]] && [[ $LISTIF != "n" ]] && [[ $LISTIF != "" ]]; then
+	echo "Invalid input. Exiting..."
+	exit 1
+fi
 
 for file in ${FLIST[*]}; do
 	exitstatus=$(cmp -s $First$file $Second$file; echo $?)
@@ -41,7 +45,7 @@ for file in ${FLIST[*]}; do
 	echo "Y=Yes, n=no, c=compare"
 	printf "Update $file? [Y/n/c] "
 	read ANS
-	if [[ $ANS == "Y" ]]; then cp -v $First$file $Second$file;
+	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then cp -v $First$file $Second$file;
 	elif [[ $ANS == "n" ]]; then echo "Continuing to next file...";
 	elif [[ $ANS == "c" ]]; then vimdiff $First$file $Second$file;
 	else echo "Invalid input. Exiting..."; exit 1; fi
