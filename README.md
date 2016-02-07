@@ -12,8 +12,8 @@ So this setup consists of a lot of parts. The important ones are
 I use a lot of other things to achieve what I want in those programs (aesthetically and functionally). Here's a list of what I use
 * alsa-utils for volume and xorg-xbacklight for info on bar
 * dunst for notifications
-* compton for shadows mostly but also transparency
-* FontAwesome and Hermit
+* compton for shadows and fading mostly but also transparency
+* FontAwesome and Hermit as my fonts
 * rofi as my launcher
 
 ## Screenshots
