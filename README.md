@@ -28,8 +28,8 @@ Only single monitor pics for now. I'll update with dual monitor pics at a later 
 ## Contents
 * A setup script you can run that will install all the packages you need and optionally some of the applications I use on a day to day basis (restore-setup-arch1.sh)
 * A second setup script that installs all the files from this repo (restore-setup-arch2.sh)
-* The fonts I use (that I did not make. Credits to Dave Gandy for FontAwesome and GitHub user "pcaro90" for Hermit). Just here to make installation quicker.
-* All my dotfiles (.Xresources, .vimrc, .xinitrc, dunstrc, compton.conf, etc. Check the thing, lazy)
+* The fonts I use. Only here to make installation quicker (I did not make them, duh. Credits to Dave Gandy for FontAwesome and GitHub user "pcaro90" for Hermit).
+* All my dotfiles and bar script (.Xresources, .vimrc, .xinitrc, dunstrc, compton.conf, etc.)
 * Color test scripts (colortest.sh, rupee.sh, pipes.sh)
 * Some randy scripts that I use. updatedotgit.sh is used for comparing files of the same name in 2 separate, user specified locations. Useful for making sure my dotfiles are all the latest before I push them. lock.sh for locking my system.
 
