@@ -179,9 +179,15 @@ bar() {
 		
 		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
-		VOL=$(amixer get Master | grep Left: | grep -o "[0-9]*%" || echo "--")
 		# }}}
-		echo %{F$gray}%{A:urxvt -e "alsamixer -V all &":}$IVolS$SEP$VOL%{A}%{F-}
+		VOL=$( (amixer get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+") || echo "--")
+		if [[ $VOL -lt 33 ]]; then Icon=$IVolS
+		elif [[ $VOL -le 66 ]]; then Icon=$IVolM
+		else Icon=$IVolL; fi
+		
+		VOL+="%"
+
+		echo %{F$gray}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
 	}
 
 	Workspaces() {
