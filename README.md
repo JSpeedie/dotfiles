@@ -18,9 +18,14 @@ I use a couple of other, less important things to achieve what I want in my setu
 * vim as my text editor
 
 ## Screenshots
-Note: I intend to change the wallpaper at some point. I think it's ok but doesn't quite suit the setup quite right.
 
-Only single monitor pics for now. I'll update with dual monitor pics at a later point in time (very soon^tm :) ).
+Dual monitor
+
+![Setup 13](https://u.teknik.io/vEJKk.png)
+![Setup 14](https://u.teknik.io/aNVQH.png)
+![Setup 15](https://u.teknik.io/rxHDp.png)
+
+Slightly outdated single monitor pics
 
 ![Setup 8](https://u.teknik.io/mVheP.png)
 ![Setup 9](https://u.teknik.io/N5bll.png)
