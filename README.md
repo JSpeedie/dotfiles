@@ -43,4 +43,3 @@ Slightly outdated single monitor pics
 
 ## Bugs/To Be Fixed
 * Volume works on some systems but will you will most likely have to edit sxhkdrc and lbarout.sh/lbarout2.sh to get those to work properly
-* Wallpaper is good/10. I want it to be better.
