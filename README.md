@@ -21,7 +21,7 @@ I use a couple of other, less important things to achieve what I want in my setu
 
 Dual monitor
 
-![Setup 13](https://u.teknik.io/vEJKk.png)
+![Setup 13](https://u.teknik.io/8quek.png)
 ![Setup 14](https://u.teknik.io/aNVQH.png)
 ![Setup 15](https://u.teknik.io/rxHDp.png)
 
