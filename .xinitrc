@@ -1,4 +1,6 @@
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
+xset -dpms
+xset s off
 xrandr --output HDMI-0 --left-of DVI-D-0 &
 xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constant Deceleration' 1.5 &
 sxhkd &
