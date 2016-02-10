@@ -130,10 +130,10 @@ super + Escape
 
 # Change volume
 alt + n
-	amixer -D pulse set Master 2%-
+	amixer -D pulse set Master 5%-
 
 alt + m
-        amixer -D pulse set Master 2%+
+        amixer -D pulse set Master 5%+
 
 # Change brightness
 alt + shift +  n
