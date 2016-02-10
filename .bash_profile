@@ -2,7 +2,7 @@
 # ~/.bash_profile
 #
 
-export PATH=$PATH:~/Go/bin
+export EDITOR=vim
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
