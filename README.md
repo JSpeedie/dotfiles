@@ -42,4 +42,4 @@ Slightly outdated single monitor pics
 * Some randy scripts that I use. updatedotgit.sh is used for comparing files of the same name in 2 separate, user specified locations. Useful for making sure my dotfiles are all the latest before I push them. lock.sh for locking my system.
 
 ## Bugs/To Be Fixed
-* Volume works on some systems but will you will most likely have to edit sxhkdrc and lbarout.sh/lbarout2.sh to get those to work properly
+* Volume works on some systems but will you will most likely have to edit sxhkdrc and lbarout.sh to get those to work properly

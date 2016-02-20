@@ -17,6 +17,9 @@ bspc config bottom_padding      10
 
 # Every time you create an instance of firefox, it will go to workspace 2
 # bspc rule -a Firefox desktop=^2
+bspc rule -a steam floating=on 
+bspc rule -a steam desktop=^5 
+
 
 screens=$(xrandr)
 # For my desktop setup

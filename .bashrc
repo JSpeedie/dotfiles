@@ -12,4 +12,4 @@ alias dtest='sh ~/difftest.sh'
 alias lock='sh ~/lock.sh'
 alias updatedot='sh ~/updatedotgit.sh'
 
-PS1='\[\e[0;35m\]\W\[\e[0m\] » '
+PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
