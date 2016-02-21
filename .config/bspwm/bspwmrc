@@ -2,7 +2,7 @@
 
 . ~/coloursconf
 
-bspc config border_width	2
+bspc config border_width	3
 bspc config window_gap		8
 
 bspc config split_ratio		0.50
@@ -17,8 +17,8 @@ bspc config bottom_padding      10
 
 # Every time you create an instance of firefox, it will go to workspace 2
 # bspc rule -a Firefox desktop=^2
-bspc rule -a steam floating=on 
-bspc rule -a steam desktop=^5 
+bspc rule -a Steam floating=on 
+bspc rule -a Steam desktop=^5 
 
 
 screens=$(xrandr)
