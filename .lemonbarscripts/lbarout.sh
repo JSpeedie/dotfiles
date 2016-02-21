@@ -160,7 +160,18 @@ bar() {
 		Min=$(echo $UPTIME | grep -o "[0-9]\+ min" | grep -o "[0-9]\+")
 		Hour=$(echo $UPTIME | grep -o "[0-9]\+ hour" | grep -o "[0-9]\+")
 		Day=$(echo $UPTIME | grep -o "[0-9]\+ day" | grep -o "[0-9]\+")
-		Day="$Day "
+		
+		# Format minutes so that it always occupies 2 characters
+		while [[ ${#Min} -lt 2 ]]; do 
+			Min="0$Min"
+		done 
+		# Same for hours but, so that it always occupies at least 1 character
+		while [[ ${#Hour} -lt 1 ]]; do 
+			Hour="0$Hour"
+		done 
+		if [[ ${#Day} -ge 1 ]]; then
+			Day="$Day "
+		fi
 		
 		out="$Day$Hour:$Min"
 
