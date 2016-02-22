@@ -73,16 +73,16 @@ bar() {
 				# echo "false" >/tmp/.lemonbarscripts/batterynotif
 			# fi
 			# }}}
+			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity) 
 			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]]; then
 				stat=""
 			else
-				if [ $BATTERY -lt 20 ]; then stat=$IBattery0
-				elif [ $BATTERY -lt 40 ]; then stat=$IBattery1
-				elif [ $BATTERY -lt 60 ]; then stat=$IBattery2
-				elif [ $BATTERY -lt 80 ]; then stat=$IBattery3
-				else stat=$IBattery4; fi
+				if [[ $BATTERY -ge 0 ]]; then stat=$IBattery0; fi
+				if [[ $BATTERY -ge 20 ]]; then stat=$IBattery1; fi
+				if [[ $BATTERY -ge 40 ]]; then stat=$IBattery2; fi
+				if [[ $BATTERY -ge 60 ]]; then stat=$IBattery3; fi
+				if [[ $BATTERY -ge 80 ]]; then stat=$IBattery4; fi
 			fi
-			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity) 
 			BATTERY+="%"
 			echo %{F$gray}$stat$SEP$BATTERY%{F-}
 		else echo ""; fi
@@ -137,12 +137,19 @@ bar() {
 	# Ok
 	NetUp() {	
 		# Pings the default gateway. If it is successful then we are connected. Benefits
-		# are that this doesn't rely on random websites being up and will always be accurate
+		# to pinging the default gateway rather than google.com, etc. is that this doesn't
+		# rely on those websites being up and as such, will always be accurate
 		defGate=$(ip r | grep default | cut -d ' ' -f 3)
-		NetUp=$(ping -q -w 1 -c 1 $defGate > /dev/null && echo c || echo u)
-		# If some network interface is up
-		if [[ $NetUp == "c" ]]; then
-			echo %{F$gray}$INet%{F-}
+		# 7 is the minimum length for a valid ip address (ex. 1.1.1.1)
+		# Really just used to make sure we obtained a valid ip from 'ip r'
+		if [[ ${#defGate} -ge 7 ]]; then
+			NetUp=$(ping -q -w 1 -c 1 $defGate > /dev/null && echo c || echo u)
+			# If some network interface is up
+			if [[ $NetUp == "c" ]]; then
+				echo %{F$gray}$INet%{F-}
+			else
+				echo ""
+			fi
 		else
 			echo ""
 		fi
@@ -195,17 +202,21 @@ bar() {
 		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
 		# }}}
-		VOL=$( (amixer get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+") || echo "--")
+		# VOL=$( (amixer get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+" >& /dev/null) || echo "")
+		VOL=50
 		if [[ $VOL -lt 33 ]]; then Icon=$IVolS
 		elif [[ $VOL -le 66 ]]; then Icon=$IVolM
 		else Icon=$IVolL; fi
 		
 		VOL+="%"
 
-		echo %{F$gray}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
+		# If we actually retrieved a valid volume value
+		if [[ ${#VOL} -ge 1 ]]; then
+			echo %{F$gray}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
+		fi
 	}
 
-	# Okay. Maybe get right of the click functionality just because security :^]
+	# Okay. Maybe get rid of the click functionality just because "security" :^]
 	Workspaces() {
 		# How bspwm workspaces work {{{
 		# for bspwm it works like this
@@ -222,30 +233,30 @@ bar() {
 
 		# get the workspace status/workspace names and the divider between monitors
 		# from the --get-status command
-		bstatus=$(bspc control --get-status | sed "s/LT/|/" | sed "s/|$//" | tr ':' '\n')
+		bstatus=$(bspc control --get-status | sed "s/LT/|/" | sed "s/|$//")
 		# Get rid of the monitor names and other information that is not needed
-		bstatus=$(echo $bstatus | grep "\(^[OFUofu]\{1,\}.*$\)\||")
+		bstatus=$(echo $bstatus | tr ':' '\n' | grep "\(^[OFUofu]\{1,\}.*$\)\||")
 		workspace="$SEP4"
 		num=1
 		for i in $(echo $bstatus); do
 			case $i in
-			  [OFU]*)
-			  # get workspace name
-			  wsn=$(echo $i | sed 's/[OFUofu]//')
-			  workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceFocused%{A}%{F-}$SEP4"
-			  let num++;;
-			  o*)
-			  workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
-			  let num++;;
-			  f*)
-			  workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4"
-			  let num++;;
-			  u*)
-                          workspace+="%{F$red}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
-			  let num++;;
-			  \|)
-                          # Divider between monitors
-                          workspace+="%{F$fg}$IMonitorDivider%{F-}$SEP4";;
+				[OFU]*)
+				# get workspace name
+				# wsn=$(echo $i | sed 's/[OFUofu]//')
+				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceFocused%{A}%{F-}$SEP4"
+				let num++;;
+				o*)
+				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
+				let num++;;
+				f*)
+				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4"
+				let num++;;
+				u*)
+                       		workspace+="%{F$red}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
+				let num++;;
+				\|)
+                       		# Divider between monitors
+                       		workspace+="%{F$fg}$IMonitorDivider%{F-}$SEP4";;
 			esac
 		done
 		# Trim surrounding whitespace
@@ -265,7 +276,8 @@ bar() {
 		# tmp=$tmp+1
 	# done
 
-	echo "%{S0}%{l}$barleft%{c}$barcenter%{r}$barright%{S1}%{l}$barleft%{c}$barcenter%{r}$barright"
+	echo "%{S0}%{l}$barleft%{c}$barcenter%{r}$barright"
+	#%{S1}%{l}$barleft%{c}$barcenter%{r}$barright"
 	# echo $finalbarout
 }
 
