@@ -202,8 +202,7 @@ bar() {
 		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
 		# }}}
-		# VOL=$( (amixer get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+" >& /dev/null) || echo "")
-		VOL=50
+		VOL=$( (amixer get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+") || echo "")
 		if [[ $VOL -lt 33 ]]; then Icon=$IVolS
 		elif [[ $VOL -le 66 ]]; then Icon=$IVolM
 		else Icon=$IVolL; fi
@@ -268,21 +267,21 @@ bar() {
 	barcenter="$(Workspaces)"
 	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
 	
-	# ="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
-	# finalbarout=""
-	# tmp=0
-	# for screen in $Screens; do
-		# finalbarout="${finalbarout}%{S${tmp}}%{l}$barleft%{c}$barcenter%{r}$barright"
-		# tmp=$tmp+1
-	# done
+	#="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
+	finalbarout=""
+	tmp=0
+	for screen in $(echo "$Screens"); do
+		finalbarout+="%{S${tmp}}%{l}$barleft%{c}$barcenter%{r}$barright"
+		let tmp=$tmp+1
+	done
 
-	echo "%{S0}%{l}$barleft%{c}$barcenter%{r}$barright"
+	#echo "%{S0}%{l}$barleft%{c}$barcenter%{r}$barright"
 	#%{S1}%{l}$barleft%{c}$barcenter%{r}$barright"
-	# echo $finalbarout
+	echo "${finalbarout}"
 }
 
 
-screennum=$(echo $Screens | wc -l)
+screennum=$(echo "$Screens" | wc -l)
 if [[ $screenum -eq 1 ]]; then
 	let OH=1
 	let OF=-1
