@@ -3,8 +3,8 @@
 ######################################################################
 #                                                                    #
 #           Replaces all existing files of the same names.           #
-#  This includes thins like .bashrc, .Xresources, etc. BE PREPARED!  #
-#        Make sure this script is RUN from the same directory        #
+#   This includes things like .bashrc and .Xresources. BE PREPARED!  #
+#        Make sure this script is run from the same directory        #
 #          You cloned the git repo into or it will not work.         #
 #                                                                    #
 ######################################################################
@@ -13,10 +13,9 @@
 
 fontdir=/usr/share/fonts
 MANUALINS=(font-awesome* otf-hermit*)
-IGNORELIST=(\\.git README.md)
+IGNORELIST=(\\.git README.md) 
+
 ignoregrep=""
-
-
 # Creates a string used in a grep statement to retrieve only
 # the files NOT in MANUALINS and IGNORELIST
 for ignore in ${IGNORELIST[*]}; do
