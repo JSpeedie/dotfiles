@@ -9,7 +9,7 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 # Files that need to be updated
-FLIST=(.config/bspwm/bspwmrc .config/sxhkd/sxhkdrc .lemonbarscripts/lbarout.sh .Xresources .bash_profile .bashrc .gtkrc-2.0 .profile .vimrc .xinitrc compton.conf dunstrc restore-setup-arch1.sh restore-setup-arch2.sh updatedotgit.sh .vim/colors/gruvbox.vim .vim/colors/ryuuko.vim Pictures/Wallpapers/solid.jpg Pictures/Wallpapers/LifeGuardPostAtBeach.jpe coloursconf)
+FLIST=(.config/bspwm/bspwmrc .config/sxhkd/sxhkdrc .lemonbarscripts/lbarout.sh .Xresources .bash_profile .bashrc .gtkrc-2.0 .profile .vimrc .xinitrc compton.conf dunstrc restore-setup-arch1.sh install.sh updatedotgit.sh .vim/colors/gruvbox.vim .vim/colors/ryuuko.vim Pictures/Wallpapers/solid.jpg Pictures/Wallpapers/LifeGuardPostAtBeach.jpe coloursconf)
 
 First=(~/)
 Second=(~/dotfilesGit/)
