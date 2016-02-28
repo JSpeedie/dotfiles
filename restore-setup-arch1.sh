@@ -83,3 +83,6 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		fi
 	done
 done
+
+# Configure git stuff
+# needs to be done
