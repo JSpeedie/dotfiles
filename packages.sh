@@ -9,10 +9,10 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg-xinit dunst libnotify vim i3lock)
-OPKGLIST=(xorg-xrandr firefox alsa-utils scrot screenfetch flashplugin unzip)
+PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg-xinit dunst libnotify i3lock xorg-xrandr)
+OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog)
 YPKGLIST=(compton lemonbar-xft-git)
-OYPKGLIST=(google-chrome-beta sublime-text)
+OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
 cd ~
 clear

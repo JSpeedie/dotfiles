@@ -102,7 +102,7 @@ bar() {
 	# Ok. few pipes so prob ok
 	CpuTemp() {
 		# Get the the highest temp of any core
-		CPUTEMP=$(sensors | grep "Physical id" | grep -o "[0-9]\+\.[0-9]\+" | head -n 1)
+		CPUTEMP=$(sensors | grep "Physical id" | grep -o "[0-9]\+\.[0-9]\+" | head -n 1 | sed "s/\..*$//")
 			# Notifications {{{
 			# if [[ $CPUTEMP -gt 65 ]]; then
 				# NOTIF=$(cat /tmp/.lemonbarscripts/cputnotif)
