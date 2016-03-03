@@ -24,53 +24,40 @@ I use a couple of other, less important things to achieve what I want in my setu
 
 The bar:
 * Few dependencies. Bar requires only one other package (lm_sensors for cpu temp).
-* Somewhat minimal but at the same time, not too minimal.
 * NetUp() tells you whether you have a connection regardless of what network interface you're using. It does this by pinging your default gateway which means it will be always be accurate (unlike a script that pings some randy website).
 * Workspace icons will take you to that workspace if clicked.
-* Battery icon tells you if it's charging or not. If not, it will represent how full it is. Same with the volume representing how loud it is.
+* Battery and volume icons change based on the amount of battery left/the volume.
 * Automatically creates one instance of the bar per monitor in your setup.
 
 sxhkdrc:
 * Logical shortcut for locking (alt + escape, similar to alt + super + escape for exiting the bspwm session).
 * Binds for decreasing/increasing volume and brightness (alt + n/m and alt + shift + n/m respectively).
-* Binds for making windows sticky, locked or private (z, x, v).
+* Binds for making windows sticky, locked or private (super + z, super + x,  super + v).
 * Bind for minimizing all windows (super + d).
 * Binds for decreasing/increasing padding size on the fly (alt + minus/equal).
 
 bspwmrc:
 * Automatically assigns desktops (workspaces), evenly to all of your monitors. Really nice when you're using this setup on multiple setups with varying amounts of screens. It creates floor(10/monitors) desktops per monitor. 10 because 10 desktops works nicely with binds (super + 1-0).
 * Colours for locked, stickied and private windows.
-* Split ratio set to 0.5 because having equal sized windows is nice.
 
 .vimrc:
 * Short and sweet. Doesn't rely on 6 million plugins (which I understand some of you may dislike, but I personally prefer to not rely on too many thing in case I have to use someone elses setup or vi for some reason).
 * Sets the history to 1000, enables syntax highlighting, enables folding via markers ("{{{" and "}}}" by default), shows relative line numbers to make indenting or deleting a number of lines easier.
 
 packages.sh:
-* Gives you all the info about the setup once run. What launcher it uses, what wm, what bar, the distro this script is made for, etc.
-* Lists all the packages it wants to install and allows you to pick which ones you actually want to install.
 * Separates between the packages required for this setup and those I like to use. Even further it separates between non-AUR and AUR packages.
 * Run it and get prompted with various questions resulting in my setup tailored to you.
 * Short and simple, with the package lists at the top of the script in case you want to change this script and make it your own.
 
 .bashrc:
 * Coloured and simple prompt to make it more clear where one command ends and another one begins.
-* Aliases for various things like locking the system ("lock.sh") and updating my dotfiles git folder ("updatedot").
-
-.conkyrc:
-* Pretty okay config but like who needs conky. Conky is pretty terrible. Just here because it's an ok config, but that's it.
 
 lock.sh:
 * Blurs the background and locks the system with a picture of a lock.
 * Looks pretty cool k.
 
 colortest.sh, rupee.sh, pipes.sh:
-* Various colortests (I mean pipes.sh isn't really, but whatever) for all your colortesting needs.
-* Pipes because you need something flashy and colourful in a terminal for your life to be complete.
-* none of these were made by me so credit where it's due. colortest.sh was taken from http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html. rupee.sh comes from reddit account /u/roberoonska and pipes.sh from github user pipeseroni.
-
-dunstrc:
-* Sensible config that matches several aspects to this setup like the colour theme and stuff like being spaced nicely from the bar.
+* None of these were made by me so credit where it's due. colortest.sh was taken from http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html. rupee.sh comes from reddit account /u/roberoonska and pipes.sh from github user pipeseroni.
 
 .Xresources
 * Nothing special. Colours rofi to match my colours theme and colours urxvt but I mean that's about it :/
