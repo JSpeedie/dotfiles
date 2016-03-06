@@ -144,5 +144,5 @@ alt + shift +  m
 
 # Lock the system
 alt + Escape
-	sh ~/lock.sh
+	sh ~/scripts/lock.sh
 
