@@ -28,11 +28,14 @@ done
 ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
 
 # Wanna copy over the fonts here
-sudo cp font-awesome*/fonts/*.otf $fontdir/OTF/
-sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
+sudo cp ~/dotfilesGit/font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
+sudo cp ~/dotfilesGit/otf-hermit-1.21/Hermit-medium.otf $fontdir/OTF/
 
 # All the files and folders we want to copy in a newline delimited list
-files=$(ls -A1 | grep -v "$ignoregrep")
+# Get the path minus this folder (scripts)
+path=$(pwd | tr '/' '\n' | head -n -1 | tr '\n' '/' | sed "s/$/\n/")
+files=$(cd $path; ls -A1 | grep -v "$ignoregrep")
+cd $path;
 
 for file in $files; do
 	sudo cp -Rv $file ~
