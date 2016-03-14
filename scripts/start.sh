@@ -23,6 +23,8 @@ WinNames=(Firefox google-chrome-beta URxvt URxvt)
 WinDesktop=(6 2 8 8)
 # }}}
 
+# Add a delay so .Xresources can be read
+sleep 2
 # Create a new instance of all the programs you want to start
 for window in ${Win[@]}; do
 	nohup $window &>/dev/null &

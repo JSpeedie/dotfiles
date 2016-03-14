@@ -123,7 +123,7 @@ bar() {
  
 	# Approved
 	Date() {
-		DATE=$(date "+%a %d/%m")
+		DATE=$(date "+%a %m/%d")
 		echo %{F$gray}$IDate$SEP$DATE%{F-}
 	}
 
