@@ -10,7 +10,7 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg-xinit dunst libnotify i3lock xorg-xrandr)
-OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog gimp)
+OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog)
 YPKGLIST=(compton lemonbar-xft-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
