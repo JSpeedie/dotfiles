@@ -28,11 +28,10 @@ screens=$(xrandr | grep -o ".* connected" | sed "s/ connected//")
 numScreens=$(echo "$screens" | wc -l)
 echo "numScreens \"$numScreens\"" >> ~/bspwmOut
 let desktopsPerMonitor=${#desktops[@]}
-echo "desktopsPerMonitor 1 \"$desktopsPerMonitor\"" >> ~/bspwmOut
+echo "desktops total \"$desktopsPerMonitor\"" >> ~/bspwmOut
 let desktopsPerMonitor=$desktopsPerMonitor/$numScreens
 echo "desktopsPerMonitor 2 \"$desktopsPerMonitor\"" >> ~/bspwmOut
 
-echo "made it this far" >> ~/bspwmOut
 let desktop=0
 for screen in $(echo "$screens"); do
 	deskForMon=()
@@ -43,9 +42,8 @@ for screen in $(echo "$screens"); do
 		let desktop+=1 
 	done
 	bspc monitor $screen -d ${deskForMon[@]}
-	echo "deskForMon \"${deskForMon[@]}\"" >> ~/bspwmOut
+	echo "$screen deskForMon \"${deskForMon[@]}\"" >> ~/bspwmOut
 done
-echo "made it that far" >> ~/bspwmOut
 	
 # # For my desktop setup
 # if [[ $screens == *"HDMI-0 connected"* ]]; then

@@ -27,8 +27,9 @@ done
 # Remove trailing "\|"
 ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
 
+cd ..
 # Wanna copy over the fonts here
-sudo cp font-awesome*/fonts/*.otf $fontdir/OTF/
+sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
 sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
 
 # All the files and folders we want to copy in a newline delimited list
