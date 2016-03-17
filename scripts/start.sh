@@ -32,6 +32,9 @@ for window in ${Win[@]}; do
 	Processes+=("$!")
 done
 
+echo "begin" > ~/startOut
+echo "Processes \"${Processes[@]}\"" >> ~/startOut
+
 # Explanation of code below {{{
 # The idea of the following code is that every x seconds (set in the while loop)
 # it grabs the list of all bspwm windows and loops through their ids grabbing their
@@ -52,17 +55,21 @@ while [[ $numSort -lt ${#WinNames[@]} ]]; do
 			# WM_CLASS name of the window (ex. Firefox, URxvt)
 			name=$(xprop -id $win | grep "WM_CLASS" | tr ' ' '\n' | grep -o "\".*\"$" | sed "s/\"//g")
 			pid=$(xprop -id $win | grep "PID" | grep -o "[0-9]\+")
+			echo "sortedIds \"$sortedIds\" name=\"$name\" pid=\"$pid\"" >> ~/startOut
 
 			num=0
 			# for all the windows we are sorting/moving in this script
 			for i in ${WinNames[@]}; do 
+				printf "\tpid: \"$pid\" name: \"$name\" comparing: \"$i\" processes: \"${Processes[*]}\"\n" >> ~/startOut
 				# Check to see if the window is one we've created
-				if [[ "$Processes" == *"$pid"* ]]; then
+				if [[ "${Processes[@]}" == *"$pid"* ]]; then
+					echo "checking window of pid \"$pid\"" >> ~/startOut
 					# if $win is a window we need to move
 					if [[ "$name" == "$i" ]]; then
 						# bspc bash command to move a window of id $win
 						# to desktop of ${WinDesktop[$num]}
 						bspc window $win -d ^${WinDesktop[$num]}
+						echo "moved window of name \"$name\" and pid \"$pid\"" >> ~/startOut
 						# add 1 to the number of sorted windows
 						let numSort+=1
 						# Add to the list of windows that must be ignored
