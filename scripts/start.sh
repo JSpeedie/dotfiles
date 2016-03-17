@@ -25,9 +25,11 @@ WinDesktop=(6 2 8 8)
 
 # Add a delay so .Xresources can be read
 sleep 2
+Processes=()
 # Create a new instance of all the programs you want to start
 for window in ${Win[@]}; do
 	nohup $window &>/dev/null &
+	Processes+=("$!")
 done
 
 # Explanation of code below {{{
@@ -49,20 +51,24 @@ while [[ $numSort -lt ${#WinNames[@]} ]]; do
 		if [[ $sortedIds != *"$win"* ]]; then
 			# WM_CLASS name of the window (ex. Firefox, URxvt)
 			name=$(xprop -id $win | grep "WM_CLASS" | tr ' ' '\n' | grep -o "\".*\"$" | sed "s/\"//g")
+			pid=$(xprop -id $win | grep "PID" | grep -o "[0-9]\+")
 
 			num=0
 			# for all the windows we are sorting/moving in this script
 			for i in ${WinNames[@]}; do 
-				# if $win is a window we need to move
-				if [[ "$name" == "$i" ]]; then
-					# bspc bash command to move a window of id $win
-					# to desktop of ${WinDesktop[$num]}
-					bspc window $win -d ^${WinDesktop[$num]}
-					# add 1 to the number of sorted windows
-					let numSort+=1
-					# Add to the list of windows that must be ignored
-					sortedIds+=" $win"
-					break
+				# Check to see if the window is one we've created
+				if [[ "$Processes" == *"$pid"* ]]; then
+					# if $win is a window we need to move
+					if [[ "$name" == "$i" ]]; then
+						# bspc bash command to move a window of id $win
+						# to desktop of ${WinDesktop[$num]}
+						bspc window $win -d ^${WinDesktop[$num]}
+						# add 1 to the number of sorted windows
+						let numSort+=1
+						# Add to the list of windows that must be ignored
+						sortedIds+=" $win"
+						break
+					fi
 				fi
 				let num+=1
 			done

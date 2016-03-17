@@ -25,6 +25,7 @@ bspc rule -a dota2 desktop=^7
 echo "" > ~/bspwmOut
 desktops=(I II III IV V VI VII VIII IX X)
 screens=$(xrandr | grep -o ".* connected" | sed "s/ connected//")
+echo "screens \"$screens\"" >> ~/bspwmOut
 numScreens=$(echo "$screens" | wc -l)
 echo "numScreens \"$numScreens\"" >> ~/bspwmOut
 let desktopsPerMonitor=${#desktops[@]}
@@ -34,6 +35,7 @@ echo "desktopsPerMonitor 2 \"$desktopsPerMonitor\"" >> ~/bspwmOut
 
 let desktop=0
 for screen in $(echo "$screens"); do
+	printf "\tscreen \"$screen\"\n" >> ~/bspwmOut
 	deskForMon=()
 	let desk=0
 	while [[ $desk -lt $desktopsPerMonitor ]]; do 
