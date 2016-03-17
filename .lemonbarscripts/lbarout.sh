@@ -117,7 +117,7 @@ bar() {
 			# cpu temps are low so reallow sending the notification
 			# else echo "false" >/tmp/.lemonbarscripts/cputnotif; fi	
 			# }}}
-		CPUTEMP+="°C"
+		CPUTEMP+="C"
 		echo %{F$gray}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
  
