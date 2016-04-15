@@ -74,7 +74,7 @@ bar() {
 			# fi
 			# }}}
 			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity) 
-			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]]; then
+			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]] || [[ $STATUS == "Full" ]]; then
 				stat=""
 			else
 				if [[ $BATTERY -ge 0 ]]; then stat=$IBattery0; fi
