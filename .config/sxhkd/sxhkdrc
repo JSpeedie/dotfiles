@@ -6,9 +6,9 @@
 super + alt + Escape
 	bspc quit
 
-# Close current window
+# Close current node
 super + w
-	bspc window -c
+	bspc node -c
 
 super + t
 	bspc desktop -l next
@@ -19,33 +19,33 @@ super + b
 
 # Make current window floating or fullscreen respectively
 super + {s,f}
-	bspc window -t {floating,fullscreen}
+	bspc node -t ~{floating,fullscreen}
 
 # Selects the previously selected window or desktop respectively
 super + {grave,Tab}
-	bspc {window,desktop} -f last
+	bspc {node,desktop} -f last
 
 # Swap the current window to the previously selected window
 super + apostrophe
-	bspc window -s last
+	bspc node -s last
 
 super + {o,i}
 	bspc control --record-history off; \
-	bspc window {older,newer} -f; \
+	bspc node {older,newer} -f; \
 	bspc control --record-history on
 
 super + y
-	bspc window -w last.manual
+	bspc node -w last.manual
 
 # Swap the current window to the biggest window on the screen
 super + m
-	bspc window -s biggest
+	bspc node -s biggest
 
 super + {_,shift + }{h,j,k,l}
-	bspc window -{f,s} {left,down,up,right}
+	bspc node -{f,s} {left,down,up,right}
 
 super + {_,shift + }c
-	bspc window -f {next,prev}
+	bspc node -f {next,prev}
 
 super + {comma,period}
 	bspc desktop -C {backward,forward}
@@ -55,26 +55,26 @@ super + bracket{left,right}
 
 # Change where next window will spawn
 super + ctrl + {h,j,k,l}
-	bspc window -p {left,down,up,right}
+	bspc node -p {left,down,up,right}
 
 super + ctrl + {_,shift + }space
-	bspc {window -p cancel,desktop -c}
+	bspc {node -p cancel,desktop -c}
 
 # Resize window
 super + alt + {h,j,k,l}
-	bspc window -e {left -10,down +10,up -10,right +10}
+	bspc node -e {left -10,down +10,up -10,right +10}
 
 # Rezise windows shrink?
 super + alt + shift + {h,j,k,l}
-	bspc window -e {right -10,up +10,down -10,left +10}
+	bspc node -e {right -10,up +10,down -10,left +10}
 
 # Set the splitting ratio of the selected window from 0.1 to 0.9
 super + ctrl + {1-9}
-	bspc window -r 0.{1-9}
+	bspc node -r 0.{1-9}
 
 # Specific to your setup, I rebind it so that the first 5 keys are for the second monitor
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+	bspc {desktop -f,node -d} ^{1-9,10}
 
 ~button1
 	bspc pointer -g focus
@@ -97,20 +97,21 @@ alt + {minus,equal}
     bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
 
 # Hide all windows (on all desktops)
-super + d
-    bspc control --toggle-visibility 
+# no longer exists in new version of bspwm. why
+# super + d
+    # bspc control --toggle-visibility 
 
 # Tag focused window as sticky (Window stay on that monitor regardless of what workspace you move to) (Middle priority)
 super + z
-    bspc window -t sticky
+    bspc node -t sticky
 
 # Tag focused window as locked (Prevents closing) (Highest priority)
 super + x
-    bspc window -t locked
+    bspc node -t locked
 
 # Tag focused window as private (Tries to maintain its size and position) (Lowest priority)
 super + v
-    bspc window -t private
+    bspc node -t private
 
 #
 # wm independent hotkeys
@@ -130,10 +131,10 @@ super + Escape
 
 # Change volume
 alt + n
-	amixer -D pulse set Master 5%-
+	amixer -M set Master 5%-
 
 alt + m
-        amixer -D pulse set Master 5%+
+        amixer -M set Master 5%+
 
 # Change brightness
 alt + shift +  n
