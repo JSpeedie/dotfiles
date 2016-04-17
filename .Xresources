@@ -20,6 +20,17 @@ URxvt.fading: 10
 *.foreground:   #f0f0f0
 *.background:   #394952
 *.cursorColor:  #f0f0f0
+
+!! Terminal colours
+!! white, black \e[1;37m \e[1;30m
+!! blue, light blue \e[0;34m \e[1;34m
+!! green, light green \e[0;32m \e[1;32m
+!! cyan, light cyan \e[0;36m \e[1;36m
+!! red, light red \e[0;31m \e[1;31m
+!! purple, light purple \e[0;35m \e[1;35m
+!! brown, yellow \e[0;33m \e[1;33m
+!! gray, light gray \e[0;30m \e[0;37m
+
 ! black. Second black is gray
 *.color0:       #394952
 *.color8:       #70838c
