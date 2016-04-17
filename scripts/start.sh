@@ -10,7 +10,7 @@
 
 # Variables {{{
 # List of windows managed by bspwm
-currentWin=$(bspc query --windows)
+currentWin=$(bspc query --nodes)
 # A string list of window ids that will excluded from sorting.
 # At this point it consists of windows that exist before
 # we created any.
@@ -46,21 +46,30 @@ echo "Processes \"${Processes[@]}\"" >> ~/startOut
 # to desktop ${WinDesktop[$i]} }}}
 
 numSort=0
+let startTime=$(date +%s)
+if [[ -z $1 ]]; then
+	let timeOut=40
+elif [[ -n $1 ]]; then
+	let timeOut=$1
+else
+	let timeOut=40
+fi
 # While we have not created all windows and moved them to their desktop
-while [[ $numSort -lt ${#WinNames[@]} ]]; do
-	# goes through the list of window ids
+# The script will exit if it does not finish after a user set number of  seconds
+while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
+	# goes through the list of window ids in X session
 	for win in $(bspc query --nodes); do 
-		# if the window has not already been moved/sorted
+		# if the window $win has not already been moved/sorted
 		if [[ $sortedIds != *"$win"* ]]; then
 			# WM_CLASS name of the window (ex. Firefox, URxvt)
 			name=$(xprop -id $win | grep "WM_CLASS" | tr ' ' '\n' | grep -o "\".*\"$" | sed "s/\"//g")
 			pid=$(xprop -id $win | grep "PID" | grep -o "[0-9]\+")
-			echo "sortedIds \"$sortedIds\" name=\"$name\" pid=\"$pid\"" >> ~/startOut
+			echo "sortedIds \"$sortedIds\" unsorted_win_name=\"$name\" unsorted_win_pid=\"$pid\"" >> ~/startOut
 
 			num=0
 			# for all the windows we are sorting/moving in this script
 			for i in ${WinNames[@]}; do 
-				printf "\tpid: \"$pid\" name: \"$name\" comparing: \"$i\" processes: \"${Processes[*]}\"\n" >> ~/startOut
+				printf "\tunsorted_win_pid: \"$pid\" unsorted_win_name: \"$name\" comparing: \"$i\" processes_from_script: \"${Processes[*]}\"\n" >> ~/startOut
 				# Check to see if the window is one we've created
 				if [[ "${Processes[@]}" == *"$pid"* ]]; then
 					echo "checking window of pid \"$pid\"" >> ~/startOut
@@ -82,6 +91,8 @@ while [[ $numSort -lt ${#WinNames[@]} ]]; do
 		fi
 	done 
 	sleep 1
+	currentTime=$(date +%s)
+	let timeSpent=$((currentTime-startTime))
 done 
 
 # Greet the user ;)
