@@ -1,35 +1,44 @@
-""""""""""""""""""""""""""""""""""
-"    Stuff From Example Vimrc    "
-""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                 Stuff From Example Vimrc                 "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Use Vim settings, rather than Vi settings (much better!).       
+" Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect
-set nocompatible 
+set nocompatible
 " allow backspacing over everything in insert mode
 " set backspace=indent,eol,start
 
-""""""""""""""""""""""""""""""""""
-"            My Stuff            "
-""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                         My Stuff                         "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set how many lines of history vim must remember
 set history=1000
 
 " Enables syntax highlighting
 syntax enable
+" Updates the swap file if nothing is typed after x milliseconds
+" I set it to 5 minutes
+set updatetime=30000
 
 " Show relative line numbers because it makes prefixing a command easier,
 " but still supports things like [lineNumber]G which I only really use
 " if I get an error.
-set relativenumber
+" set relativenumber
+set number
 " Highlight the cursor line
 " set cul
 " Highlight results for your search while you're typing
 set incsearch
-" Set folding style
+" Set folding style (so you can use {{{ and }}} to make folds)
 set foldmethod=marker
-" Set a line at the 100th character for code style stuff
-" set colorcolumn=100
+" Set a line at the 80th character for code style stuff
+set colorcolumn=80
+" Set the tab width to 4 spaces
+set tabstop=4
+
+" Display tabs and trailing spaces
+match Error /\s\+\%#\@<!$/
 
 " beefier 'syntax enable'?
 " filetype plugin on
@@ -37,11 +46,27 @@ set foldmethod=marker
 " Set the colorcscheme
 colorscheme ryuuko
 
-""""""""""""""""""""""""""""""""""
-"        Hard Mode Stuff!        "
-""""""""""""""""""""""""""""""""""
+hi User1 ctermbg=black ctermfg=black guibg=green guifg=red
+hi User2 ctermbg=gray ctermfg=black guibg=green guifg=red
+hi User3 ctermbg=red ctermfg=black guibg=red guifg=black
+hi User4 ctermbg=lightgray ctermfg=black guibg=blue guifg=green
 
-" unbind the arrow keys for insert mode
+" Always show the status bar
+set laststatus=2
+" Filename, file type, modified flag
+set statusline=%2*\ %f\ %*
+set statusline+=%4*\ %y\ %*
+set statusline+=%3*\ %m\ %*
+" Left/right separator
+set statusline+=%1*%=%*
+" Cursor line number / total lines
+set statusline+=%2*\ %l/%L\ %*
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                     Hard Mode Stuff!                     "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Unbind the arrow keys for insert mode
 inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
@@ -51,21 +76,23 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
-noremap h <NOP>
-noremap j <NOP>
-noremap k <NOP>
-noremap l <NOP> 
+" noremap h <NOP>
+" noremap j <NOP>
+" noremap k <NOP>
+" noremap l <NOP>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""
-"    How To Get This Vimrc to Work With Sudo    "
-"""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"         How To Get This Vimrc to Work With Sudo          "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Dont know if the command below is ever worth using. I don't think that folder is used
+" Dont know if the command below is ever worth using. I don't think that
+" folder is used
 " sudo cp -vR ~/.vim /usr/share/vim
 
-" These 2 commands are what you want. The first gives your substitute user your colorschemes
-" The second gives your substitute user your vimrc. Be careful with it though. Be sure to
-" read /etc/vimrc before you run that command
+" These 2 commands are what you want. The first gives your substitute user
+" your colorschemes. The second gives your substitute user your vimrc. Be
+" careful with it though. Be sure to. read /etc/vimrc before you
+" run that command.
 
 " sudo cp -vR ~/.vim/colors/* /usr/share/vim/vim74/colors
 " sudo sh -c 'cat /home/me/.vimrc | cat >/etc/vimrc'
