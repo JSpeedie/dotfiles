@@ -4,10 +4,9 @@ xset s off
 xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-0 --primary --mode 2560x1440 --pos 1920x0 --rotate normal
 xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constant Deceleration' 1.5 &
 sxhkd &
-sh ~/.lemonbarscripts/lbarout.sh &
+sh ~/scripts/lbarout.sh &
 dunst -config ~/dunstrc &
 feh --bg-scale ~/Pictures/Wallpapers/LifeGuardPostAtBeach.jpe &
 compton -b -f -D 5 -O 0.05 --config ~/compton.conf &
 sh ~/scripts/start.sh &
-/usr/local/bin/hotplug_monitor.sh &
-exec bspwm 
+exec bspwm
