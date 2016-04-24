@@ -11,31 +11,32 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-# Files that need to be updated
-# FLIST=(.config/bspwm/bspwmrc .config/sxhkd/sxhkdrc .lemonbarscripts/lbarout.sh .Xresources .bash_profile .bashrc .gtkrc-2.0\
-# .profile .vimrc .xinitrc compton.conf dunstrc restore-setup-arch1.sh install.sh updatedotgit.sh .vim/colors/gruvbox.vim\
-# .vim/colors/ryuuko.vim Pictures/Wallpapers/solid.jpg Pictures/Wallpapers/LifeGuardPostAtBeach.jpe coloursconf)
-FLIST=($(cd $Second; git ls-tree -r master --name-only | grep -v "\(hermit\)\|\(font-awesome\)\|\(README.md\)")) 
 
-printf "File path for first spot (default=$First) "
-read FirstRead
-if [[ $FirstRead != "" ]]; then
-	First=$FirstRead; fi
+# Gets user input that affects how the program functions. 2 directories
+# to compare contents of, etc.
+function getPreferences {
+	printf "File path for first spot (default=$First) "
+	read FirstRead
+	if [[ $FirstRead != "" ]]; then
+		First=$FirstRead; fi
 
-printf "File path for second spot (default=$Second) "
-read SecondRead
-if [[ $SecondRead != "" ]]; then
-	Second=$SecondRead; fi
+	printf "File path for second spot (default=$Second) "
+	read SecondRead
+	if [[ $SecondRead != "" ]]; then
+		Second=$SecondRead; fi
 
-printf "Only list files that differ from their counterparts? [Y/n] "
-read LISTIF
-echo
-if [[ $LISTIF != "Y" ]] && [[ $LISTIF != "n" ]] && [[ $LISTIF != "" ]]; then
-	echo "Invalid input. Exiting..."
-	exit 1
-fi
+	printf "Only list files that differ from their counterparts? [Y/n] "
+	read LISTIF
+	echo
+	if [[ $LISTIF != "Y" ]] && [[ $LISTIF != "n" ]] && [[ $LISTIF != "" ]]; then
+		echo "Invalid input. Exiting..."
+		exit 1
+	fi
+}
 
-for file in ${FLIST[@]}; do
+# Checks files to see if it's different, askes user if they want to replace,
+# not replace, or compare the two files
+function nextFile {
 	if [[ -d $First$file ]]; then
 		continue
 	fi
@@ -55,11 +56,31 @@ for file in ${FLIST[@]}; do
 	echo "Y=Yes, n=no, c=compare"
 	printf "Update $file? [Y/n/c] "
 	read ANS
-	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then cp -v $First$file $Second$file;
+	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
+		cp -v $First$file $Second$file;
 	elif [[ $ANS == "n" ]]; then echo "Continuing to next file...";
-	elif [[ $ANS == "c" ]]; then vimdiff $First$file $Second$file;
+	elif [[ $ANS == "c" ]]; then
+		vimdiff $First$file $Second$file;
+		echo ""
+		echo ""
+		nextFile
 	else echo "Invalid input. Exiting..."; exit 1; fi
 
 	echo ""
+}
+
+# Files that need to be updated
+FLIST=($(cd $Second; git ls-tree -r master --name-only | grep -v "\(hermit\)\|\(font-awesome\)\|\(README.md\)"))
+
+
+
+# Get the users preferences for the program. If they'd like to only get
+# prompted to update files that are different from their counterpart, etc.
+getPreferences;
+
+# Go through all the files in the git repo and compare to none repo
+# equivalent of the file.
+for file in ${FLIST[@]}; do
+	nextFile;
 done
 echo "Done!"
