@@ -73,20 +73,20 @@ bar() {
 				# echo "false" >/tmp/.lemonbarscripts/batterynotif
 			# fi
 			# }}}
-			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity) 
+			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity)
 			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]] || [[ $STATUS == "Full" ]]; then
 				stat=""
 			else
-				if [[ $BATTERY -ge 0 ]]; then stat=$IBattery0; fi
-				if [[ $BATTERY -ge 20 ]]; then stat=$IBattery1; fi
-				if [[ $BATTERY -ge 40 ]]; then stat=$IBattery2; fi
-				if [[ $BATTERY -ge 60 ]]; then stat=$IBattery3; fi
-				if [[ $BATTERY -ge 80 ]]; then stat=$IBattery4; fi
+				if [[ $BATTERY -ge 80 ]]; then stat=$IBattery4;
+				elif [[ $BATTERY -ge 60 ]]; then stat=$IBattery3;
+				elif [[ $BATTERY -ge 40 ]]; then stat=$IBattery2;
+				elif [[ $BATTERY -ge 20 ]]; then stat=$IBattery1;
+				else stat=$IBattery0; fi
 			fi
 			BATTERY+="%"
 			echo %{F$gray}$stat$SEP$BATTERY%{F-}
 		else echo ""; fi
-	} 
+	}
 
 	# Approved
 	Brightness() {
@@ -120,7 +120,7 @@ bar() {
 		CPUTEMP+="C"
 		echo %{F$gray}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
- 
+
 	# Approved
 	Date() {
 		DATE=$(date "+%a %m/%d")
@@ -135,7 +135,7 @@ bar() {
 	}
 
 	# Ok
-	NetUp() {	
+	NetUp() {
 		# Pings the default gateway. If it is successful then we are connected. Benefits
 		# to pinging the default gateway rather than google.com, etc. is that this doesn't
 		# rely on those websites being up and as such, will always be accurate
@@ -167,19 +167,19 @@ bar() {
 		Min=$(echo $UPTIME | grep -o "[0-9]\+ min" | grep -o "[0-9]\+")
 		Hour=$(echo $UPTIME | grep -o "[0-9]\+ hour" | grep -o "[0-9]\+")
 		Day=$(echo $UPTIME | grep -o "[0-9]\+ day" | grep -o "[0-9]\+")
-		
 		# Format minutes so that it always occupies 2 characters
-		while [[ ${#Min} -lt 2 ]]; do 
+
+		while [[ ${#Min} -lt 2 ]]; do
 			Min="0$Min"
-		done 
+		done
 		# Same for hours but, so that it always occupies at least 1 character
-		while [[ ${#Hour} -lt 1 ]]; do 
+		while [[ ${#Hour} -lt 1 ]]; do
 			Hour="0$Hour"
-		done 
+		done
 		if [[ ${#Day} -ge 1 ]]; then
 			Day="$Day "
 		fi
-		
+
 		out="$Day$Hour:$Min"
 
                 echo %{F$gray}$IUpTime$SEP$out%{F-}
@@ -193,20 +193,17 @@ bar() {
 		# if [[ $OUT == "" ]];
 		# then
 			# Check to see if card is being used
-			
 		# Card was not found
 		# else
-			
 		# fi
-		
 		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
 		# }}}
-		VOL=$( (amixer -D pulse get Master | grep Left: | grep -o "[0-9]\+%" | grep -o "[0-9]\+") || echo "")
+		VOL=$( (amixer -M get Master | grep -o "[0-9]\+%" | head -n 1 | grep -o "[0-9]\+") || echo "")
 		if [[ $VOL -lt 33 ]]; then Icon=$IVolS
 		elif [[ $VOL -le 66 ]]; then Icon=$IVolM
 		else Icon=$IVolL; fi
-		
+
 		VOL+="%"
 
 		# If we actually retrieved a valid volume value
@@ -219,7 +216,8 @@ bar() {
 	Workspaces() {
 		# How bspwm workspaces work {{{
 		# for bspwm it works like this
-		# you get a status output from 'bspc control --get-status'
+		# you get a status output from (OUTDATED) 'bspc control --get-status'
+		# (you now have to use 'bspc wm --get-status'
 		# this gives you a string like this
 		# 'WMDVI-D-1:oI:OII:fIII:fIV:fV:fVI:fVII:fVIII:fIX:fX:LT:mHDMI-1:ODesktop2:LT'
 		# or
@@ -232,9 +230,12 @@ bar() {
 
 		# get the workspace status/workspace names and the divider between monitors
 		# from the --get-status command
-		bstatus=$(bspc control --get-status | sed "s/LT/|/" | sed "s/|$//")
-		# Get rid of the monitor names and other information that is not needed
-		bstatus=$(echo $bstatus | tr ':' '\n' | grep "\(^[OFUofu]\{1,\}.*$\)\||")
+
+		# Get status, chop up into individual lines, get the lines that start with
+		# 'o', 'f', 'u', 'O', 'F', 'U' or contain a number
+		bstatus=$(bspc wm --get-status | tr ':' '\n' | grep "\([0-9]\)\|\(^[ofuOFU]\)")
+		# Replace monitor names with '|'
+		bstatus=$(echo "$bstatus" | sed "s/.*[0-9].*/|/g")
 		workspace="$SEP4"
 		num=1
 		for i in $(echo $bstatus); do
@@ -254,8 +255,13 @@ bar() {
                        		workspace+="%{F$red}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
 				let num++;;
 				\|)
-                       		# Divider between monitors
-                       		workspace+="%{F$fg}$IMonitorDivider%{F-}$SEP4";;
+				# if this is the first item in the list (the first monitor)
+				# then we don't output it or else we get | * * * * * | * * * * *
+				# instead of * * * * * | * * * * *
+				if [[ num -ne 1 ]]; then
+                       			# Divider between monitors
+					workspace+="%{F$fg}$IMonitorDivider%{F-}$SEP4"
+				fi;;
 			esac
 		done
 		# Trim surrounding whitespace
@@ -265,8 +271,8 @@ bar() {
 
 	barleft="$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetUp)"
 	barcenter="$(Workspaces)"
-	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
-	
+	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2" 
+
 	#="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
 	finalbarout=""
 	tmp=0
@@ -293,4 +299,4 @@ fi
 while true; do
 	echo "$(bar)"
 	sleep $refresh;
-done | lemonbar -g x30 -a 22 -u 2 -o $OH -f "Hermit-10" -o $OF -f "FontAwesome-11" -B $bg -F $fg | bash &
+done | lemonbar -g x30 -a 22 -u 2 -o $OH -f "Hermit-11" -o $OF -f "FontAwesome-11" -B $bg -F $fg | bash &
