@@ -1,15 +1,69 @@
-#define fg #f0f0f0
-#define bg #394952
+! Base16 Ocean
+! Scheme: Chris Kempson (http://chriskempson.com)
 
-#define black #394952
-#define gray #70838c
-#define red #99736e
-#define green #78a090
-#define yellow #bfb7a1
-#define blue #7c9fa6
-#define magenta #BF9C86
-#define cyan #99BFBA
-#define white #f0f0f
+#define base00 #2b303b
+#define base01 #343d46
+#define base02 #4f5b66
+#define base03 #65737e
+#define base04 #a7adba
+#define base05 #c0c5ce
+#define base06 #dfe1e8
+#define base07 #eff1f5
+#define base08 #bf616a
+#define base09 #d08770
+#define base0A #ebcb8b
+#define base0B #a3be8c
+#define base0C #96b5b4
+#define base0D #8fa1b3
+#define base0E #b48ead
+#define base0F #ab7967
+
+*.foreground:   base05
+*.background:   base00
+*.cursorColor:  base05
+
+! bg color it seems
+*.color0:       base00
+! pinkish red
+*.color1:       base08
+! green
+*.color2:       base0B
+! yellow
+*.color3:       base0A
+! blue
+*.color4:       base0D
+! purple
+*.color5:       base0E
+! grayish blue
+*.color6:       base0C
+! gray
+*.color7:       base05
+
+! dark gray thing
+*.color8:       base03
+! pinkish red
+*.color9:       base08
+! green
+*.color10:      base0B
+! yellow
+*.color11:      base0A
+! blue
+*.color12:      base0D
+! purple
+*.color13:      base0E
+! grayish blue
+*.color14:      base0C
+! white
+*.color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*.color16:      base09
+*.color17:      base0F
+*.color18:      base01
+*.color19:      base02
+*.color20:      base04
+*.color21:      base06
 
 !! Urxvt configuration
 URxvt.scrollBar: false
@@ -17,46 +71,15 @@ URxvt.font: xft:Hermit:size=10
 URxvt.internalBorder: 8
 URxvt.fading: 10
 
-*.foreground:   #f0f0f0
-*.background:   #394952
-*.cursorColor:  #f0f0f0
-
 !! Terminal colours
-!! white, black \e[1;37m \e[1;30m
-!! blue, light blue \e[0;34m \e[1;34m
-!! green, light green \e[0;32m \e[1;32m
-!! cyan, light cyan \e[0;36m \e[1;36m
 !! red, light red \e[0;31m \e[1;31m
-!! purple, light purple \e[0;35m \e[1;35m
+!! green, light green \e[0;32m \e[1;32m
 !! brown, yellow \e[0;33m \e[1;33m
+!! blue, light blue \e[0;34m \e[1;34m
+!! purple, light purple \e[0;35m \e[1;35m
+!! cyan, light cyan \e[0;36m \e[1;36m
+!! white, black \e[1;37m \e[1;30m
 !! gray, light gray \e[0;30m \e[0;37m
-
-! black. Second black is gray
-*.color0:       #394952
-*.color8:       #70838c
-! red
-*.color1:       #99736e
-*.color9:       #99736e
-! green
-*.color2:       #78a090
-*.color10:      #78a090
-! yellow
-*.color3:       #bfb7a1
-*.color11:      #bfb7a1
-! blue
-*.color4:       #7c9fa6
-*.color12:      #7c9fa6
-! magenta
-*.color5:       #BF9C86
-*.color13:      #BF9C86
-! cyan
-*.color6:       #99BFBA
-*.color14:      #99BFBA
-! white
-*.color7:       #f0f0f0
-*.color15:      #f0f0f0
-*pointerColorBackground: bg
-*pointerColorForeground: fg
 
 !! Rofi configuration
 rofi.width: 800
@@ -69,21 +92,21 @@ rofi.lines: 12
 rofi.font: Hermit 10
 rofi.hide-scrollbar: true
 rofi.color-enabled: false
-rofi.fg: fg
-rofi.bg: bg
-rofi.fg-active: fg
-rofi.fg-urgent: fg
-rofi.bg-active: bg
-rofi.bg-urgent: bg
-rofi.bgalt: bg
-rofi.bc: bg
+rofi.fg: base05
+rofi.bg: base00
+rofi.fg-active: base05
+rofi.fg-urgent: base05
+rofi.bg-active: base00
+rofi.bg-urgent: base00
+rofi.bgalt: base00
+rofi.bc: base00
 rofi.bw: 4
-rofi.hlfg: bg
-rofi.hlfg-active: fg
-rofi.hlfg-urgent: fg
-rofi.hlbg: fg
-rofi.hlbg-active: bg
-rofi.hlbg-urgent: bg
+rofi.hlfg: base00
+rofi.hlfg-active: base05
+rofi.hlfg-urgent: base05
+rofi.hlbg: base05
+rofi.hlbg-active: base00
+rofi.hlbg-urgent: base00
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"

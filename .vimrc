@@ -36,15 +36,25 @@ set foldmethod=marker
 set colorcolumn=80
 " Set the tab width to 4 spaces
 set tabstop=4
+" Set the auto indent (includes >>) width
+set shiftwidth=4
+" Use multiple of shiftwidth when indenting with '<' and '>'
+set shiftround
 
+" Display tabs
+set list
+set listchars=tab:\|\ 
 " Display tabs and trailing spaces
 match Error /\s\+\%#\@<!$/
 
 " beefier 'syntax enable'?
 " filetype plugin on
 
+" Allow base16 to use the extra colours
+let base16colorspace=256
 " Set the colorcscheme
-colorscheme ryuuko
+colorscheme base16-ocean
+" colorscheme ryuuko
 
 hi User1 ctermbg=black ctermfg=black guibg=green guifg=red
 hi User2 ctermbg=gray ctermfg=black guibg=green guifg=red

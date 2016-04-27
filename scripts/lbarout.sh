@@ -18,6 +18,7 @@ IBattery1=""
 IBattery2=""
 IBattery3=""
 IBattery4=""
+IBatteryCharging=""
 IDate=""
 ITime=""
 ILock=""
@@ -38,6 +39,9 @@ SEP6="      "
 
 # Other stuff
 refresh=0.5
+fg=$base00
+bg=$base05
+gray=$base0C
 
 # Create temp files
 # mkdir -p /tmp/.lemonbarscripts
@@ -75,7 +79,7 @@ bar() {
 			# }}}
 			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity)
 			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]] || [[ $STATUS == "Full" ]]; then
-				stat=""
+				stat=$IBatteryCharging
 			else
 				if [[ $BATTERY -ge 80 ]]; then stat=$IBattery4;
 				elif [[ $BATTERY -ge 60 ]]; then stat=$IBattery3;
@@ -118,7 +122,7 @@ bar() {
 			# else echo "false" >/tmp/.lemonbarscripts/cputnotif; fi	
 			# }}}
 		CPUTEMP+="C"
-		echo %{F$gray}$ICpuTemp$SEP$CPUTEMP%{F-}
+		echo %{F$color2}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
 
 	# Approved
@@ -131,7 +135,7 @@ bar() {
 	Memory() {
 		MEMUSED=$(free -m | awk 'NR==2 {print $3}')
 		MEMUSED+="MB"
-		echo %{F$gray}$IMem$SEP$MEMUSED%{F-}
+		echo %{F$color3}$IMem$SEP$MEMUSED%{F-}
 	}
 
 	# Ok
@@ -146,7 +150,7 @@ bar() {
 			NetUp=$(ping -q -w 1 -c 1 $defGate > /dev/null && echo c || echo u)
 			# If some network interface is up
 			if [[ $NetUp == "c" ]]; then
-				echo %{F$gray}$INet%{F-}
+				echo %{F$color4}$INet%{F-}
 			else
 				echo ""
 			fi
@@ -182,7 +186,7 @@ bar() {
 
 		out="$Day$Hour:$Min"
 
-                echo %{F$gray}$IUpTime$SEP$out%{F-}
+                echo %{F$color1}$IUpTime$SEP$out%{F-}
 	}
 
 	# Okay
@@ -208,7 +212,7 @@ bar() {
 
 		# If we actually retrieved a valid volume value
 		if [[ ${#VOL} -ge 1 ]]; then
-			echo %{F$gray}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
+			echo %{F$color5}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
 		fi
 	}
 
@@ -252,7 +256,7 @@ bar() {
 				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4"
 				let num++;;
 				u*)
-                       		workspace+="%{F$red}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
+                       		workspace+="%{F$base02}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
 				let num++;;
 				\|)
 				# if this is the first item in the list (the first monitor)
@@ -271,7 +275,7 @@ bar() {
 
 	barleft="$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetUp)"
 	barcenter="$(Workspaces)"
-	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2" 
+	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
 
 	#="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
 	finalbarout=""
@@ -299,4 +303,4 @@ fi
 while true; do
 	echo "$(bar)"
 	sleep $refresh;
-done | lemonbar -g x30 -a 22 -u 2 -o $OH -f "Hermit-11" -o $OF -f "FontAwesome-11" -B $bg -F $fg | bash &
+done | lemonbar -g x30 -a 22 -u 2 -o $OH -f "Hermit-11" -o $OF -f "FontAwesome-11" -B "#2b303b" -F "#c0c5ce" | bash &
