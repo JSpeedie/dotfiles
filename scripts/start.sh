@@ -16,7 +16,7 @@ currentWin=$(bspc query --nodes)
 # we created any.
 sortedIds=$(echo $currentWin)
 # Windows to make upon start up
-Win=(firefox google-chrome-beta\ --app=http://netflix.com/browse urxvt urxvt) 
+Win=(firefox google-chrome-beta\ --app=http://netflix.com/browse urxvt urxvt)
 # The WM_CLASS name of the windows you want to sort/move
 WinNames=(Firefox google-chrome-beta URxvt URxvt)
 # The desktops you want each window to be sorted/moved to
@@ -27,7 +27,7 @@ WinDesktop=(6 2 8 8)
 sleep 2
 Processes=()
 # Create a new instance of all the programs you want to start
-for ((i = 0; i < ${#Win[@]}; i++)) do                                           
+for ((i = 0; i < ${#Win[@]}; i++)) do
 	nohup ${Win[$i]} &>/dev/null &
 	Processes+=("$!")
 done
@@ -58,7 +58,7 @@ fi
 # The script will exit if it does not finish after a user set number of  seconds
 while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
 	# goes through the list of window ids in X session
-	for win in $(bspc query --nodes); do 
+	for win in $(bspc query --nodes); do
 		# if the window $win has not already been moved/sorted
 		if [[ $sortedIds != *"$win"* ]]; then
 			# WM_CLASS name of the window (ex. Firefox, URxvt)

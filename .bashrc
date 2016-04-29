@@ -12,9 +12,24 @@ alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedotgit.sh'
 alias rec='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+1920,0 output.mp4'
+alias ctest='sh ~/scripts/colortest.sh'
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
-PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
+# PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
+prompt () {
+	_ERR=$?
+	dir_color=8
+	exit_color=4
+	# if the last command run returned an error
+	if [[ $_ERR -ne 0 ]]; then
+		exit_color=1
+	fi
+  directory="$(tput setaf $dir_color)$(pwd | sed "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
+  ending="$(tput setaf $exit_color) $"
+  printf "${directory}${ending}$(tput sgr0) "
+}
+
+PS1='$(prompt)'
