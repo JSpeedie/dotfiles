@@ -5,29 +5,45 @@
 . ~/coloursconf
 
 # Icons
-IUpTime=""
-INet=""
-IMem=""
-ICpuTemp=""
+# IUpTime=""
+IUpTime=""
+# INet='\ue222'
+INet=''
+# IMem=""
+IMem=""
+# ICpuTemp=""
+ICpuTemp=""
 ICpuLoad=""
-IVolS=""
-IVolM=""
-IVolL=""
+# IVolMuted=""
+# IVolLow=""
+# IVolHigh=""
+IVolMuted=""
+IVolLow=""
+IVolHigh=""
+
+# Battery Icons
 IBattery0=""
 IBattery1=""
 IBattery2=""
 IBattery3=""
 IBattery4=""
 IBatteryCharging=""
-IDate=""
-ITime=""
+
+# IDate=""
+IDate=""
+# ITime=""
+ITime=""
 ILock=""
-IBrightness=""
+# IBrightness=""
+IBrightness=""
 
 # Workspace Icons
-IWorkspaceFocused=""
-IWorkspaceUnfocused=""
-IWorkspaceEmpty=""
+# IWorkspaceFocused=""
+IWorkspaceFocused=""
+# IWorkspaceUnfocused=""
+IWorkspaceUnfocused=""
+# IWorkspaceEmpty=""
+IWorkspaceEmpty=""
 IMonitorDivider="|"
 
 # Separators
@@ -38,6 +54,9 @@ SEP6="      "
 # }}}
 
 # Other stuff
+siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-0-iso10646-1"
+siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-0-iso10646-1"
+tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
 refresh=0.5
 fg=$base00
 bg=$base05
@@ -49,7 +68,7 @@ gray=$base0C
 # echo "false" >/tmp/.lemonbarscripts/batterynotif
 
 # Names of all the screen outputs being used
-Screens=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
+Screens=$(xrandr | sed -n "s/ connected.*$//p")
 
 bar() {
 
@@ -81,15 +100,22 @@ bar() {
 			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]] || [[ $STATUS == "Full" ]]; then
 				stat=$IBatteryCharging
 			else
-				if [[ $BATTERY -ge 80 ]]; then stat=$IBattery4;
-				elif [[ $BATTERY -ge 60 ]]; then stat=$IBattery3;
-				elif [[ $BATTERY -ge 40 ]]; then stat=$IBattery2;
-				elif [[ $BATTERY -ge 20 ]]; then stat=$IBattery1;
-				else stat=$IBattery0; fi
+				if [[ $BATTERY -ge 90 ]]; then stat="\ue24b"
+				elif [[ $BATTERY -ge 80 ]]; then stat="\ue24a"
+				elif [[ $BATTERY -ge 70 ]]; then stat="\ue249"
+				elif [[ $BATTERY -ge 60 ]]; then stat="\ue248"
+				elif [[ $BATTERY -ge 50 ]]; then stat="\ue247"
+				elif [[ $BATTERY -ge 40 ]]; then stat="\ue246"
+				elif [[ $BATTERY -ge 30 ]]; then stat="\ue245"
+				elif [[ $BATTERY -ge 20 ]]; then stat="\ue244"
+				elif [[ $BATTERY -ge 10 ]]; then stat="\ue243";
+				else stat="\ue242"; fi
 			fi
 			BATTERY+="%"
-			echo %{F$gray}$stat$SEP$BATTERY%{F-}
-		else echo ""; fi
+			echo -e %{F$gray}$stat$SEP$BATTERY%{F-}
+		else
+			echo ""
+		fi
 	}
 
 	# Approved
@@ -119,10 +145,10 @@ bar() {
 					# echo "true" >/tmp/.lemonbarscripts/cputnotif
 				# fi
 			# cpu temps are low so reallow sending the notification
-			# else echo "false" >/tmp/.lemonbarscripts/cputnotif; fi	
+			# else echo "false" >/tmp/.lemonbarscripts/cputnotif; fi
 			# }}}
 		CPUTEMP+="C"
-		echo %{F$color2}$ICpuTemp$SEP$CPUTEMP%{F-}
+		echo -e %{F$color2}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
 
 	# Approved
@@ -150,7 +176,7 @@ bar() {
 			NetUp=$(ping -q -w 1 -c 1 $defGate > /dev/null && echo c || echo u)
 			# If some network interface is up
 			if [[ $NetUp == "c" ]]; then
-				echo %{F$color4}$INet%{F-}
+				echo -e %{F$color4}$INet%{F-}
 			else
 				echo ""
 			fi
@@ -203,16 +229,26 @@ bar() {
 		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
 		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
 		# }}}
-		VOL=$( (amixer -M get Master | grep -o "[0-9]\+%" | head -n 1 | grep -o "[0-9]\+") || echo "")
-		if [[ $VOL -lt 33 ]]; then Icon=$IVolS
-		elif [[ $VOL -le 66 ]]; then Icon=$IVolM
-		else Icon=$IVolL; fi
+		Muted=$(amixer -M get Master | grep "\[on\]" | wc -l)
+		# If the sound is not muted
+		if [[ $Muted -gt 0 ]]; then
+			VOL=$( (amixer -M get Master | grep -o "[0-9]\+%" | uniq | grep -o "[0-9]\+") || echo "")
+			if [[ $VOL -lt 50 ]]; then
+				Icon=$IVolLow
+			else
+				Icon=$IVolHigh
+			fi
 
-		VOL+="%"
+			VOL+="%"
+		else
+			VOL+="M"
+		fi
 
 		# If we actually retrieved a valid volume value
 		if [[ ${#VOL} -ge 1 ]]; then
 			echo %{F$color5}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
+		else
+			echo ""
 		fi
 	}
 
@@ -247,24 +283,24 @@ bar() {
 				[OFU]*)
 				# get workspace name
 				# wsn=$(echo $i | sed 's/[OFUofu]//')
-				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceFocused%{A}%{F-}$SEP4"
+				workspace+="%{F$base05}%{A:bspc desktop -f ^$num:}$IWorkspaceFocused%{A}%{F-}$SEP4"
 				let num++;;
 				o*)
-				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
+				workspace+="%{F$base05}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
 				let num++;;
 				f*)
-				workspace+="%{F$fg}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4"
+				workspace+="%{F$base05}%{A:bspc desktop -f ^$num:}$IWorkspaceEmpty%{A}%{F-}$SEP4"
 				let num++;;
 				u*)
-                       		workspace+="%{F$base02}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
+				workspace+="%{F$base02}%{A:bspc desktop -f ^$num:}$IWorkspaceUnfocused%{A}%{F-}$SEP4"
 				let num++;;
 				\|)
 				# if this is the first item in the list (the first monitor)
 				# then we don't output it or else we get | * * * * * | * * * * *
 				# instead of * * * * * | * * * * *
 				if [[ num -ne 1 ]]; then
-                       			# Divider between monitors
-					workspace+="%{F$fg}$IMonitorDivider%{F-}$SEP4"
+					# Divider between monitors
+					workspace+="%{F$base05}$IMonitorDivider%{F-}$SEP4"
 				fi;;
 			esac
 		done
@@ -273,9 +309,9 @@ bar() {
 		echo "$workspace"
 	}
 
-	barleft="$SEP2$(UpTime)$SEP2$(CpuTemp)$SEP2$(Memory)$SEP2$(NetUp)"
+	barleft="$SEP4$(UpTime)$SEP4$(CpuTemp)$SEP4$(Memory)$SEP4$(NetUp)"
 	barcenter="$(Workspaces)"
-	barright="$(Brightness)$SEP2$(Battery)$SEP2$(Volume)$SEP2$(Date)$SEP2$(Time)$SEP2"
+	barright="$(Brightness)$SEP4$(Battery)$SEP4$(Volume)$SEP4$(Date)$SEP4$(Time)$SEP4"
 
 	#="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
 	finalbarout=""
@@ -303,4 +339,4 @@ fi
 while true; do
 	echo "$(bar)"
 	sleep $refresh;
-done | lemonbar -g x30 -a 22 -u 2 -o $OH -f "Hermit-11" -o $OF -f "FontAwesome-11" -B "#2b303b" -F "#c0c5ce" | bash &
+done | lemonbar -g x30 -a 22 -u 2 -o 0 -f $tamzen -o -2 -f $siji10 -B "#2b303b" -F "#c0c5ce" | bash &
