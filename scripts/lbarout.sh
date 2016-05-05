@@ -98,7 +98,7 @@ bar() {
 			# }}}
 			BATTERY=$(cat /sys/class/power_supply/BAT0/capacity || cat /sys/class/power_supply/BAT1/capacity)
 			if [[ $STATUS == "Unknown" ]] || [[ $STATUS == "Charging" ]] || [[ $STATUS == "Full" ]]; then
-				stat=$IBatteryCharging
+				stat="";
 			else
 				if [[ $BATTERY -ge 90 ]]; then stat="\ue24b"
 				elif [[ $BATTERY -ge 80 ]]; then stat="\ue24a"
