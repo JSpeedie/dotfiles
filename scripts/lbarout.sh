@@ -191,28 +191,13 @@ bar() {
 		echo %{F$gray}$ITime$SEP$TIME%{F-}
 	}
 
-	# Approved
+	# Meh. Bc, cat, grep - that's a lot.
 	UpTime() {
-		UPTIME=$(uptime -p)
-		Min=$(echo $UPTIME | grep -o "[0-9]\+ min" | grep -o "[0-9]\+")
-		Hour=$(echo $UPTIME | grep -o "[0-9]\+ hour" | grep -o "[0-9]\+")
-		Day=$(echo $UPTIME | grep -o "[0-9]\+ day" | grep -o "[0-9]\+")
-		# Format minutes so that it always occupies 2 characters
+		# Read uptime, divide to convert from seconds to days.
+		# Print only to 2 decimal places.
+		UPTIME=$(cat /proc/uptime | awk '{print $1 / 86400}' | grep -o "[0-9]\+\.[0-9]\{0,2\}")
 
-		while [[ ${#Min} -lt 2 ]]; do
-			Min="0$Min"
-		done
-		# Same for hours but, so that it always occupies at least 1 character
-		while [[ ${#Hour} -lt 1 ]]; do
-			Hour="0$Hour"
-		done
-		if [[ ${#Day} -ge 1 ]]; then
-			Day="$Day "
-		fi
-
-		out="$Day$Hour:$Min"
-
-                echo %{F$color1}$IUpTime$SEP$out%{F-}
+		echo %{F$color1}$IUpTime$SEP$UPTIME%{F-}
 	}
 
 	# Okay
