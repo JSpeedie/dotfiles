@@ -27,7 +27,7 @@ prompt () {
 	if [[ $_ERR -ne 0 ]]; then
 		exit_color=1
 	fi
-  directory="$(tput setaf $dir_color)$(pwd | sed "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
+  directory="$(tput setaf $dir_color)$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
   ending="$(tput setaf $exit_color) $"
   printf "${directory}${ending}$(tput sgr0) "
 }
