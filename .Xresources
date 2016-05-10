@@ -92,22 +92,15 @@ rofi.opacity: 75
 rofi.lines: 12
 rofi.font: Hermit 10
 rofi.hide-scrollbar: true
-rofi.color-enabled: false
-rofi.fg: base05
-rofi.bg: base00
-rofi.fg-active: base05
-rofi.fg-urgent: base05
-rofi.bg-active: base00
-rofi.bg-urgent: base00
-rofi.bgalt: base00
-rofi.bc: base00
+!! rofi.color-enabled: false
+rofi.color-enabled: true
+!! 					bg			border		separator
+rofi.color-window:	base00,		base00,		base00
+!! 					bg			fg			bg alt		hl bg		hl fg
+rofi.color-normal:	base00,		base05,		base00,		base05,		base00
+rofi.color-active:	base05,		base00,		base05,		base05,		base00
+rofi.color-urgent:	base00,		base05,		base00,		base05,		base00
 rofi.bw: 4
-rofi.hlfg: base00
-rofi.hlfg-active: base05
-rofi.hlfg-urgent: base05
-rofi.hlbg: base05
-rofi.hlbg-active: base00
-rofi.hlbg-urgent: base00
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"
