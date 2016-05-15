@@ -21,7 +21,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 # PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
 prompt () {
 	_ERR=$?
-	command_colour=15
+	command_colour=7
 	directory_colour=8
 	exit_colour=4
 	# if the last command run returned an error
@@ -30,7 +30,7 @@ prompt () {
 	fi
   directory="$(tput setaf $directory_colour)$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
   ending="$(tput setaf $exit_colour) $"
-  printf "${directory}${ending}$(tput sgr0) "
+  printf "${directory}${ending}$(tput setaf $command_colour) "
 }
 
 PS1='$(prompt)'
