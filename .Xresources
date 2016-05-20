@@ -104,3 +104,13 @@ rofi.bw: 4
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"
+
+!! to disable the built in keyboard on your laptop,
+!! xinput list
+!! # Find AT Translated Set 2 Keyboard. Note id and slave keyboard #
+!! xinput float [id]
+!! # to re-enable
+!! xinput reattach [id] [master]
+!! # For example
+!! xinput float 12
+!! xinput reattach 12 3
