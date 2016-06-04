@@ -306,13 +306,15 @@ bar() {
 		let tmp=$tmp+1
 	done
 
-	#echo "%{S0}%{l}$barleft%{c}$barcenter%{r}$barright"
-	#%{S1}%{l}$barleft%{c}$barcenter%{r}$barright"
 	echo "${finalbarout}"
 }
 
 
+
 screennum=$(echo "$Screens" | wc -l)
+clickablenum=$((screennum*11))
+echo "click = $clickablenum" > lbarOut
+
 if [[ $screenum -eq 1 ]]; then
 	let OH=1
 	let OF=-1
@@ -324,4 +326,4 @@ fi
 while true; do
 	echo "$(bar)"
 	sleep $refresh;
-done | lemonbar -g x30 -a 22 -u 2 -o 0 -f $tamzen -o -2 -f $siji10 -B "#2b303b" -F "#c0c5ce" | bash &
+done | lemonbar -g x30 -a $clickablenum -u 2 -o 0 -f $tamzen -o -2 -f $siji10 -B "#2b303b" -F "#c0c5ce" | bash &
