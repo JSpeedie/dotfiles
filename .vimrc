@@ -44,8 +44,19 @@ set shiftround
 " Display tabs
 set list
 set listchars=tab:\|\ 
-" Display tabs and trailing spaces
-match Error /\s\+\%#\@<!$/
+" {{{ Explanation of regexes below
+" \s\+ matches one or more whitespace chars
+" \%# matches cursor position
+" \@<! (plus the surrounding atoms) matches any end of line NOT after the
+" cursor position
+" match Error /\s\+\%#\@<!$/
+" }}}
+" Matches any whitespace at the end of a line that is not preceded by
+" an \ to escape it and does not have the cursor on it.
+match Error /\(\\\)\@<!\s\+\%#\@<!$/
+" Matches any whitespace at the end of a line that does not
+" have the cursor on it. This is to show escaped trailing whitespace.
+match Visual /\(\\\)\@<=\s\+\%#\@<!$/
 
 " beefier 'syntax enable'?
 " filetype plugin on
@@ -54,7 +65,6 @@ match Error /\s\+\%#\@<!$/
 let base16colorspace=256
 " Set the colorcscheme
 colorscheme base16-ocean
-" colorscheme ryuuko
 
 hi User1 ctermbg=black ctermfg=black guibg=green guifg=red
 hi User2 ctermbg=gray ctermfg=black guibg=green guifg=red
