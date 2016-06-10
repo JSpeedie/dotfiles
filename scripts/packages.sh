@@ -9,7 +9,7 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit dunst libnotify i3lock xorg-xrandr)
+PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit xorg-xrandr dunst libnotify pulseaudio pamixer)
 OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog gimp nautilus)
 YPKGLIST=(compton lemonbar-xft-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)

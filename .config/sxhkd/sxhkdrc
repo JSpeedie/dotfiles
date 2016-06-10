@@ -96,10 +96,10 @@ alt + l
 
 # Decrease volume
 alt + n
-	amixer -M set Master 5%-
+	pamixer -d 4
 # Increase volume
 alt + m
-	amixer -M set Master 5%+
+	pamixer -i 4
 
 # Decrease screen brightness
 alt + shift +  n

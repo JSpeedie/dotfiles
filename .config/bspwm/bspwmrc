@@ -15,38 +15,33 @@ bspc config left_padding        10
 bspc config right_padding       10
 bspc config bottom_padding      10
 
-# Every time you create an instance of firefox, it will go to workspace 2
-# bspc rule -a Firefox desktop=^2
-bspc rule -a Steam floating=on 
-bspc rule -a Steam desktop=^5 
-bspc rule -a dota2 desktop=^7 
-
 # List of all the desktops you want to use in this setup
-echo "" > ~/bspwmOut
-desktops=(I II III IV V VI VII VIII IX X)
-screens=$(xrandr | grep -o ".* connected" | sed "s/ connected//")
-echo "screens \"$screens\"" >> ~/bspwmOut
-numScreens=$(echo "$screens" | wc -l)
-echo "numScreens \"$numScreens\"" >> ~/bspwmOut
-let desktopsPerMonitor=${#desktops[@]}
-echo "desktops total \"$desktopsPerMonitor\"" >> ~/bspwmOut
-let desktopsPerMonitor=$desktopsPerMonitor/$numScreens
-echo "desktopsPerMonitor 2 \"$desktopsPerMonitor\"" >> ~/bspwmOut
+desktopNames=(I II III IV V VI VII VIII IX X)
+# List of video outputs (monitors) being used. Order is important here
+screens=(DVI-I-0 HDMI-0 DVI-D-0)
+# screens=$(xrandr | grep -o ".* connected" | sed "s/ connected//")
+numScreens=$(echo ${#screens[@]})
+let desktopsPerMonitor=${#desktopNames[@]}/$numScreens
 
-let desktop=0
-for screen in $(echo "$screens"); do
-	printf "\tscreen \"$screen\"\n" >> ~/bspwmOut
-	deskForMon=()
-	let desk=0
-	while [[ $desk -lt $desktopsPerMonitor ]]; do 
-		deskForMon+=(${desktops[$desktop]}) 
-		let desk+=1 
-		let desktop+=1 
+printf "" > ~/bspwmOut
+echo "screens \"${screens[@]}\"" >> ~/bspwmOut
+echo "numScreens \"$numScreens\"" >> ~/bspwmOut
+echo "desktopsPerMonitor \"$desktopsPerMonitor\"" >> ~/bspwmOut
+
+let arrayElement=0
+for scr in ${screens[@]}; do
+	printf "\scr \"$scr\"\n" >> ~/bspwmOut
+	desktopsForMonitor=()
+	let i=0
+	while [[ $i -lt $desktopsPerMonitor ]]; do
+		desktopsForMonitor+=(${desktopNames[$arrayElement]})
+		let i+=1
+		let arrayElement+=1
 	done
-	bspc monitor $screen -d ${deskForMon[@]}
-	echo "$screen deskForMon \"${deskForMon[@]}\"" >> ~/bspwmOut
+	bspc monitor $scr -d ${desktopsForMonitor[@]}
+	echo "$scr desktopsForMonitor \"${desktopsForMonitor[@]}\"" >> ~/bspwmOut
 done
-	
+
 bspc config focused_border_color		"$fg"
 # Focused window on an unfocused desktop
 bspc config active_border_color			"$color4"
