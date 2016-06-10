@@ -202,22 +202,10 @@ bar() {
 
 	# Okay
 	Volume() {
-		# Crap I still have to work on >:/// {{{
-		# OUT=$(amixer -c 0 | grep -o "Invalid card number.")
-		# Card was found
-		# if [[ $OUT == "" ]];
-		# then
-			# Check to see if card is being used
-		# Card was not found
-		# else
-		# fi
-		# This should maybe be changed so that it doesn't serach for Left but rather just a percent
-		# exec amixer -D pulse get Master | grep Left: | grep -o "[0-9]*%" | grep -o "[0-9]*"
-		# }}}
-		Muted=$(amixer -M get Master | grep "\[on\]" | wc -l)
+		# Crap I hopefully never have to work on again >>://
 		# If the sound is not muted
-		if [[ $Muted -gt 0 ]]; then
-			VOL=$( (amixer -M get Master | grep -o "[0-9]\+%" | uniq | grep -o "[0-9]\+") || echo "")
+		if [[ $(pamixer --get-mute | grep "false") ]]; then
+			VOL=$(pamixer --get-volume)
 			if [[ $VOL -lt 50 ]]; then
 				Icon=$IVolLow
 			else
@@ -229,12 +217,7 @@ bar() {
 			VOL+="M"
 		fi
 
-		# If we actually retrieved a valid volume value
-		if [[ ${#VOL} -ge 1 ]]; then
-			echo %{F$color5}%{A:urxvt -e "alsamixer -V all &":}$Icon$SEP$VOL%{A}%{F-}
-		else
-			echo ""
-		fi
+		echo %{F$color5}$Icon$SEP$VOL%{F-}
 	}
 
 	# Okay. Maybe get rid of the click functionality just because "security" :^]
