@@ -9,7 +9,7 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit xorg-xrandr dunst libnotify pulseaudio pamixer)
+PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit xorg-xrandr dunst libnotify pulseaudio pamixer mksh)
 OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog gimp nautilus)
 YPKGLIST=(compton lemonbar-xft-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
@@ -20,15 +20,7 @@ printf "$blue"
 printf " ╔════════════════════════════════════════════════╗ \n"
 printf " ║                  SETUP SCRIPT                  ║ \n"
 printf " ╚════════════════════════════════════════════════╝ \n"
-printf "                   Distro: Arch\n"
-printf "                    Shell: bash\n"
-printf "                       WM: bspwm\n"
-printf "                Panel/Bar: lemonbar-xft-git\n"
-printf "        Terminal Emulator: urxvt\n"
-printf "                 Launcher: rofi\n"
-printf "                     Font: Hermit\n"
-printf "            Notifications: dunst\n"
-printf "               Compositor: compton\n"
+printf "                  Script for: Arch\n"
 printf "$end\n"
 for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	if [[ $i == "PKGLIST" ]]; then

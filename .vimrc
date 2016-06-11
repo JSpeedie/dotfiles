@@ -68,15 +68,25 @@ colorscheme base16-ocean
 
 hi User1 ctermbg=black ctermfg=black guibg=green guifg=red
 hi User2 ctermbg=gray ctermfg=black guibg=green guifg=red
-hi User3 ctermbg=red ctermfg=black guibg=red guifg=black
-hi User4 ctermbg=lightgray ctermfg=black guibg=blue guifg=green
+hi User3 ctermbg=lightgray ctermfg=black guibg=blue guifg=green
+hi User4 ctermbg=red ctermfg=black guibg=red guifg=black
+
+function Modified()
+	if &modified ==# 1
+		return " [+] "
+	elseif &modified ==# 0
+		return ""
+	endif
+endfunction
+
 
 " Always show the status bar
 set laststatus=2
 " Filename, file type, modified flag
 set statusline=%2*\ %f\ %*
-set statusline+=%4*\ %y\ %*
-set statusline+=%3*\ %m\ %*
+set statusline+=%3*\ %y\ %*
+" set statusline+=%4*\ %m\ %*
+set statusline+=%4*%{Modified()}%*
 " Left/right separator
 set statusline+=%1*%=%*
 " Cursor line number / total lines
