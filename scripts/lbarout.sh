@@ -296,7 +296,6 @@ bar() {
 
 screennum=$(echo "$Screens" | wc -l)
 clickablenum=$((screennum*11))
-echo "click = $clickablenum" > lbarOut
 
 if [[ $screenum -eq 1 ]]; then
 	let OH=1
