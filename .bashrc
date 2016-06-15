@@ -19,18 +19,43 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 # PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
+# prompt () {
+# 	_ERR=$?
+# 	command_colour=7
+# 	directory_colour=8
+# 	exit_colour=4
+# 	# if the last command run returned an error
+# 	if [[ $_ERR -ne 0 ]]; then
+# 		exit_colour=1
+# 	fi
+#   directory="$(tput setaf $directory_colour)$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
+#   ending="$(tput setaf $exit_colour) $"
+#   printf "${directory}${ending}$(tput setaf $command_colour) "
+# }
+
 prompt () {
-	_ERR=$?
 	command_colour=7
 	directory_colour=8
 	exit_colour=4
+	ending="$(tput setaf $exit_colour) $"
+
+	exit_color=6
+	b="$(tput bold)"
+	l="$(echo -n $b; tput setaf 0)"
+	z="$(tput sgr0)"
+	e="$(tput setaf $exit_color)"
+	_ERR=$?
 	# if the last command run returned an error
-	if [[ $_ERR -ne 0 ]]; then
+	if [ $_ERR -ne 0 ]; then
 		exit_colour=1
 	fi
-  directory="$(tput setaf $directory_colour)$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
-  ending="$(tput setaf $exit_colour) $"
-  printf "${directory}${ending}$(tput setaf $command_colour) "
+	directory="$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
+	ending=" $"
+	echo "$(tput setaf $directory_colour)${directory}$(tput setaf $exit_colour)${ending}$(tput setaf $command_colour) "
 }
 
 PS1='$(prompt)'
+PS2='> '
+export PS1 PS2
+
+# PS1='$(prompt)'
