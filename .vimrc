@@ -40,23 +40,28 @@ set tabstop=4
 set shiftwidth=4
 " Use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
+" Makes coding much more comfortable as you no longer have to hit tab 5 times
+" every time you open a new line
+set autoindent
 
 " Display tabs
 set list
-set listchars=tab:\|\ 
-" {{{ Explanation of regexes below
+set listchars=tab:\|\  
+" Explanation of regexes below {{{
+" \(\\\)\@<! matches any rest of regex not after '\' (at least it's supposed to)
 " \s\+ matches one or more whitespace chars
-" \%# matches cursor position
-" \@<! (plus the surrounding atoms) matches any end of line NOT after the
+" \%#\@<!$ matches any end of line NOT after the
 " cursor position
-" match Error /\s\+\%#\@<!$/
 " }}}
+" match Error /\s\+\%#\@<!$/
 " Matches any whitespace at the end of a line that is not preceded by
 " an \ to escape it and does not have the cursor on it.
+" match Error /\(\\\)\@<!\s\+\%#\@<!$/
 match Error /\(\\\)\@<!\s\+\%#\@<!$/
 " Matches any whitespace at the end of a line that does not
 " have the cursor on it. This is to show escaped trailing whitespace.
-match Visual /\(\\\)\@<=\s\+\%#\@<!$/
+" match Visual /\(\\\)\@<=\s\+\%#\@<!$/
+match Visual /\(\\\)\@<=\s\%#\@<!$/
 
 " beefier 'syntax enable'?
 " filetype plugin on
@@ -66,10 +71,9 @@ let base16colorspace=256
 " Set the colorcscheme
 colorscheme base16-ocean
 
-hi User1 ctermbg=black ctermfg=black guibg=green guifg=red
-hi User2 ctermbg=gray ctermfg=black guibg=green guifg=red
-hi User3 ctermbg=lightgray ctermfg=black guibg=blue guifg=green
-hi User4 ctermbg=red ctermfg=black guibg=red guifg=black
+hi User1 ctermbg=18 ctermfg=7
+hi User2 ctermbg=19 ctermfg=7
+hi User3 ctermbg=8 ctermfg=7
 
 function Modified()
 	if &modified ==# 1
@@ -83,14 +87,13 @@ endfunction
 " Always show the status bar
 set laststatus=2
 " Filename, file type, modified flag
-set statusline=%2*\ %f\ %*
-set statusline+=%3*\ %y\ %*
-" set statusline+=%4*\ %m\ %*
-set statusline+=%4*%{Modified()}%*
+set statusline=%3*\ %f\ %*
+set statusline+=%2*\ %y\ %*
 " Left/right separator
 set statusline+=%1*%=%*
+set statusline+=%2*%{Modified()}%*
 " Cursor line number / total lines
-set statusline+=%2*\ %l/%L\ %*
+set statusline+=%3*\ %l/%L\ %*
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                     Hard Mode Stuff!                     "
