@@ -148,20 +148,20 @@ bar() {
 			# else echo "false" >/tmp/.lemonbarscripts/cputnotif; fi
 			# }}}
 		CPUTEMP+="C"
-		echo -e %{F$color2}$ICpuTemp$SEP$CPUTEMP%{F-}
+		echo -e %{F$color3}$ICpuTemp$SEP$CPUTEMP%{F-}
 	}
 
 	# Approved
 	Date() {
 		DATE=$(date "+%a %m/%d")
-		echo %{F$gray}$IDate$SEP$DATE%{F-}
+		echo %{F$color5}$IDate$SEP$DATE%{F-}
 	}
 
 	# Approved
 	Memory() {
 		MEMUSED=$(free -m | awk 'NR==2 {print $3}')
 		MEMUSED+="MB"
-		echo %{F$color3}$IMem$SEP$MEMUSED%{F-}
+		echo %{F$color2}$IMem$SEP$MEMUSED%{F-}
 	}
 
 	# Ok
@@ -176,7 +176,7 @@ bar() {
 			NetUp=$(ping -q -w 1 -c 1 $defGate > /dev/null && echo c || echo u)
 			# If some network interface is up
 			if [[ $NetUp == "c" ]]; then
-				echo -e %{F$color4}$INet%{F-}
+				echo -e %{F$color6}$INet%{F-}
 			else
 				echo ""
 			fi
@@ -217,7 +217,7 @@ bar() {
 			VOL+="M"
 		fi
 
-		echo %{F$color5}$Icon$SEP$VOL%{F-}
+		echo %{F$color4}$Icon$SEP$VOL%{F-}
 	}
 
 	# Okay. Maybe get rid of the click functionality just because "security" :^]

@@ -2,28 +2,23 @@
 
 . ~/coloursconf
 
-bspc config border_width	3
-bspc config window_gap		8
+bspc config border_width	2
+bspc config window_gap		2
 
 bspc config split_ratio		0.50
 bspc config borderless_monocle	true
 bspc config gapless_monocle	true
 bspc config focus_by_distance	true
 
-bspc config top_padding         40
-bspc config left_padding        10
-bspc config right_padding       10
-bspc config bottom_padding      10
+bspc config top_padding         34
+bspc config left_padding        4
+bspc config right_padding       4
+bspc config bottom_padding      4
 
 # List of all the desktops you want to use in this setup
 desktopNames=(I II III IV V VI VII VIII IX X)
 # List of video outputs (monitors) being used. Order is important here
-if [[ $(xrandr | grep "eDP1 connected" | echo $?) == 0 ]]; then
-	echo "fjlkdsjaklfjdsklajflkdjsaklfjlkdsajjlkfjdklsjaf" >> ~/bspwmOut
-	screens=(eDP1)
-else
-	screens=(DVI-I-0 HDMI-0 DVI-D-0)
-fi
+screens=(DVI-I-0 HDMI-0 DVI-D-0)
 # screens=$(xrandr | grep -o ".* connected" | sed "s/ connected//")
 numScreens=$(echo ${#screens[@]})
 let desktopsPerMonitor=${#desktopNames[@]}/$numScreens
@@ -47,27 +42,9 @@ for scr in ${screens[@]}; do
 	echo "$scr desktopsForMonitor \"${desktopsForMonitor[@]}\"" >> ~/bspwmOut
 done
 
-bspc config focused_border_color		"$fg"
+bspc config focused_border_color		"$color7"
 # Focused window on an unfocused desktop
-bspc config active_border_color			"$color4"
+bspc config active_border_color			"$color7"
 bspc config normal_border_color			"$color8"
-bspc config presel_border_color			"$gray"
-bspc config urgent_border_color			"$red"
-
-# Locked windows cannot be closed
-bspc config focused_locked_border_color		"$fg"
-bspc config active_locked_border_color		"$blue"
-bspc config normal_locked_border_color		"$blue"
-bspc config presel_locked_border_color		"$blue"
-
-# Stickied windows stay in the focused desktop of the windows monitor
-bspc config focused_sticky_border_color		"$fg"
-bspc config active_sticky_border_color		"$green"
-bspc config normal_sticky_border_color		"$green"
-bspc config presel_sticky_border_color		"$green"
-
-# Tries to maintain its tiling position and size
-bspc config focused_private_border_color	"$fg"
-bspc config active_private_border_color		"$magenta"
-bspc config normal_private_border_color		"$magenta"
-bspc config presel_private_border_color		"$magenta"
+bspc config presel_border_color			"$color8"
+bspc config urgent_border_color			"$color1"

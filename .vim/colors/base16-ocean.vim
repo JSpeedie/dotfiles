@@ -57,8 +57,8 @@ else
 endif
 
 " Theme setup
-hi clear
-syntax reset
+" hi clear
+" syntax reset
 let g:colors_name = "base16-ocean"
 
 " Highlighting function
