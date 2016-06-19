@@ -29,22 +29,31 @@ magenta="\[$(tput setaf 6)\]"
 gray="\[$(tput setaf 7)\]"
 darkgray="\[$(tput setaf 8)\]"
 white="\[$(tput setaf 15)\]"
+reset="\[$(tput sgr0)\]"
 
 prompt () {
 	_ERR=$?
-	command_colour=$gray
-	directory_colour=$darkgray
-	exit_colour=$blue
+
 	# if the last command run returned an error
 	if [[ $_ERR -ne 0 ]]; then
-		exit_colour=$red
+		exit_colour=\001$(tput setaf 1)\002
+	else
+		exit_colour=\001$(tput setaf 4)\002
 	fi
-	directory="\[$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)\]"
-	final="\[${directory_colour}${directory} ${exit_colour}$ ${command_colour}\]"
-	echo "${final}"
+	# With " quotes, the directory doesn't change when I switch directories
+	directory='$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)'
+
+	# result='$(if [[ $? -ne 0 ]]; then printf "\001$(tput setaf 8)\002fag \001$(tput setaf 1)\002$ \001$(tput sgr0)\002"; else printf "\001$(tput setaf 8)\002fag \001$(tput setaf 4)\002$ \001$(tput sgr0)\002"; fi)'
+	# result='$(if [[ $? -ne 0 ]]; then printf "\001$(tput setaf 8)\002${directory} \001$(tput setaf 1)\002$ \001$(tput sgr0)\002"; else printf "\001$(tput setaf 8)\002${directory} \001$(tput setaf 4)\002$ \001$(tput sgr0)\002"; fi)'
+	result='$(if [[ $? -ne 0 ]]; then \
+				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 1)\002$ \001$(tput sgr0)\002"; \
+			else \
+				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 4)\002$ \001$(tput sgr0)\002"; \
+			fi)'
+	printf "${result}"
 }
 
 
-PS1="$(prompt) "
+PS1=$(prompt)
 PS2='> '
 export PS1 PS2
