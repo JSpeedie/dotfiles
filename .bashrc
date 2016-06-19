@@ -18,44 +18,33 @@ alias ctest='sh ~/scripts/colortest.sh'
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
-# PS1='\[\e[0;35m\]\W\[\e[0m\] \[\e[1;30m\]$\[\e[0m\] '
-# prompt () {
-# 	_ERR=$?
-# 	command_colour=7
-# 	directory_colour=8
-# 	exit_colour=4
-# 	# if the last command run returned an error
-# 	if [[ $_ERR -ne 0 ]]; then
-# 		exit_colour=1
-# 	fi
-#   directory="$(tput setaf $directory_colour)$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
-#   ending="$(tput setaf $exit_colour) $"
-#   printf "${directory}${ending}$(tput setaf $command_colour) "
-# }
+black="\[$(tput setaf 0)\]"
+red="\[$(tput setaf 1)\]"
+green="\[$(tput setaf 2)\]"
+yellow="\[$(tput setaf 3)\]"
+blue="\[$(tput setaf 4)\]"
+purple="\[$(tput setaf 5)\]"
+# Really greenish blue for base16-ocean
+magenta="\[$(tput setaf 6)\]"
+gray="\[$(tput setaf 7)\]"
+darkgray="\[$(tput setaf 8)\]"
+white="\[$(tput setaf 15)\]"
 
 prompt () {
-	command_colour=7
-	directory_colour=8
-	exit_colour=4
-	ending="$(tput setaf $exit_colour) $"
-
-	exit_color=6
-	b="$(tput bold)"
-	l="$(echo -n $b; tput setaf 0)"
-	z="$(tput sgr0)"
-	e="$(tput setaf $exit_color)"
 	_ERR=$?
+	command_colour=$gray
+	directory_colour=$darkgray
+	exit_colour=$blue
 	# if the last command run returned an error
-	if [ $_ERR -ne 0 ]; then
-		exit_colour=1
+	if [[ $_ERR -ne 0 ]]; then
+		exit_colour=$red
 	fi
-	directory="$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
-	ending=" $"
-	echo "$(tput setaf $directory_colour)${directory}$(tput setaf $exit_colour)${ending}$(tput setaf $command_colour) "
+	directory="\[$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)\]"
+	final="\[${directory_colour}${directory} ${exit_colour}$ ${command_colour}\]"
+	echo "${final}"
 }
 
-PS1='$(prompt)'
+
+PS1="$(prompt) "
 PS2='> '
 export PS1 PS2
-
-# PS1='$(prompt)'
