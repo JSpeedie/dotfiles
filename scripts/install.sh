@@ -33,7 +33,9 @@ sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
 sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
 
 # All the files and folders we want to copy in a newline delimited list
-files=$(ls -A1 | grep -v "$ignoregrep")
+parent_folder=$(git rev-parse --show-toplevel)
+files=$(cd $parent_folder | git ls-files | grep -v "$ignoregrep")
+echo "${files[@]}"
 
 for file in $files; do
 	sudo cp -Rv $file ~
