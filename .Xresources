@@ -90,7 +90,8 @@ roft.yoffset: 0
 roft.xoffset: 0
 rofi.opacity: 75
 rofi.lines: 12
-rofi.font: Hermit 10
+!! rofi.font: Hermit 10
+rofi.font: Tamzen 12
 rofi.hide-scrollbar: true
 !! rofi.color-enabled: false
 rofi.color-enabled: true

@@ -46,7 +46,7 @@ set autoindent
 
 " Display tabs
 set list
-set listchars=tab:\|\  
+set listchars=tab:\|\ 
 " Explanation of regexes below {{{
 " \(\\\)\@<! matches any rest of regex not after '\' (at least it's supposed to)
 " \s\+ matches one or more whitespace chars
@@ -57,6 +57,7 @@ set listchars=tab:\|\
 " Matches any whitespace at the end of a line that is not preceded by
 " an \ to escape it and does not have the cursor on it.
 " match Error /\(\\\)\@<!\s\+\%#\@<!$/
+" needs to be fixed. Currently does not work :'(
 match Error /\(\\\)\@<!\s\+\%#\@<!$/
 " Matches any whitespace at the end of a line that does not
 " have the cursor on it. This is to show escaped trailing whitespace.

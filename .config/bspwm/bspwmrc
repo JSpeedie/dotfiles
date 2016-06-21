@@ -3,17 +3,17 @@
 . ~/coloursconf
 
 bspc config border_width	2
-bspc config window_gap		2
+bspc config window_gap		4
 
 bspc config split_ratio		0.50
 bspc config borderless_monocle	true
 bspc config gapless_monocle	true
 bspc config focus_by_distance	true
 
-bspc config top_padding         34
-bspc config left_padding        4
-bspc config right_padding       4
-bspc config bottom_padding      4
+bspc config top_padding         36
+bspc config left_padding        6
+bspc config right_padding       6
+bspc config bottom_padding      6
 
 # List of all the desktops you want to use in this setup
 desktopNames=(I II III IV V VI VII VIII IX X)
