@@ -19,8 +19,8 @@ I use a couple of other, less important things to achieve what I want in my setu
 So I decided to update these pictures cause it was getting out of hand. It needed to be updated and I'm just taking way too long on my switch to wmutils so here ya go.
 First one is a reorganized version of the second one which is what my setup is actually like. I included the first pic just because I thought it would be easier to view and make it easier to see the whole rice.
 
-[Reorganized for easier viewing](https://u.teknik.io/Ph1Ct.png)
-[Pure](https://u.teknik.io/hfLPB.png)
+* [Reorganized for easier viewing](https://u.teknik.io/Ph1Ct.png)
+* [Pure](https://u.teknik.io/hfLPB.png)
 
 ## Feature list
 
