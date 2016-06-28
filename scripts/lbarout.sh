@@ -272,8 +272,6 @@ bar() {
 				fi;;
 			esac
 		done
-		# Trim surrounding whitespace
-		# workspace=$(echo $workspace | sed "s/^[ \t]\+//" | sed "s/[ \t]\+$//")
 		echo "$workspace"
 	}
 
@@ -281,7 +279,6 @@ bar() {
 	barcenter="$(Workspaces)"
 	barright="$(Brightness)$SEP4$(Battery)$SEP4$(Volume)$SEP4$(Date)$SEP4$(Time)$SEP4"
 
-	#="%{S0}%{l}$barleft%{c}$barcenter%{r}$barright
 	finalbarout=""
 	tmp=0
 	for screen in $(echo "$Screens"); do
@@ -308,4 +305,4 @@ fi
 while true; do
 	echo "$(bar)"
 	sleep $refresh;
-done | lemonbar -g x30 -a $clickablenum -u 2 -o 0 -f $tamzen -o -2 -f $siji10 -B "#2b303b" -F "#c0c5ce" | bash &
+done | lemonbar -g x30 -a $clickablenum -u 2 -o 0 -f $tamzen -o -2 -f $siji10 -B "$color0" -F "$color7" | bash &

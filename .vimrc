@@ -43,6 +43,19 @@ set shiftround
 " Makes coding much more comfortable as you no longer have to hit tab 5 times
 " every time you open a new line
 set autoindent
+" When creating verical splits (:vsplit), put the new window on the right
+set splitright
+" When creating horizontal splits (:split), put the new window below
+set splitbelow
+" Tell vim where to look for tags to make this work you also need to use the command
+" $ ctags -R -f ~/.vim/systags /usr/include /usr/local/include
+set tags+=~/.vim/systags
+" Allow omnicompletion because it's pretty sick even if it doesn't always work
+" Languages that work out of the box: SQL, HTML, CSS, JS, PHP.
+" C and PHP will also take advantage of tags files.
+" Keyboard shortcut is C-x C-o
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 " Display tabs
 set list

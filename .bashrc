@@ -11,7 +11,8 @@ alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedotgit.sh'
-alias rec='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+1920,0 output.mp4'
+alias record='ffmpeg -video_size 600x400 -framerate 60 -f x11grab -i :0.0+2020,100,nomouse prompt.mp4'
+alias howconv='echo "convert -delay <ticks>x<ticks-per-second> -loop 0 out*gif <output-gif-file>"'
 alias ctest='sh ~/scripts/colortest.sh'
 
 # Base16 Shell
@@ -40,6 +41,10 @@ prompt () {
 				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 4)\002$ \001$(tput sgr0)\002"; \
 			fi)'
 	printf "${result}"
+}
+
+mdtopdf () {
+	pandoc $1 --latex-engine=lualatex -o $2
 }
 
 
