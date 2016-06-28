@@ -20,7 +20,7 @@ Win=(firefox google-chrome-beta\ --app=http://netflix.com/browse urxvt urxvt)
 # The WM_CLASS name of the windows you want to sort/move
 WinNames=(Firefox google-chrome-beta URxvt URxvt)
 # The desktops you want each window to be sorted/moved to
-WinDesktop=(6 2 8 8)
+WinDesktop=(7 2 6 6)
 # }}}
 
 # Add a delay so .Xresources can be read
