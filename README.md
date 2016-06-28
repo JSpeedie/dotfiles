@@ -48,7 +48,7 @@ packages.sh:
 * Short and simple, with the package lists at the top of the script in case you want to change this script and make it your own.
 
 .bashrc:
-* ![Webm of my sick ass prompt I worked so hard on](https://u.teknik.io/FybF2.webm)
+* [Webm of my sick ass prompt I worked so hard on](https://u.teknik.io/FybF2.webm)
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most likely fix that in the future but for now... it works. Thank god.
 * Coloured prompt to make it more clear where one command's output ends and another command begins.
 * This next part is what was so hard to do. The ```$``` changes to red if the previously run command errors. For those interested, the reason this was so hard to achieve is because bash doesn't play nicely with non-printing characters. So using ```tput``` causes weird issues that I noticed and reported as #3. You have to wrap those commands with ```\[``` and ```\]``` but you can't use those with ```' '``` which are necessary to make sure changes are made to your prompt (colour change, current directory). Luckily you can use ```\001``` and ```\002``` as replacements with the small downside that you have to add either these 3 characters to your echo call (``` -e```) or use printf.
