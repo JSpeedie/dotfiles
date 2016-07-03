@@ -6,7 +6,7 @@
 " This must be first, because it changes other options as a side effect
 set nocompatible
 " allow backspacing over everything in insert mode
-" set backspace=indent,eol,start
+set backspace=indent,eol,start
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                         My Stuff                         "
@@ -26,6 +26,7 @@ set updatetime=30000
 " if I get an error.
 " set relativenumber
 set number
+set relativenumber
 " Highlight the cursor line
 " set cul
 " Highlight results for your search while you're typing

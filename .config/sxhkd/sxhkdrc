@@ -42,10 +42,6 @@ super + @button{1-3}
 #                                    #
 ######################################
 
-# Focus on a window
-super + {h,j,k,l}
-	bspc node -f {left,down,up,right}
-
 # Resize window
 super + alt + {h,j,k,l}
 	bspc node -e {left -10,down +10,up -10,right +10}
@@ -59,52 +55,41 @@ super + alt + shift + {h,j,k,l}
 # move mouse to bottom left of focused window
 # && wmp $(($(wattr x $(pfw))+$(wattr w $(pfw)))) $(($(wattr y $(pfw))+$(wattr h $(pfw))))
 
-# Functionality that is required:
-# kill a window (focused, left?, right?)
-# lower/raise a window in the stack?
-# move window left, right, down, up.
-# Move window to corners/center?
-# resize window (resize mode?)
-# focus window left, right, up, down
-#
-# Idea for execution:
-# Sxhkd checks contents of file to see if it is in "composable" mode
-# If it is, the following commands will work. Other wise, typing any h j k or l
-# will trigger the window manipulations. Add option to wtfc to focus None. This
-# way when we're in "composable" mode, the buttons we press to control thing
-# do not affect the window in focus.
-#
-# Alternatively:
 # key combos I can use:
 # super + x
 # super + alt + x (bit uncomfortable)
 # alt + shift + x
 # alt + ctrl + x
-#
-# # Move selected window
-# alt + shift + {h,j,k,l}
-# 	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
-# # Resize focused window
-# alt + ctrl + {h,j,k,l}
-# 	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
+# If I just accept the no home row hand position:
+# super + shift + x
+# super + ctrl + x
+# super + alt + x
+# Make use of like super qwert,asdfg,zxcvb instead of fucking
+# super + shift or super + any modifier
+# doesn't woooooooooooooooork
+# super + d + hjkl is pretty ez but d for what? 
 
-# # Move selected window
-# shift + {h,j,k,l}
-# 	if [[ $(cat .composable) == "True" ]]; then \
-# 		wmv {-50 0,0 50,0 -50,50 0} $(pfw); \
-# 	fi
-# 
-# # Resize focused window
-# ctrl + {h,j,k,l}
-# 	if [[ $(cat .composable) == "True" ]]; then \
-# 		wrs {-50 0,0 50,0 -50,50 0} $(pfw); \
-# 	fi
-# 
-# # Focus window in given direction
-# {h,j,k,l}
-# 	if [[ $(cat .composable) == "True" ]]; then \
-# 		wtfc {left, down, up, right}; \
-# 	fi
+# Focus window in a given cardinal direction
+super + shift + {h,j,k,l}
+	chwb -s 0 $(pfw); chwb -s 4 -c 0x8064cc $(wtfc {lf,df,uf,rf})
+#
+# Focus window in a given cardinal direction
+super + {h,j,k,l}
+	chwb -s 0 $(pfw); chwb -s 4 -c 0x8064cc $(wm2 {lf,df,uf,rf} | tail -n 1)
+
+# Move focused window
+alt + shift + {h,j,k,l}
+	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
+
+# Resize window (needs to be able to resize in both directions)
+alt + ctrl + {h,j,k,l}
+	wrs {-50 0,0 50,0 -50,50 0} $(pfw)
+
+# Kill the focused window
+super + d
+	killw $(pfw)
+
+# Toggle mouse visibility option
 
 # Move (and resize?) windows with the mouse.
 # Stolen form z3bra's "you are the wm" post
