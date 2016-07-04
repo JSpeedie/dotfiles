@@ -13,33 +13,45 @@
 
 fontdir=/usr/share/fonts
 MANUALINS=(font-awesome* otf-hermit*)
-IGNORELIST=(\\.git README.md) 
-
-ignoregrep=""
-# Creates a string used in a grep statement to retrieve only
-# the files NOT in MANUALINS and IGNORELIST
-for ignore in ${IGNORELIST[*]}; do
-	ignoregrep=${ignoregrep}"\($ignore\)\|"
-done
-for ignore in ${MANUALINS[*]}; do
-	ignoregrep=${ignoregrep}"\($ignore\)\|"
-done
-# Remove trailing "\|"
-ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
-
-cd ..
-# Wanna copy over the fonts here
-sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
-sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
-
-# All the files and folders we want to copy in a newline delimited list
+IGNORELIST=(\\.git README.md LICENSE) 
 parent_folder=$(git rev-parse --show-toplevel)
-files=$(cd $parent_folder | git ls-files | grep -v "$ignoregrep")
-echo "${files[@]}"
 
-for file in $files; do
-	sudo cp -Rv $file ~
-done
+get_ignore_list () {
+	ignoregrep=""
+	# Creates a string used in a grep statement to retrieve only
+	# the files NOT in MANUALINS and IGNORELIST
+	for ignore in ${IGNORELIST[*]}; do
+		ignoregrep=${ignoregrep}"\($ignore\)\|"
+	done
+	for ignore in ${MANUALINS[*]}; do
+		ignoregrep=${ignoregrep}"\($ignore\)\|"
+	done
+	# Remove trailing "\|"
+	ignoregrep=$(echo $ignoregrep | sed "s/.\{2\}$//")
+}
 
-# Make bspwm config executable
-sudo chmod +x ~/.config/bspwm/bspwmrc
+
+copy_fonts () {
+	cd $parent_folder
+	# Wanna copy over the fonts here
+	sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
+	sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
+	# Make bspwm config executable
+	sudo chmod +x ~/.config/bspwm/bspwmrc
+}
+
+copy_files () {
+	# All the files and folders we want to copy in a newline delimited list
+	files=$(cd $parent_folder; git ls-files | grep -v "$ignoregrep")
+	
+	echo "${files[@]}"
+	printf "\n------------------------------------------------------------\n\n"
+	
+	for file in $files; do
+		sudo cp -Rv $file ~/$file
+	done
+}
+
+get_ignore_list
+copy_fonts
+copy_files
