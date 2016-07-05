@@ -60,12 +60,15 @@ battery() {
 }
 
 brightness() {
-	if [[ -d /sys/class/backlight/acpi_video0/brightness ]]; then
-		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
+	# acpi_video0 is used for ati graphics card (amd cpu with no ded gpu?)
+	if [[ -f /sys/class/backlight/intel_backlight/brightness ]]; then
+		bright=$(cat /sys/class/backlight/intel_backlight/brightness)
+		max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o "^.\{,3\}" )
 		bright+="%"
 		echo "%{F$yellow}$icon_brightness $bright%{F-}"
 	else
-		echo ""
+		echo "u fuk"
 	fi
 }
 
