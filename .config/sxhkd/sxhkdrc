@@ -121,22 +121,46 @@ super + space
 super + Escape
 	pkill -USR1 -x sxhkd
 
-# Toggle song status in mpd (play/pause)
-# l for Listen
+######################
+#    mpd keybinds    #
+######################
+#
+# Toggle song status in mpd (play/pause) (l for Listen)
 alt + l
 	mpc toggle
 
-# Decrease volume
+# Play previous song in mpd playlist
+alt + u
+	mpc prev
+
+# Play next song in mpd playlist
+alt + o
+	mpc next
+
+# Use rofi to "fuzzy" find search and play a song (o for... Open?)
+alt + i
+	sh ~/scripts/playsong.sh
+	# song=$(mpc list title | rofi -dmenu); file=$(mpc search title "$song"); mpc insert "$file"; mpc next; mpc play
+
+######################
+#  volume keybinds   #
+######################
+
+# Decrease volume by 4%
 alt + n
 	pamixer -d 4
-# Increase volume
+# Increase volume by 4%
 alt + m
 	pamixer -i 4
 
-# Decrease screen brightness
+#################################
+#      brightness keybinds      #
+#################################
+
+# Decrease screen brightness by 10 percent
 alt + shift +  n
 	xbacklight -time 10 -steps 1 -dec 10
-# Increase screen brightness
+# Increase screen brightness by 10 percent
 alt + shift +  m
 	xbacklight -time 10 -steps 1 -inc 10
 
