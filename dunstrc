@@ -1,5 +1,6 @@
 [global]
-    font = Hermit, FontAwesome 10
+    font = Tamzen 12
+    # font = Hermit, FontAwesome 10
     
     # Allow a small subset of html markup:
     #   <b>bold</b>
@@ -149,7 +150,8 @@
 
 [frame]
     width = 2
-    color = "#f0f0f0"
+	# Border colours
+    color = "#c0c5ce"
 
 [shortcuts]
 
@@ -173,20 +175,18 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#394952"
-    foreground = "#f0f0f0"
+    background = "#2b303b"
+    foreground = "#c0c5ce"
     timeout = 4
 
 [urgency_normal]
-    background = "#394952"
-    foreground = "#bfb7a1"
+    background = "#2b303b"
+    foreground = "#c0c5ce"
     timeout = 6
 
 [urgency_critical]
-    background = "#394952"
-    foreground = "#99736e"
+    background = "#2b303b"
+    foreground = "#bf616a"
     timeout = 0
 
 
@@ -242,4 +242,4 @@
 #    summary = *twitter.com*
 #    urgency = normal
 #
-# vim: ft=cfg
+# vim:ft=cfg

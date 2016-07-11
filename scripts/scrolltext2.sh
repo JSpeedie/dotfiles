@@ -1,10 +1,5 @@
-
-# Return all versions of scrolled text to stdout
-# Responsibility of program using this script to account for the size of the
-# array
-# Number length indicating the given length of the string the user wants.
-# Grab start to (start + length) % length chars.
-
+# Prints scrolled version of given text starting from a given index to a given
+# length to stdout
 
 # Takes 3 arguments.
 # 1. 'Number of chars to grab'
