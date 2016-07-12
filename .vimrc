@@ -61,27 +61,21 @@ set omnifunc=syntaxcomplete#Complete
 " Display tabs
 set list
 set listchars=tab:\|\ 
-" this is a test for my Error match                
+
 " Explanation of regexes below {{{
-" \(\\\)\@<! matches any rest of regex not after '\' (at least it's supposed to)
+" \\ matches a '\'. Used for matching an escpaed or non escpaed whitespace char
+" \@<! NOT anything before this atom. For example, NOT \ (non escaped)
+" \zs anything before this atom. For example, \ (escaped)
 " \s\+ matches one or more whitespace chars
-" \%#\@<!$ matches any end of line NOT after the
-" cursor position
+" \%# vim atom for cursor position
+" \@<! NOT anything before this atom. For example, NOT \%# (not cursor position)
+" $ matches the end of a line
 " }}}
-" Matches any whitespace at the end of a line that is not preceded by
-" an \ to escape it and does not have the cursor on it.
-mat Error /\\\@<!\s\+\%#\@<!$/
-" Matches any whitespace at the end of a line that does not
-" have the cursor on it. This is to show escaped trailing whitespace.
-2mat Visual /\\\zs\s\%#\@<!$/
 
-
-
-" This regex works but matchadd doesn't. Fix to replace crappy
-" mat and 2mat temp solution
-" call matchadd('Error', '/\\\@<!\s\+$/')
-
-
+" Matches trailing whitespace that is not escaped and not at the cursor
+call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
+" Matches an escpaed whitespace character that is not at the cursor
+call matchadd('Visual', '\\\zs\s\%#\@<!$')
 
 " beefier 'syntax enable'?
 " filetype plugin on
@@ -124,7 +118,7 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-" Unbind the arrow keys hjkl for normal mode too
+" Unbind the arrow keys and hjkl for normal mode too
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
