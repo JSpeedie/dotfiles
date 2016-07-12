@@ -38,7 +38,7 @@ sxhkdrc:
 .vimrc:
 * Short and sweet. Doesn't rely on 6 million plugins (which I understand some of you may dislike, but I personally prefer to not rely on too many thing in case I have to use someone elses setup or vi).
 * Sets the history to 1000, enables syntax highlighting, enables folding via markers ("{{{" and "}}}" by default), shows non-relative line numbers to make... something... easier.
-* Some regexes I would consider impressive if only because they are hard to understand. Highlights trailing whitespace red (doesn't work atm. Not sure why) for easy removal and gray if it's escaped (only highlights the first whitespace character, not the rest of the line if the last non-whitespace character was "\"). Easy to see, but not in your face.
+* Some regexes I would consider impressive if only because they are hard to understand. Highlights trailing whitespace red for easy removal and gray if it's escaped (only highlights the first whitespace character, not the rest of the line if the last non-whitespace character was "\"). Easy to see, but not in your face.
 * Here come dat statusline! No plugins here. Fairly simple statusline with a modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
 
@@ -76,5 +76,4 @@ colortest.sh, rupee.sh, pipes.sh:
 
 ## Bugs/To Be Fixed
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if you press up or down enough~~ Believed to be solved in commit 3244c7c
-* .vimrc regex for match an Error for unescaped trailing whitespace currently does nothing
 * alt + *x* keybindings conflict with bindings of applications (will most likely be swapped to super + *x* in the future)
