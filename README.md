@@ -42,6 +42,14 @@ sxhkdrc:
 * Here come dat statusline! No plugins here. Fairly simple statusline with a modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
 
+updatedotgit.sh
+* Probably my favourite and most used script that I've written. Just compares the contents of two directories and asks if you want to copy
+the files in the first to the second. Very useful for updating say, a dotfile directory from your home directory.
+
+install.sh
+* When executed within a git directory or git sub directory (and so on and so forth), it will copy all the files tracked by git
+into `~/individual_file_path`. Used for getting my setup on a fresh install quickly.
+
 packages.sh:
 * Separates between the packages required for this setup and those I like to use. Even further it separates between non-AUR and AUR packages.
 * Run it and get prompted with various questions resulting in a version of my setup tailored to you. ^(lol)
@@ -52,12 +60,11 @@ packages.sh:
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most likely fix that in the future but for now... it works. Thank god.
 * Coloured prompt to make it more clear where one command's output ends and another command begins.
 * This next part is what was so hard to do. The `$` changes to red if the previously run command errors. For those interested, the reason this was so hard to achieve is because bash doesn't play nicely with non-printing characters. So using `tput` causes weird issues that I noticed and reported as #3. You have to wrap those commands with `\[` and `\]` but you can't use those with `' '` which are necessary to make sure changes are made to your prompt (colour change, current directory). Luckily you can use `\001` and `\002` as replacements with the small downside that you have to add either these 3 characters to your echo call (` -e`) or use printf.
-* Side note: Yes this prompt is heavily based off of the one done by reddit user /u/tudurom, however he did not have a solution to #3. Seeing as I had to work so hard to get the functionality, I'll claim this prompt as my own, but I give full credit to them for inspiration.
+* Side note: Yes this prompt is heavily based off of the one done by reddit user /u/tudurom, however they did not have a solution to #3. Seeing as I had to work so hard to get the functionality, I'll claim this prompt as my own, but I give full credit to them for inspiration.
 
-lock.sh:
-* ~~Blurs the background and locks the system with a picture of a lock.~~
-* ~~Looks pretty cool k.~~
-* Needs to be fixed. Wanna switch to my fork of sflock at some point, but tbh I don't lock my computer all that often sooo...
+playsong.sh:
+* Script I'm some what proud of. Prompts user with a list of all the songs they have in their mpd music directory and (using rofi)
+allows them to select one to play next.
 
 colortest.sh, rupee.sh, pipes.sh:
 * All of these except colortest.sh weren't made by me. colortest.sh is a simple script that prints out the 16 colours of your terminal in order. Semi useful. rupee.sh comes from reddit account /u/roberoonska and pipes.sh from github user pipeseroni.

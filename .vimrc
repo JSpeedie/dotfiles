@@ -63,7 +63,7 @@ set list
 set listchars=tab:\|\ 
 
 " Explanation of regexes below {{{
-" \\ matches a '\'. Used for matching an escpaed or non escpaed whitespace char
+" \\ matches a '\'. Used for matching an escaped or non escaped whitespace char
 " \@<! NOT anything before this atom. For example, NOT \ (non escaped)
 " \zs anything before this atom. For example, \ (escaped)
 " \s\+ matches one or more whitespace chars
@@ -74,7 +74,7 @@ set listchars=tab:\|\
 
 " Matches trailing whitespace that is not escaped and not at the cursor
 call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
-" Matches an escpaed whitespace character that is not at the cursor
+" Matches an escaped whitespace character that is not at the cursor
 call matchadd('Visual', '\\\zs\s\%#\@<!$')
 
 " beefier 'syntax enable'?
