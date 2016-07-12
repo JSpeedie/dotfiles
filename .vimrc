@@ -61,22 +61,27 @@ set omnifunc=syntaxcomplete#Complete
 " Display tabs
 set list
 set listchars=tab:\|\ 
+" this is a test for my Error match                
 " Explanation of regexes below {{{
 " \(\\\)\@<! matches any rest of regex not after '\' (at least it's supposed to)
 " \s\+ matches one or more whitespace chars
 " \%#\@<!$ matches any end of line NOT after the
 " cursor position
 " }}}
-" match Error /\s\+\%#\@<!$/
 " Matches any whitespace at the end of a line that is not preceded by
 " an \ to escape it and does not have the cursor on it.
-" match Error /\(\\\)\@<!\s\+\%#\@<!$/
-" needs to be fixed. Currently does not work :'(
-match Error /\(\\\)\@<!\s\+\%#\@<!$/
+mat Error /\\\@<!\s\+\%#\@<!$/
 " Matches any whitespace at the end of a line that does not
 " have the cursor on it. This is to show escaped trailing whitespace.
-" match Visual /\(\\\)\@<=\s\+\%#\@<!$/
-match Visual /\(\\\)\@<=\s\%#\@<!$/
+2mat Visual /\\\zs\s\%#\@<!$/
+
+
+
+" This regex works but matchadd doesn't. Fix to replace crappy
+" mat and 2mat temp solution
+" call matchadd('Error', '/\\\@<!\s\+$/')
+
+
 
 " beefier 'syntax enable'?
 " filetype plugin on

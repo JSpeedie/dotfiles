@@ -28,7 +28,9 @@ icon_memory=""
 icon_cpu_temp=""
 IVolMuted=""
 IVolLow=""
-icon_vol_high=""
+icon_vol_muted="\ue04f"
+icon_vol_low="\ue04e"
+icon_vol_high="\ue050"
 icon_battery_charging=""
 icon_date=""
 icon_time=""
@@ -86,13 +88,15 @@ brightness() {
 	if [[ -f /sys/class/backlight/intel_backlight/brightness ]]; then
 		bright=$(cat /sys/class/backlight/intel_backlight/brightness)
 		max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o "^[0-9]\{1,3\}" | head -n 1 )
+		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
+			"^[0-9]\{1,3\}" | head -n 1 )
 		bright+="%"
 		echo "%{F$color3}$icon_brightness $bright%{F-}"
 	elif [[ -f /sys/class/backlight/acpi_video0/brightness ]]; then
 		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o "^[0-9]\{1,3\}" | head -n 1 )
+		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
+			"^[0-9]\{1,3\}" | head -n 1 )
 		bright+="%"
 		echo "%{F$color3}$icon_brightness $bright%{F-}"
 	else
@@ -107,7 +111,19 @@ up_time() {
 }
 
 volume() {
-	echo "%{F$color4}$icon_vol_high $(pamixer --get-volume)%{F-}"
+	vol=$(pamixer --get-volume)
+
+	if [[ $(pamixer --get-mute) == "true" ]]; then
+		icon=$icon_vol_muted
+	else
+		if [[ $vol -ge 50 ]]; then
+			icon=$icon_vol_high
+		else
+			icon=$icon_vol_low
+		fi
+	fi
+	
+	echo -e "%{F$color4}$icon $vol%{F-}"
 }
 
 current_date() {
@@ -171,4 +187,5 @@ while true; do
 		let combi=$combi%${#song}
 	fi
 	sleep 0.5s
-done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 -p -o -3 -f $siji10 -o 0 -f $tamzen &
+done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 -p -o -3 \
+	-f $siji10 -o 0 -f $tamzen &
