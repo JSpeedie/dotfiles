@@ -77,6 +77,4 @@ colortest.sh, rupee.sh, pipes.sh:
 ## Bugs/To Be Fixed
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if you press up or down enough~~ Believed to be solved in commit 3244c7c
 * .vimrc regex for match an Error for unescaped trailing whitespace currently does nothing
-* bar.sh volume icon doesn't change based on volume
 * alt + *x* keybindings conflict with bindings of applications (will most likely be swapped to super + *x* in the future)
-* Updated dunst colorway to base16-ocean

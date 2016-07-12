@@ -146,6 +146,10 @@ alt + i
 #  volume keybinds   #
 ######################
 
+# Toggle mute
+alt + ctrl + m
+	sh ~/scripts/togglemute.sh
+
 # Decrease volume by 4%
 alt + n
 	pamixer -d 4
