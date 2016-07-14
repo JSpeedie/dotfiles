@@ -43,12 +43,15 @@ copy_fonts () {
 copy_files () {
 	# All the files and folders we want to copy in a newline delimited list
 	files=$(cd $parent_folder; git ls-files | grep -v "$ignoregrep")
-	
+
 	echo "${files[@]}"
 	printf "\n------------------------------------------------------------\n\n"
-	
+
 	for file in $files; do
+		# Create path for copying (tba)
+		# Copy
 		sudo cp -Rv $file ~/$file
+		# Change ownership (tba)
 	done
 }
 
