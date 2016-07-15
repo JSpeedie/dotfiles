@@ -13,7 +13,7 @@
 
 fontdir=/usr/share/fonts
 MANUALINS=(font-awesome* otf-hermit*)
-IGNORELIST=(\\.git README.md LICENSE) 
+IGNORELIST=(\\.git README.md LICENSE)
 parent_folder=$(git rev-parse --show-toplevel)
 
 get_ignore_list () {
@@ -49,9 +49,10 @@ copy_files () {
 
 	for file in $files; do
 		# Create path for copying (tba)
-		# Copy
+		#                 jfkldjsklfjdkls
 		sudo cp -Rv $file ~/$file
-		# Change ownership (tba)
+		# Change ownership to current user
+		sudo chown $user ~/$file
 	done
 }
 
