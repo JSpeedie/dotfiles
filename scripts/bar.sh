@@ -95,15 +95,13 @@ brightness() {
 	if [[ -f /sys/class/backlight/intel_backlight/brightness ]]; then
 		bright=$(cat /sys/class/backlight/intel_backlight/brightness)
 		max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
-			"^[0-9]\{1,3\}" | head -n 1 )
+		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | awk '{printf "%.0f\n", $1}')
 		bright+="%"
 		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	elif [[ -f /sys/class/backlight/acpi_video0/brightness ]]; then
 		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
-			"^[0-9]\{1,3\}" | head -n 1 )
+		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | awk '{printf "%.0f\n", $1}')
 		bright+="%"
 		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	else
