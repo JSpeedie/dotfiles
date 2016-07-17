@@ -53,17 +53,19 @@ function nextFile {
 		echo "$green==> The files do NOT differ$end"
 	fi
 
-	echo "Y=Yes, n=no, c=compare"
-	printf "Update $file? [Y/n/c] "
+	echo "Y=Yes, n=no, c=compare r=revert"
+	printf "Update $file? [Y/n/c/r] "
 	read ANS
 	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
-		cp -v $First$file $Second$file;
+		cp -v $First$file -T $Second$file;
 	elif [[ $ANS == "n" ]]; then echo "Continuing to next file...";
 	elif [[ $ANS == "c" ]]; then
 		vimdiff $First$file $Second$file;
 		echo ""
 		echo ""
 		nextFile
+	elif [[ $ANS == "r" ]]; then
+		cp -iv $Second$file -T $First$file ;
 	else echo "Invalid input. Exiting..."; exit 1; fi
 
 	echo ""
