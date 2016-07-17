@@ -19,31 +19,38 @@ song=$(mpc current)
 siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-0-iso10646-1"
 siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-0-iso10646-1"
 tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
+
 # Separators
 sep4="    "
+
 # Icons
 icon_up_time=""
 icon_net=''
 icon_memory=""
 icon_cpu_temp=""
-IVolMuted=""
-IVolLow=""
+# Icons are (in order) , , 
 icon_vol_muted="\ue04f"
 icon_vol_low="\ue04e"
 icon_vol_high="\ue050"
-icon_battery_charging=""
+# Icons are (in order) , (tba)
+icon_battery_charging="\ue20e"
+icon_battery_full="\ue24b"
 icon_date=""
 icon_time=""
 icon_music_paused=""
 icon_music_playing=""
-IBrightness=""
+# Icon is 
+icon_brightness="\ue0a9"
 
 battery() {
-	stat="$icon_battery_charging"
 	if [[ -d /sys/class/power_supply/BAT0 ]]; then
 		stat=$(cat /sys/class/power_supply/BAT0/status)
-		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]] || [[ $stat == "Full" ]]; then
-			stat="$icon_battery_charging"
+		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
+			perc=$(cat /sys/class/power_supply/BAT0/capacity)
+
+			echo -e "%{F$color1}$icon_battery_charging ${perc}%{F-}"
+		elif [[ $stat == "Full" ]]; then
+			echo -e "%{F$color1}$icon_battery_full 100%{F-}"
 		else
 			perc=$(cat /sys/class/power_supply/BAT0/capacity)
 			if [[ $perc -ge 90 ]]; then stat="\ue24b"
@@ -57,7 +64,7 @@ battery() {
 			elif [[ $perc -ge 10 ]]; then stat="\ue243"
 			else stat="\ue242"; fi
 
-			echo -e "%{F$color1}$stat ${perc}%%{F-}"
+			echo -e "%{F$color1}$stat ${perc}%{F-}"
 		fi
 	elif [[ -d /sys/class/power_supply/BAT1 ]]; then
 		stat=$(cat /sys/class/power_supply/BAT1/status)
@@ -91,14 +98,14 @@ brightness() {
 		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
 			"^[0-9]\{1,3\}" | head -n 1 )
 		bright+="%"
-		echo "%{F$color3}$icon_brightness $bright%{F-}"
+		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	elif [[ -f /sys/class/backlight/acpi_video0/brightness ]]; then
 		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
 		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | grep -o \
 			"^[0-9]\{1,3\}" | head -n 1 )
 		bright+="%"
-		echo "%{F$color3}$icon_brightness $bright%{F-}"
+		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	else
 		echo ""
 	fi
@@ -122,7 +129,7 @@ volume() {
 			icon=$icon_vol_low
 		fi
 	fi
-	
+
 	echo -e "%{F$color4}$icon $vol%{F-}"
 }
 
@@ -177,9 +184,15 @@ net() {
 }
 
 while true; do
+	final_song=$(song $combi)
+	# If mpd is active, add the extra spacing
+	if [[ $final_song != "" ]]; then
+		final_song+=$sep4
+	fi
+
 	echo "%{c}$sep4$(brightness)$sep4$(up_time)$sep4$(cpu_temp)$sep4$(mem)\
 			$sep4$(net)$sep4$(volume)$sep4$(current_date)$sep4$(current_time)\
-			$sep4$(song $combi)$sep4$(battery)$sep4"
+			$sep4${final_song}$(battery)$sep4"
 	song=$(mpc current)
 	# Increment combi. Modulus combi.
 	if [[ ${#song} -ne 0 ]]; then
