@@ -161,12 +161,12 @@ alt + m
 #      brightness keybinds      #
 #################################
 
-# Decrease screen brightness by 10 percent
+# Decrease screen brightness by 5 percent
 alt + shift +  n
-	xbacklight -time 10 -steps 1 -dec 10
-# Increase screen brightness by 10 percent
+	xbacklight -time 5 -steps 1 -dec 5
+# Increase screen brightness by 5 percent
 alt + shift +  m
-	xbacklight -time 10 -steps 1 -inc 10
+	xbacklight -time 5 -steps 1 -inc 5
 
 # Lock the system
 alt + Escape
