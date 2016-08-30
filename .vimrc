@@ -44,6 +44,8 @@ set shiftround
 " Makes coding much more comfortable as you no longer have to hit tab 5 times
 " every time you open a new line
 set autoindent
+" Allows proper use of zh and zl
+set nowrap
 " When creating verical splits (:vsplit), put the new window on the right
 set splitright
 " When creating horizontal splits (:split), put the new window below
