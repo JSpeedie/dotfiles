@@ -2,12 +2,34 @@
 
 # Get Dimensions
 let bar_width=1200
-# Dimensions for bar (returns full dimensions of $DISPLAY in an "1920x1080"
-# kind of format
-screen_x_and_y=$(xrandr | grep Screen | grep -o "current [0-9]\+ x [0-9]\+" | \
-	sed "s/ \|current//g")
+# Returns the dimensions of all the monitors in your setup in a
+# 2560x1440
+# 1920x1080
+# format
+monitor_dims=$(xrandr | grep " connected" | grep -o "[0-9]\+x[0-9]\+")
+
+monitor_with_largest_dims=$(echo "$monitor_dims" | head -n 1)
+max=0
+for monitor in $monitor_dims; do
+	pixels=$(echo "$monitor" | sed "s/x/ /" | awk '{print ($1 * $2)}')
+	if [[ $pixels -gt $max ]]; then
+		max=$pixels
+		monitor_with_largest_dims=$monitor
+	fi
+done
+
+screen_full_dims=$(xrandr | grep "$monitor_with_largest_dims" | \
+	head -n 1 | grep -o "[0-9]\+x[0-9]\++[0-9]\++[0-9]\+")
+# Dimensions for bar (returns full dimensions of largest (resolution wise)
+# monitor in setup in an "1920x1080" kind of format)
+screen_x_and_y=$(echo "$screen_full_dims" | grep -o "[0-9]\+x[0-9]\+")
+screen_x_and_y_shift=$(echo "$screen_full_dims" | grep -o "[0-9]\++[0-9]\+$")
 screen_x=$(echo "$screen_x_and_y" | sed "s/x.*$//")
 screen_y=$(echo "$screen_x_and_y" | sed "s/^.*x//")
+screen_x_shift=$(echo "$screen_x_and_y_shift" | sed "s/+.*$//")
+screen_y_shift=$(echo "$screen_x_and_y_shift" | sed "s/^.*+//")
+screen_x=$(echo "$screen_x $screen_x_shift" | awk '{print ($1 + $2)}')
+screen_y=$(echo "$screen_y $screen_y_shift" | awk '{print ($1 + $2)}')
 
 let bar_x=$(echo "$bar_width $screen_x" | awk '{print  ($2/2)-($1/2)}')
 let bar_y=0
