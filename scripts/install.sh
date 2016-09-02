@@ -52,7 +52,7 @@ copy_files () {
 		#                 jfkldjsklfjdkls
 		sudo cp -Rv $file ~/$file
 		# Change ownership to current user
-		sudo chown $user ~/$file
+		sudo chown $USER ~/$file
 	done
 }
 
