@@ -28,7 +28,7 @@ set updatetime=30000
 set number
 set relativenumber
 " Highlight the cursor line
-" set cul
+set cursorline
 " Highlight results for your search while you're typing
 set incsearch
 " Set folding style (so you can use {{{ and }}} to make folds)
