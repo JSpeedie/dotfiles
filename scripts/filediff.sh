@@ -10,7 +10,7 @@ DiffAppend="DIFF"
 First="/run/media/me/P1/Backups/Pictures/"
 Second="/run/media/me/P1/Backups/Pictures/"
 first=""
-second="" 
+second=""
 
 echo "Copies files from First and smart merges them into Second"
 echo "Be sure to add an \"/\" to the end of any path you add"
@@ -19,18 +19,18 @@ echo
 printf "Use/add to default locations? [Y/n] "
 read ANS
 
-if [[ $ANS == "Y" ]]; then 
+if [[ $ANS == "Y" ]]; then
 	printf "First location \"$First\" : "
 	read -e first
 
 	printf "Second location \"$Second\" : "
-	read -e second 
+	read -e second
 elif [[ $ANS == "n" ]]; then
 	printf "First location : "
 	read -e First
 
 	printf "Second location : "
-	read -e Second 
+	read -e Second
 fi
 
 echo

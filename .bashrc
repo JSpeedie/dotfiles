@@ -19,19 +19,6 @@ alias ctest='sh ~/scripts/colortest.sh'
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
-black="\[$(tput setaf 0)\]"
-red="\[$(tput setaf 1)\]"
-green="\[$(tput setaf 2)\]"
-yellow="\[$(tput setaf 3)\]"
-blue="\[$(tput setaf 4)\]"
-purple="\[$(tput setaf 5)\]"
-# Really greenish blue for base16-ocean
-magenta="\[$(tput setaf 6)\]"
-gray="\[$(tput setaf 7)\]"
-darkgray="\[$(tput setaf 8)\]"
-white="\[$(tput setaf 15)\]"
-reset="\[$(tput sgr0)\]"
-
 prompt () {
 	# With " quotes, the directory doesn't change when I switch directories
 	directory='$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)'
