@@ -67,7 +67,7 @@ super + alt + shift + {h,j,k,l}
 # Make use of like super qwert,asdfg,zxcvb instead of fucking
 # super + shift or super + any modifier
 # doesn't woooooooooooooooork
-# super + d + hjkl is pretty ez but d for what? 
+# super + d + hjkl is pretty ez but d for what?
 
 # Focus window in a given cardinal direction
 super + shift + {h,j,k,l}
@@ -76,6 +76,10 @@ super + shift + {h,j,k,l}
 # Focus window in a given cardinal direction
 super + {h,j,k,l}
 	chwb -s 0 $(pfw); chwb -s 4 -c 0x8064cc $(wm2 {lf,df,uf,rf} | tail -n 1)
+
+# sigh gotta make this shit usable
+alt + {h,j,k,l}
+	bspc node -f {west,south,north,east}
 
 # Move focused window
 alt + shift + {h,j,k,l}
