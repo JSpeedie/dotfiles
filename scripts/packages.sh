@@ -13,7 +13,7 @@ end=$'\e[0m'
 PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer mpd mpc ctags)
 OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog \
-	gimp nautilus xorg-xfontsel ntfs-3g)
+	gimp nautilus xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp)
 YPKGLIST=(compton lemonbar-xft-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
@@ -40,8 +40,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 
 	echo
 	printf "${green}Packages: (${CPKGL[*]})\n${end}"
-	echo "Type any non-number/whitespace character(s) (besides \"skip\" \
-		to exit"
+	echo "Type any non-number/whitespace character(s) (besides \"skip\" to exit"
 	printf "${red}==> Enter n° of packages to be installed (ex: 1 2 3) \
 		(enter=all) ${end}"
 	read -a INPUT
@@ -79,7 +78,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 			else
 				sudo pacman -S ${CPKGL[j-1]}
 			fi
-		elif [[ $ANS == "n" or $ANS == "" ]]; then
+		elif [[ $ANS == "n" ]] || [[ $ANS == "" ]]; then
 			if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
 				yaourt ${CPKGL[j-1]} --noconfirm
 			else
