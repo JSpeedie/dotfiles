@@ -2,11 +2,14 @@
 # ~/.bashrc
 #
 
-export GTK2_RC_FILES=/usr/share/themes/Paper/gtk-2.0/gtkrc
-
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+##############################
+#          Aliases           #
+##############################
+
+alias conuni='sudo wpa_supplicant -c ~/wpa_supplicant.conf -i wlp2s0 -D nl80211 -B && sudo dhcpcd wlp2s0'
 alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
@@ -15,7 +18,25 @@ alias record='ffmpeg -video_size 600x400 -framerate 60 -f x11grab -i :0.0+2020,1
 alias howconv='echo "convert -delay <ticks>x<ticks-per-second> -loop 0 out*gif <output-gif-file>"'
 alias ctest='sh ~/scripts/colortest.sh'
 
-# Base16 Shell
+##############################
+#    Colour for man pages    #
+##############################
+
+export LESS_TERMCAP_me=$(tput sgr0) # Normal
+export LESS_TERMCAP_se=$(tput sgr0) # Normal
+export LESS_TERMCAP_ue=$(tput sgr0) # Normal
+# Section titles in man pages
+export LESS_TERMCAP_md=$(tput setaf 8) # Dark gray
+export LESS_TERMCAP_mb=$(tput setaf 4) # Blue (4)
+# Variables amongst other things in man pages
+export LESS_TERMCAP_us=$(tput setaf 4) # Blue
+# "Status bar" of less
+export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
+
+##############################
+#    Base16 shell colours    #
+##############################
+
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
@@ -33,7 +54,6 @@ prompt () {
 mdtopdf () {
 	pandoc $1 --latex-engine=lualatex -o $2
 }
-
 
 PS1=$(prompt)
 PS2='> '
