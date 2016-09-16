@@ -26,10 +26,10 @@ export LESS_TERMCAP_me=$(tput sgr0) # Normal
 export LESS_TERMCAP_se=$(tput sgr0) # Normal
 export LESS_TERMCAP_ue=$(tput sgr0) # Normal
 # Section titles in man pages
-export LESS_TERMCAP_md=$(tput setaf 8) # Dark gray
+export LESS_TERMCAP_md=$(tput setaf 1) # Dark gray (8)
 export LESS_TERMCAP_mb=$(tput setaf 4) # Blue (4)
 # Variables amongst other things in man pages
-export LESS_TERMCAP_us=$(tput setaf 4) # Blue
+export LESS_TERMCAP_us=$(tput setaf 3) # Blue
 # "Status bar" of less
 export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 
