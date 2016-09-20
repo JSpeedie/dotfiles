@@ -1,5 +1,7 @@
 . ~/coloursconf
 
+echo "" > .barOut
+
 # Get Dimensions
 let bar_width=1200
 # Returns the dimensions of all the monitors in your setup in a
@@ -18,6 +20,8 @@ for monitor in $monitor_dims; do
 	fi
 done
 
+echo "monitor_with_largest_dims $monitor_with_largest_dims" >> .barOut
+
 screen_full_dims=$(xrandr | grep "$monitor_with_largest_dims" | \
 	head -n 1 | grep -o "[0-9]\+x[0-9]\++[0-9]\++[0-9]\+")
 # Dimensions for bar (returns full dimensions of largest (resolution wise)
@@ -25,13 +29,16 @@ screen_full_dims=$(xrandr | grep "$monitor_with_largest_dims" | \
 screen_x_and_y=$(echo "$screen_full_dims" | grep -o "[0-9]\+x[0-9]\+")
 screen_x_and_y_shift=$(echo "$screen_full_dims" | grep -o "[0-9]\++[0-9]\+$")
 screen_x=$(echo "$screen_x_and_y" | sed "s/x.*$//")
+echo "screen_x $screen_x" >> .barOut
 screen_y=$(echo "$screen_x_and_y" | sed "s/^.*x//")
 screen_x_shift=$(echo "$screen_x_and_y_shift" | sed "s/+.*$//")
+echo "screen_x_shift $screen_x_shift" >> .barOut
 screen_y_shift=$(echo "$screen_x_and_y_shift" | sed "s/^.*+//")
-screen_x=$(echo "$screen_x $screen_x_shift" | awk '{print ($1 + $2)}')
 screen_y=$(echo "$screen_y $screen_y_shift" | awk '{print ($1 + $2)}')
 
-let bar_x=$(echo "$bar_width $screen_x" | awk '{print  ($2/2)-($1/2)}')
+# monitor width divided by 2 plus the shift - half the width of the bar
+let bar_x=$(echo "$screen_x $screen_x_shift $bar_width" | awk '{print ((($1 / 2) + $2) - ($3 / 2))}')
+echo "bar_x $bar_x" >> .barOut
 let bar_y=0
 
 let combi=0
