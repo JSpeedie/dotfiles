@@ -11,7 +11,7 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
-	xorg-xrandr dunst libnotify pulseaudio pamixer mpd mpc ctags)
+	xorg-xrandr dunst libnotify pulseaudio pamixer mpd mpc ctags ttf-dejavu)
 OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog \
 	gimp nautilus xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp)
 YPKGLIST=(compton lemonbar-xft-git)
