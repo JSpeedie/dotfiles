@@ -91,7 +91,7 @@ hi User1 ctermbg=18 ctermfg=7
 hi User2 ctermbg=19 ctermfg=7
 hi User3 ctermbg=8 ctermfg=7
 
-function !Modified()
+function! Modified()
 	if &modified ==# 1
 		return " [+] "
 	elseif &modified ==# 0
