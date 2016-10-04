@@ -37,7 +37,8 @@ screen_y_shift=$(echo "$screen_x_and_y_shift" | sed "s/^.*+//")
 screen_y=$(echo "$screen_y $screen_y_shift" | awk '{print ($1 + $2)}')
 
 # monitor width divided by 2 plus the shift - half the width of the bar
-let bar_x=$(echo "$screen_x $screen_x_shift $bar_width" | awk '{print ((($1 / 2) + $2) - ($3 / 2))}')
+let bar_x=$(echo "$screen_x $screen_x_shift $bar_width" | \
+			awk '{print ((($1 / 2) + $2) - ($3 / 2))}')
 echo "bar_x $bar_x" >> .barOut
 let bar_y=0
 
@@ -71,52 +72,32 @@ icon_music_playing=""
 # Icon is 
 icon_brightness="\ue0a9"
 
+# Needs to be tested on a machine with no battery
 battery() {
 	if [[ -d /sys/class/power_supply/BAT0 ]]; then
-		stat=$(cat /sys/class/power_supply/BAT0/status)
-		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
-			perc=$(cat /sys/class/power_supply/BAT0/capacity)
-
-			echo -e "%{F$color1}$icon_battery_charging ${perc}%{F-}"
-		elif [[ $stat == "Full" ]]; then
-			echo -e "%{F$color1}$icon_battery_full 100%{F-}"
-		else
-			perc=$(cat /sys/class/power_supply/BAT0/capacity)
-			if [[ $perc -ge 90 ]]; then stat="\ue24b"
-			elif [[ $perc -ge 80 ]]; then stat="\ue24a"
-			elif [[ $perc -ge 70 ]]; then stat="\ue249"
-			elif [[ $perc -ge 60 ]]; then stat="\ue248"
-			elif [[ $perc -ge 50 ]]; then stat="\ue247"
-			elif [[ $perc -ge 40 ]]; then stat="\ue246"
-			elif [[ $perc -ge 30 ]]; then stat="\ue245"
-			elif [[ $perc -ge 20 ]]; then stat="\ue244"
-			elif [[ $perc -ge 10 ]]; then stat="\ue243"
-			else stat="\ue242"; fi
-
-			echo -e "%{F$color1}$stat ${perc}%{F-}"
-		fi
+		bat_dir="/sys/class/power_supply/BAT0"
 	elif [[ -d /sys/class/power_supply/BAT1 ]]; then
-		stat=$(cat /sys/class/power_supply/BAT1/status)
-		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]] || [[ $stat == "Full" ]]; then
-			stat="$icon_battery_charging"
-		else
-			perc=$(cat /sys/class/power_supply/BAT1/capacity)
-			if [[ $perc -ge 90 ]]; then stat="\ue24b"
-			elif [[ $perc -ge 80 ]]; then stat="\ue24a"
-			elif [[ $perc -ge 70 ]]; then stat="\ue249"
-			elif [[ $perc -ge 60 ]]; then stat="\ue248"
-			elif [[ $perc -ge 50 ]]; then stat="\ue247"
-			elif [[ $perc -ge 40 ]]; then stat="\ue246"
-			elif [[ $perc -ge 30 ]]; then stat="\ue245"
-			elif [[ $perc -ge 20 ]]; then stat="\ue244"
-			elif [[ $perc -ge 10 ]]; then stat="\ue243"
-			else stat="\ue242"; fi
-
-			echo -e "%{F$color1}$stat ${perc}%%{F-}"
-		fi
+		bat_dir="/sys/class/power_supply/BAT1"
 	else
 		echo ""
 	fi
+
+	perc=$(cd $bat_dir; paste energy_now energy_full |
+			awk '{printf "%.1f\n", ($1/$2) * 100}')
+
+	if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
+		stat="$icon_battery_charging"
+	elif [[ $stat == "Full" ]]; then
+		stat="$icon_battery_full"
+	else
+		status=("\ue242" "\ue243" "\ue244" "\ue245" "\ue246" "\ue247" \
+				"\ue248" "\ue249" "\ue24a" "\ue24b")
+		icon_number=$(echo $perc | awk '{printf "%.0f\n", $1 / 10}')
+
+		stat="${status[$icon_number]}"
+	fi
+
+	echo -e "%{F$color1}$stat ${perc}%{F-}"
 }
 
 brightness() {
@@ -124,13 +105,13 @@ brightness() {
 	if [[ -f /sys/class/backlight/intel_backlight/brightness ]]; then
 		bright=$(cat /sys/class/backlight/intel_backlight/brightness)
 		max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | awk '{printf "%.0f\n", $1}')
+		bright=$(echo "$bright $max" | awk '{printf "%.0f\n", ($1/$2) * 100}')
 		bright+="%"
 		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	elif [[ -f /sys/class/backlight/acpi_video0/brightness ]]; then
 		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
-		bright=$(echo "$bright $max" | awk '{print $1/$2 * 100}' | awk '{printf "%.0f\n", $1}')
+		bright=$(echo "$bright $max" | awk '{printf "%.0f\n", ($1/$2) * 100}')
 		bright+="%"
 		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
 	else
@@ -140,7 +121,7 @@ brightness() {
 
 
 up_time() {
-	up=$(awk '{print $1 / 86400}' /proc/uptime | grep -o ".*\..\{0,2\}")
+	up=$(awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime)
 	echo "%{F$color1}$icon_up_time $up%{F-}"
 }
 
