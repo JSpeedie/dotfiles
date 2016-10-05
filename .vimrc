@@ -91,7 +91,7 @@ hi User1 ctermbg=18 ctermfg=7
 hi User2 ctermbg=19 ctermfg=7
 hi User3 ctermbg=8 ctermfg=7
 
-function Modified()
+function! Modified()
 	if &modified ==# 1
 		return " [+] "
 	elseif &modified ==# 0
@@ -134,14 +134,10 @@ noremap <Right> <NOP>
 "         How To Get This Vimrc to Work With Sudo          "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Dont know if the command below is ever worth using. I don't think that
-" folder is used
-" sudo cp -vR ~/.vim /usr/share/vim
-
 " These 2 commands are what you want. The first gives your substitute user
 " your colorschemes. The second gives your substitute user your vimrc. Be
 " careful with it though. Be sure to. read /etc/vimrc before you
 " run that command.
 
-" sudo cp -vR ~/.vim/colors/* /usr/share/vim/vim74/colors
+" sudo cp -vR ~/.vim/colors/* /usr/share/vim/vim80/colors
 " sudo sh -c 'cat /home/me/.vimrc | cat >/etc/vimrc'
