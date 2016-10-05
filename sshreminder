@@ -1,0 +1,11 @@
+# config in ~/.ssh/config write
+Port 22
+
+# to host the server
+sudo systemctl start sshd.socket
+sudo systemctl enable sshd.socket
+
+# to connect to a local system use
+ip addr show
+# to find the local ip and then use
+ssh <username>@<local_ip>

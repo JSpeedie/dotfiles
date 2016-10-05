@@ -148,7 +148,7 @@ current_date() {
 
 current_time() {
 	# 24 hour clock
-	echo "%{F$color3}$icon_time $(date +%T)%{F-}"
+	echo "%{F$color3}$icon_time $(date +%I:%M:%S)%{F-}"
 }
 
 mem() {
