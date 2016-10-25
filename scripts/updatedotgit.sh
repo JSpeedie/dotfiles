@@ -34,6 +34,20 @@ function getPreferences {
 	fi
 }
 
+function removeLinesAbove {
+	lines_to_erase=$1
+	# Set cursor position to the beginning of the line
+	tput hpa 0
+	for i in $(seq $lines_to_erase); do
+		# Clear to end of line
+		tput el
+		# Go up a line
+		if [[ $i -lt $lines_to_erase ]]; then
+			tput cuu1
+		fi
+	done
+}
+
 # Checks files to see if it's different, askes user if they want to replace,
 # not replace, or compare the two files
 function nextFile {
@@ -58,15 +72,24 @@ function nextFile {
 	read ANS
 	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
 		cp -v $First$file -T $Second$file;
-	elif [[ $ANS == "n" ]]; then echo "Continuing to next file...";
+	elif [[ $ANS == "n" ]]; then
+		echo "Continuing to next file..."
 	elif [[ $ANS == "c" ]]; then
-		vimdiff $First$file $Second$file;
-		echo ""
-		echo ""
+		vimdiff $First$file $Second$file
+		# Remove previous output to avoid confusion upon re-reading it
+		# 1 for "==>" files do/don't differ line
+		# 1 for Y=Yes line
+		# 1 for Update file [Y/n/c/r] line
+		# 1 for output of vimdiff ("2 files to edit")
+		# 1 for echo "" for space for nextFile
+		removeLinesAbove 5
 		nextFile
 	elif [[ $ANS == "r" ]]; then
 		cp -iv $Second$file -T $First$file ;
-	else echo "Invalid input. Exiting..."; exit 1; fi
+	else
+		echo "Invalid input. Exiting..."
+		exit 1
+	fi
 
 	echo ""
 }

@@ -44,12 +44,12 @@ noexist=0
 for file in $Firstfl; do
 
 	if [[ -d $ffdir$file ]]; then
-		printf "\n$tab${magenta}specified file ($file) is a directory. Beginning recursion...\n$end" 
+		printf "\n$tab${magenta}specified file ($file) is a directory. Beginning recursion...\n$end"
 		# Make folder(s) if they need to be made
 		mkdir -p "$fsdir$file"
 		sh $0 "$ffdir${file}/" "$fsdir${file}/" "$tab  "
 	fi
-	
+
 	ffile="$ffdir$file"
 	sfile="$fsdir$file"
 
@@ -67,8 +67,11 @@ for file in $Firstfl; do
 		let noexist+=1
 		cp "$ffile" "$sfile" 2> /dev/null
 	fi
-		echo -en "\r$tab${green}[$nodiff] files are the same ${red}[$diff] files are different ${cyan}[$noexist] files do not exist in the second dir$end"
-done 
+
+	echo -en "\r$tab${green}[$nodiff] files are the same ${red}[$diff] \
+					files are different ${cyan}[$noexist] files do not exist \
+					in the second dir$end"
+done
 echo
 
 unset IFS
