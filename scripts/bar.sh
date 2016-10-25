@@ -90,9 +90,12 @@ battery() {
 	elif [[ $stat == "Full" ]]; then
 		stat="$icon_battery_full"
 	else
-		status=("\ue242" "\ue243" "\ue244" "\ue245" "\ue246" "\ue247" \
-				"\ue248" "\ue249" "\ue24a" "\ue24b")
-		icon_number=$(echo $perc | awk '{printf "%.0f\n", $1 / 10}')
+		status=("\ue242" "\ue243" "\ue244" "\ue245" "\ue246" "\ue247" "\ue248" "\ue249" "\ue24a" "\ue24b")
+		echo "#status = ${#status[@]}" >> .barOut
+
+		icon_number=$(echo "$perc ${#status[@]}" | \
+			awk '{printf "%.0f\n", $1 / (100 / ($2 - 1))}')
+		echo "icon_number = $icon_number" >> .barOut
 
 		stat="${status[$icon_number]}"
 	fi
@@ -148,7 +151,7 @@ current_date() {
 
 current_time() {
 	# 24 hour clock
-	echo "%{F$color3}$icon_time $(date +%I:%M:%S)%{F-}"
+	echo "%{F$color3}$icon_time $(date +%T)%{F-}"
 }
 
 mem() {
