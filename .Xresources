@@ -68,7 +68,7 @@
 !! Urxvt configuration
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
-URxvt.font: -*-tamzen-medium-*-*-*-14-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
+URxvt.font: -*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8
 URxvt.fading: 10
 

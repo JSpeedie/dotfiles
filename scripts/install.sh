@@ -36,8 +36,6 @@ copy_fonts () {
 	# Wanna copy over the fonts here
 	sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
 	sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
-	# Make bspwm config executable
-	sudo chmod +x ~/.config/bspwm/bspwmrc
 }
 
 copy_files () {
@@ -48,8 +46,14 @@ copy_files () {
 	printf "\n------------------------------------------------------------\n\n"
 
 	for file in $files; do
-		# Create path for copying (tba)
-		#                 jfkldjsklfjdkls
+		# If the given file has directories
+		if [[ $(echo "$file" | grep "\/") ]]; then
+			# File path removing everything after the last "/"
+			# [^\/] matches any char that is NOT "/"
+			necessary_folders=$(echo "$file" | sed "s/\/[^\/]*$//")
+			# Create path for copying
+			mkdir -p ~/$necessary_folders;
+		fi
 		sudo cp -Rv $file ~/$file
 		# Change ownership to current user
 		sudo chown $USER ~/$file
@@ -59,3 +63,5 @@ copy_files () {
 get_ignore_list
 copy_fonts
 copy_files
+# Make bspwm config executable
+sudo chmod +x ~/.config/bspwm/bspwmrc
