@@ -82,6 +82,7 @@ battery() {
 		echo ""
 	fi
 
+	stat=$(cd $bat_dir; cat status)
 	perc=$(cd $bat_dir; paste energy_now energy_full |
 			awk '{printf "%.1f\n", ($1/$2) * 100}')
 

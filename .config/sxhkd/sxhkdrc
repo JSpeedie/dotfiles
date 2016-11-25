@@ -36,20 +36,6 @@ super + button{1-3}
 super + @button{1-3}
 	bspc pointer -u
 
-######################################
-#                                    #
-#  Not sure what to do with section  #
-#                                    #
-######################################
-
-# Resize window
-super + alt + {h,j,k,l}
-	bspc node -e {left -10,down +10,up -10,right +10}
-
-# Resize windows shrink?
-super + alt + shift + {h,j,k,l}
-	bspc node -e {right -10,up +10,down -10,left +10}
-
 ###############################################################################
 
 # move mouse to bottom left of focused window
