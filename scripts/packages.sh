@@ -15,7 +15,7 @@ PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog \
 	gimp nautilus xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
 	openssh vlc qt4 evince)
-YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
+YPKGLIST=(compton lemonbar-xft-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
 cd ~
