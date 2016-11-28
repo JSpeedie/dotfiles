@@ -35,6 +35,8 @@ set incsearch
 set foldmethod=marker
 " Set a line at the 80th character for code style stuff
 set colorcolumn=80
+" Set a line at the 100th character for java (checkstyle)
+autocmd FileType java setlocal colorcolumn=100
 " Set the tab width to 4 spaces
 set tabstop=4
 " Set the auto indent (includes >>) width
@@ -110,6 +112,8 @@ set statusline+=%1*%=%*
 set statusline+=%2*%{Modified()}%*
 " Cursor line number / total lines
 set statusline+=%3*\ %l/%L\ %*
+" Pseudo fix for delayed 'O' in normal mode following a C-[ input
+set timeout timeoutlen=1000 ttimeoutlen=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                     Hard Mode Stuff!                     "
