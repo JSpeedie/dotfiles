@@ -1,5 +1,6 @@
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
 xset +fp ~/.fonts/tamzen-font/bdf
+xset +fp /usr/share/fonts/local/
 xset +fp ~/.fonts
 xset fp rehash &
 xset -dpms &

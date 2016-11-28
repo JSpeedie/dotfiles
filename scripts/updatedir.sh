@@ -1,8 +1,41 @@
 #!/bin/bash
 
 First=(~/)
-Second=(~/dotfilesGit/)
+Second=(~/)
 
+if [[ -n "$1" ]]; then
+	First=$1
+
+	if [[ -n "$2" ]]; then
+		Second=$2
+	else
+		echo "No second directory provided. Exiting..."
+		exit 1
+	fi
+
+	if [[ -n "$3" ]]; then
+		# If the filter script file is a file that exists and is readable
+		if [[ -r "$3" ]]; then
+			# If the file path given was absolute (full)
+			if [[ ${3:0:1} == "/" ]]; then
+				FLIST=($(cd $Second; sh $3))
+			# If the file path given was relative
+			else
+				dir_called_from=$(pwd)
+				FLIST=($(cd $Second; sh ${dir_called_from}/${3}))
+			fi
+		else
+			echo "Filter script file provided either does not exist or is" \
+				"not readable. Exiting..."
+			exit 1
+		fi
+	fi
+else
+	echo "No first directory provided. Exiting..."
+	exit 1
+fi
+
+# Used to colour the ouput
 red=$'\e[1;31m'
 green=$'\e[1;32m'
 yellow=$'\e[1;33m'
@@ -12,19 +45,7 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 
-# Gets user input that affects how the program functions. 2 directories
-# to compare contents of, etc.
 function getPreferences {
-	printf "File path for first spot (default=$First) "
-	read FirstRead
-	if [[ $FirstRead != "" ]]; then
-		First=$FirstRead; fi
-
-	printf "File path for second spot (default=$Second) "
-	read SecondRead
-	if [[ $SecondRead != "" ]]; then
-		Second=$SecondRead; fi
-
 	printf "Only list files that differ from their counterparts? [Y/n] "
 	read LISTIF
 	echo
@@ -34,6 +55,9 @@ function getPreferences {
 	fi
 }
 
+# Used for when a user inputs "c" to compare two files. This would usually
+# Output the usual file comparison output (files differ, [Y/n/c/r], etc)
+# the purpose of this function is to remove the first comparison output.
 function removeLinesAbove {
 	lines_to_erase=$1
 	# Set cursor position to the beginning of the line
@@ -48,28 +72,32 @@ function removeLinesAbove {
 	done
 }
 
-# Checks files to see if it's different, askes user if they want to replace,
-# not replace, or compare the two files
+# Checks files to see if it's different, asks user if they want to replace,
+# not replace, or compare the two files.
 function nextFile {
 	if [[ -d $First$file ]]; then
-		continue
+		return
 	fi
 
 	difftest=$(cmp -s $First$file $Second$file; echo $?)
-	if [[ $LISTIF == "Y" ]] || [[ $LISTIF == "" ]]; then
-		# If the files aren't different, continue.
-		if [[ $difftest == "0" ]]; then continue; fi
-	fi
-	# Print if the files differ or not
-	if [[ $difftest != "0" ]]; then
-		echo "$red==> The files differ$end"
+
+	# If the files are NOT different
+	if [[ $difftest == "0" ]]; then
+		# If the user only wants to show files that differ
+		if [[ $LISTIF == "Y" ]] || [[ $LISTIF == "" ]]; then
+			return
+		else
+			echo "$green==> The files do NOT differ$end"
+		fi
+	# If the files are different
 	else
-		echo "$green==> The files do NOT differ$end"
+		echo "$red==> The files differ$end"
 	fi
 
 	echo "Y=Yes, n=no, c=compare r=revert"
 	printf "Update $file? [Y/n/c/r] "
 	read ANS
+	# Default to "Y" (hitting enter is equivalent to entering "Y")
 	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
 		cp -v $First$file -T $Second$file;
 	elif [[ $ANS == "n" ]]; then
@@ -94,17 +122,13 @@ function nextFile {
 	echo ""
 }
 
-# Files that need to be updated
-FLIST=($(cd $Second; git ls-tree -r master --name-only | grep -v "\(hermit\)\|\(font-awesome\)\|\(README.md\)"))
-
-
 
 # Get the users preferences for the program. If they'd like to only get
 # prompted to update files that are different from their counterpart, etc.
 getPreferences;
 
-# Go through all the files in the git repo and compare to none repo
-# equivalent of the file.
+# Go through all the files in the second directory and compare to first
+# directory equivalent of the file.
 for file in ${FLIST[@]}; do
 	nextFile;
 done

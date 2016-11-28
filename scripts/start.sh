@@ -68,7 +68,7 @@ while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
 
 			num=0
 			# for all the windows we are sorting/moving in this script
-			for i in ${WinNames[@]}; do 
+			for i in ${WinNames[@]}; do
 				printf "\tunsorted_win_pid: \"$pid\" unsorted_win_name: \"$name\" comparing: \"$i\" processes_from_script: \"${Processes[*]}\"\n" >> ~/startOut
 				# Check to see if the window is one we've created
 				if [[ "${Processes[@]}" == *"$pid"* ]]; then
@@ -89,14 +89,15 @@ while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
 				let num+=1
 			done
 		fi
-	done 
+	done
 	sleep 1
 	currentTime=$(date +%s)
 	let timeSpent=$((currentTime-startTime))
-done 
+done
 
 # Greet the user ;)
-notify-send "Welcome back, fuckface"
+# (persistent so you can go away and come back and know it's done)
+notify-send -u critical "Welcome back, fuckface"
 # Focus on the right desktop
 bspc desktop -f ^1
 bspc desktop -f ^6
