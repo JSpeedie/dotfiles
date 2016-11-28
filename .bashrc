@@ -4,6 +4,7 @@
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+# export _JAVA_AWT_WM_NONREPARENTING=1
 
 ##############################
 #          Aliases           #
@@ -13,7 +14,7 @@ alias conuni='sudo wpa_supplicant -c ~/wpa_supplicant.conf -i wlp2s0 -D nl80211 
 alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
-alias updatedot='sh ~/scripts/updatedotgit.sh'
+alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
 alias record='ffmpeg -video_size 600x400 -framerate 60 -f x11grab -i :0.0+2020,100,nomouse prompt.mp4'
 alias howconv='echo "convert -delay <ticks>x<ticks-per-second> -loop 0 out*gif <output-gif-file>"'
 alias ctest='sh ~/scripts/colortest.sh'
