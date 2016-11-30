@@ -4,7 +4,8 @@
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
-# export _JAVA_AWT_WM_NONREPARENTING=1
+export _JAVA_AWT_WM_NONREPARENTING=1
+export ANDROID_HOME=/opt/android-sdk
 
 ##############################
 #          Aliases           #
