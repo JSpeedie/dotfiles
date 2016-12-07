@@ -10,12 +10,13 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-PKGLIST=(bspwm sxhkd lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
-	xorg-xrandr dunst libnotify pulseaudio pamixer mpd mpc ctags ttf-dejavu)
-OPKGLIST=(firefox alsa-utils scrot screenfetch flashplugin unzip zip vim eog \
-	gimp nautilus xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
+PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
+	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
+	ttf-dejavu)
+OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
+	gimp xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
+	openssh vlc qt4 evince audacity easytags valgrind gdb ddd)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
-	openssh vlc qt4 evince audacity easytags)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
 cd ~
