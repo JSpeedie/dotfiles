@@ -1,5 +1,5 @@
 ## Info
-This setup expects you to use `startx` upon boot as this it does not use a
+This setup expects you to use `startx` upon boot as it does not use a
 display manager.
 
 The important parts of this setup are:
@@ -8,7 +8,7 @@ The important parts of this setup are:
 * urxvt as my terminal emulator
 
 I use a couple of other, less important things to achieve what I want in my
-setup (A E S T H E T I Cally and functionally). Here's a list of what I use:
+setup (A E S T H E T I Cally and functionally). Here's some of them:
 * `pulseaudio`, `pamixer`, and `xorg-xbacklight` for volume and brightness
 info on the bar.
 * `dunst` for notifications.
@@ -52,25 +52,26 @@ toggle pause/play (alt + l), prev/next (alt + u/o))
 .vimrc:
 * Short and sweet. Doesn't rely on 6 million plugins (which I understand some
 of you may dislike, but I personally prefer to not rely on too many thing
-in case I have to use someone elses setup or vi).
+in case I have to use someone elses' setup or `vi`).
 * Sets the history to 1000, enables syntax highlighting, enables folding
-via markers ("{{{" and "}}}" by default), shows non-relative line numbers
-to make... something... easier.
+via markers ("{{{" and "}}}" by default), shows relative line numbers
+to make j and k movements easier.
 * Some regexes I would consider impressive if only because they are hard
 to understand. Highlights trailing whitespace red for easy removal and gray
 if it's escaped (only highlights the first whitespace character, not the rest
-of the line if the last non-whitespace character was "\"). Easy to see,
-but not in your face.
+of the line if the last non-whitespace character was "\"). Gray because it's
+easy to see, but not in your face.
 * Here come dat statusline! No plugins here. Fairly simple statusline with a
 modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
 
-updatedotgit.sh
+updatedir.sh
 * Probably my favourite and most used script. Compares the contents of two
 directories and for each file asks if you want to copy, do nothing, compare,
 or revert (copy in opposite direction) the files in the first
-to the second. Very useful for updating say, a dotfile directory from your
-home directory.
+to the second. It can take a filter (a bash command located in a file which is
+specified when you call `updatedir.sh`. This script is very useful for
+updating say, a dotfile directory from your home directory.
 
 install.sh
 * When executed within a git directory or git sub directory (and so on and
@@ -98,9 +99,9 @@ hard to achieve is because bash doesn't play nicely with non-printing
 characters. So using `tput` causes weird issues that I noticed and reported
 as #3. You have to wrap those commands with `\[` and `\]` but you can't use
 those with `' '` which are necessary to make sure changes are made to your
-prompt (colour change, current directory). Luckily you can use `\001`
-and `\002` as replacements with the small downside that you have to add
-either these 3 characters to your echo call (` -e`) or use printf.
+prompt every time you hit enter (colour change, current directory). Luckily
+you can use `\001` and `\002` as replacements with the small downside that
+you have to add either ` -e` to your `echo` call or use `printf`.
 * Side note: Yes this prompt is heavily based off of the one done by reddit
 user /u/tudurom, however they did not have a solution to #3. Seeing as I had
 to work so hard to get the functionality, I'll claim this prompt as my own,
@@ -132,10 +133,8 @@ for Hermit).~~
 * All my dotfiles and bar script (`.Xresources`, `.vimrc`, `.xinitrc`,
 `dunstrc`, `compton.conf`, etc.)
 * Color test scripts (`colortest.sh`, `rupee.sh`, `pipes.sh`)
-* Some randy scripts that I use. `updatedotgit.sh` is used for comparing
-files of the same name in 2 separate, user specified locations. Useful for
-making sure my dotfiles are all the latest before I push them. `lock.sh`
-for locking my system.
+* Some randy scripts that I use. `updatedir.sh` for updating dotfiles repo,
+`lock.sh` for locking my system, etc.
 
 ## Bugs/To Be Fixed
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if
