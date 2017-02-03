@@ -35,6 +35,8 @@ set incsearch
 set foldmethod=marker
 " Set a line at the 80th character for code style stuff
 set colorcolumn=80
+" Set a line at the 79th character for C (following PEP7 and GNU's standards)
+autocmd FileType c setlocal colorcolumn=79
 " Set a line at the 100th character for java (checkstyle)
 autocmd FileType java setlocal colorcolumn=100
 " Set the tab width to 4 spaces
