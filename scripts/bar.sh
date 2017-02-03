@@ -43,7 +43,12 @@ echo "bar_x $bar_x" >> .barOut
 let bar_y=0
 
 let combi=0
-song=$(mpc current)
+# If mpd is running
+if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
+	song=$(mpc current)
+else
+	song=""
+fi
 
 # Fonts
 siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-0-iso10646-1"
@@ -79,29 +84,34 @@ battery() {
 	elif [[ -d /sys/class/power_supply/BAT1 ]]; then
 		bat_dir="/sys/class/power_supply/BAT1"
 	else
+		bat_dir=""
+	fi
+
+	# If a battery directory was found
+	if [[ $bat_dir != "" ]]; then
+		stat=$(cd $bat_dir; cat status)
+		perc=$(cd $bat_dir; paste energy_now energy_full |
+				awk '{printf "%.1f\n", ($1/$2) * 100}')
+
+		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
+			stat="$icon_battery_charging"
+		elif [[ $stat == "Full" ]]; then
+			stat="$icon_battery_full"
+		else
+			status=("\ue242" "\ue243" "\ue244" "\ue245" "\ue246" "\ue247" "\ue248" "\ue249" "\ue24a" "\ue24b")
+			echo "#status = ${#status[@]}" >> .barOut
+
+			icon_number=$(echo "$perc ${#status[@]}" | \
+				awk '{printf "%.0f\n", $1 / (100 / ($2 - 1))}')
+			echo "icon_number = $icon_number" >> .barOut
+
+			stat="${status[$icon_number]}"
+		fi
+
+		echo -e "%{F$color1}$stat ${perc}%{F-}"
+	else
 		echo ""
 	fi
-
-	stat=$(cd $bat_dir; cat status)
-	perc=$(cd $bat_dir; paste energy_now energy_full |
-			awk '{printf "%.1f\n", ($1/$2) * 100}')
-
-	if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
-		stat="$icon_battery_charging"
-	elif [[ $stat == "Full" ]]; then
-		stat="$icon_battery_full"
-	else
-		status=("\ue242" "\ue243" "\ue244" "\ue245" "\ue246" "\ue247" "\ue248" "\ue249" "\ue24a" "\ue24b")
-		echo "#status = ${#status[@]}" >> .barOut
-
-		icon_number=$(echo "$perc ${#status[@]}" | \
-			awk '{printf "%.0f\n", $1 / (100 / ($2 - 1))}')
-		echo "icon_number = $icon_number" >> .barOut
-
-		stat="${status[$icon_number]}"
-	fi
-
-	echo -e "%{F$color1}$stat ${perc}%{F-}"
 }
 
 brightness() {
@@ -160,17 +170,22 @@ mem() {
 }
 
 song() {
-	scr_text_combin=$(sh ~/scripts/scrolltext2.sh 14 "$song   " $1)
+	# If mpd is running
+	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
+		scr_text_combin=$(sh ~/scripts/scrolltext2.sh 14 "$song   " $1)
 
-	if [[ $(mpc status | grep "playing") ]]; then
-		printf "combi $1\n" >> combi
+		if [[ $(mpc status | grep "playing") ]]; then
+			printf "combi $1\n" >> combi
 
-		echo "%{F$color1}$icon_music_playing $scr_text_combin%{F-}"
-	elif [[ $(mpc status | grep "paused") ]]; then
-		# let combi=$(echo "$combi 10" | awk '{print ($1 + 1) % $2}')
-		printf "combi $1\n" >> combi
+			echo "%{F$color1}$icon_music_playing $scr_text_combin%{F-}"
+		elif [[ $(mpc status | grep "paused") ]]; then
+			# let combi=$(echo "$combi 10" | awk '{print ($1 + 1) % $2}')
+			printf "combi $1\n" >> combi
 
-		echo "%{F$color1}$icon_music_paused $scr_text_combin%{F-}"
+			echo "%{F$color1}$icon_music_paused $scr_text_combin%{F-}"
+		else
+			echo ""
+		fi
 	else
 		echo ""
 	fi
@@ -205,11 +220,14 @@ while true; do
 	echo "%{c}$sep4$(brightness)$sep4$(up_time)$sep4$(cpu_temp)$sep4$(mem)\
 			$sep4$(net)$sep4$(volume)$sep4$(current_date)$sep4$(current_time)\
 			$sep4${final_song}$(battery)$sep4"
-	song=$(mpc current)
-	# Increment combi. Modulus combi.
-	if [[ ${#song} -ne 0 ]]; then
-		let combi=$combi+1
-		let combi=$combi%${#song}
+	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
+		song=$(mpc current)
+
+		# Increment combi. Modulus combi.
+		if [[ ${#song} -ne 0 ]]; then
+			let combi=$combi+1
+			let combi=$combi%${#song}
+		fi
 	fi
 	sleep 0.5s
 done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 -p -o -3 \
