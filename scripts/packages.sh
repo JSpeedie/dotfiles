@@ -12,7 +12,7 @@ end=$'\e[0m'
 
 PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
-	ttf-dejavu)
+	ttf-dejavu dialog wpa_supplicant)
 OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
 	openssh vlc qt4 evince audacity easytags valgrind gdb ddd xterm)
@@ -34,6 +34,55 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		CPKGL=("${OPKGLIST[@]}")
 	elif [[ $i == "YPKGLIST" ]]; then
 		CPKGL=("${YPKGLIST[@]}")
+
+		# Check if yaourt is installed
+		if pacman -Q | grep "^yaourt"; then
+			echo "${green}Found yaourt...${end}"
+		else
+			echo -n "Missing ${red}yaourt${end}. Would you like to install it? [Y/n] (enter=Y) "
+			read -a YAOURT
+			printf "\n"
+
+			# If the user wants to install yaourt
+			if [[ ${YAOURT[*]} == "" || ${YAOURT[*]} == "Y" ]]; then
+				# Check if the necessary AUR package (package-query) for yaourt is installed
+				if pacman -Q | grep "^package-query"; then
+					echo "${green}Found package-query...${end}"
+				else
+					echo -n "Missing ${red}yaourt${end} dependency ${red}package-query${end}. Would you like to install it? [Y/n] (enter=Y) "
+					read -a YAOURT
+					printf "\n"
+
+					# If the user wants to install package-query
+					if [[ ${YAOURT[*]} == "" || ${YAOURT[*]} == "Y" ]]; then
+						if git clone https://aur.archlinux.org/package-query.git package-query; then
+							cd package-query
+							makepkg -sri
+							cd ..
+						else
+							echo "${red}Failed to download package-query. Cannot continue...${end}"
+							exit 1
+						fi
+					# If the user does not want to install package-query.
+					else
+						echo "Missing ${red}package-query${end}. Cannot continue..."
+						exit 1
+					fi
+				fi
+				if git clone https://aur.archlinux.org/yaourt.git yaourt; then
+					cd yaourt
+					makepkg -sri
+					cd ..
+				else
+					echo "${red}Failed to download yaourt. Cannot continue...${end}"
+					exit 1
+				fi
+			# If the user does not want to install yaourt.
+			else
+				echo "Missing ${red}yaourt${end}. Cannot continue..."
+				exit 1
+			fi
+		fi
 	elif [[ $i == "OYPKGLIST" ]]; then
 		CPKGL=("${OYPKGLIST[@]}")
 	else
@@ -41,11 +90,12 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	fi
 
 	echo
-	printf "${green}Packages: (${CPKGL[*]})\n${end}"
+	printf "${blue}Packages: (${CPKGL[*]})\n${end}"
 	echo "Type any non-number/whitespace character(s) (besides \"skip\" to exit"
-	printf "${red}==> Enter n° of packages to be installed (ex: 1 2 3) \
-		(enter=all) ${end}"
+	echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
+		"(enter=all)${end} "
 	read -a INPUT
+	printf "\n"
 
 	# If the user just hits enter
 	if [[ ${INPUT[*]} == "" ]]; then
@@ -70,25 +120,13 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		exit 1
 	fi
 
-	printf "Ask for confirmation for each package? [Y/n] (enter=n) "
-	read ANS
 
 	for j in $pkg; do
-		if [[ $ANS == "Y" ]]; then
-			if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
-				yaourt ${CPKGL[j-1]}
-			else
-				sudo pacman -S ${CPKGL[j-1]}
-			fi
-		elif [[ $ANS == "n" ]] || [[ $ANS == "" ]]; then
-			if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
-				yaourt ${CPKGL[j-1]} --noconfirm
-			else
-				sudo pacman -S ${CPKGL[j-1]} --noconfirm
-			fi
+
+		if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
+			yaourt ${CPKGL[j-1]} --noconfirm
 		else
-			echo "Invalid input. Exiting..."
-			exit 1
+			sudo pacman -S ${CPKGL[j-1]} --noconfirm
 		fi
 	done
 done
