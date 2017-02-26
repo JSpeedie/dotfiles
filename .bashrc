@@ -46,9 +46,9 @@ prompt () {
 	# With " quotes, the directory doesn't change when I switch directories
 	directory='$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)'
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 1)\002$ \001$(tput sgr0)\002"; \
+				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 1)\002# \001$(tput sgr0)\002"; \
 			else \
-				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 4)\002$ \001$(tput sgr0)\002"; \
+				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 7)\002# \001$(tput sgr0)\002"; \
 			fi)'
 	printf "${result}"
 }

@@ -162,11 +162,12 @@ current_date() {
 
 current_time() {
 	# 24 hour clock
-	echo "%{F$color3}$icon_time $(date +%T)%{F-}"
+	echo "%{F$color3}$icon_time $(date +%I:%M:%S)%{F-}"
 }
 
 mem() {
-	echo "%{F$color4}$icon_memory $(free --mega | awk 'NR==2 {print $3}')%{F-}"
+	echo "%{F$color4}$icon_memory $(free --mega | awk 'NR==2 {print $3}').\
+		$(free --mega | awk 'NR==2 {print $7}')%{F-}"
 }
 
 song() {
