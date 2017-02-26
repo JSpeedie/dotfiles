@@ -12,7 +12,7 @@ end=$'\e[0m'
 
 PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
-	ttf-dejavu dialog wpa_supplicant)
+	ttf-dejavu rsync cronie dialog wpa_supplicant)
 OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
 	openssh vlc qt4 evince audacity easytags valgrind gdb ddd xterm)
