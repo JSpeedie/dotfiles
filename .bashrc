@@ -42,13 +42,15 @@ export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
+directory() {
+	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
+}
+
 prompt () {
-	# With " quotes, the directory doesn't change when I switch directories
-	directory='$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)'
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 1)\002# \001$(tput sgr0)\002"; \
+				printf "\001$(tput setaf 8)\002$(directory) \001$(tput setaf 1)\002# \001$(tput sgr0)\002"; \
 			else \
-				printf "\001$(tput setaf 8)\002$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1) \001$(tput setaf 7)\002# \001$(tput sgr0)\002"; \
+				printf "\001$(tput setaf 8)\002$(directory) \001$(tput setaf 7)\002# \001$(tput sgr0)\002"; \
 			fi)'
 	printf "${result}"
 }
