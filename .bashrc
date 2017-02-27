@@ -16,7 +16,8 @@ alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
-alias record='ffmpeg -video_size 600x400 -framerate 60 -f x11grab -i :0.0+2020,100,nomouse prompt.mp4'
+alias convertmp4togif='ffmpeg -i output.mp4 -pix_fmt rgb24 -s 640x480 -r 10 output.gif'
+alias recorddesktop='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
 alias howconv='echo "convert -delay <ticks>x<ticks-per-second> -loop 0 out*gif <output-gif-file>"'
 alias ctest='sh ~/scripts/colortest.sh'
 
@@ -42,15 +43,25 @@ export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
+
+##############################
+#       Dynamic Prompt       #
+##############################
+
+dir_colour=$(tput setaf 8)
+succeed=$(tput setaf 1)
+fail=$(tput setaf 7)
+reset=$(tput sgr0)
+
 directory() {
 	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
 }
 
 prompt () {
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001$(tput setaf 8)\002$(directory) \001$(tput setaf 1)\002# \001$(tput sgr0)\002"; \
+				printf "\001${dir_colour}\002$(directory) \001${succeed}\002# \001${reset}\002"; \
 			else \
-				printf "\001$(tput setaf 8)\002$(directory) \001$(tput setaf 7)\002# \001$(tput sgr0)\002"; \
+				printf "\001${dir_colour}\002$(directory) \001${fail}\002# \001${reset}\002"; \
 			fi)'
 	printf "${result}"
 }
