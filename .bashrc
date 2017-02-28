@@ -48,9 +48,9 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 #       Dynamic Prompt       #
 ##############################
 
-dir_colour=$(tput setaf 8)
-succeed=$(tput setaf 1)
-fail=$(tput setaf 7)
+dir_colour=$(tput setaf 7)
+succeed=$(tput setaf 8)
+fail=$(tput setaf 1)
 reset=$(tput sgr0)
 
 directory() {
@@ -59,9 +59,9 @@ directory() {
 
 prompt () {
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001${dir_colour}\002$(directory) \001${succeed}\002# \001${reset}\002"; \
+				printf "\001${dir_colour}\002$(directory)\001${fail}\002 • \001${reset}\002"; \
 			else \
-				printf "\001${dir_colour}\002$(directory) \001${fail}\002# \001${reset}\002"; \
+				printf "\001${dir_colour}\002$(directory)\001${succeed}\002 • \001${reset}\002"; \
 			fi)'
 	printf "${result}"
 }
@@ -73,3 +73,14 @@ mdtopdf () {
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
+
+# Attempt at tty base16-dark-ocean theming
+if [ "$TERM" = "linux" ]; then
+    printf '
+\033]P2b303b \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
+\033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Pc0c5ce
+\033]P65737e \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
+\033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Peff1f5
+'
+    clear
+fi
