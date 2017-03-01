@@ -48,7 +48,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 #       Dynamic Prompt       #
 ##############################
 
-dir_colour=$(tput setaf 7)
+dir_colour=$(tput setaf 15)
 succeed=$(tput setaf 8)
 fail=$(tput setaf 1)
 reset=$(tput sgr0)

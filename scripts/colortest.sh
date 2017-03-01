@@ -1,39 +1,37 @@
 end=$'\e[0m'
-black=$'\e[0;30m'
-darkgray=$'\e[1;30m'
-lightred=$'\e[0;31m'
-red=$'\e[1;31m'
-lightgreen=$'\e[0;32m'
-green=$'\e[1;32m'
-lightyellow=$'\e[0;33m'
-yellow=$'\e[1;33m'
-lightblue=$'\e[0;34m'
-blue=$'\e[1;34m'
-lightpurple=$'\e[0;35m'
-purple=$'\e[1;35m'
-lightcyan=$'\e[0;36m'
-cyan=$'\e[1;36m'
-lightgray=$'\e[0;37m'
-white=$'\e[1;37m'
+color0=$'\e[0;30m'
+color1=$'\e[0;31m'
+color2=$'\e[0;32m'
+color3=$'\e[0;33m'
+color4=$'\e[0;34m'
+color5=$'\e[0;35m'
+color6=$'\e[0;36m'
+color7=$'\e[0;37m'
 
-printf "$black████"
-printf "$red████"
-printf "$green████"
-printf "$yellow████"
-printf "$blue████"
-printf "$purple████"
-printf "$cyan████"
-printf "$lightgray████"
+color08=$'\e[1;30m'
+color09=$'\e[1;31m'
+color10=$'\e[1;32m'
+color11=$'\e[1;33m'
+color12=$'\e[1;34m'
+color13=$'\e[1;35m'
+color14=$'\e[1;36m'
+color15=$'\e[1;37m'
 
+printf "$color0████"
+printf "$color1████"
+printf "$color2████"
+printf "$color3████"
+printf "$color4████"
+printf "$color5████"
+printf "$color6████"
+printf "$color7████"
 printf "$end\n"
-
-printf "$darkgray████"
-printf "$lightred████"
-printf "$lightgreen████"
-printf "$lightyellow████"
-printf "$lightblue████"
-printf "$lightpurple████"
-printf "$lightcyan████"
-printf "$white████"
-
+printf "$color08████"
+printf "$color09████"
+printf "$color10████"
+printf "$color11████"
+printf "$color12████"
+printf "$color13████"
+printf "$color14████"
+printf "$color15████"
 printf "$end\n"
