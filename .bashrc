@@ -20,6 +20,7 @@ alias convertmp4togif='ffmpeg -i output.mp4 -pix_fmt rgb24 -s 640x480 -r 10 outp
 alias recorddesktop='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
 alias recorddesktopSmall='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
 alias ctest='sh ~/scripts/colortest.sh'
+alias mserv='cd ~/minecraft; java -Xmx1024M -Xms1024M -jar minecraft_server.1.11.2.jar nogui'
 
 ##############################
 #    Colour for man pages    #
@@ -40,8 +41,8 @@ export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 #    Base16 shell colours    #
 ##############################
 
-BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
+ [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
 
 ##############################
@@ -78,14 +79,16 @@ mdtopdf () {
 #          Low accuracy, high compression:
 #          $ convmp4gif wtsr.mp4 wtsr.gif 0.001
 #
-# For comparisons, I used the following for my wmcontrib gifs:
-#     cfw, wtsr, wrsr: 0.00001, 0.0001, 0.0001. For things involving typing
-# Or any somewhat-small scene changes, I recommend 0.00001.
+# For comparisons, I used the following values for my wmcontrib gifs:
+#     0.0001, 0.0005, 0.0006 for wtsr, wrsr, and cfw. For things
+# involving typing or any somewhat-small scene changes, I recommend 0.00001.
 convmp4gif () {
 	echo ${1} ${2};
-	ffmpeg -i $1 -vf "scale=480:320,select=gt(scene\,${3})" -r 30 $2 && \
-	convert ${2} -coalesce -layers OptimizeFrame result_${2}
+	ffmpeg -i $1 -vf "scale=480:320,select=gt(scene\,${3})" -r 30 .temp_${2} && \
+	convert .temp_${2} -coalesce -layers OptimizeFrame ${2}
+	rm .temp_${2}
 }
+
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
