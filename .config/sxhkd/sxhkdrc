@@ -39,7 +39,7 @@ super + @button{1-3}
 ###############################################################################
 
 # move mouse to bottom left of focused window
-# && wmp $(($(wattr x $(pfw))+$(wattr w $(pfw)))) $(($(wattr y $(pfw))+$(wattr h $(pfw))))
+# && wmp $(($(wattr x $(cfw))+$(wattr w $(cfw)))) $(($(wattr y $(cfw))+$(wattr h $(cfw))))
 
 # key combos I can use:
 # super + x
@@ -60,31 +60,34 @@ alt + {h,j,k,l}
 	bspc node -f {west,south,north,east}
 
 # Focus window in a given cardinal direction
-super + {h,j,k,l}
-	chwb -s 0 $(pfw); chwb -s 4 -c 0x8064cc $(wtfc {lf,df,uf,rf})
+# super + {h,j,k,l}
+# 	chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {lf,df,uf,rf})
 
 # Move focused window
 alt + shift + {h,j,k,l}
-	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
+	wmv {-50 0,0 50,0 -50,50 0} $(cfw)
 
 # Resize window (needs to be able to resize in both directions)
 alt + ctrl + {h,j,k,l}
-	wrs {-50 0,0 50,0 -50,50 0} $(pfw)
+	wrs {-50 0,0 50,0 -50,50 0} $(cfw)
 
 # Move focused window to a "corner"
 super + shift + {u,i,o,j,k,l,m,less,greater}
-	wtp $(wmvc {1,2,3,4,5,6,7,8,9} $(pfw))
+ 	wtsr -x {0,0.5,1,0,0.5,1,0,0.5,1} -y {0,0,0,0.5,0.5,0.5,1,1,1} -w $(cfw) -bm
+
+super + shift + {z,x,c,v}
+	wrsr {-w 0.25 -h 0.25,-w 0.5 -h 0.5,-w 0.75 -h 0.75,-w 1 -h 1} -W $(cfw) -br
 
 # Kill the focused window
-super + d
-	killw $(pfw)
+# super + d
+# 	killw $(cfw)
 
 # Toggle mouse visibility option
 
 # Move (and resize?) windows with the mouse.
 # Stolen form z3bra's "you are the wm" post
 # super + !button{1,3}
-#     {wmv, wrs} -a %i %i $(pfw)
+#     {wmv, wrs} -a %i %i $(cfw)
 
 # For resizing, perhaps have a mode to not hog all the good keybindings a la i3
 
@@ -152,11 +155,11 @@ alt + m
 #################################
 
 # Decrease screen brightness by 5 percent
-alt + shift +  n
-	xbacklight -time 5 -steps 1 -dec 5
+# alt + shift +  n
+# 	xbacklight -time 5 -steps 1 -dec 5
 # Increase screen brightness by 5 percent
-alt + shift +  m
-	xbacklight -time 5 -steps 1 -inc 5
+# alt + shift +  m
+# 	xbacklight -time 5 -steps 1 -inc 5
 
 # Lock the system
 alt + Escape
