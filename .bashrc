@@ -18,7 +18,7 @@ alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
 alias convertmp4togif='ffmpeg -i output.mp4 -pix_fmt rgb24 -s 640x480 -r 10 output.gif'
 alias recorddesktop='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
-alias howconv='echo "convert -delay <ticks>x<ticks-per-second> -loop 0 out*gif <output-gif-file>"'
+alias recorddesktopSmall='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
 alias ctest='sh ~/scripts/colortest.sh'
 
 ##############################
@@ -48,8 +48,8 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
 #       Dynamic Prompt       #
 ##############################
 
-dir_colour=$(tput setaf 15)
-succeed=$(tput setaf 8)
+dir_colour=$(tput setaf 8)
+succeed=$(tput setaf 2)
 fail=$(tput setaf 1)
 reset=$(tput sgr0)
 
@@ -70,17 +70,33 @@ mdtopdf () {
 	pandoc $1 --latex-engine=lualatex -o $2
 }
 
+# Converts the video to be 480 by 320 at 30fps. convert then optimizes
+# the gif to save space.
+# Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"] [min scene change detection score]
+# Example: High accuracy, low compression:
+#          $ convmp4gif cfw.mp4 cfw.gif 0.00001
+#          Low accuracy, high compression:
+#          $ convmp4gif wtsr.mp4 wtsr.gif 0.001
+#
+# For comparisons, I used the following for my wmcontrib gifs:
+#     cfw, wtsr, wrsr: 0.00001, 0.0001, 0.0001. For things involving typing
+# Or any somewhat-small scene changes, I recommend 0.00001.
+convmp4gif () {
+	echo ${1} ${2};
+	ffmpeg -i $1 -vf "scale=480:320,select=gt(scene\,${3})" -r 30 $2 && \
+	convert ${2} -coalesce -layers OptimizeFrame result_${2}
+}
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
 
 # Attempt at tty base16-dark-ocean theming
-if [ "$TERM" = "linux" ]; then
-    printf '
-\033]P2b303b \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
-\033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Pc0c5ce
-\033]P65737e \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
-\033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Peff1f5
-'
-    clear
-fi
+# if [ "$TERM" = "linux" ]; then
+#     printf '
+# \033]P2b303b \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
+# \033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Pc0c5ce
+# \033]P65737e \033]Pbf616a \033]Pa3be8c \033]Pebcb8b
+# \033]P8fa1b3 \033]Pb48ead \033]P96b5b4 \033]Peff1f5
+# '
+#     clear
+# fi
