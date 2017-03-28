@@ -30,9 +30,6 @@ super + {s,f}
 super + button{1-3}
 	bspc pointer -g {move,resize_side,resize_corner}
 
-# super + !button{1-3}
-# 	bspc pointer -t %i %i
-
 super + @button{1-3}
 	bspc pointer -u
 
@@ -60,23 +57,27 @@ alt + {h,j,k,l}
 	bspc node -f {west,south,north,east}
 
 # Focus window in a given cardinal direction
-# super + {h,j,k,l}
-# 	chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {lf,df,uf,rf})
+super + {h,j,k,l}
+	wtfc {-lf,-df,-uf,-rf}
+
+# chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
+
+
 
 # Move focused window
 alt + shift + {h,j,k,l}
-	wmv {-50 0,0 50,0 -50,50 0} $(cfw)
+	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
 
 # Resize window (needs to be able to resize in both directions)
 alt + ctrl + {h,j,k,l}
-	wrs {-50 0,0 50,0 -50,50 0} $(cfw)
+	wrs {-50 0,0 50,0 -50,50 0} $(pfw)
 
 # Move focused window to a "corner"
 super + shift + {u,i,o,j,k,l,m,less,greater}
- 	wtsr -x {0,0.5,1,0,0.5,1,0,0.5,1} -y {0,0,0,0.5,0.5,0.5,1,1,1} -w $(cfw) -bm
+ 	wtsr -x {0 -y 0,0.5 -y 0,1 -y 0,0 -y 0.5,0.5 -y 0.5,1 -y 0.5,0 -y 1,0.5 -y 1,1 -y 1} -w $(cfw) -bm
 
 super + shift + {z,x,c,v}
-	wrsr {-w 0.25 -h 0.25,-w 0.5 -h 0.5,-w 0.75 -h 0.75,-w 1 -h 1} -W $(cfw) -br
+	wrsr -w {0.25 -h 0.25,0.5 -h 0.5,0.75 -h 0.75,1 -h 1} -W $(cfw) -br
 
 # Kill the focused window
 # super + d

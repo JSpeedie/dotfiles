@@ -20,7 +20,6 @@ alias convertmp4togif='ffmpeg -i output.mp4 -pix_fmt rgb24 -s 640x480 -r 10 outp
 alias recorddesktop='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
 alias recorddesktopSmall='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
 alias ctest='sh ~/scripts/colortest.sh'
-alias mserv='cd ~/minecraft; java -Xmx1024M -Xms1024M -jar minecraft_server.1.11.2.jar nogui'
 
 ##############################
 #    Colour for man pages    #
@@ -87,6 +86,23 @@ convmp4gif () {
 	ffmpeg -i $1 -vf "scale=480:320,select=gt(scene\,${3})" -r 30 .temp_${2} && \
 	convert .temp_${2} -coalesce -layers OptimizeFrame ${2}
 	rm .temp_${2}
+}
+
+# Taken from http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+# Fantastic gif quality, smaller sizes without even using convert.
+# Way faster since it doesn't use convert... This function is fiiire
+
+# Takes the same arguments ast he above function
+# Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"] [min scene change detection score]
+# Example: High accuracy, low compression:
+#          $ convmp4gif cfw.mp4 cfw.gif 0.00001
+#          Low accuracy, high compression:
+#          $ convmp4gif wtsr.mp4 wtsr.gif 0.001
+highconvmp4gif () {
+	palette="/tmp/palette.png"
+	filters="fps=30,scale=480:320:flags=lanczos,select=gt(scene\,${3})"
+	ffmpeg -i $1 -vf "$filters,palettegen" -y $palette
+	ffmpeg -i $1 -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y ${2}
 }
 
 PS1=$(prompt)
