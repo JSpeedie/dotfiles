@@ -39,6 +39,9 @@ set colorcolumn=80
 autocmd FileType c setlocal colorcolumn=79
 " Set a line at the 100th character for java (checkstyle)
 autocmd FileType java setlocal colorcolumn=100
+" Set a line at the 100th character for html and php
+autocmd FileType html setlocal colorcolumn=100
+autocmd FileType php setlocal colorcolumn=100
 " Set the tab width to 4 spaces
 set tabstop=4
 " Set the auto indent (includes >>) width
@@ -63,10 +66,11 @@ set tags+=~/.vim/systags
 " Keyboard shortcut is C-x C-o
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
-
 " Display tabs
 set list
 set listchars=tab:\|\ 
+" Set too less laggy regex engine
+set regexpengine=1
 
 " Explanation of regexes below {{{
 " \\ matches a '\'. Used for matching an escaped or non escaped whitespace char
