@@ -66,11 +66,11 @@ super + {h,j,k,l}
 
 # Move focused window
 alt + shift + {h,j,k,l}
-	wmv {-50 0,0 50,0 -50,50 0} $(pfw)
+	wsft -x {-50 -y 0,0 -y 50,0 -y -50,50 -y 0} -w $(cfw) -m
 
 # Resize window (needs to be able to resize in both directions)
 alt + ctrl + {h,j,k,l}
-	wrs {-50 0,0 50,0 -50,50 0} $(pfw)
+	wrsz -w {-50 -h 0,0 -h 50,0 -h -50,50 -h 0} -W $(cfw) -r
 
 # Move focused window to a "corner"
 super + shift + {u,i,o,j,k,l,m,less,greater}
