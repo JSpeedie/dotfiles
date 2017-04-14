@@ -28,13 +28,13 @@ super + {s,f}
 	bspc node -f pointed || wuc -f;
 
 super + button1
-	notify-send "wmc"; sh ~/scripts/windowMove.sh
+	sh ~/scripts/windowMove.sh
 
 super + @button1
 	killall wmc
 
 super + button2
-	notify-send "wmc"; sh ~/scripts/windowResize.sh
+	sh ~/scripts/windowResize.sh
 
 super + @button2
 	killall wrc
