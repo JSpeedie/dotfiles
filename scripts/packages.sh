@@ -15,7 +15,8 @@ PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	ttf-dejavu rsync cronie dialog wpa_supplicant)
 OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel ntfs-3g pandoc texlive-core mtp gvfs-mtp tree \
-	openssh vlc qt4 evince audacity easytags valgrind gdb ddd xterm git svn)
+	openssh vlc qt4 evince audacity easytags valgrind gdb ddd xterm git svn
+	numlockx)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 

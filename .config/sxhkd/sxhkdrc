@@ -4,7 +4,7 @@
 #                              #
 ################################
 
-# Focus on a desktop
+# Focus on a desktop/move cfw to desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} ^{1-9,10}
 
@@ -15,7 +15,7 @@ super + alt + Escape
 shift + alt + a
 	killall sxhkd
 
-# Close current no- fuck it. window. Node. I'm done with this.
+# Kill currently focused window
 super + w
 	bspc node -c
 
@@ -23,15 +23,27 @@ super + w
 super + {s,f}
 	bspc node -t ~{floating,fullscreen}
 
-# Still needed to use the mouse
+# Click to focus
 ~button1
-	bspc node -f pointed
+	bspc node -f pointed || wuc -f;
 
-super + button{1-3}
-	bspc pointer -g {move,resize_side,resize_corner}
+super + button1
+	notify-send "wmc"; sh ~/scripts/windowMove.sh
 
-super + @button{1-3}
-	bspc pointer -u
+super + @button1
+	killall wmc
+
+super + button2
+	notify-send "wmc"; sh ~/scripts/windowResize.sh
+
+super + @button2
+	killall wrc
+
+# super + button{1-3}
+# 	bspc pointer -g {move,resize_side,resize_corner}
+
+# super + @button{1-3}
+# 	bspc pointer -u
 
 ###############################################################################
 

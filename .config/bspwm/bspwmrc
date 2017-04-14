@@ -24,7 +24,7 @@ desktopNames=(I II III IV V VI VII VIII IX X)
 if [[ $(xrandr | grep "eDP1") ]]; then
 	screens=(eDP1)
 else
-	screens=(DVI-I-0 HDMI-0)
+	screens=(DVI-I-1 DP-1)
 fi
 
 numScreens=$(echo ${#screens[@]})
