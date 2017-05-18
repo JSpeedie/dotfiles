@@ -127,7 +127,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
 			yaourt ${CPKGL[j-1]} --noconfirm
 		else
-			sudo pacman -S ${CPKGL[j-1]} --noconfirm
+			sudo pacman -S ${CPKGL[j-1]} --noconfirm --needed
 		fi
 	done
 done

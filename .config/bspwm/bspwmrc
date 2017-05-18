@@ -21,8 +21,8 @@ desktopNames=(I II III IV V VI VII VIII IX X)
 
 # if the setup this being run on has a built in display
 # differentiates between my desktop and my laptop setup
-if [[ $(xrandr | grep "eDP1") ]]; then
-	screens=(eDP1)
+if [[ $(xrandr | grep "eDP-1") ]]; then
+	screens=(eDP-1)
 else
 	screens=(DVI-I-1 DP-1)
 fi
