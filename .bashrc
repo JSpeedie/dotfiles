@@ -95,14 +95,23 @@ convmp4gif () {
 # Takes the same arguments ast he above function
 # Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"] [min scene change detection score]
 # Example: High accuracy, low compression:
-#          $ convmp4gif cfw.mp4 cfw.gif 0.00001
+#          $ highconvmp4gif cfw.mp4 cfw.gif 0.00001
 #          Low accuracy, high compression:
-#          $ convmp4gif wtsr.mp4 wtsr.gif 0.001
+#          $ highconvmp4gif wtsr.mp4 wtsr.gif 0.001
 highconvmp4gif () {
 	palette="/tmp/palette.png"
 	filters="fps=30,scale=480:320:flags=lanczos,select=gt(scene\,${3})"
 	ffmpeg -i $1 -vf "$filters,palettegen" -y $palette
 	ffmpeg -i $1 -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y ${2}
+}
+
+# Used for deinterlacing recorded Melee footage. Quite possibly not the best
+# way to do it, but works quickly and well enough.
+#
+# Expects: $ convdeint [interlaced video file] [output file name]
+# Example: $ convdeint Recording-01.ts Output.mov
+convdeint () {
+	ffmpeg -i $1 -vf yadif=1 -c:v prores $2
 }
 
 PS1=$(prompt)

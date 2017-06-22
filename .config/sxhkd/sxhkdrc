@@ -31,7 +31,10 @@ super + button{1,2}
 	sh ~/scripts/{windowMove.sh,windowResize.sh}
 
 super + @button1
-	killall {wucm,wucr}
+	killall wucm
+
+super + @button1
+	killall wucr
 
 # super + button{1-3}
 # 	bspc pointer -g {move,resize_side,resize_corner}
