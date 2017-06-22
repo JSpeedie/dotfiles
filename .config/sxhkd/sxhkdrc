@@ -69,10 +69,6 @@ alt + {h,j,k,l}
 super + {h,j,k,l}
 	wtfc {-lf,-df,-uf,-rf}
 
-# chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
-
-
-
 # Move focused window
 alt + shift + {h,j,k,l}
 	wsft -x {-50 -y 0,0 -y 50,0 -y -50,50 -y 0} -w $(cfw) -m
@@ -81,7 +77,11 @@ alt + shift + {h,j,k,l}
 alt + ctrl + {h,j,k,l}
 	wrsz -w {-50 -h 0,0 -h 50,0 -h -50,50 -h 0} -W $(cfw) -r
 
-# Move focused window to a "corner"
+# Resize window to ratios of screen
+super + ctrl + {u,i,o,j,k,l,m,comma,period}
+ 	wrsr -w {0.33 -h 0.33,0.66 -h 0.33,1 -h 0.33,0.33 -h 0.66,0.66 -h 0.66,1 -h 0.66,0.33 -h 1,0.66 -h 1,1 -h 1} -W $(cfw) -br
+
+# Move window into corners of screen
 super + shift + {u,i,o,j,k,l,m,less,greater}
  	wtsr -x {0 -y 0,0.5 -y 0,1 -y 0,0 -y 0.5,0.5 -y 0.5,1 -y 0.5,0 -y 1,0.5 -y 1,1 -y 1} -w $(cfw) -bm
 
