@@ -87,7 +87,7 @@ my setup tailored to you. ^(lol)
 * Short and simple, with the package lists at the top of the script in case
 you want to change this script and make it your own.
 
-.bashrc:
+.bashrc:  
 ![Webm of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
 likely fix that in the future but for now... it works. Thank god.
