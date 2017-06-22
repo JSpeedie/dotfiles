@@ -88,7 +88,7 @@ my setup tailored to you. ^(lol)
 you want to change this script and make it your own.
 
 .bashrc:
-* [Webm of my sick ass prompt I worked so hard on](https://u.teknik.io/FybF2.webm)
+![Webm of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
 likely fix that in the future but for now... it works. Thank god.
 * Coloured prompt to make it more clear where one command's output ends and
