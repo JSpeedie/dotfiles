@@ -37,7 +37,7 @@ echo "desktopsPerMonitor \"$desktopsPerMonitor\"" >> ~/bspwmOut
 
 let arrayElement=0
 for scr in ${screens[@]}; do
-	printf "\scr \"$scr\"\n" >> ~/bspwmOut
+	printf "scr \"$scr\"\n" >> ~/bspwmOut
 	desktopsForMonitor=()
 	let i=0
 	while [[ $i -lt $desktopsPerMonitor ]]; do
