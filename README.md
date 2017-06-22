@@ -84,7 +84,7 @@ my setup tailored to you. ^(lol)
 * Short and simple, with the package lists at the top of the script in case
 you want to change this script and make it your own.
 
-![Webm of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)
+![Webm of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
 *.bashrc:*
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
 likely fix that in the future but for now... it works. Thank god.
@@ -136,6 +136,7 @@ for Hermit).~~
 
 ## Bugs/To Be Fixed
 * `lock.sh` status currently unknown.
+* Add locking gif
 * Screenshots need to be updated (although not desperately)
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if
 you press up or down enough~~ Believed to be solved in commit 3244c7c
