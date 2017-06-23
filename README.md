@@ -40,14 +40,6 @@ randy website).
 * Battery and volume icons change based on the amount of battery left/the volume.
 * Scrolling text for `song()` (requires `scrolltext2.sh`)
 
-*sxhkdrc*:
-* Logical shortcut for locking (alt + escape, similar to alt + super + escape
-for exiting the bspwm session).
-* Binds for decreasing/increasing volume and brightness (alt + n/m and alt +
-shift + n/m respectively).
-* Binds for controlling mpd through mpc (insert song to playlist (alt + i),
-toggle pause/play (alt + l), prev/next (alt + u/o))
-
 ![Gif of vim setup](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/vim.gif)  
 *.vimrc*:
 * Short and sweet. Doesn't rely on a million plugins (I personally prefer to
@@ -62,6 +54,26 @@ because it's easy to see, but not in your face.
 * Here come dat statusline! No plugins here. Fairly simple statusline with a
 modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
+
+![Gif of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
+*.bashrc:*
+* My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
+likely fix that in the future but for now... it works. Thank god.
+* Coloured prompt to make it more clear where one command's output ends and
+another command begins.
+* This next part is what was so hard to do. The `$` changes to red if the
+previously run command errors. For those interested, the reason this was so
+hard to achieve is because bash doesn't play nicely with non-printing
+characters. So using `tput` causes weird issues that I noticed and reported
+as #3. You have to wrap those commands with `\[` and `\]` but you can't use
+those with `' '` which are necessary to make sure changes are made to your
+prompt every time you hit enter (colour change, current directory). Luckily
+you can use `\001` and `\002` as replacements with the small downside that
+you have to add either ` -e` to your `echo` call or use `printf`.
+* Side note: Yes this prompt is heavily based off of the one done by reddit
+user /u/tudurom, however they did not have a solution to #3. Seeing as I had
+to work so hard to get the functionality, I'll claim this prompt as my own,
+but I give full credit to them for inspiration.
 
 *updatedir.sh:*
 * One of my most used script. Compares the contents of two
@@ -85,25 +97,13 @@ my setup tailored to you. ^(lol)
 * Short and simple, with the package lists at the top of the script in case
 you want to change this script and make it your own.
 
-![Gif of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
-*.bashrc:*
-* My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
-likely fix that in the future but for now... it works. Thank god.
-* Coloured prompt to make it more clear where one command's output ends and
-another command begins.
-* This next part is what was so hard to do. The `$` changes to red if the
-previously run command errors. For those interested, the reason this was so
-hard to achieve is because bash doesn't play nicely with non-printing
-characters. So using `tput` causes weird issues that I noticed and reported
-as #3. You have to wrap those commands with `\[` and `\]` but you can't use
-those with `' '` which are necessary to make sure changes are made to your
-prompt every time you hit enter (colour change, current directory). Luckily
-you can use `\001` and `\002` as replacements with the small downside that
-you have to add either ` -e` to your `echo` call or use `printf`.
-* Side note: Yes this prompt is heavily based off of the one done by reddit
-user /u/tudurom, however they did not have a solution to #3. Seeing as I had
-to work so hard to get the functionality, I'll claim this prompt as my own,
-but I give full credit to them for inspiration.
+*sxhkdrc*:
+* Logical shortcut for locking (alt + escape, similar to alt + super + escape
+for exiting the bspwm session).
+* Binds for decreasing/increasing volume and brightness (alt + n/m and alt +
+shift + n/m respectively).
+* Binds for controlling mpd through mpc (insert song to playlist (alt + i),
+toggle pause/play (alt + l), prev/next (alt + u/o))
 
 *playsong.sh:*
 * Script I'm fairly happy with. Prompts user with a list of all the songs
