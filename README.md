@@ -30,7 +30,8 @@ easier to view and make it easier to see the whole rice.
 
 ## Feature list
 
-*bar.sh*:
+![Picture of bar](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bar.png)  
+*scripts/bar.sh*:
 * Few dependencies (rip). Bar requires 5 packages (`lm_sensors` for cpu temp,
 `pulseaudio` + `pamixer` for the volume, `mpd` and `mpc` for `song()`).
 * `net()` tells you whether you have a connection regardless of what network
@@ -75,7 +76,7 @@ user /u/tudurom, however they did not have a solution to #3. Seeing as I had
 to work so hard to get the functionality, I'll claim this prompt as my own,
 but I give full credit to them for inspiration.
 
-*updatedir.sh:*
+*scripts/updatedir.sh:*
 * One of my most used script. Compares the contents of two
 directories and for each file asks if you want to copy, do nothing, compare,
 or revert (copy in opposite direction) the files in the first
@@ -83,13 +84,13 @@ to the second. It can take a filter (a bash command located in a file which is
 specified when you call `updatedir.sh`. This script is very useful for
 updating say, a dotfile directory from your home directory.
 
-*install.sh:*
+*scripts/install.sh:*
 * When executed within a git directory or git sub directory (and so on and
 so forth), it will copy all the files tracked by git
 into `~/individual_file_path`. Used for getting my setup on a fresh install
 quickly.
 
-*packages.sh:*
+*scripts/packages.sh:*
 * Separates between the packages required for this setup and those I like to
 use. Even further it separates between non-AUR and AUR packages.
 * Run it and get prompted with various questions resulting in a version of
@@ -97,7 +98,7 @@ my setup tailored to you. ^(lol)
 * Short and simple, with the package lists at the top of the script in case
 you want to change this script and make it your own.
 
-*sxhkdrc*:
+*.config/sxhkd/sxhkdrc*:
 * Logical shortcut for locking (alt + escape, similar to alt + super + escape
 for exiting the bspwm session).
 * Binds for decreasing/increasing volume and brightness (alt + n/m and alt +
@@ -105,12 +106,12 @@ shift + n/m respectively).
 * Binds for controlling mpd through mpc (insert song to playlist (alt + i),
 toggle pause/play (alt + l), prev/next (alt + u/o))
 
-*playsong.sh:*
+*scripts/playsong.sh:*
 * Script I'm fairly happy with. Prompts user with a list of all the songs
 they have in their mpd music directory and (using `rofi`)
 allows them to select one to play next.
 
-*colortest.sh, rupee.sh, pipes.sh:*
+*scripts/colortest.sh, scripts/rupee.sh, scripts/pipes.sh:*
 * All of these except colortest.sh weren't made by me. colortest.sh is a
 simple script that prints out the 16 colours of your terminal in order.
 Semi useful. rupee.sh comes from reddit account /u/roberoonska and pipes.sh
