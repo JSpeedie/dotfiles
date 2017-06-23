@@ -48,6 +48,7 @@ shift + n/m respectively).
 * Binds for controlling mpd through mpc (insert song to playlist (alt + i),
 toggle pause/play (alt + l), prev/next (alt + u/o))
 
+![Gif of vim setup](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/vim.gif)  
 *.vimrc*:
 * Short and sweet. Doesn't rely on a million plugins (I personally prefer to
 not rely on too many in case I have to use someone elses' setup or `vi`).
@@ -84,7 +85,7 @@ my setup tailored to you. ^(lol)
 * Short and simple, with the package lists at the top of the script in case
 you want to change this script and make it your own.
 
-![Webm of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
+![Gif of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
 *.bashrc:*
 * My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
 likely fix that in the future but for now... it works. Thank god.
