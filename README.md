@@ -32,8 +32,8 @@ easier to view and make it easier to see the whole rice.
 
 ![Picture of bar](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bar.png)  
 *scripts/bar.sh*:
-* Few dependencies (rip). Bar requires 5 packages (`lm_sensors` for cpu temp,
-`pulseaudio` + `pamixer` for the volume, `mpd` and `mpc` for `song()`).
+* This bar requires 5 packages (`lm_sensors` for cpu temp, `pulseaudio` +
+`pamixer` for the volume, `mpd` and `mpc` for `song()`).
 * `net()` tells you whether you have a connection regardless of what network
 interface you're using. It does this by pinging your default gateway which
 means it will be always be accurate (unlike a script that pings some
@@ -50,34 +50,34 @@ via markers ("{{{" and "}}}" by default), shows relative line numbers
 to make j and k movements easier.
 * Some regexes I would consider impressive if only because they are hard
 to understand. Highlights trailing whitespace red for easy removal and gray
-if it's escaped (only highlights the first escaped whitespace character). Gray
-because it's easy to see, but not in your face.
+if it's escaped (only highlights the first escaped whitespace character).
 * Here come dat statusline! No plugins here. Fairly simple statusline with a
 modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
 
 ![Gif of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
 *.bashrc:*
-* My god. This was hard, ok. Just look at the code. It's horrendous. I'll most
-likely fix that in the future but for now... it works. Thank god.
 * Coloured prompt to make it more clear where one command's output ends and
 another command begins.
-* This next part is what was so hard to do. The `$` changes to red if the
-previously run command errors. For those interested, the reason this was so
-hard to achieve is because bash doesn't play nicely with non-printing
-characters. So using `tput` causes weird issues that I noticed and reported
-as #3. You have to wrap those commands with `\[` and `\]` but you can't use
-those with `' '` which are necessary to make sure changes are made to your
-prompt every time you hit enter (colour change, current directory). Luckily
-you can use `\001` and `\002` as replacements with the small downside that
-you have to add either ` -e` to your `echo` call or use `printf`.
-* Side note: Yes this prompt is heavily based off of the one done by reddit
-user /u/tudurom, however they did not have a solution to #3. Seeing as I had
-to work so hard to get the functionality, I'll claim this prompt as my own,
+* What made this so difficult was getting the `•` to change colours upon
+a successfully run command or red on an unsuccessfully run command. For those
+interested, the reason this was so hard to achieve is because bash doesn't
+play nicely with non-printing characters which are how it sets the colour.
+This caused weird issues that I noticed and reported as issue #3. The solution
+is wrapping the code that checks for the return status of the previous command
+and sets the colour accordingly with `\[` and `\]`. However, you can't use those
+with `' '` which are necessary to make sure changes are made to your
+prompt every time you hit enter (like having the colours change, or current
+directory). Luckily you can use `\001` and `\002` as replacements with the
+small downside that you have to add either ` -e` to your `echo` call or use
+`printf`.
+* Side note: Yes this prompt is based off of the one done by reddit
+user /u/tudurom, however they did not have a solution to issue #3. Seeing as I
+had to work so hard to get the functionality, I'll claim this prompt as my own,
 but I give full credit to them for inspiration.
 
 *scripts/updatedir.sh:*
-* One of my most used script. Compares the contents of two
+* One of my most used scripts. Compares the contents of two
 directories and for each file asks if you want to copy, do nothing, compare,
 or revert (copy in opposite direction) the files in the first
 to the second. It can take a filter (a bash command located in a file which is
@@ -94,9 +94,9 @@ quickly.
 * Separates between the packages required for this setup and those I like to
 use. Even further it separates between non-AUR and AUR packages.
 * Run it and get prompted with various questions resulting in a version of
-my setup tailored to you. ^(lol)
+my setup tailored to you. <sup>lol</sup>
 * Short and simple, with the package lists at the top of the script in case
-you want to change this script and make it your own.
+you want to make it your own.
 
 *.config/sxhkd/sxhkdrc*:
 * Logical shortcut for locking (alt + escape, similar to alt + super + escape
