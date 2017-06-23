@@ -12,7 +12,7 @@ set backspace=indent,eol,start
 "                         My Stuff                         "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Set how many lines of history vim must remember
+" Set how many changes vim must remember
 set history=1000
 
 " Enables syntax highlighting
@@ -24,7 +24,6 @@ set updatetime=30000
 " Show relative line numbers because it makes prefixing a command easier,
 " but still supports things like [lineNumber]G which I only really use
 " if I get an error.
-" set relativenumber
 set number
 set relativenumber
 " Highlight the cursor line
@@ -86,9 +85,6 @@ set regexpengine=1
 call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
 " Matches an escaped whitespace character that is not at the cursor
 call matchadd('Visual', '\\\zs\s\%#\@<!$')
-
-" beefier 'syntax enable'?
-" filetype plugin on
 
 " Allow base16 to use the extra colours
 let base16colorspace=256

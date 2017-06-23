@@ -23,8 +23,10 @@ alias rdl='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 -c:
 alias rdm='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
 # Record Desktop Small (1/3 of the screen)
 alias rds='ffmpeg -video_size 640x360 -framerate 60 -f x11grab -i :0.0+640,360 output.mp4'
+alias rwfs='wtp 0 0 608 328 $(cfw)'
 # Record Desktop Very Small (1/4 of the screen)
 alias rdvs='ffmpeg -video_size 480x270 -framerate 60 -f x11grab -i :0.0+720,405 output.mp4'
+alias rwfvs='wtp 0 0 456 246 $(cfw)'
 # Record Desktop Ultra Small (1/6 of the screen)
 alias rdus='ffmpeg -video_size 320x180 -framerate 60 -f x11grab -i :0.0+800,450 output.mp4'
 alias rwfus='wtp 0 0 304 164 $(cfw)'
@@ -106,21 +108,35 @@ convmp4gif () {
 # Example: High accuracy, low compression -> enter 30, 480:320, 0.00001, 256)
 #          Low accuracy, high compression -> enter 30, 480:320, 0.001, 256)
 highconvmp4gif () {
-	fps="30"
-	scale="$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"height" | grep -o "[0-9]\+"):$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"width" | grep -o "[0-9]\+")"
-	detect="0.0001"
-	colours="256"
+	def_fps="30"
+	height=$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"height" | grep -o "[0-9]\+")
+	width=$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"width" | grep -o "[0-9]\+")
+	def_scale="${width}:${height}"
+	def_detect="0.0001"
+	def_colours="256"
 
 	palette="/tmp/palette.png"
 
-	printf "Frames per Second (default=${fps})? "
+	printf "Frames per Second (default=${def_fps})? "
 	read -a fps
-	printf "Scale (default=${scale})? "
+	if [[ $fps == "" ]]; then
+		fps=$def_fps
+	fi
+	printf "Scale (default=${def_scale})? "
 	read -a scale
-	printf "Minimum Scene Change Detection Score (default=${detect})? "
+	if [[ $scale == "" ]]; then
+		scale=$def_scale
+	fi
+	printf "Minimum Scene Change Detection Score (default=${def_detect})? "
 	read -a detect
-	printf "Number of colours in generated palette (default=${colours})? "
+	if [[ $detect == "" ]]; then
+		detect=$def_detect
+	fi
+	printf "Number of colours in generated palette (default=${def_colours})? "
 	read -a colours
+	if [[ $colours == "" ]]; then
+		colours=$def_colours
+	fi
 
 	filters="fps=${fps},scale=${scale}:flags=lanczos,select=gt(scene\,${detect})"
 	ffmpeg -i $1 -vf "$filters,palettegen=${colours}" -y $palette
