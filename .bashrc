@@ -16,9 +16,18 @@ alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
-alias convertmp4togif='ffmpeg -i output.mp4 -pix_fmt rgb24 -s 640x480 -r 10 output.gif'
-alias recorddesktop='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
-alias recorddesktopSmall='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
+# Record Desktop (full screen)
+alias rd='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
+alias rdl='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 -c:v libx264 -qp 0 -preset ultrafast output.mkv'
+# Record Desktop Medium (1/2 of the screen)
+alias rdm='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
+# Record Desktop Small (1/3 of the screen)
+alias rds='ffmpeg -video_size 640x360 -framerate 60 -f x11grab -i :0.0+640,360 output.mp4'
+# Record Desktop Very Small (1/4 of the screen)
+alias rdvs='ffmpeg -video_size 480x270 -framerate 60 -f x11grab -i :0.0+720,405 output.mp4'
+# Record Desktop Ultra Small (1/6 of the screen)
+alias rdus='ffmpeg -video_size 320x180 -framerate 60 -f x11grab -i :0.0+800,450 output.mp4'
+alias rwfus='wtp 0 0 304 164 $(cfw)'
 alias ctest='sh ~/scripts/colortest.sh'
 
 ##############################
@@ -92,16 +101,31 @@ convmp4gif () {
 # Fantastic gif quality, smaller sizes without even using convert.
 # Way faster since it doesn't use convert... This function is fiiire
 
-# Takes the same arguments ast he above function
-# Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"] [min scene change detection score]
-# Example: High accuracy, low compression:
-#          $ highconvmp4gif cfw.mp4 cfw.gif 0.00001
-#          Low accuracy, high compression:
-#          $ highconvmp4gif wtsr.mp4 wtsr.gif 0.001
+# Takes the same arguments as the above function
+# Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"]
+# Example: High accuracy, low compression -> enter 30, 480:320, 0.00001, 256)
+#          Low accuracy, high compression -> enter 30, 480:320, 0.001, 256)
 highconvmp4gif () {
+	fps="30"
+	scale="$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"height" | grep -o "[0-9]\+"):$(ffprobe -v quiet -print_format json -show_streams output.mp4 | grep "\"width" | grep -o "[0-9]\+")"
+	detect="0.0001"
+	colours="256"
+
 	palette="/tmp/palette.png"
-	filters="fps=30,scale=480:320:flags=lanczos,select=gt(scene\,${3})"
-	ffmpeg -i $1 -vf "$filters,palettegen" -y $palette
+
+	printf "Frames per Second (default=${fps})? "
+	read -a fps
+	printf "Scale (default=${scale})? "
+	read -a scale
+	printf "Minimum Scene Change Detection Score (default=${detect})? "
+	read -a detect
+	printf "Number of colours in generated palette (default=${colours})? "
+	read -a colours
+
+	filters="fps=${fps},scale=${scale}:flags=lanczos,select=gt(scene\,${detect})"
+	ffmpeg -i $1 -vf "$filters,palettegen=${colours}" -y $palette
+	printf "\n\nPress any key when satisfied with the palette... "
+	read
 	ffmpeg -i $1 -i $palette -lavfi "$filters [x]; [x][1:v] paletteuse" -y ${2}
 }
 
