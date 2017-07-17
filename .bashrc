@@ -32,6 +32,7 @@ alias rwfvs='wtp 0 0 456 246 $(cfw)'
 alias rdus='ffmpeg -video_size 320x180 -framerate 60 -f x11grab -i :0.0+800,450 output.mp4'
 alias rwfus='wtp 0 0 304 164 $(cfw)'
 alias ctest='sh ~/scripts/colortest.sh'
+alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
 
 ##############################
 #    Colour for man pages    #
