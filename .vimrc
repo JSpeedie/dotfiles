@@ -12,7 +12,7 @@ set backspace=indent,eol,start
 "                         My Stuff                         "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Set how many changes vim must remember
+" Set how many lines of history vim must remember
 set history=1000
 
 " Enables syntax highlighting
