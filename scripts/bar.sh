@@ -3,42 +3,25 @@
 echo "" > .barOut
 
 # Get Dimensions
-let bar_width=1200
 # Returns the dimensions of all the monitors in your setup in a
 # 2560x1440
 # 1920x1080
 # format
 monitor_dims=$(xrandr | grep " connected" | grep -o "[0-9]\+x[0-9]\+")
 
-monitor_with_largest_dims=$(echo "$monitor_dims" | head -n 1)
-max=0
-for monitor in $monitor_dims; do
-	pixels=$(echo "$monitor" | sed "s/x/ /" | awk '{print ($1 * $2)}')
-	if [[ $pixels -gt $max ]]; then
-		max=$pixels
-		monitor_with_largest_dims=$monitor
-	fi
-done
-
-echo "monitor_with_largest_dims $monitor_with_largest_dims" >> .barOut
-
-screen_full_dims=$(xrandr | grep "$monitor_with_largest_dims" | \
+screen_full_dims=$(xrandr | grep "eDP-1" | \
 	head -n 1 | grep -o "[0-9]\+x[0-9]\++[0-9]\++[0-9]\+")
 # Dimensions for bar (returns full dimensions of largest (resolution wise)
 # monitor in setup in an "1920x1080" kind of format)
-screen_x_and_y=$(echo "$screen_full_dims" | grep -o "[0-9]\+x[0-9]\+")
-screen_x_and_y_shift=$(echo "$screen_full_dims" | grep -o "[0-9]\++[0-9]\+$")
-screen_x=$(echo "$screen_x_and_y" | sed "s/x.*$//")
-echo "screen_x $screen_x" >> .barOut
-screen_y=$(echo "$screen_x_and_y" | sed "s/^.*x//")
-screen_x_shift=$(echo "$screen_x_and_y_shift" | sed "s/+.*$//")
-echo "screen_x_shift $screen_x_shift" >> .barOut
-screen_y_shift=$(echo "$screen_x_and_y_shift" | sed "s/^.*+//")
-screen_y=$(echo "$screen_y $screen_y_shift" | awk '{print ($1 + $2)}')
+screen_w_and_h=$(echo "$screen_full_dims" | grep -o "[0-9]\+x[0-9]\+")
+screen_x_and_y=$(echo "$screen_full_dims" | grep -o "+[0-9]\++[0-9]\+")
+screen_w=$(echo "$screen_w_and_h" | sed "s/x.*$//")
+screen_h=$(echo "$screen_w_and_h" | sed "s/^.*x//")
+screen_x=$(echo "$screen_x_and_y" | sed "s/+.*$//")
+screen_y=$(echo "$screen_x_and_y" | sed "s/^.*+//")
 
 # monitor width divided by 2 plus the shift - half the width of the bar
-let bar_x=$(echo "$screen_x $screen_x_shift $bar_width" | \
-			awk '{print ((($1 / 2) + $2) - ($3 / 2))}')
+bar_x=$(echo "$screen_x")
 echo "bar_x $bar_x" >> .barOut
 let bar_y=0
 
@@ -54,11 +37,19 @@ fi
 siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-0-iso10646-1"
 siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-0-iso10646-1"
 tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
+text_colour=$color7
+highlight_colour=$color6
 
 # Separators
+sep2="  "
+sep3="   "
 sep4="    "
+bar_sep=$sep2
 
 # Icons
+# icon_wksp="\ue001"
+icon_wksp="\ue130"
+icon_wksp_sel="\ue000"
 icon_up_time=""
 icon_net=''
 icon_memory=""
@@ -108,7 +99,7 @@ battery() {
 			stat="${status[$icon_number]}"
 		fi
 
-		echo -e "%{F$color1}$stat ${perc}%{F-}"
+		echo -e "%{F$highlight_colour}$stat%{F-} ${perc}"
 	else
 		echo ""
 	fi
@@ -121,22 +112,16 @@ brightness() {
 		max=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 		bright=$(echo "$bright $max" | awk '{printf "%.0f\n", ($1/$2) * 100}')
 		bright+="%"
-		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
+		echo -e "%{F$highlight_colour}$icon_brightness%{F-} $bright"
 	elif [[ -f /sys/class/backlight/acpi_video0/brightness ]]; then
 		bright=$(cat /sys/class/backlight/acpi_video0/brightness)
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
 		bright=$(echo "$bright $max" | awk '{printf "%.0f\n", ($1/$2) * 100}')
 		bright+="%"
-		echo -e "%{F$color3}$icon_brightness $bright%{F-}"
+		echo -e "%{F$highlight_colour}$icon_brightness $bright%{F-}"
 	else
 		echo ""
 	fi
-}
-
-
-up_time() {
-	up=$(awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime)
-	echo "%{F$color1}$icon_up_time $up%{F-}"
 }
 
 volume() {
@@ -152,22 +137,21 @@ volume() {
 		fi
 	fi
 
-	echo -e "%{F$color4}$icon $vol%{F-}"
+	echo -e "%{F$highlight_colour}$icon%{F-} $vol"
 }
 
 current_date() {
 	# Shortened day of week, mon and day
-	echo "%{F$color2}$icon_date $(date "+%a %m/%d")%{F-}"
+	echo "%{F$highlight_colour}$icon_date%{F-} $(date "+%a %m/%d")"
 }
 
 current_time() {
-	# 24 hour clock
-	echo "%{F$color3}$icon_time $(date +%I:%M:%S)%{F-}"
+	echo "%{F$highlight_colour}$icon_time%{F-} $(date +%I:%M:%S)"
 }
 
 mem() {
-	echo "%{F$color4}$icon_memory $(free --mega | awk 'NR==2 {print $3}').\
-		$(free --mega | awk 'NR==2 {print $7}')%{F-}"
+	echo "%{F$highlight_colour}$icon_memory%{F-} $(free --mega | awk 'NR==2 {print $3}').\
+		$(free --mega | awk 'NR==2 {print $7}')"
 }
 
 song() {
@@ -178,12 +162,12 @@ song() {
 		if [[ $(mpc status | grep "playing") ]]; then
 			printf "combi $1\n" >> combi
 
-			echo "%{F$color1}$icon_music_playing $scr_text_combin%{F-}"
+			echo "%{F$highlight_colour}$icon_music_playing%{F-} $scr_text_combin"
 		elif [[ $(mpc status | grep "paused") ]]; then
 			# let combi=$(echo "$combi 10" | awk '{print ($1 + 1) % $2}')
 			printf "combi $1\n" >> combi
 
-			echo "%{F$color1}$icon_music_paused $scr_text_combin%{F-}"
+			echo "%{F$highlight_colour}$icon_music_paused%{F-} $scr_text_combin"
 		else
 			echo ""
 		fi
@@ -195,20 +179,22 @@ song() {
 
 cpu_temp() {
 	temp=$(sensors | grep id | grep -o "[0-9]\+\.[0-9]" | head -n 1)
-	echo "%{F$color5}$icon_cpu_temp $temp%{F-}"
+	echo "%{F$highlight_colour}$icon_cpu_temp%{F-} $temp"
 }
 
-net() {
-	gate=$(ip r | grep default | cut -d ' ' -f 3)
-	if [[ ${#gate} -ge 7 ]]; then
-		if [[ $(ping -q -w 1 -c 1 $gate) ]]; then
-			echo "%{F$color8}$icon_net%{F-}"
+workspaces() {
+	status=$(bspc wm -g | tr ':' '\n' | grep -o "^[oOfF]")
+	out=""
+
+	for wksp in $status; do
+		if [[ $wksp == "O" ]] || [[ $wksp == "F" ]]; then
+			out+="%{F$highlight_colour}$icon_wksp_sel%{F-}$bar_sep"
 		else
-			echo ""
+			out+="$icon_wksp$bar_sep"
 		fi
-	else
-		echo ""
-	fi
+	done
+
+	echo -e "$out"
 }
 
 while true; do
@@ -218,9 +204,9 @@ while true; do
 		final_song+=$sep4
 	fi
 
-	echo "%{c}$sep4$(brightness)$sep4$(up_time)$sep4$(cpu_temp)$sep4$(mem)\
-			$sep4$(net)$sep4$(volume)$sep4$(current_date)$sep4$(current_time)\
-			$sep4${final_song}$(battery)$sep4"
+	echo "%{l}$bar_sep$(workspaces)%{c}$(current_time)$bar_sep$(volume)\
+			%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep$(brightness)$bar_sep\
+			$(battery)$bar_sep$(current_date)$bar_sep"
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 		song=$(mpc current)
 
@@ -231,5 +217,5 @@ while true; do
 		fi
 	fi
 	sleep 0.5s
-done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 -p -o -3 \
-	-f $siji10 -o 0 -f $tamzen &
+done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 \
+	-F $text_colour -p -o -3 -f $siji10 -o 0 -f $tamzen &

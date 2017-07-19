@@ -10,10 +10,10 @@ bspc config borderless_monocle	true
 bspc config gapless_monocle	true
 bspc config focus_by_distance	true
 
-bspc config top_padding         34
-bspc config left_padding        4
-bspc config right_padding       4
-bspc config bottom_padding      4
+bspc config top_padding         30
+bspc config left_padding        0
+bspc config right_padding       0
+bspc config bottom_padding      0
 
 # List of all the desktops you want to use in this setup
 desktopNames=(I II III IV V VI VII VIII IX X)
@@ -37,7 +37,7 @@ echo "desktopsPerMonitor \"$desktopsPerMonitor\"" >> ~/bspwmOut
 
 let arrayElement=0
 for scr in ${screens[@]}; do
-	printf "scr \"$scr\"\n" >> ~/bspwmOut
+	printf "\scr \"$scr\"\n" >> ~/bspwmOut
 	desktopsForMonitor=()
 	let i=0
 	while [[ $i -lt $desktopsPerMonitor ]]; do

@@ -86,13 +86,11 @@ call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
 " Matches an escaped whitespace character that is not at the cursor
 call matchadd('Visual', '\\\zs\s\%#\@<!$')
 
-" Allow base16 to use the extra colours
-let base16colorspace=256
 " Set the colorcscheme
-colorscheme base16-ocean
+colorscheme pelagic
 
-hi User1 ctermbg=18 ctermfg=7
-hi User2 ctermbg=19 ctermfg=7
+hi User1 ctermbg=0 ctermfg=7
+hi User2 ctermbg=15 ctermfg=7
 hi User3 ctermbg=8 ctermfg=7
 
 function! Modified()
@@ -101,6 +99,19 @@ function! Modified()
 	elseif &modified ==# 0
 		return ""
 	endif
+endfunction
+
+function! GetSyntaxID()
+    return synID(line('.'), col('.'), 1)
+endfunction
+
+function! GetSyntaxParentID()
+    return synIDtrans(GetSyntaxID())
+endfunction
+
+function! GetSyntax()
+    echo synIDattr(GetSyntaxID(), 'name')
+    exec "hi ".synIDattr(GetSyntaxParentID(), 'name')
 endfunction
 
 

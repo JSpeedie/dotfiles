@@ -49,13 +49,9 @@ export LESS_TERMCAP_us=$(tput setaf 3) # Blue
 # "Status bar" of less
 export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 
-##############################
-#    Base16 shell colours    #
-##############################
-
- BASE16_SHELL="$HOME/.config/base16-shell/base16-ocean.dark.sh"
- [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-
+upt () {
+	awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime
+}
 
 ##############################
 #       Dynamic Prompt       #
@@ -150,10 +146,19 @@ highconvmp4gif () {
 # Used for deinterlacing recorded Melee footage. Quite possibly not the best
 # way to do it, but works quickly and well enough.
 #
-# Expects: $ convdeint [interlaced video file] [output file name]
-# Example: $ convdeint Recording-01.ts Output.mov
-convdeint () {
+# Expects: $ convdeintmov [interlaced video file] [output file name]
+# Example: $ convdeintmov Recording-01.ts Output.mov
+convdeintmov () {
 	ffmpeg -i $1 -vf yadif=1 -c:v prores $2
+}
+
+# Used for deinterlacing recorded Melee footage. Quite possibly not the best
+# way to do it, but works quickly and well enough.
+#
+# Expects: $ convdeintmp4 [interlaced video file] [output file name]
+# Example: $ convdeintmp4 Recording-01.ts Output.mp4
+convdeintmp4 () {
+	ffmpeg -i $1 -vf yadif=1 $2
 }
 
 PS1=$(prompt)
