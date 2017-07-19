@@ -16,6 +16,7 @@ alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
+alias updatepelagic='sh ~/scripts/updatedir.sh ~/.vim/colors/ ~/pelagicGit/ ~/scripts/updatedirpelagic.sh'
 alias barscr='ffmpeg -video_size 1220x40 -framerate 60 -f x11grab -i :0.0+2590,0 -vframes 1 output.png'
 # Record Desktop (full screen)
 alias rd='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
