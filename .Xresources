@@ -1,77 +1,66 @@
-! Base16 Ocean
-! Scheme: Chris Kempson (http://chriskempson.com)
+#define colour0 #2b2e38
+#define colour1 #d26464
+#define colour2 #4f806e
+#define colour3 #e0ae80
+#define colour4 #4d7099
+#define colour5 #838b73
+#define colour6 #cc7e5b
+#define colour7 #bfb8a2
 
-#define base00 #2b303b
-#define base01 #343d46
-#define base02 #4f5b66
-#define base03 #65737e
-#define base04 #a7adba
-#define base05 #c0c5ce
-#define base06 #dfe1e8
-#define base07 #eff1f5
-#define base08 #bf616a
-#define base09 #d08770
-#define base0A #ebcb8b
-#define base0B #a3be8c
-#define base0C #96b5b4
-#define base0D #8fa1b3
-#define base0E #b48ead
-#define base0F #ab7967
+#define colour8 #5c6178
+#define colour9 #d26464
+#define colour10 #4f806e
+#define colour11 #e0ae80
+#define colour12 #4d7099
+#define colour13 #838b73
+#define colour14 #cc7e5b
+#define colour15 #353945
 
-*.foreground:   base05
-*.background:   base00
-*.cursorColor:  base05
+*.foreground:   colour7
+*.background:   colour0
+*.cursorColor:  colour7
 
 ! bg color it seems
-*.color0:       base00
+*.color0:       colour0
 ! pinkish red
-*.color1:       base08
+*.color1:       colour1
 ! green
-*.color2:       base0B
+*.color2:       colour2
 ! yellow
-*.color3:       base0A
+*.color3:       colour3
 ! blue
-*.color4:       base0D
+*.color4:       colour4
 ! purple
-*.color5:       base0E
+*.color5:       colour5
 ! grayish blue
-*.color6:       base0C
+*.color6:       colour6
 ! gray
-*.color7:       base05
+*.color7:       colour7
 
 ! dark gray thing
-*.color8:       base03
+*.color8:       colour8
 ! pinkish red
-*.color9:       base08
+*.color9:       colour9
 ! green
-*.color10:      base0B
+*.color10:      colour10
 ! yellow
-*.color11:      base0A
+*.color11:      colour11
 ! blue
-*.color12:      base0D
+*.color12:      colour12
 ! purple
-*.color13:      base0E
+*.color13:      colour13
 ! grayish blue
-*.color14:      base0C
+*.color14:      colour14
 ! white
-*.color15:      base07
-
-! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
-! use 'shell' template to set these if necessary
-*.color16:      base09
-*.color17:      base0F
-*.color18:      base01
-*.color19:      base02
-*.color20:      base04
-*.color21:      base06
+*.color15:      colour15
 
 !! Urxvt configuration
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
 URxvt.font: -*-tamzen-medium-*-*-*-16-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8
-URxvt.fading: 10
-
+URxvt.fading: 5
+!
 !! Terminal colours
 !! red, light red \e[0;31m \e[1;31m
 !! green, light green \e[0;32m \e[1;32m
@@ -94,11 +83,11 @@ rofi.font: Tamzen 12
 rofi.hide-scrollbar: true
 rofi.color-enabled: true
 !! 					bg					border				separator
-rofi.color-window:	argb:BF2b303b,		argb:BF2b303b,		argb:BF2b303b
+rofi.color-window:	argb:BF2b2e38,		argb:BF2b2e38,		argb:BF2b2e38
 !! 					bg					fg					bg alt				hl bg		hl fg
-rofi.color-normal:	argb:BF2b303b,		base05,				argb:BF2b303b,		base05,		argb:BF2b303b
-rofi.color-active:	base05,				argb:BF2b303b,		base05,				base05,		argb:BF2b303b
-rofi.color-urgent:	argb:BF2b303b,		base05,				argb:BF2b303b,		base05,		argb:BF2b303b
+rofi.color-normal:	argb:BF2b2e38,		colour7,				argb:BF2b2e38,		colour7,		argb:BF2b2e38
+rofi.color-active:	colour7,			argb:BF2b2e38,			colour7,			colour7,		argb:BF2b2e38
+rofi.color-urgent:	argb:BF2b2e38,		colour7,				argb:BF2b2e38,		colour7,		argb:BF2b2e38
 rofi.bw: 4
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher

@@ -1,51 +1,33 @@
-# background
-base00=#2b303b
-base01=#343d46
-base02=#4f5b66
-base03=#65737e
-base04=#a7adba
-# foreground
-base05=#c0c5ce
-base06=#dfe1e8
-base07=#eff1f5
-base08=#bf616a
-base09=#d08770
-base0A=#ebcb8b
-base0B=#a3be8c
-base0C=#96b5b4
-base0D=#8fa1b3
-base0E=#b48ead
-base0F=#ab7967
+# Background Colour
+color0=#2b2e38
+# Red
+color1=#d26464
+# Green
+color2=#4f806e
+# Yellow
+color3=#e0ae80
+# Blue
+color4=#4d7099
+# Dull Green
+color5=#838b73
+# Orange
+color6=#cc7e5b
+# Foreground Colour (Light Beige)
+color7=#bfb8a2
 
-# bg color it seems
-color0=#2b303b
-# pinkish red
-color1=#bf616a
-# green
-color2=#a3be8c
-# yellow
-color3=#ebcb8b
-# blue
-color4=#8fa1b3
-# purple
-color5=#b48ead
-# grayish blue
-color6=#96b5b4
-# gray
-color7=#c0c5ce
-# dark gray thing
-color8=#65737e
-# pinkish red
-color9=#bf616a
-# green
-color10=#a3be8c
-# yellow
-color11=#a3be8c
-# blue
-color12=#8fa1b3
-# purple
-color13=#b48ead
-# grayish blue
-color14=#96b5b4
-# white
-color15=#eff1f5
+# Light Gray
+color8=#5c6178
+# Red
+color9=#d26464
+# Green
+color10=#4f806e
+# Yellow
+color11=#e0ae80
+# Blue
+color12=#4d7099
+# Dull Green
+color13=#838b73
+# Orange
+color14=#cc7e5b
+# Dark Gray
+color15=#353945

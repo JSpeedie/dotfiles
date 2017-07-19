@@ -69,6 +69,10 @@ alt + {h,j,k,l}
 super + {h,j,k,l}
 	wtfc {-lf,-df,-uf,-rf}
 
+# chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
+
+
+
 # Move focused window
 alt + shift + {h,j,k,l}
 	wsft -x {-50 -y 0,0 -y 50,0 -y -50,50 -y 0} -w $(cfw) -m
@@ -85,8 +89,8 @@ super + ctrl + {u,i,o,j,k,l,m,comma,period}
 super + shift + {u,i,o,j,k,l,m,less,greater}
  	wtsr -x {0 -y 0,0.5 -y 0,1 -y 0,0 -y 0.5,0.5 -y 0.5,1 -y 0.5,0 -y 1,0.5 -y 1,1 -y 1} -w $(cfw) -bm
 
-super + shift + {z,x,c,v}
-	wrsr -w {0.25 -h 0.25,0.5 -h 0.5,0.75 -h 0.75,1 -h 1} -W $(cfw) -br
+# super + shift + {z,x,c,v}
+# 	wrsr -w {0.25 -h 0.25,0.5 -h 0.5,0.75 -h 0.75,1 -h 1} -W $(cfw) -br
 
 # Kill the focused window
 # super + d

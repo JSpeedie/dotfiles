@@ -150,8 +150,8 @@
 
 [frame]
     width = 2
-    # Border colours
-    color = "#c0c5ce"
+    # Border colours (colour7)
+    color = "#b2b8a2"
 
 [shortcuts]
 
@@ -175,18 +175,24 @@
     context = ctrl+shift+period
 
 [urgency_low]
-    background = "#2b303b"
-    foreground = "#c0c5ce"
+	# colour0
+    background = "#2b2e38"
+	# colour7
+    foreground = "#b2b8a2"
     timeout = 4
 
 [urgency_normal]
-    background = "#2b303b"
-    foreground = "#c0c5ce"
+	# colour0
+    background = "#2b2e38"
+	# colour7
+    foreground = "#b2b8a2"
     timeout = 6
 
 [urgency_critical]
-    background = "#2b303b"
-    foreground = "#bf616a"
+	# colour0
+    background = "#2b2e38"
+	# colour1
+    foreground = "#d26464"
     timeout = 0
 
 
