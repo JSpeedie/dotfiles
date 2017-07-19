@@ -25,8 +25,9 @@ First one is a reorganized version of the second one which is what my setup
 is actually like. I included the first pic just because I thought it would be
 easier to view and make it easier to see the whole rice.
 
-* [Reorganized for easier viewing](https://u.teknik.io/Ph1Ct.png)
-* [Pure](https://u.teknik.io/hfLPB.png)
+![Screenfetch](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/Setup23PelagicSFUnconf.png)
+![Fake Work](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/Setup24PelagicWork.png)
+![Rofi](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/Setup25PelagicRofi.png)
 
 ## Feature list
 
@@ -137,7 +138,7 @@ for Hermit).~~
 `lock.sh` for locking my system, etc.
 
 ## Bugs/To Be Fixed
-* Screenshots and gifs need to be updated
+* Gifs need to be updated
 * `lock.sh` status currently unknown.
 * Add locking gif
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if
