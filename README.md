@@ -137,9 +137,9 @@ for Hermit).~~
 `lock.sh` for locking my system, etc.
 
 ## Bugs/To Be Fixed
+* Screenshots and gifs need to be updated
 * `lock.sh` status currently unknown.
 * Add locking gif
-* Screenshots need to be updated (although not desperately)
 * #3 ~~.bashrc prompt becomes a mess of characters from previous commands if
 you press up or down enough~~ Believed to be solved in commit 3244c7c
 * alt + *x* keybindings conflict with bindings of applications (will most
