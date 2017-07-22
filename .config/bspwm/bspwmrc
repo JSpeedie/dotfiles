@@ -17,15 +17,8 @@ bspc config bottom_padding      0
 
 # List of all the desktops you want to use in this setup
 desktopNames=(I II III IV V VI VII VIII IX X)
-# List of video outputs (monitors) being used. Order is important here
 
-# if the setup this being run on has a built in display
-# differentiates between my desktop and my laptop setup
-if [[ $(xrandr | grep "eDP-1") ]]; then
-	screens=(eDP-1)
-else
-	screens=(DVI-I-1 DP-1)
-fi
+screens=($(xrandr | grep " connected" | awk '{print $1}'))
 
 numScreens=$(echo ${#screens[@]})
 let desktopsPerMonitor=${#desktopNames[@]}/$numScreens
@@ -37,7 +30,7 @@ echo "desktopsPerMonitor \"$desktopsPerMonitor\"" >> ~/bspwmOut
 
 let arrayElement=0
 for scr in ${screens[@]}; do
-	printf "\scr \"$scr\"\n" >> ~/bspwmOut
+	printf "scr \"$scr\"\n" >> ~/bspwmOut
 	desktopsForMonitor=()
 	let i=0
 	while [[ $i -lt $desktopsPerMonitor ]]; do
