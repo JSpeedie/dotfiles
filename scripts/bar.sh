@@ -2,13 +2,7 @@
 
 echo "" > .barOut
 
-# Get Dimensions
-# Returns the dimensions of all the monitors in your setup in a
-# 2560x1440
-# 1920x1080
-# format
-monitor_dims=$(xrandr | grep " connected" | grep -o "[0-9]\+x[0-9]\+")
-
+let number_of_monitors=$(xrandr | grep " connected" | awk '{print $1}' | wc -l)
 screen_full_dims=$(xrandr | grep "eDP-1" | \
 	head -n 1 | grep -o "[0-9]\+x[0-9]\++[0-9]\++[0-9]\+")
 # Dimensions for bar (returns full dimensions of largest (resolution wise)
@@ -199,14 +193,38 @@ workspaces() {
 
 while true; do
 	final_song=$(song $combi)
+	final_bat=$(battery)
+	final_brightness=$(brightness)
 	# If mpd is active, add the extra spacing
 	if [[ $final_song != "" ]]; then
 		final_song+=$sep4
 	fi
+	# If the system has a battery
+	if [[ $final_bat != "" ]]; then
+		bat_sep=$bar_sep
+	else
+		bat_sep=""
+	fi
+	# If the system has built in screen (aka a laptop)
+	if [[ $final_brightness != "" ]]; then
+		brightness_sep=$bar_sep
+	else
+		brightness_sep=""
+	fi
 
-	echo "%{l}$bar_sep$(workspaces)%{c}$(current_time)$bar_sep$(volume)\
-			%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep$(brightness)$bar_sep\
-			$(battery)$bar_sep$(current_date)$bar_sep"
+	bar_out=""
+	bar="%{l}$bar_sep$(workspaces)%{c}$(current_time)$bar_sep$(volume)\
+			%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep${brightness}$brightness_sep\
+			${final_bat}$bat_sep$(current_date)$bar_sep"
+
+	let mon_number=0
+	while [[ $mon_number -lt $number_of_monitors ]]; do
+		bar_out+="%{S$mon_number}$bar"
+		let mon_number=$mon_number+1
+	done
+
+	echo "$bar_out"
+
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 		song=$(mpc current)
 
@@ -217,5 +235,5 @@ while true; do
 		fi
 	fi
 	sleep 0.5s
-done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 \
-	-F $text_colour -p -o -3 -f $siji10 -o 0 -f $tamzen &
+done | lemonbar -g ${bar_width}x30+${bar_x}+${bar_y} -B $color0 -F \
+	$text_colour -p -o -3 -f $siji10 -o 0 -f $tamzen &
