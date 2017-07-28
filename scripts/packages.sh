@@ -17,7 +17,8 @@ OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
 	gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
 	xterm git svn numlockx network-manager network-manager-applet xorg-xfd \
-	gnome-control-center lxappearance gst-libav pitivi)
+	gnome-control-center lxappearance gst-libav pitivi ttf-droid \
+	adobe-source-code-pro-fonts ttf-roboto)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
