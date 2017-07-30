@@ -27,14 +27,11 @@ super + {s,f}
 ~button1
 	bspc node -f pointed || wuc -f;
 
-super + button{1,2}
-	sh ~/scripts/{windowMove.sh,windowResize.sh}
-
-super + @button1
-	killall wucm
-
-super + @button2
-	killall wucr
+# Window moving and resizing
+super + z
+	sh ~/scripts/windowMove.sh
+super + a
+	sh ~/scripts/windowResize.sh
 
 # super + button{1-3}
 # 	bspc pointer -g {move,resize_side,resize_corner}
@@ -154,7 +151,7 @@ alt + i
 ######################
 
 # Toggle mute
-alt + ctrl + m
+super + m
 	sh ~/scripts/togglemute.sh
 
 # Decrease volume by 4%

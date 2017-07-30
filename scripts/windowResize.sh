@@ -1,6 +1,6 @@
-# If wrc is already running
-if pidof wrc >/dev/null; then
-	echo "";
+# If wucr is already running
+if pidof wucr >/dev/null; then
+	killall wucr
 else
-	wrc
+	wucr
 fi
