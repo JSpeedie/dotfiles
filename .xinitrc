@@ -1,3 +1,4 @@
+xmodmap ~/.Xmodmap
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
 xset +fp ~/.fonts/tamzen-font/bdf
 xset +fp /usr/share/fonts/local/
