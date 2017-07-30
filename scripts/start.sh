@@ -9,8 +9,9 @@
 # when the window was created. Problems, one more array i think. }}}
 
 # Variables {{{
-# List of windows managed by bspwm
+# List of windows
 currentWin=$(bspc query --nodes)
+windowList=$(bspc query --nodes)
 # A string list of window ids that will excluded from sorting.
 # At this point it consists of windows that exist before
 # we created any.
@@ -48,17 +49,17 @@ echo "Processes \"${Processes[@]}\"" >> ~/startOut
 numSort=0
 let startTime=$(date +%s)
 if [[ -z $1 ]]; then
-	let timeOut=40
+	let timeOut=30
 elif [[ -n $1 ]]; then
 	let timeOut=$1
 else
-	let timeOut=40
+	let timeOut=30
 fi
 # While we have not created all windows and moved them to their desktop
-# The script will exit if it does not finish after a user set number of  seconds
+# The script will exit if it does not finish after a user set number of seconds
 while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
 	# goes through the list of window ids in X session
-	for win in $(bspc query --nodes); do
+	for win in $(echo "$windowList"); do
 		# if the window $win has not already been moved/sorted
 		if [[ $sortedIds != *"$win"* ]]; then
 			# WM_CLASS name of the window (ex. Firefox, URxvt)
@@ -95,10 +96,8 @@ while [[ $numSort -lt ${#WinNames[@]} ]] && [[ $timeSpent -le $timeOut ]]; do
 	let timeSpent=$((currentTime-startTime))
 done
 
-# Greet the user ;)
-# (persistent so you can go away and come back and know it's done)
-notify-send -u critical "Welcome back, fuckface"
-# Focus on the right desktop
+# persistent greeting so you can go away and come back and know it's done
+notify-send -u critical "Welcome back, loser"
+# Focus on the right desktops
 bspc desktop -f ^1
 bspc desktop -f ^6
-echo "Successfully ran start up script"

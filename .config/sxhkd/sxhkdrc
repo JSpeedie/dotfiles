@@ -33,7 +33,7 @@ super + button{1,2}
 super + @button1
 	killall wucm
 
-super + @button1
+super + @button2
 	killall wucr
 
 # super + button{1-3}
