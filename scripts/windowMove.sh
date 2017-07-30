@@ -1,6 +1,6 @@
-# If wmc is already running
-if pidof wmc >/dev/null; then
-	echo "";
+# If wucm is already running
+if pidof wucm >/dev/null; then
+	killall wucm
 else
-	wmc
+	wucm
 fi
