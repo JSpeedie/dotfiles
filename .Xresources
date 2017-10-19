@@ -54,6 +54,14 @@
 ! white
 *.color15:      colour15
 
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
 !! Urxvt configuration
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10

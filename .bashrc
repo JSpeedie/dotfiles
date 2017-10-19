@@ -80,6 +80,10 @@ mdtopdf () {
 	pandoc $1 --latex-engine=lualatex -o $2
 }
 
+textopdf () {
+	pandoc -f latex $1 --latex-engine=lualatex -o $2
+}
+
 # Converts the video to be 480 by 320 at 30fps. convert then optimizes
 # the gif to save space.
 # Expects: $ convmp4gif [file ending it ".mp4"] [file ending it ".gif"] [min scene change detection score]
@@ -160,6 +164,19 @@ convdeintmov () {
 # Example: $ convdeintmp4 Recording-01.ts Output.mp4
 convdeintmp4 () {
 	ffmpeg -i $1 -vf yadif=1 $2
+}
+
+genrat () {
+	# Create temp rating file and final rating file
+	printf "" >$1.temp;
+	printf "" >$1.rat;
+
+	for i in $(ls | grep ".pl"); do
+		echo $(tail -n 1 $i) >>$1.temp
+	done
+
+	sort -k 2 -r $1.temp | column -t > $1.rat
+	rm $1.temp
 }
 
 PS1=$(prompt)
