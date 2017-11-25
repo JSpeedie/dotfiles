@@ -17,9 +17,9 @@ windowList=$(bspc query --nodes)
 # we created any.
 sortedIds=$(echo $currentWin)
 # Windows to make upon start up
-Win=(firefox google-chrome-beta\ --app=http://netflix.com/browse urxvt urxvt)
+Win=(firefox firefox\ --new-window\ http://netflix.com/browse urxvt urxvt)
 # The WM_CLASS name of the windows you want to sort/move
-WinNames=(Firefox google-chrome-beta URxvt URxvt)
+WinNames=(Firefox Firefox URxvt URxvt)
 # The desktops you want each window to be sorted/moved to
 WinDesktop=(7 2 6 6)
 # }}}
