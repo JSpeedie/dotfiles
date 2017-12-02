@@ -1,58 +1,74 @@
-#define colour0 #2b2e38
-#define colour1 #d26464
-#define colour2 #4f806e
-#define colour3 #e0ae80
-#define colour4 #4d7099
-#define colour5 #838b73
-#define colour6 #cc7e5b
-#define colour7 #bfb8a2
+! Taiga
+! Author: https://github.com/JSpeedie
 
-#define colour8 #5c6178
-#define colour9 #d26464
-#define colour10 #4f806e
-#define colour11 #e0ae80
-#define colour12 #4d7099
-#define colour13 #838b73
-#define colour14 #cc7e5b
-#define colour15 #353945
+! Background, Lighter (+4), Medium (+6), Lightest (+10)
+#define colour0 #1f1f1f
+#define colour1 #292929
+#define colour2 #383838
+#define colour3 #525252
+! Darkest Foreground (-18), Medium (-10), Darker (-6), Foreground
+#define colour4 #756c5d
+#define colour5 #a39681
+#define colour6 #bdae95
+#define colour7 #ccbca1
+! Red-ish
+#define colour8 #ad6549
+! Orange
+#define colour9 #c2783c
+! Yellow
+#define colour10 #bd9255
+! Lighter Green
+#define colour11 #73855c
+! Dark Green
+#define colour12 #5c6b4b
+! Blue-ish
+#define colour13 #576b69
+! Light Brown
+#define colour14 #85673d
+! Purple-ish brown
+#define colour15 #514039
 
 *.foreground:   colour7
 *.background:   colour0
 *.cursorColor:  colour7
 
-! bg color it seems
-*.color0:       colour0
-! pinkish red
-*.color1:       colour1
-! green
-*.color2:       colour2
-! yellow
-*.color3:       colour3
-! blue
-*.color4:       colour4
-! purple
-*.color5:       colour5
-! grayish blue
-*.color6:       colour6
-! gray
-*.color7:       colour7
+! Comments below represent the colours that will be used if none were set.
+! It is also what most programs will expect. For instance, by default,
+! git will use 'color1' for outputting file paths when running 'git status'
 
-! dark gray thing
-*.color8:       colour8
-! pinkish red
+! Black
+*.color0:       colour0
+! Red
+*.color1:       colour8
+! Green
+*.color2:       colour11
+! Yellow
+*.color3:       colour10
+! Blue
+*.color4:       colour13
+! Purple
+*.color5:       colour15
+! Cyan
+*.color6:       colour14
+! Gray
+*.color7:       colour4
+
+! Light Black
+*.color8:       colour3
+! Light Red
 *.color9:       colour9
-! green
-*.color10:      colour10
-! yellow
-*.color11:      colour11
-! blue
-*.color12:      colour12
-! purple
-*.color13:      colour13
-! grayish blue
-*.color14:      colour14
-! white
-*.color15:      colour15
+! Light Green
+*.color10:      colour12
+! Light Yellow
+*.color11:      colour1
+! Light Blue
+*.color12:      colour2
+! Light Purple
+*.color13:      colour5
+! Light Cyan
+*.color14:      colour6
+! White
+*.color15:      colour7
 
 Xft.dpi: 96
 Xft.antialias: true
@@ -65,7 +81,7 @@ Xft.lcdfilter: lcddefault
 !! Urxvt configuration
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
-URxvt.font: -*-tamzen-medium-*-*-*-16-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
+URxvt.font: -*-tamzen-medium-*-*-*-20-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8
 URxvt.fading: 5
 !
