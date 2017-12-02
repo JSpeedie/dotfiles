@@ -87,11 +87,17 @@ call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
 call matchadd('Visual', '\\\zs\s\%#\@<!$')
 
 " Set the colorcscheme
-colorscheme pelagic
+colorscheme taiga
 
-hi User1 ctermbg=0 ctermfg=7
-hi User2 ctermbg=15 ctermfg=7
-hi User3 ctermbg=8 ctermfg=7
+" Darker bg with darker fg (used for middle section of status line
+" which has no text)
+hi User1 ctermbg=11 ctermfg=13
+" Used for file type of status line
+" Medium bg with darker fg
+hi User2 ctermbg=12 ctermfg=14
+" Used for file name of status line
+" Should be the lightest bg colour with brightest fg
+hi User3 ctermbg=8 ctermfg=15
 
 function! Modified()
 	if &modified ==# 1
