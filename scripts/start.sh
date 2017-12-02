@@ -17,11 +17,11 @@ windowList=$(bspc query --nodes)
 # we created any.
 sortedIds=$(echo $currentWin)
 # Windows to make upon start up
-Win=(firefox firefox\ --new-window\ http://netflix.com/browse urxvt urxvt)
+Win=(firefox urxvt urxvt)
 # The WM_CLASS name of the windows you want to sort/move
-WinNames=(Firefox Firefox URxvt URxvt)
+WinNames=(Firefox URxvt URxvt)
 # The desktops you want each window to be sorted/moved to
-WinDesktop=(7 2 6 6)
+WinDesktop=(7 6 6)
 # }}}
 
 # Add a delay so .Xresources can be read
