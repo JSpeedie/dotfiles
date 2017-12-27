@@ -99,5 +99,5 @@ done
 # persistent greeting so you can go away and come back and know it's done
 notify-send -u critical "Welcome back, loser"
 # Focus on the right desktops
-bspc desktop -f ^1
-bspc desktop -f ^6
+# bspc desktop -f ^1
+# bspc desktop -f ^6
