@@ -1,3 +1,4 @@
+$HOME/.monicarc   #monitor calibration
 xmodmap ~/.Xmodmap
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
 xset +fp ~/.fonts/tamzen-font/bdf
