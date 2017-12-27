@@ -1,5 +1,7 @@
 . ~/coloursconf
 
+MAX_SONG_LEN=24;
+
 echo "" > .barOut
 
 let number_of_monitors=$(xrandr | grep " connected" | awk '{print $1}' | wc -l)
@@ -28,8 +30,8 @@ else
 fi
 
 # Fonts
-siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-0-iso10646-1"
-siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-0-iso10646-1"
+siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
+siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1"
 tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
 text_colour=$color7
 highlight_colour=$color6
@@ -151,16 +153,16 @@ mem() {
 song() {
 	# If mpd is running
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
-		scr_text_combin=$(sh ~/scripts/scrolltext2.sh 14 "$song   " $1)
+		song_len=$MAX_SONG_LEN
+		if [[ ${#song} -lt $MAX_SONG_LEN ]]; then
+			let song_len=${#song}+${#sep4}
+		fi
+
+		scr_text_combin=$(sh ~/scripts/scrolltext.sh "$song" $1 $song_len)
 
 		if [[ $(mpc status | grep "playing") ]]; then
-			printf "combi $1\n" >> combi
-
 			echo "%{F$highlight_colour}$icon_music_playing%{F-} $scr_text_combin"
 		elif [[ $(mpc status | grep "paused") ]]; then
-			# let combi=$(echo "$combi 10" | awk '{print ($1 + 1) % $2}')
-			printf "combi $1\n" >> combi
-
 			echo "%{F$highlight_colour}$icon_music_paused%{F-} $scr_text_combin"
 		else
 			echo ""
@@ -168,7 +170,6 @@ song() {
 	else
 		echo ""
 	fi
-
 }
 
 cpu_temp() {
@@ -195,27 +196,22 @@ while true; do
 	final_song=$(song $combi)
 	final_bat=$(battery)
 	final_brightness=$(brightness)
+	bat_sep=""
+	brightness_sep=""
+	bar_out=""
 	# If mpd is active, add the extra spacing
 	if [[ $final_song != "" ]]; then
 		final_song+=$sep4
 	fi
 	# If the system has a battery
-	if [[ $final_bat != "" ]]; then
-		bat_sep=$bar_sep
-	else
-		bat_sep=""
-	fi
-	# If the system has built in screen (aka a laptop)
-	if [[ $final_brightness != "" ]]; then
-		brightness_sep=$bar_sep
-	else
-		brightness_sep=""
-	fi
+	if [[ $final_bat != "" ]]; then bat_sep=$bar_sep; fi
+	# If the system has built in screen with brightness
+	if [[ $final_brightness != "" ]]; then brightness_sep=$bar_sep; fi
 
-	bar_out=""
-	bar="%{l}$bar_sep$(workspaces)%{c}$(current_time)$bar_sep$(volume)\
-			%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep${brightness}$brightness_sep\
-			${final_bat}$bat_sep$(current_date)$bar_sep"
+	bar="%{l}$bar_sep$(workspaces)\
+		%{c}$(current_time)$bar_sep$(volume)$bar_sep${final_song}\
+		%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep${brightness}$brightness_sep\
+		${final_bat}$bat_sep$(current_date)$bar_sep"
 
 	let mon_number=0
 	while [[ $mon_number -lt $number_of_monitors ]]; do
@@ -231,7 +227,7 @@ while true; do
 		# Increment combi. Modulus combi.
 		if [[ ${#song} -ne 0 ]]; then
 			let combi=$combi+1
-			let combi=$combi%${#song}
+			let combi=$combi%MAX_SONG_LEN
 		fi
 	fi
 	sleep 0.5s
