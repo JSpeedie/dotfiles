@@ -12,13 +12,15 @@ end=$'\e[0m'
 
 PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
-	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme)
+	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
+	xf86-video-intel)
 OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
 	gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
 	xterm git svn numlockx network-manager network-manager-applet xorg-xfd \
 	gnome-control-center lxappearance gst-libav pitivi ttf-droid \
-	adobe-source-code-pro-fonts ttf-roboto)
+	adobe-source-code-pro-fonts ttf-roboto veracrypt libreoffice-fresh \
+	avidemux-qt mpv)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
