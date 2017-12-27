@@ -15,10 +15,11 @@ fi
 #	6. -matching fuzzy, makes the search a fuzzy find
 #	7. -lines $line_count, sets the maximum number of lines to be shown
 song_index=$(mpc playlist | rofi -dmenu -format d -m -2 -i -matching fuzzy -lines $line_count)
+song_index_ret=$?
 song_title=$(mpc -f %title% playlist | sed "${song_index}q;d")
 song_artist=$(mpc -f %artist% playlist | sed "${song_index}q;d")
 # If the user didn't exit rofi,
 # mpc searches for a song with matching criteria and plays it
-if [[ $? -eq 0 ]]; then
+if [[ $song_index_ret -eq 0 ]]; then
 	mpc searchplay title "$song_title" artist "$song_artist"
 fi
