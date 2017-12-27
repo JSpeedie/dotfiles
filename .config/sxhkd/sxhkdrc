@@ -1,4 +1,8 @@
 ################################
+#     sxhkd/parse.c dummy      #
+################################
+
+################################
 #                              #
 #  Still needed bspc commands  #
 #                              #
@@ -128,23 +132,37 @@ super + Escape
 ######################
 #    mpd keybinds    #
 ######################
-#
-# Toggle song status in mpd (play/pause) (l for Listen)
-alt + l
-	mpc toggle
+
+# Don't forget to 'mpc update' after setting it all up
+
+# Seek backwards
+alt + y
+	mpc seek -00:00:10
 
 # Play previous song in mpd playlist
 alt + u
 	mpc prev
 
+# Use rofi to "fuzzy" find search and play a song (i for Insert)
+alt + i
+	sh ~/scripts/playsong.sh
+ 
 # Play next song in mpd playlist
 alt + o
 	mpc next
 
-# Use rofi to "fuzzy" find search and play a song (o for... Open?)
-alt + i
-	sh ~/scripts/playsong.sh
-	# song=$(mpc list title | rofi -dmenu); file=$(mpc search title "$song"); mpc insert "$file"; mpc next; mpc play
+# Toggle song status in mpd (play/pause) (p for Play or Pause)
+alt + p
+	mpc toggle
+
+# Show songs in current playlist allowing user to pick the
+# song playing (p for Pick)
+alt + shift + p
+	sh ~/scripts/playsongfromplaylist.sh
+
+# Seek forwards
+alt + bracketleft
+	mpc seek +00:00:10
 
 ######################
 #  volume keybinds   #
@@ -166,11 +184,11 @@ alt + m
 #################################
 
 # Decrease screen brightness by 5 percent
-# alt + shift +  n
-# 	xbacklight -time 5 -steps 1 -dec 5
+alt + shift +  n
+	xbacklight -time 5 -steps 1 -dec 5
 # Increase screen brightness by 5 percent
-# alt + shift +  m
-# 	xbacklight -time 5 -steps 1 -inc 5
+alt + shift +  m
+	xbacklight -time 5 -steps 1 -inc 5
 
 # Lock the system
 alt + Escape
