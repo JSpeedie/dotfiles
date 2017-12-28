@@ -6,6 +6,9 @@
 # 2. Starting index to grab from
 # 3. Length of output
 
+# Example command:
+# $ for i in $(seq 0 50); do sh scripts/scrolltext.sh "test - command" $i 24; done
+
 input_string=$1
 start_index=$2
 full_len=$3
