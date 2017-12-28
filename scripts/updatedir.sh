@@ -45,16 +45,6 @@ cyan=$'\e[1;36m'
 end=$'\e[0m'
 
 
-function getPreferences {
-	printf "Only list files that differ from their counterparts? [Y/n] "
-	read LISTIF
-	echo
-	if [[ $LISTIF != "Y" ]] && [[ $LISTIF != "n" ]] && [[ $LISTIF != "" ]]; then
-		echo "Invalid input. Exiting..."
-		exit 1
-	fi
-}
-
 # Used for when a user inputs "c" to compare two files. This would usually
 # Output the usual file comparison output (files differ, [Y/n/c/r], etc)
 # the purpose of this function is to remove the first comparison output.
@@ -81,51 +71,38 @@ function nextFile {
 
 	difftest=$(cmp -s $First$file $Second$file; echo $?)
 
-	# If the files are NOT different
-	if [[ $difftest == "0" ]]; then
-		# If the user only wants to show files that differ
-		if [[ $LISTIF == "Y" ]] || [[ $LISTIF == "" ]]; then
-			return
-		else
-			echo "$green==> The files do NOT differ$end"
-		fi
 	# If the files are different
-	else
+	if [[ $difftest != "0" ]]; then
 		echo "$red==> The files differ$end"
-	fi
+		echo "Y=Yes, n=no, c=compare r=revert"
+		printf "Update $file? [Y/n/c/r] "
+		read ANS
+		# Default to "Y" (hitting enter is equivalent to entering "Y")
+		if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
+			cp -v $First$file -T $Second$file;
+		elif [[ $ANS == "n" ]]; then
+			echo "Continuing to next file..."
+		elif [[ $ANS == "c" ]]; then
+			vimdiff $First$file $Second$file
+			# Remove previous output to avoid confusion upon re-reading it
+			# 1 for "==>" files do/don't differ line
+			# 1 for Y=Yes line
+			# 1 for Update file [Y/n/c/r] line
+			# 1 for output of vimdiff ("2 files to edit")
+			# 1 for echo "" for space for nextFile
+			removeLinesAbove 5
+			nextFile
+		elif [[ $ANS == "r" ]]; then
+			cp -iv $Second$file -T $First$file ;
+		else
+			echo "Invalid input. Exiting..."
+			exit 1
+		fi
 
-	echo "Y=Yes, n=no, c=compare r=revert"
-	printf "Update $file? [Y/n/c/r] "
-	read ANS
-	# Default to "Y" (hitting enter is equivalent to entering "Y")
-	if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
-		cp -v $First$file -T $Second$file;
-	elif [[ $ANS == "n" ]]; then
-		echo "Continuing to next file..."
-	elif [[ $ANS == "c" ]]; then
-		vimdiff $First$file $Second$file
-		# Remove previous output to avoid confusion upon re-reading it
-		# 1 for "==>" files do/don't differ line
-		# 1 for Y=Yes line
-		# 1 for Update file [Y/n/c/r] line
-		# 1 for output of vimdiff ("2 files to edit")
-		# 1 for echo "" for space for nextFile
-		removeLinesAbove 5
-		nextFile
-	elif [[ $ANS == "r" ]]; then
-		cp -iv $Second$file -T $First$file ;
-	else
-		echo "Invalid input. Exiting..."
-		exit 1
+		echo ""
 	fi
-
-	echo ""
 }
 
-
-# Get the users preferences for the program. If they'd like to only get
-# prompted to update files that are different from their counterpart, etc.
-getPreferences;
 
 # Go through all the files in the second directory and compare to first
 # directory equivalent of the file.
