@@ -169,17 +169,10 @@ convdeintmp4 () {
 	ffmpeg -i $1 -vf yadif=1 $2
 }
 
-genrat () {
-	# Create temp rating file and final rating file
-	printf "" >$1.temp;
-	printf "" >$1.rat;
+xfd-siji() {
 
-	for i in $(ls | grep ".pl"); do
-		echo $(tail -n 1 $i) >>$1.temp
-	done
-
-	sort -k 2 -r $1.temp | column -t > $1.rat
-	rm $1.temp
+	font='-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1'
+	xfd -fn $font 2>&1 >/dev/null &
 }
 
 PS1=$(prompt)
