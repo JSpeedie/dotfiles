@@ -25,6 +25,7 @@ let combi=0
 # If mpd is running
 if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 	song=$(mpc current)
+	song="$song$sep4"
 else
 	song=""
 fi
@@ -155,7 +156,7 @@ song() {
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 		song_len=$MAX_SONG_LEN
 		if [[ ${#song} -lt $MAX_SONG_LEN ]]; then
-			let song_len=${#song}+${#sep4}
+			let song_len=${#song}
 		fi
 
 		scr_text_combin=$(sh ~/scripts/scrolltext.sh "$song" $1 $song_len)
@@ -223,11 +224,17 @@ while true; do
 
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 		song=$(mpc current)
+		song="$song$sep4"
 
 		# Increment combi. Modulus combi.
 		if [[ ${#song} -ne 0 ]]; then
+			song_len=${#song}
+			# song_len=$MAX_SONG_LEN
+			# if [[ ${#song} -lt $MAX_SONG_LEN ]]; then
+			# 	let song_len=${#song}+${#sep4}
+			# fi
 			let combi=$combi+1
-			let combi=$combi%MAX_SONG_LEN
+			let combi=$combi%$song_len
 		fi
 	fi
 	sleep 0.5s
