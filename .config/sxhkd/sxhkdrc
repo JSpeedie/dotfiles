@@ -146,7 +146,11 @@ alt + u
 # Use rofi to "fuzzy" find search and play a song (i for Insert)
 alt + i
 	sh ~/scripts/playsong.sh
- 
+
+# Use rofi to "fuzzy" find remove a song (I as in the inverse of insert)
+alt + shift + i
+	sh ~/scripts/removesongfromplaylist.sh
+
 # Play next song in mpd playlist
 alt + o
 	mpc next
