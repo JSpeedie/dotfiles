@@ -45,23 +45,31 @@ bar_sep=$sep2
 
 # Icons
 # icon_wksp="\ue001"
+# Icons are (in order) , 
 icon_wksp="\ue130"
 icon_wksp_sel="\ue000"
-icon_up_time=""
-icon_net=''
-icon_memory=""
-icon_cpu_temp=""
+# Icon is 
+icon_up_time="\ue060"
+# Icon is 
+icon_net="\ue222"
+# Icon is 
+icon_memory="\ue028"
+# Icon is 
+icon_cpu_temp="\ue0a4"
 # Icons are (in order) , , 
 icon_vol_muted="\ue04f"
 icon_vol_low="\ue04e"
 icon_vol_high="\ue050"
-# Icons are (in order) , (tba)
+# Icons are (in order) , 
 icon_battery_charging="\ue20e"
 icon_battery_full="\ue24b"
-icon_date=""
-icon_time=""
-icon_music_paused=""
-icon_music_playing=""
+# Icon is 
+icon_date="\ue26a"
+# Icon is 
+icon_time="\ue015"
+# Icons are (in order) , 
+icon_music_paused="\ue059"
+icon_music_playing="\ue058"
 # Icon is 
 icon_brightness="\ue0a9"
 
@@ -127,10 +135,9 @@ volume() {
 	if [[ $(pamixer --get-mute) == "true" ]]; then
 		icon=$icon_vol_muted
 	else
+		icon=$icon_vol_low
 		if [[ $vol -ge 50 ]]; then
 			icon=$icon_vol_high
-		else
-			icon=$icon_vol_low
 		fi
 	fi
 
