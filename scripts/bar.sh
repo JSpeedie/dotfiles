@@ -44,7 +44,6 @@ sep4="    "
 bar_sep=$sep2
 
 # Icons
-# icon_wksp="\ue001"
 # Icons are (in order) , 
 icon_wksp="\ue130"
 icon_wksp_sel="\ue000"
@@ -75,12 +74,11 @@ icon_brightness="\ue0a9"
 
 # Needs to be tested on a machine with no battery
 battery() {
+	bat_dir=""
 	if [[ -d /sys/class/power_supply/BAT0 ]]; then
 		bat_dir="/sys/class/power_supply/BAT0"
 	elif [[ -d /sys/class/power_supply/BAT1 ]]; then
 		bat_dir="/sys/class/power_supply/BAT1"
-	else
-		bat_dir=""
 	fi
 
 	# If a battery directory was found
@@ -123,7 +121,7 @@ brightness() {
 		max=$(cat /sys/class/backlight/acpi_video0/max_brightness)
 		bright=$(echo "$bright $max" | awk '{printf "%.0f\n", ($1/$2) * 100}')
 		bright+="%"
-		echo -e "%{F$highlight_colour}$icon_brightness $bright%{F-}"
+		echo -e "%{F$highlight_colour}$icon_brightness%{F-} $bright"
 	else
 		echo ""
 	fi
@@ -131,11 +129,11 @@ brightness() {
 
 volume() {
 	vol=$(pamixer --get-volume)
-
-	if [[ $(pamixer --get-mute) == "true" ]]; then
-		icon=$icon_vol_muted
-	else
+	icon=$icon_vol_muted
+	# If PulseAudio is NOT muted
+	if [[ ! $(pamixer --get-mute) ]]; then
 		icon=$icon_vol_low
+		# If the volume is 50% or above
 		if [[ $vol -ge 50 ]]; then
 			icon=$icon_vol_high
 		fi
@@ -208,9 +206,7 @@ while true; do
 	brightness_sep=""
 	bar_out=""
 	# If mpd is active, add the extra spacing
-	if [[ $final_song != "" ]]; then
-		final_song+=$sep4
-	fi
+	if [[ $final_song != "" ]]; then final_song+=$sep4; fi
 	# If the system has a battery
 	if [[ $final_bat != "" ]]; then bat_sep=$bar_sep; fi
 	# If the system has built in screen with brightness
@@ -229,17 +225,15 @@ while true; do
 
 	echo "$bar_out"
 
+	# If mpd is running
 	if [[ $(mpc > /dev/null 2>&1; echo "$?") == 0 ]]; then
 		song=$(mpc current)
 		song="$song$sep4"
 
-		# Increment combi. Modulus combi.
+		# Increment combi to continue scrolling. Modulus combi when it has
+		# scrolled the full content
 		if [[ ${#song} -ne 0 ]]; then
 			song_len=${#song}
-			# song_len=$MAX_SONG_LEN
-			# if [[ ${#song} -lt $MAX_SONG_LEN ]]; then
-			# 	let song_len=${#song}+${#sep4}
-			# fi
 			let combi=$combi+1
 			let combi=$combi%$song_len
 		fi
