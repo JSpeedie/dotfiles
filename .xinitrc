@@ -15,6 +15,7 @@ dunst -config ~/dunstrc &
 feh --bg-scale ~/Pictures/Wallpapers/LifeGuardPostAtBeach.jpe &
 compton -b -f --fade-delta 8 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
 sh ~/scripts/start.sh &
+[ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
 sxhkd &
 exec bspwm
