@@ -131,7 +131,7 @@ volume() {
 	vol=$(pamixer --get-volume)
 	icon=$icon_vol_muted
 	# If PulseAudio is NOT muted
-	if [[ ! $(pamixer --get-mute) ]]; then
+	if [[ $(pamixer --get-mute) == "false" ]]; then
 		icon=$icon_vol_low
 		# If the volume is 50% or above
 		if [[ $vol -ge 50 ]]; then
@@ -144,15 +144,15 @@ volume() {
 
 current_date() {
 	# Shortened day of week, mon and day
-	echo "%{F$highlight_colour}$icon_date%{F-} $(date "+%a %m/%d")"
+	echo -e "%{F$highlight_colour}$icon_date%{F-} $(date "+%a %m/%d")"
 }
 
 current_time() {
-	echo "%{F$highlight_colour}$icon_time%{F-} $(date +%I:%M:%S)"
+	echo -e "%{F$highlight_colour}$icon_time%{F-} $(date +%I:%M:%S)"
 }
 
 mem() {
-	echo "%{F$highlight_colour}$icon_memory%{F-} $(free --mega | awk 'NR==2 {print $3}').\
+	echo -e "%{F$highlight_colour}$icon_memory%{F-} $(free --mega | awk 'NR==2 {print $3}').\
 		$(free --mega | awk 'NR==2 {print $7}')"
 }
 
@@ -167,9 +167,9 @@ song() {
 		scr_text_combin=$(sh ~/scripts/scrolltext.sh "$song" $1 $song_len)
 
 		if [[ $(mpc status | grep "playing") ]]; then
-			echo "%{F$highlight_colour}$icon_music_playing%{F-} $scr_text_combin"
+			echo -e "%{F$highlight_colour}$icon_music_playing%{F-} $scr_text_combin"
 		elif [[ $(mpc status | grep "paused") ]]; then
-			echo "%{F$highlight_colour}$icon_music_paused%{F-} $scr_text_combin"
+			echo -e "%{F$highlight_colour}$icon_music_paused%{F-} $scr_text_combin"
 		else
 			echo ""
 		fi
@@ -180,7 +180,7 @@ song() {
 
 cpu_temp() {
 	temp=$(sensors | grep id | grep -o "[0-9]\+\.[0-9]" | head -n 1)
-	echo "%{F$highlight_colour}$icon_cpu_temp%{F-} $temp"
+	echo -e "%{F$highlight_colour}$icon_cpu_temp%{F-} $temp"
 }
 
 workspaces() {
@@ -214,7 +214,7 @@ while true; do
 
 	bar="%{l}$bar_sep$(workspaces)\
 		%{c}$(current_time)$bar_sep$(volume)$bar_sep${final_song}\
-		%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep${brightness}$brightness_sep\
+		%{r}$(cpu_temp)$bar_sep$(mem)$bar_sep${final_brightness}$brightness_sep\
 		${final_bat}$bat_sep$(current_date)$bar_sep"
 
 	let mon_number=0
