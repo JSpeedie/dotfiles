@@ -14,7 +14,7 @@ PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
 	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
 	xf86-video-intel)
-OPKGLIST=(firefox nautilus scrot screenfetch flashplugin unzip zip eog \
+OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
 	gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
 	xterm git svn numlockx network-manager network-manager-applet xorg-xfd \
