@@ -44,7 +44,7 @@ done
 
 bspc config focused_border_color		"$color7"
 # Focused window on an unfocused desktop
-bspc config active_border_color			"$color7"
-bspc config normal_border_color			"$color8"
-bspc config presel_border_color			"$color8"
+bspc config active_border_color			"$color13"
+bspc config normal_border_color			"$color12"
+bspc config presel_border_color			"$color12"
 bspc config urgent_border_color			"$color1"
