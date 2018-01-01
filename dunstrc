@@ -150,8 +150,8 @@
 
 [frame]
     width = 2
-    # Border colours (colour7)
-    color = "#b2b8a2"
+    # Border colours (colour13)
+    color = "#a39681"
 
 [shortcuts]
 
@@ -176,23 +176,23 @@
 
 [urgency_low]
 	# colour0
-    background = "#2b2e38"
-	# colour7
-    foreground = "#b2b8a2"
+    background = "#1f1f1f"
+	# colour15
+    foreground = "#ccbca1"
     timeout = 4
 
 [urgency_normal]
 	# colour0
-    background = "#2b2e38"
-	# colour7
-    foreground = "#b2b8a2"
+    background = "#1f1f1f"
+	# colour15
+    foreground = "#ccbca1"
     timeout = 6
 
 [urgency_critical]
 	# colour0
-    background = "#2b2e38"
+    background = "#1f1f1f"
 	# colour1
-    foreground = "#d26464"
+    foreground = "#ad6549"
     timeout = 0
 
 
