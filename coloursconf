@@ -1,33 +1,16 @@
-# Background Colour
-color0=#2b2e38
-# Red
-color1=#d26464
-# Green
-color2=#4f806e
-# Yellow
-color3=#e0ae80
-# Blue
-color4=#4d7099
-# Dull Green
-color5=#838b73
-# Orange
-color6=#cc7e5b
-# Foreground Colour (Light Beige)
-color7=#bfb8a2
-
-# Light Gray
-color8=#5c6178
-# Red
-color9=#d26464
-# Green
-color10=#4f806e
-# Yellow
-color11=#e0ae80
-# Blue
-color12=#4d7099
-# Dull Green
-color13=#838b73
-# Orange
-color14=#cc7e5b
-# Dark Gray
-color15=#353945
+color0=#1f1f1f
+color1=#ad6549
+color2=#73855c
+color3=#bd9255
+color4=#576b69
+color5=#514039
+color6=#85673d
+color7=#756c5d
+color8=#525252
+color9=#c2783c
+color10=#5c6b4b
+color11=#292929
+color12=#383838
+color13=#a39681
+color14=#bdae95
+color15=#ccbca1
