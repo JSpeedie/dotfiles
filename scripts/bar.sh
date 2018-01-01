@@ -34,8 +34,8 @@ fi
 siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
 siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1"
 tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
-text_colour=$color7
-highlight_colour=$color6
+text_colour=$color15
+highlight_colour=$color10
 
 # Separators
 sep2="  "
