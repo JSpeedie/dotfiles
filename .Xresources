@@ -107,11 +107,11 @@ rofi.font: Tamzen 12
 rofi.hide-scrollbar: true
 rofi.color-enabled: true
 !! 					bg					border				separator
-rofi.color-window:	argb:BF2b2e38,		argb:BF2b2e38,		argb:BF2b2e38
+rofi.color-window:	argb:BF1f1f1f,		argb:BF1f1f1f,		argb:BF1f1f1f
 !! 					bg					fg					bg alt				hl bg		hl fg
-rofi.color-normal:	argb:BF2b2e38,		colour7,				argb:BF2b2e38,		colour7,		argb:BF2b2e38
-rofi.color-active:	colour7,			argb:BF2b2e38,			colour7,			colour7,		argb:BF2b2e38
-rofi.color-urgent:	argb:BF2b2e38,		colour7,				argb:BF2b2e38,		colour7,		argb:BF2b2e38
+rofi.color-normal:	argb:BF1f1f1f,		colour7,				argb:BF1f1f1f,		colour7,		argb:BF1f1f1f
+rofi.color-active:	colour7,			argb:BF1f1f1f,			colour7,			colour7,		argb:BF1f1f1f
+rofi.color-urgent:	argb:BF1f1f1f,		colour7,				argb:BF1f1f1f,		colour7,		argb:BF1f1f1f
 rofi.bw: 4
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
