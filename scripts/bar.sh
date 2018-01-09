@@ -83,8 +83,15 @@ battery() {
 
 	# If a battery directory was found
 	if [[ $bat_dir != "" ]]; then
+		if [[ $bar_dir"charge_now" ]]; then
+			c_bat="charge_now"
+			f_bat="charge_full"
+		elif [[ $bar_dir"energy_now" ]]; then
+			c_bat="energy_now"
+			f_bat="energy_full"
+		fi
 		stat=$(cd $bat_dir; cat status)
-		perc=$(cd $bat_dir; paste energy_now energy_full |
+		perc=$(cd $bat_dir; paste $c_bat $f_bat |
 				awk '{printf "%.1f\n", ($1/$2) * 100}')
 
 		if [[ $stat == "Unknown" ]] || [[ $stat == "Charging" ]]; then
