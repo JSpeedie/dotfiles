@@ -20,7 +20,8 @@ OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	xterm git svn numlockx network-manager network-manager-applet stalonetray \
 	xorg-xfd gnome-control-center lxappearance gst-libav pitivi ttf-droid \
 	adobe-source-code-pro-fonts ttf-roboto veracrypt libreoffice-fresh \
-	avidemux-qt mpv gtop cmatrix asp obs-studio figlet lolcat jre8-openjdk)
+	avidemux-qt mpv gtop cmatrix asp obs-studio figlet lolcat jre8-openjdk \
+	cmake)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
