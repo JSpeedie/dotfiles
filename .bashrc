@@ -32,6 +32,8 @@ alias rwfvs='wtp 0 0 456 246 $(cfw)'
 # Record Desktop Ultra Small (1/6 of the screen)
 alias rdus='ffmpeg -video_size 320x180 -framerate 60 -f x11grab -i :0.0+800,450 output.mp4'
 alias rwfus='wtp 0 0 304 164 $(cfw)'
+# For when you gotta let em know
+alias fuckyou='yes "$(echo "fuck you" | figlet -f slant)" | lolcat'
 alias ctest='sh ~/scripts/colortest.sh'
 alias bonsai='sh ~/scripts/bonsai.sh 2 7'
 alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
