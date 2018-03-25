@@ -17,13 +17,18 @@
 ;; 10. Change font to hermit or tamzen?
 ;; 11. Speed up macro execution?
 ;; 12. Show file name after write, regardless of if there are changes to be saved
-;; 13. get 'cgn' working
+;; [DONE] 13. get 'gn' motions working
 ;; 14. Non eletric tab. Only inserts tabs
 ;; [DONE] 15. Make j at bottom of screen or k at top of screen not move up half a page at a time
 ;; 16. Fix * and # just doing w and not like W
-;; 17. Fix termal to be bash and make shortcut for opening it
-;; 18. Block cursor in insert mode?
+;; 17. Fix terminal to be bash and make shortcut for opening it
+;; 18. Block style cursor in insert mode?
 ;; 19. Consider learning and installing avy?
+;; 20. Get ansi-term working properly
+;;     20a. Typing and backspacing and entering runs all
+;;     20b. Vim is broke
+;;     20c. Colours for prompt don't work
+;;     20d. Check Uncle Dave's guide on ansi-term
 ;;
 ;; Notes:
 ;; C-h k <key series> to get documentation/name of function executed to key series
@@ -66,6 +71,8 @@
 
 ;; Add support for native vim C-u when editing
 (setq-default evil-want-C-u-scroll t)
+;; Add support for vim 'gn' motions when editing
+(setq evil-search-module (quote evil-search))
 ;; Set scrolling past top or bottom of page to move only
 ;; one line instead of half a page
 (setq scroll-conservatively 100)
@@ -91,18 +98,19 @@
 ;; ===========================
 ;; = Better Window Splitting =
 ;; ===========================
+;; Now splitting windows brings focus to the newly created window
 (defun split-and-follow-horizontal ()
-  (interactive)
-  (split-window-below)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x 2") 'split-and-follow-horizontal)
-(defun split-and-follow-vertical ()
   (interactive)
   (split-window-right)
   (balance-windows)
   (other-window 1))
-(global-set-key (kbd "C-x 3") 'split-and-follow-vertical)
+(global-set-key (kbd "C-x C-l") 'split-and-follow-horizontal)
+(defun split-and-follow-vertical ()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x C-j") 'split-and-follow-vertical)
 ;; ==========================
 ;; = switch-window Settings =
 ;; ==========================
@@ -115,6 +123,7 @@
 (setq switch-window-qwerty-shortcuts
 	  '("h" "j" "k" "l" "u" "i" "o" "p"))
 (global-set-key (kbd "C-x o") 'switch-window)
+(setq explicit-shell-file-name "/bin/bash")
 
 
 ;; ======================
@@ -173,8 +182,6 @@
 ;; = Evil mode settings =
 ;; ======================
 (require 'evil)
-;; 'gn' motions now work
-(setq evil-search-module 'evil-search)
 ;; Enable evil mode
 (evil-mode 1)
 
