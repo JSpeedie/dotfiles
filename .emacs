@@ -18,7 +18,7 @@
 ;; 11. Speed up macro execution?
 ;; 12. Show file name after write, regardless of if there are changes to be saved
 ;; [DONE] 13. get 'gn' motions working
-;; 14. Non eletric tab. Only inserts tabs
+;; [TEMP] 14. Non eletric tab. Only inserts tabs
 ;; [DONE] 15. Make j at bottom of screen or k at top of screen not move up half a page at a time
 ;; 16. Fix * and # just doing w and not like W
 ;; 17. Fix terminal to be bash and make shortcut for opening it
@@ -30,6 +30,8 @@
 ;;     20c. Colours for prompt don't work
 ;;     20d. Check Uncle Dave's guide on ansi-term
 ;; 21. Fix .emacs to make functional emacs after 1 run, not 3
+;; 22. Fix ability to resize cleanly with mouse. Probably fixed once
+;;         mouse is disabled
 ;;
 ;; Notes:
 ;; C-h k <key series> to get documentation/name of function executed to key series
@@ -94,8 +96,15 @@
 ;;	(ido-vertical-mode 1))
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+;;(defun ido-my-keys ()
+;;	"Zsh-like tab complete for ido."
+;;	(define-key ido-completion-map " " 'ido-next-match))
 ;; ido buffer switching. *Much* better
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+;; Fix identation issue of mixing spaces and tabs, at least in C
+(setq-default c-basic-offset 4
+	tab-width 4
+	indent-tabs-mode t)
 
 ;; ===========================
 ;; = Better Window Splitting =
@@ -149,6 +158,8 @@
 (set-face-attribute 'fringe nil :background nil)
 
 (setq-default indent-tabs-mode t)           ;; Default to use tabs
+;;(local-set-key (kbd "TAB") (insert-char 9))
+(global-set-key (kbd "TAB") (lambda () (interactive) (insert-char 9 1)))
 
 ;; Highlights tabs and trailing whitespace
 ;; face: necessary for any of the following ones to work
