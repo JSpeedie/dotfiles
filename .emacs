@@ -29,6 +29,7 @@
 ;;     20b. Vim is broke
 ;;     20c. Colours for prompt don't work
 ;;     20d. Check Uncle Dave's guide on ansi-term
+;; 21. Fix .emacs to make functional emacs after 1 run, not 3
 ;;
 ;; Notes:
 ;; C-h k <key series> to get documentation/name of function executed to key series
@@ -68,6 +69,7 @@
 (package-install 'telephone-line)           ;; For another nice mode line
 (package-install 'ido-vertical-mode)        ;; For a nicer ido experience
 (package-install 'switch-window)            ;; To make window navigation faster
+(package-install 'markdown-mode)            ;; For markdown syntax highlighting
 
 ;; Add support for native vim C-u when editing
 (setq-default evil-want-C-u-scroll t)
@@ -199,7 +201,7 @@
  '(font-use-system-font t)
  '(package-selected-packages
    (quote
-	(switch-window ido-vertical-mode evil-surround telephone-line spaceline auto-complete sublimity flycheck spacemacs-theme evil))))
+	(markdown-mode switch-window ido-vertical-mode evil-surround telephone-line spaceline auto-complete sublimity flycheck spacemacs-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
