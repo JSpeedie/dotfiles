@@ -189,7 +189,6 @@
 
 (setq explicit-shell-file-name "/bin/bash")
 
-
 (ac-config-default)                         ;; Setup auto-complete
 (global-flycheck-mode)                      ;; Enable flycheck syntax checking
 (global-linum-mode t)                       ;; Get line numbers
