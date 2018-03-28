@@ -35,6 +35,8 @@
 ;;
 ;; Notes:
 ;; C-h k <key series> to get documentation/name of function executed to key series
+;; zM to close all folds works wonders in markdown mode
+;; zR to open all folds
 
 ;;; Code:
 
@@ -105,6 +107,10 @@
 (setq-default c-basic-offset 4
 	tab-width 4
 	indent-tabs-mode t)
+;; Make flycheck look for include files in the current folder. Very useful
+(defun my-c-mode-common-hook ()
+	(setq flycheck-clang-include-path (list "..")))
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
 ;; ===========================
 ;; = Better Window Splitting =
