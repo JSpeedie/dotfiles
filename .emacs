@@ -32,6 +32,9 @@
 ;; 21. Fix .emacs to make functional emacs after 1 run, not 3
 ;; 22. Fix ability to resize cleanly with mouse. Probably fixed once
 ;;         mouse is disabled
+;; 23. Install and config company? Uncle Dave ep. 12 for more info
+;; 24. Fix .emacs so that it doesn't take 3 runs to get
+;;         functioning emacs install
 ;;
 ;; Notes:
 ;; C-h k <key series> to get documentation/name of function executed to key series
@@ -74,6 +77,7 @@
 (package-install 'ido-vertical-mode)        ;; For a nicer ido experience
 (package-install 'switch-window)            ;; To make window navigation faster
 (package-install 'markdown-mode)            ;; For markdown syntax highlighting
+(package-install 'dashboard)                ;; For a start up dashboard
 
 ;; Add support for native vim C-u when editing
 (setq-default evil-want-C-u-scroll t)
@@ -82,6 +86,13 @@
 ;; Set scrolling past top or bottom of page to move only
 ;; one line instead of half a page
 (setq scroll-conservatively 100)
+
+;; ======================
+;; = Dashboard settings =
+;; ======================
+(dashboard-setup-startup-hook)
+(setq dashboard-items '((recents . 10)))
+(setq dashboard-banner-logo-title "Welcome back, loser.")
 
 ;; ======================
 ;; =    Ido settings    =
@@ -218,7 +229,7 @@
  '(font-use-system-font t)
  '(package-selected-packages
    (quote
-	(markdown-mode switch-window ido-vertical-mode evil-surround telephone-line spaceline auto-complete sublimity flycheck spacemacs-theme evil))))
+	(markdown-mode switch-window ido-vertical-mode evil-surround spaceline auto-complete flycheck spacemacs-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
