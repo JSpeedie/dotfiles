@@ -176,12 +176,12 @@ alt + bracketleft
 super + m
 	sh ~/scripts/togglemute.sh
 
-# Decrease volume by 4%
+# Decrease volume by 2%
 alt + n
-	pamixer -d 4
-# Increase volume by 4%
+	pamixer -d 2
+# Increase volume by 2%
 alt + m
-	pamixer -i 4
+	pamixer -i 2
 
 #################################
 #      brightness keybinds      #
