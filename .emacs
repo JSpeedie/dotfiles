@@ -167,6 +167,16 @@
 ;; (require 'telephone-line)
 ;; (telephone-line-mode 1)
 
+;; Because if you're not launching programs from emacs, you're
+;; spending enough time in emacs.
+;; ========================
+;; =  dmenu Settings  =
+;; ========================
+(use-package dmenu
+  :ensure t
+  :bind
+  ("C-s-SPC" . 'dmenu))
+
 
 
 
@@ -278,7 +288,7 @@
  '(font-use-system-font t)
  '(package-selected-packages
    (quote
-	(use-package markdown-mode switch-window ido-vertical-mode evil-surround spaceline auto-complete flycheck spacemacs-theme evil))))
+	(dmenu telephone-line use-package markdown-mode switch-window ido-vertical-mode evil-surround spaceline auto-complete flycheck spacemacs-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
