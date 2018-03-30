@@ -1,3 +1,49 @@
+* TODO:
+** TODO 1. Get line numbers padded and right justified
+** TODO 2. disable mouse
+** TODO 3. Get tab autocomplete for M-x and etc to be like zsh
+** DONE 4a. Get copy working
+y in evil mode, C-k in emacs
+** DONE 4b. Get paste working
+p in evil mode, C-y in emacs
+** TODO 5. Get ctrl - a working as increment number not beginning of life
+** TODO 6. Get actual colour column not some dumb line highlight
+** TODO 7. Fix dumb tab thing where hitting enter to break a line makes last
+       level of indentation like 2 spaces instead of a tab
+** TODO 8. Fix thing where backspacing a tab creates 4 spaces which then have to
+        be backspaced too
+** DONE 9. Change tab symbols
+** TODO 10. Change font to hermit or tamzen?
+** TODO 11. Speed up macro execution?
+** DONE 12. Show file name after write, regardless of if there are
+changes to be saved
+** DONE 13. get 'gn' motions working
+** DONE [TEMP] 14. Non eletric tab. Only inserts tabs
+** DONE 15. Make j at bottom of screen or k at top of screen not move
+up half a page at a time
+** TODO 16. Fix * and # just doing w and not like W
+** TODO 17. Fix terminal to be bash and make shortcut for opening it
+** TODO 18. Block style cursor in insert mode?
+** TODO 19. Consider learning and installing avy?
+** TODO 20. Get ansi-term working properly
+*** TODO 20a. Typing and backspacing and entering runs all
+*** TODO 20b. Vim is broke
+*** TODO 20c. Colours for prompt don't work
+*** TODO 20d. Check Uncle Dave's guide on ansi-term
+** TODO 21. Fix .emacs to make functional emacs after 1 run, not 3
+** TODO 22. Fix ability to resize cleanly with mouse. Probably fixed once
+        mouse is disabled
+** TODO 23. Install and config company? Uncle Dave ep. 12 for more info
+** TODO 24. Fix .emacs so that it doesn't take 3 runs to get
+        functioning emacs install
+** TODO 25. No confirmation when making a new file
+** DONE 26. Setup Org bullets
+
+** Notes:
+C-h k <key series> to get documentation/name of function executed to key series
+zM to close all folds works wonders in markdown mode
+zR to open all folds
+
 * Disabled Defaults
 #+BEGIN_SRC emacs-lisp
 ;; Remove various bars from top of screen
