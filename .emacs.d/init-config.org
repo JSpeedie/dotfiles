@@ -1,0 +1,212 @@
+* Disabled Defaults
+#+BEGIN_SRC emacs-lisp
+;; Remove various bars from top of screen
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(blink-cursor-mode -1)
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-screen t)
+#+END_SRC
+
+* Packages
+** Package List
+#+BEGIN_SRC emacs-lisp
+;; Packages I use
+(package-install 'evil)                     ;; For evil mode >:^]
+(package-install 'evil-surround)            ;; For surrounding
+                                            ;; add surrounding:
+                                            ;; ys<text-obj> or yS<text-obj> in normal
+                                            ;; change surrounding:
+                                            ;; cs<old-text-obj><new-text-obj>
+                                            ;; delete surrounding:
+                                            ;; ds<text-obj>
+(package-install 'flycheck)                 ;; For syntax checking
+(package-install 'spacemacs-theme)          ;; For spacemacs colour theme
+(package-install 'auto-complete)            ;; For tab completion
+(package-install 'telephone-line)           ;; For another nice mode line
+(package-install 'markdown-mode)            ;; For markdown syntax highlighting
+#+END_SRC
+*** dashboard
+#+BEGIN_SRC emacs-lisp
+;; For a start up screen that doesn't suck
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents . 10)))
+  (setq dashboard-banner-logo-title "Welcome back, loser."))
+#+END_SRC
+*** dmenu
+#+BEGIN_SRC emacs-lisp
+;; Because if you're not launching programs from emacs, you're
+;; spending enough time in emacs.
+(use-package dmenu
+  :ensure t
+  :bind
+  ("C-s-SPC" . 'dmenu))
+#+END_SRC
+*** ido
+#+BEGIN_SRC emacs-lisp
+;; For minibuffer completion that doesn't suck
+(require 'ido)
+(setq ido-enable-flex-matching nil)
+(setq ido-create-new-buffer 'always)
+(setq ido-everywhere t)
+(ido-mode 1)
+(use-package ido-vertical-mode
+  :ensure t
+  :config
+  (ido-vertical-mode 1)
+  ;; Better searching. C-n and C-p for cycling through possible completions
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+;;(use-package ido-vertical-mode
+;;	:ensure t
+;;	:init
+;;	(ido-vertical-mode 1))
+;;(defun ido-my-keys ()
+;;	"Zsh-like tab complete for ido."
+;;	(define-key ido-completion-map " " 'ido-next-match))
+;; ido buffer switching. *Much* better
+(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+#+END_SRC
+*** switch-window
+#+BEGIN_SRC emacs-lisp
+;; For window switching that doesn't suck
+(use-package switch-window
+  :ensure t
+  :config
+  ;; Remove surrounding square on chars
+  (setq switch-window-input-style 'minibuffer)
+  (setq switch-window-increase 2)
+  (setq switch-window-threshold 2)
+  (setq switch-window-shortcut-style 'qwerty)
+  (setq switch-window-qwerty-shortcuts
+  	  '("h" "j" "k" "l" "u" "i" "o" "p"))
+  (global-set-key (kbd "C-x o") 'switch-window))
+#+END_SRC
+* Custom Functions
+** Better Window Splitting
+#+BEGIN_SRC emacs-lisp
+;; Now splitting windows brings focus to the newly created window
+;; and window splitting is bound to more comfortable key combos
+;; ===========================
+;; = Better Window Splitting =
+;; ===========================
+(defun split-and-follow-horizontal ()
+  (interactive)
+  (split-window-right)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x C-l") 'split-and-follow-horizontal)
+(defun split-and-follow-vertical ()
+  (interactive)
+  (split-window-below)
+  (balance-windows)
+  (other-window 1))
+(global-set-key (kbd "C-x C-j") 'split-and-follow-vertical)
+#+END_SRC
+* Mode Line
+#+BEGIN_SRC emacs-lisp
+;; For a mode line that doesn't suck
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme))
+;; (require 'telephone-line)
+;; (telephone-line-mode 1)
+#+END_SRC
+* --- Unorganized ---
+#+BEGIN_SRC emacs-lisp
+;; Add support for native vim C-u when editing
+(setq-default evil-want-C-u-scroll t)
+;; Add support for vim 'gn' motions when editing
+(setq evil-search-module (quote evil-search))
+;; Set scrolling past top or bottom of page to move only
+;; one line instead of half a page
+(setq scroll-conservatively 100)
+
+;; Make flycheck look for include files in the current folder. Very useful
+(defun my-c-mode-common-hook ()
+	(setq flycheck-clang-include-path (list "..")))
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+(setq explicit-shell-file-name "/bin/bash")
+
+(ac-config-default)                         ;; Setup auto-complete
+(global-flycheck-mode)                      ;; Enable flycheck syntax checking
+(global-linum-mode t)                       ;; Get line numbers
+(global-evil-surround-mode 1)               ;; Enable evil-surround
+#+END_SRC
+
+* Line Number & Fringe
+#+BEGIN_SRC emacs-lisp
+;; Enable line numbers, add spacing
+(setq linum-format " %d ")                  ;; Set line number format
+(setq-default left-fringe-width 4)         ;; Set line number format spacing
+(setq-default right-fringe-width 4)        ;; Set line number format spacing
+(set-face-attribute 'fringe nil :background nil)
+#+END_SRC
+* Indentation
+#+BEGIN_SRC emacs-lisp
+;; Fix identation issue of mixing spaces and tabs, at least in C
+(setq-default c-basic-offset 4
+	tab-width 4
+	indent-tabs-mode t)
+(setq-default indent-tabs-mode t)           ;; Default to use tabs
+;;(local-set-key (kbd "TAB") (insert-char 9))
+(global-set-key (kbd "TAB") (lambda () (interactive) (insert-char 9 1)))
+(setq-default tab-width 4)                  ;; Better tabsize
+(setq-default whitespace-line-column 80)    ;; Add warning for if a line goes
+#+END_SRC
+* Whitespace Highlighting
+#+BEGIN_SRC emacs-lisp
+;; ===================================
+;; =  Highlight Whitespace Settings  =
+;; ===================================
+;; Highlights tabs and trailing whitespace
+;; face: necessary for any of the following ones to work
+;; tabs: because I want to see where my tabs are
+;; lines: for highlighting lines that are too long
+;; trailing: for trailing whitespace
+;; trailing-whitespace: for obvious reasons
+;; tab-mark: for tabs I think
+(setq-default whitespace-style (quote
+	(face tabs tab-mark lines trailing trailing-whitespace)) )
+(setq whitespace-display-mappings
+	'(
+		(space-mark 32 [183] [46])
+		(newline-mark 10 [182 10])
+		(tab-mark 9 [124 9] [92 9])
+	))
+(global-whitespace-mode t)
+#+END_SRC
+* Paren. Matching
+#+BEGIN_SRC emacs-lisp
+;; For setting colour of the matching paren. Currently unchanged
+(require 'paren)
+;; (set-face-background 'show-paren-match (face-background 'default))
+;; (set-face-foreground 'show-paren-match "#def")
+(set-face-background 'show-paren-match (face-foreground 'default))
+(set-face-foreground 'show-paren-match (face-background 'default))
+(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+(show-paren-mode 1)                         ;; Show matching parens
+#+END_SRC
+* evil mode
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :ensure t
+  :config
+  ;; Enable evil mode
+  (evil-mode 1))
+#+END_SRC
+* Org Mode
+** Org Bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :init
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
