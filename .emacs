@@ -3,6 +3,9 @@
 
 ;;; Code:
 
+;; Delay Garbage Collection to be every 40 million bytes
+(setq gc-cons-threshold 400000000)
+
 ;; Package Manager
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
