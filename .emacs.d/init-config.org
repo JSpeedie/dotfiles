@@ -208,9 +208,6 @@ zR to open all folds
 #+END_SRC
 * Whitespace Highlighting
 #+BEGIN_SRC emacs-lisp
-;; ===================================
-;; =  Highlight Whitespace Settings  =
-;; ===================================
 ;; Highlights tabs and trailing whitespace
 ;; face: necessary for any of the following ones to work
 ;; tabs: because I want to see where my tabs are
@@ -219,7 +216,7 @@ zR to open all folds
 ;; trailing-whitespace: for obvious reasons
 ;; tab-mark: for tabs I think
 (setq-default whitespace-style (quote
-	(face tabs tab-mark lines trailing trailing-whitespace)) )
+	(face tabs tab-mark lines-tail trailing trailing-whitespace)) )
 (setq whitespace-display-mappings
 	'(
 		(space-mark 32 [183] [46])
