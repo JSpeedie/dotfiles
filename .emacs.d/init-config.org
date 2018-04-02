@@ -116,6 +116,7 @@ zR to open all folds
 *** evil-numbers
 #+BEGIN_SRC emacs-lisp
 (use-package evil-numbers
+  :ensure t
   :config
   (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
@@ -209,9 +210,6 @@ zR to open all folds
   #+BEGIN_SRC emacs-lisp
   ;; Now splitting windows brings focus to the newly created window
   ;; and window splitting is bound to more comfortable key combos
-  ;; ===========================
-  ;; = Better Window Splitting =
-  ;; ===========================
   (defun split-and-follow-horizontal ()
     (interactive)
     (split-window-right)
