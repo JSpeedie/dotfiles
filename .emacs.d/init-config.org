@@ -1,5 +1,6 @@
 * TODO:
-** TODO 1. Get line numbers padded and right justified
+** DONE [TEMP] 1. Get line numbers padded and right justified
+ Solution is really laggy
 ** TODO 2. disable mouse
 ** TODO 3. Get tab autocomplete for M-x and etc to be like zsh
 ** DONE 4a. Get copy working
@@ -49,6 +50,10 @@ up half a page at a time
 ** TODO 29. Keyboard shortcut for opening flycheck errors in new frame and focus frame?
 ** TODO 30. Get magit up and working. Learn that chunking glory
 ** TODO 31. Change :wq to exit kill the current buffer rather than exit emacs
+** TODO 32. Make line number for current line a brighter colour
+** TODO 33. Find file doesn't prompt if file doesn't exist
+** TODO 34. company popup hides line numbers
+** DONE 35. TODO, FIXME, and BUGME are highlighted in comments
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
@@ -59,6 +64,11 @@ zR to open all folds
 ;; God damn evil
 (setq evil-search-module 'evil-search)
 (setq evil-want-C-u-scroll t)
+;; (define-key evil-normal-state-map "*" 'evil-next-visual-line)
+;; (define-key evil-normal-state-map "#" 'evil-previous-visual-line)
+;; test_name()
+;; test_bait()
+;; test_name()
 #+END_SRC
 * Disabled Defaults
 #+BEGIN_SRC emacs-lisp
@@ -115,6 +125,8 @@ zR to open all folds
     (use-package company
       :ensure t
       :config
+      (setq company-idle-delay 0)
+      (global-set-key (kbd "M-/") 'company-manual-begin)
       (add-hook 'after-init-hook 'global-company-mode))
     (use-package irony
       :ensure t)
@@ -155,6 +167,7 @@ zR to open all folds
       :ensure t
       :config
       (ido-vertical-mode 1)
+      ;; Don't ask for confirmation when creating a new file buffer
       ;; Better searching. C-n and C-p for cycling through possible completions
       (setq ido-vertical-define-keys 'C-n-and-C-p-only))
     ;;(use-package ido-vertical-mode
@@ -237,11 +250,38 @@ zR to open all folds
 
 * Line Number & Fringe
 #+BEGIN_SRC emacs-lisp
-;; Enable line numbers, add spacing
-(setq linum-format " %d ")                  ;; Set line number format
+;; Good line number format. Vim like
+;;(eval-after-load 'linum
+;;  '(progn
+;;     (defface linum-leading-zero
+;;       `((t :inherit 'linum
+;;            :foreground ,(face-attribute 'linum :background nil t)))
+;;       "Face for displaying leading zeroes for line numbers in display margin."
+;;       :group 'linum)
+;;
+;;     (defun linum-format-func (line)
+;;       (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
+;;         (concat
+;;          (propertize " " 'face 'linum)
+;;          ;; '? ' adds a space padding to right justify the line number
+;;          (propertize (make-string (- w (length (number-to-string line))) ? )
+;;                      'face 'linum-leading-zero)
+;;          (propertize (number-to-string line) 'face 'linum)
+;;          (propertize " " 'face 'linum)
+;;          )))
+;;(setq linum-format 'linum-format-func)))
+(setq linum-format " %d ")               ;; Set line number format
+(setq-default truncate-lines t)            ;; Don't wrap lines
 (setq-default left-fringe-width 4)         ;; Set line number format spacing
 (setq-default right-fringe-width 4)        ;; Set line number format spacing
 (set-face-attribute 'fringe nil :background nil)
+#+END_SRC
+* Highlight Special Comments (TODO, FIXME, etc)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook
+  (lambda ()
+    (font-lock-add-keywords nil
+      '(("\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face t)))))
 #+END_SRC
 * Indentation
 #+BEGIN_SRC emacs-lisp
