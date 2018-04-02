@@ -113,6 +113,13 @@ zR to open all folds
       ;; Enable evil-surround
       (global-evil-surround-mode 1))
 #+END_SRC
+*** evil-numbers
+#+BEGIN_SRC emacs-lisp
+(use-package evil-numbers
+  :config
+  (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+  (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
+#+END_SRC
 *** flycheck
 #+BEGIN_SRC emacs-lisp
     (use-package flycheck
