@@ -35,7 +35,7 @@ alias rwfus='wtp 0 0 304 164 $(cfw)'
 # For when you gotta let em know
 alias fuckyou='yes "$(echo "fuck you" | figlet -f slant)" | lolcat'
 alias ctest='sh ~/scripts/colortest.sh'
-alias bonsai='sh ~/scripts/bonsai.sh 2 7'
+alias bonsai='sh ~/scripts/bonsai.sh 2 6'
 alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
 
 ##############################
@@ -63,11 +63,11 @@ upt () {
 
 reset=$(tput sgr0)
 # colour directory and colour actual directory
-c_d=$(tput setaf 8; tput setab 11)
-c_ad=$(tput setaf 14; tput setab 11)
+c_d=$(tput setaf 7; tput setab 8)
+c_ad=$(tput setaf 7; tput setab 8)
 # colour directory and colour actual directory on failed command
-c_d_f=$(tput setaf 7; tput setab 15)
-c_ad_f=$(tput setaf 11; tput setab 15)
+c_d_f=$(tput setaf 8; tput setab 7)
+c_ad_f=$(tput setaf 8; tput setab 7)
 
 cur_dir() {
 	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
@@ -83,11 +83,11 @@ prompt () {
 }
 
 mdtopdf () {
-	pandoc $1 --latex-engine=lualatex -o $2
+	pandoc $1 --pdf-engine=lualatex -o $2
 }
 
 textopdf () {
-	pandoc -f latex $1 --latex-engine=lualatex -o $2
+	pandoc -f latex $1 --pdf-engine=lualatex -o $2
 }
 
 # Converts the video to be 480 by 320 at 30fps. convert then optimizes
