@@ -47,12 +47,19 @@ up half a page at a time
 *** TODO 29a. git branch?
 *** TODO 29b. obviously flycheck status but maybe cleaner?
 ** TODO 29. Keyboard shortcut for opening flycheck errors in new frame and focus frame?
-** 30. Get magit up and working. Learn that chunking glory
+** TODO 30. Get magit up and working. Learn that chunking glory
+** TODO 31. Change :wq to exit kill the current buffer rather than exit emacs
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
 zR to open all folds
 
+* Evil scrolling stuff that must be done super duper early apparently
+#+BEGIN_SRC emacs-lisp
+;; God damn evil
+(setq evil-search-module 'evil-search)
+(setq evil-want-C-u-scroll t)
+#+END_SRC
 * Disabled Defaults
 #+BEGIN_SRC emacs-lisp
 ;; Remove various bars from top of screen
@@ -68,22 +75,19 @@ zR to open all folds
 *** --- Unorganized ---
     #+BEGIN_SRC emacs-lisp
     ;; Packages I use
+    (package-install 'evil)                     ;; For evil mode
     (package-install 'flycheck)                 ;; For syntax checking
     (package-install 'spacemacs-theme)          ;; For spacemacs colour theme
     ;;(package-install 'telephone-line)           ;; For another nice mode line
     (package-install 'markdown-mode)            ;; For markdown syntax highlighting
     #+END_SRC
-
 *** evil
 #+BEGIN_SRC emacs-lisp
     ;; For evil mode >:^]
     (use-package evil
       :ensure t
       :config
-      ;; Add support for native vim C-u when editing
-      (setq-default evil-want-C-u-scroll t)
-      ;; Add support for vim 'gn' motions when editing
-      (setq evil-search-module (quote evil-search)))
+      (evil-mode t))
 #+END_SRC
 *** evil-surround
 #+BEGIN_SRC emacs-lisp
@@ -180,25 +184,25 @@ zR to open all folds
     #+END_SRC
 * Custom Functions
 ** Better Window Splitting
-#+BEGIN_SRC emacs-lisp
-;; Now splitting windows brings focus to the newly created window
-;; and window splitting is bound to more comfortable key combos
-;; ===========================
-;; = Better Window Splitting =
-;; ===========================
-(defun split-and-follow-horizontal ()
-  (interactive)
-  (split-window-right)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x C-l") 'split-and-follow-horizontal)
-(defun split-and-follow-vertical ()
-  (interactive)
-  (split-window-below)
-  (balance-windows)
-  (other-window 1))
-(global-set-key (kbd "C-x C-j") 'split-and-follow-vertical)
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+  ;; Now splitting windows brings focus to the newly created window
+  ;; and window splitting is bound to more comfortable key combos
+  ;; ===========================
+  ;; = Better Window Splitting =
+  ;; ===========================
+  (defun split-and-follow-horizontal ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x C-l") 'split-and-follow-horizontal)
+  (defun split-and-follow-vertical ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x C-j") 'split-and-follow-vertical)
+  #+END_SRC
 * Mode Line
 #+BEGIN_SRC emacs-lisp
 ;; For a mode line that doesn't suck
@@ -212,6 +216,11 @@ zR to open all folds
 #+END_SRC
 * --- Unorganized ---
 #+BEGIN_SRC emacs-lisp
+;; Doesn't work in use-package :config
+;; Add support for native vim C-u when editing
+(setq-default evil-want-C-u-scroll t)
+;; Add support for vim 'gn' motions when editing
+(setq evil-search-module (quote evil-search))
 ;; Set scrolling past top or bottom of page to move only
 ;; one line instead of half a page
 (setq scroll-conservatively 100)
@@ -275,14 +284,6 @@ zR to open all folds
 (set-face-foreground 'show-paren-match (face-background 'default))
 (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
 (show-paren-mode 1)                         ;; Show matching parens
-#+END_SRC
-* evil mode
-#+BEGIN_SRC emacs-lisp
-(use-package evil
-  :ensure t
-  :config
-  ;; Enable evil mode
-  (evil-mode 1))
 #+END_SRC
 * Org Mode
 ** Org Settings
