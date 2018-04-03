@@ -60,8 +60,12 @@ test_name()
 ** TODO 32. Make line number for current line a brighter colour
 ** TODO 33. Find file doesn't prompt if file doesn't exist
 ** TODO 34. company popup hides line numbers
-** DONE 35. TODO, FIXME, and BUGME are highlighted in comments
-** TODO 36. '', '', '' works
+** DONE [TEMP] 35. TODO, FIXME, and BUGME are highlighted in comments
+Highlights them wherever they can be found
+** DONE [TEMP] 36. CHECK is highlighted in comments
+Highlights them wherever they can be found
+** TODO 37. '', '', '' works
+** TODO 38. Fix issue with org src blocks not fontifying
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
