@@ -1,13 +1,14 @@
-* TODO:
-** DONE [TEMP] 1. Get line numbers padded and right justified
+* Todo list [13/38]:
+** TODO [TEMP] 1. Get line numbers padded and right justified
  Solution is really laggy
-** TODO 2. disable mouse
+** TODO 2. Prevent mouse from affect vim modes (Normal, Visual, Insert)
 ** TODO 3. Get tab autocomplete for M-x and etc to be like zsh
 ** DONE 4a. Get copy working
 y in evil mode, C-k in emacs
 ** DONE 4b. Get paste working
 p in evil mode, C-y in emacs
-** TODO 5. Get ctrl - a working as increment number not beginning of life
+** DONE 5. Get ctrl - a working as increment number not beginning of life
+C-a for inc, C-- for dec since C-x is already taken
 ** TODO 6. Get actual colour column not some dumb line highlight
 ** TODO 7. Fix dumb tab thing where hitting enter to break a line makes last
        level of indentation like 2 spaces instead of a tab
