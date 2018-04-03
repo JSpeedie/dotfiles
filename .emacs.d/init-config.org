@@ -256,9 +256,6 @@ zR to open all folds
 #+END_SRC
 * --- Unorganized ---
 #+BEGIN_SRC emacs-lisp
-;; Doesn't work in use-package :config
-;; Add support for native vim C-u when editing
-(setq-default evil-want-C-u-scroll t)
 ;; Add support for vim 'gn' motions when editing
 (setq evil-search-module (quote evil-search))
 ;; Set scrolling past top or bottom of page to move only
@@ -303,12 +300,14 @@ zR to open all folds
 (setq-default right-fringe-width 4)        ;; Set line number format spacing
 (set-face-attribute 'fringe nil :background nil)
 #+END_SRC
-* Highlight Special Comments (TODO, FIXME, etc)
+* Highlight Special Comments (TODO, CHECK, etc)
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook
   (lambda ()
     (font-lock-add-keywords nil
-      '(("\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face t)))))
+      '(("\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face t)))
+    (font-lock-add-keywords nil
+      '(("\\(CHECK\\)" 1 font-lock-string-face t)))))
 #+END_SRC
 * Indentation
 #+BEGIN_SRC emacs-lisp
