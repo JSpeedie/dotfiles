@@ -3,8 +3,8 @@
 
 ;;; Code:
 
-;; Delay Garbage Collection to be every 40 million bytes
-(setq gc-cons-threshold 400000000)
+;; Delay Garbage Collection to be every 8 million bytes
+(setq gc-cons-threshold 800000000)
 
 ;; Package Manager
 (require 'package)
@@ -36,7 +36,7 @@
  '(font-use-system-font t)
  '(package-selected-packages
    (quote
-	(dmenu telephone-line use-package markdown-mode switch-window ido-vertical-mode evil-surround spaceline auto-complete flycheck spacemacs-theme evil))))
+	(company-irony-c-headers irony-eldoc dmenu use-package markdown-mode switch-window ido-vertical-mode evil-surround spaceline flycheck spacemacs-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
