@@ -33,12 +33,21 @@ up half a page at a time
 ** TODO 21. Fix .emacs to make functional emacs after 1 run, not 3
 ** TODO 22. Fix ability to resize cleanly with mouse. Probably fixed once
         mouse is disabled
-** TODO 23. Install and config company? Uncle Dave ep. 12 for more info
-** TODO 24. Fix .emacs so that it doesn't take 3 runs to get
-        functioning emacs install
-** TODO 25. No confirmation when making a new file
-** DONE 26. Setup Org bullets
+** TODO 23. No confirmation when making a new file
+** DONE 24. Setup Org bullets
 
+** DONE 25. Get syntax highlighting in org code blocks
+** DONE 26. Get auto complete that gives options after 'something.'
+** TODO 27. Remove garbage from mode line
+*** TODO 28a. No size. Idc if the file is 9.8k
+*** TODO 28b. No minor modes. Idc if FlyC is active
+*** TODO 28c. I, N, V instead of <I>, <N>, <V>
+*** TODO 28d. No position preview. current line number divided by /number of lines in file
+** TODO 28. Add useful stuff to mode line
+*** TODO 29a. git branch?
+*** TODO 29b. obviously flycheck status but maybe cleaner?
+** TODO 29. Keyboard shortcut for opening flycheck errors in new frame and focus frame?
+** 30. Get magit up and working. Learn that chunking glory
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
@@ -56,81 +65,119 @@ zR to open all folds
 #+END_SRC
 
 * Packages
-** Package List
+*** --- Unorganized ---
+    #+BEGIN_SRC emacs-lisp
+    ;; Packages I use
+    (package-install 'flycheck)                 ;; For syntax checking
+    (package-install 'spacemacs-theme)          ;; For spacemacs colour theme
+    ;;(package-install 'telephone-line)           ;; For another nice mode line
+    (package-install 'markdown-mode)            ;; For markdown syntax highlighting
+    #+END_SRC
+
+*** evil
 #+BEGIN_SRC emacs-lisp
-;; Packages I use
-(package-install 'evil)                     ;; For evil mode >:^]
-(package-install 'evil-surround)            ;; For surrounding
-                                            ;; add surrounding:
-                                            ;; ys<text-obj> or yS<text-obj> in normal
-                                            ;; change surrounding:
-                                            ;; cs<old-text-obj><new-text-obj>
-                                            ;; delete surrounding:
-                                            ;; ds<text-obj>
-(package-install 'flycheck)                 ;; For syntax checking
-(package-install 'spacemacs-theme)          ;; For spacemacs colour theme
-(package-install 'auto-complete)            ;; For tab completion
-(package-install 'telephone-line)           ;; For another nice mode line
-(package-install 'markdown-mode)            ;; For markdown syntax highlighting
+    ;; For evil mode >:^]
+    (use-package evil
+      :ensure t
+      :config
+      ;; Add support for native vim C-u when editing
+      (setq-default evil-want-C-u-scroll t)
+      ;; Add support for vim 'gn' motions when editing
+      (setq evil-search-module (quote evil-search)))
 #+END_SRC
+*** evil-surround
+#+BEGIN_SRC emacs-lisp
+    ;; For surrounding goodness I have yet to learn
+    ;; add surrounding: ys<text-obj> or yS<text-obj> in
+    ;; normal change surrounding: cs<old-text-obj><new-text-obj> delete
+    ;; surrounding: ds<text-obj>
+    (use-package evil-surround
+      :ensure t
+      :config
+      ;; Enable evil-surround
+      (global-evil-surround-mode 1))
+#+END_SRC
+*** flycheck
+#+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure t
+      :config
+      ;; Enable flycheck syntax checking
+      (global-flycheck-mode))
+#+END_SRC
+*** company
+    #+BEGIN_SRC emacs-lisp
+    ;; For tab completion
+    (use-package company
+      :ensure t
+      :config
+      (add-hook 'after-init-hook 'global-company-mode))
+    (use-package irony
+      :ensure t)
+    (use-package company-irony
+      :ensure t)
+    #+END_SRC
 *** dashboard
-#+BEGIN_SRC emacs-lisp
-;; For a start up screen that doesn't suck
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '((recents . 10)))
-  (setq dashboard-banner-logo-title "Welcome back, loser."))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    ;; For a start up screen that doesn't suck
+    (use-package dashboard
+      :ensure t
+      :config
+      (dashboard-setup-startup-hook)
+      (setq dashboard-startup-banner "~/.emacs.d/dashboard.png")
+      (setq dashboard-items '((recents . 10)
+                              (bookmarks . 5)
+                             ))
+      (setq dashboard-banner-logo-title "Welcome back, loser."))
+    #+END_SRC
 *** dmenu
-#+BEGIN_SRC emacs-lisp
-;; Because if you're not launching programs from emacs, you're
-;; spending enough time in emacs.
-(use-package dmenu
-  :ensure t
-  :bind
-  ("C-s-SPC" . 'dmenu))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    ;; Because if you're not launching programs from emacs, you're
+    ;; spending enough time in emacs.
+    (use-package dmenu
+      :ensure t
+      :bind
+      ("C-s-SPC" . 'dmenu))
+    #+END_SRC
 *** ido
-#+BEGIN_SRC emacs-lisp
-;; For minibuffer completion that doesn't suck
-(require 'ido)
-(setq ido-enable-flex-matching nil)
-(setq ido-create-new-buffer 'always)
-(setq ido-everywhere t)
-(ido-mode 1)
-(use-package ido-vertical-mode
-  :ensure t
-  :config
-  (ido-vertical-mode 1)
-  ;; Better searching. C-n and C-p for cycling through possible completions
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-;;(use-package ido-vertical-mode
-;;	:ensure t
-;;	:init
-;;	(ido-vertical-mode 1))
-;;(defun ido-my-keys ()
-;;	"Zsh-like tab complete for ido."
-;;	(define-key ido-completion-map " " 'ido-next-match))
-;; ido buffer switching. *Much* better
-(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    ;; For minibuffer completion that doesn't suck
+    (require 'ido)
+    (setq ido-enable-flex-matching nil)
+    (setq ido-create-new-buffer 'always)
+    (setq ido-everywhere t)
+    (ido-mode 1)
+    (use-package ido-vertical-mode
+      :ensure t
+      :config
+      (ido-vertical-mode 1)
+      ;; Better searching. C-n and C-p for cycling through possible completions
+      (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+    ;;(use-package ido-vertical-mode
+    ;;	:ensure t
+    ;;	:init
+    ;;	(ido-vertical-mode 1))
+    ;;(defun ido-my-keys ()
+    ;;	"Zsh-like tab complete for ido."
+    ;;	(define-key ido-completion-map " " 'ido-next-match))
+    ;; ido buffer switching. *Much* better
+    (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+    #+END_SRC
 *** switch-window
-#+BEGIN_SRC emacs-lisp
-;; For window switching that doesn't suck
-(use-package switch-window
-  :ensure t
-  :config
-  ;; Remove surrounding square on chars
-  (setq switch-window-input-style 'minibuffer)
-  (setq switch-window-increase 2)
-  (setq switch-window-threshold 2)
-  (setq switch-window-shortcut-style 'qwerty)
-  (setq switch-window-qwerty-shortcuts
-  	  '("h" "j" "k" "l" "u" "i" "o" "p"))
-  (global-set-key (kbd "C-x o") 'switch-window))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    ;; For window switching that doesn't suck
+    (use-package switch-window
+      :ensure t
+      :config
+      ;; Remove surrounding square on chars
+      (setq switch-window-input-style 'minibuffer)
+      (setq switch-window-increase 2)
+      (setq switch-window-threshold 2)
+      (setq switch-window-shortcut-style 'qwerty)
+      (setq switch-window-qwerty-shortcuts
+      	  '("h" "j" "k" "l" "u" "i" "o" "p"))
+      (global-set-key (kbd "C-x o") 'switch-window))
+    #+END_SRC
 * Custom Functions
 ** Better Window Splitting
 #+BEGIN_SRC emacs-lisp
@@ -165,10 +212,6 @@ zR to open all folds
 #+END_SRC
 * --- Unorganized ---
 #+BEGIN_SRC emacs-lisp
-;; Add support for native vim C-u when editing
-(setq-default evil-want-C-u-scroll t)
-;; Add support for vim 'gn' motions when editing
-(setq evil-search-module (quote evil-search))
 ;; Set scrolling past top or bottom of page to move only
 ;; one line instead of half a page
 (setq scroll-conservatively 100)
@@ -180,10 +223,7 @@ zR to open all folds
 
 (setq explicit-shell-file-name "/bin/bash")
 
-(ac-config-default)                         ;; Setup auto-complete
-(global-flycheck-mode)                      ;; Enable flycheck syntax checking
 (global-linum-mode t)                       ;; Get line numbers
-(global-evil-surround-mode 1)               ;; Enable evil-surround
 #+END_SRC
 
 * Line Number & Fringe
@@ -245,6 +285,11 @@ zR to open all folds
   (evil-mode 1))
 #+END_SRC
 * Org Mode
+** Org Settings
+#+BEGIN_SRC emacs-lisp
+;; Add syntax highlighting to org-mode code blocks
+(setq org-src-fontify-natively t)
+#+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
