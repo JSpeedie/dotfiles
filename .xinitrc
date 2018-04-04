@@ -13,7 +13,7 @@ xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constan
 sh ~/scripts/bar.sh &
 dunst -config ~/dunstrc &
 feh --bg-scale ~/Pictures/Wallpapers/ForestFromAbove.png &
-compton -b -f --fade-delta 4 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
+compton -b -f --fade-delta 2 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
 sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
