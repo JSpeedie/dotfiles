@@ -67,6 +67,7 @@ Highlights them wherever they can be found
 ** TODO 37. '', '', '' works
 ** TODO 38. Fix issue with org src blocks not fontifying
 ** DONE 39. Fix word in evil treating "_" as a word delimiter
+** TODO 40. / doesn't support \s or regexes??
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
@@ -120,6 +121,8 @@ s    on a git diff hunk to stage only that hunk
   (setq evil-want-C-i-jump nil)
   ;; Add support for vim 'gn' motions when editing
   (setq evil-search-module (quote evil-search))
+  ;; Make the search case sensitive
+  (setq evil-ex-search-case 'sensitive)
   :config
   ;; Make 'word' function like in vim treating "_" as a word constituent
   (modify-syntax-entry ?_ "w")
@@ -340,7 +343,7 @@ s    on a git diff hunk to stage only that hunk
     (font-lock-add-keywords nil
       '(("\\(FIXME\\|TODO\\|BUG\\)" 1 font-lock-warning-face t)))
     (font-lock-add-keywords nil
-      '(("\\(CHECK\\)" 1 font-lock-string-face t)))))
+      '(("\\(CHECK\\|TEST\\)" 1 font-lock-string-face t)))))
 #+END_SRC
 * Indentation
 #+BEGIN_SRC emacs-lisp
@@ -389,6 +392,7 @@ s    on a git diff hunk to stage only that hunk
 #+BEGIN_SRC emacs-lisp
 ;; Add syntax highlighting to org-mode code blocks
 (setq org-src-fontify-natively t)
+(setq org-log-done 'time)
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
