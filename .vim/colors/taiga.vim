@@ -53,7 +53,7 @@ if &t_Co >= 256 || has("gui_running")
 		hi Normal ctermbg=0 ctermfg=15 cterm=NONE guibg=#2b2e38 guifg=#bfb8a2 gui=NONE
 	set background=dark
 		hi NonText ctermbg=NONE ctermfg=0 cterm=NONE guibg=NONE guifg=#2b2e38 gui=NONE
-		hi Comment ctermbg=NONE ctermfg=8 cterm=NONE guibg=NONE guifg=#5c6178 gui=NONE
+		hi Comment ctermbg=NONE ctermfg=7 cterm=NONE guibg=NONE guifg=#5c6178 gui=NONE
 		hi Constant ctermbg=NONE ctermfg=3 cterm=NONE guibg=NONE guifg=#e0ae80 gui=NONE
 		hi Error ctermbg=1 ctermfg=15 cterm=NONE guibg=#d26464 guifg=#bfb8a2 gui=NONE
 		hi Identifier ctermbg=NONE ctermfg=1 cterm=NONE guibg=NONE guifg=#d26464 gui=NONE
@@ -74,8 +74,8 @@ if &t_Co >= 256 || has("gui_running")
 		hi TermCursorNC ctermbg=3 ctermfg=0 cterm=NONE guibg=#e0ae80 guifg=#2b2e38 gui=NONE
 		hi VertSplit ctermbg=NONE ctermfg=NONE cterm=NONE guibg=NONE guifg=NONE gui=NONE
 		hi Title ctermbg=NONE ctermfg=4 cterm=NONE guibg=NONE guifg=#4d7099 gui=NONE
-		hi CursorLine ctermbg=11 ctermfg=NONE cterm=NONE guibg=#353945 guifg=NONE gui=NONE
-		hi LineNr ctermbg=11 ctermfg=7 cterm=NONE guibg=#353945 guifg=#5c6178 gui=NONE
+		hi CursorLine ctermbg=8 ctermfg=NONE cterm=NONE guibg=#353945 guifg=NONE gui=NONE
+		hi LineNr ctermbg=8 ctermfg=7 cterm=NONE guibg=#353945 guifg=#5c6178 gui=NONE
 		hi CursorLineNr ctermbg=NONE ctermfg=15 cterm=NONE guibg=NONE guifg=#5c6178 gui=NONE
 		hi helpLeadBlank ctermbg=NONE ctermfg=15 cterm=NONE guibg=NONE guifg=#bfb8a2 gui=NONE
 		hi helpNormal ctermbg=NONE ctermfg=15 cterm=NONE guibg=NONE guifg=#bfb8a2 gui=NONE
@@ -97,7 +97,7 @@ if &t_Co >= 256 || has("gui_running")
 		hi Search ctermbg=3 ctermfg=0 cterm=NONE guibg=#e0ae80 guifg=#2b2e38 gui=NONE
 		hi Directory ctermbg=NONE ctermfg=4 cterm=NONE guibg=NONE guifg=#4d7099 gui=NONE
 		hi MatchParen ctermbg=12 ctermfg=0 cterm=NONE guibg=#5c6178 guifg=#2b2e38 gui=NONE
-		hi ColorColumn ctermbg=11 ctermfg=NONE cterm=NONE guibg=#353945 guifg=NONE gui=NONE
+		hi ColorColumn ctermbg=8 ctermfg=NONE cterm=NONE guibg=#353945 guifg=NONE gui=NONE
 		hi signColumn ctermbg=NONE ctermfg=4 cterm=NONE guibg=NONE guifg=#4d7099 gui=NONE
 		hi ErrorMsg ctermbg=NONE ctermfg=12 cterm=NONE guibg=NONE guifg=#5c6178 gui=NONE
 		hi ModeMsg ctermbg=NONE ctermfg=3 cterm=NONE guibg=NONE guifg=#4f806e gui=NONE
@@ -106,7 +106,7 @@ if &t_Co >= 256 || has("gui_running")
 		hi WarningMsg ctermbg=1 ctermfg=0 cterm=NONE guibg=#d26464 guifg=#2b2e38 gui=NONE
 		hi Cursor ctermbg=NONE ctermfg=12 cterm=NONE guibg=NONE guifg=#5c6178 gui=NONE
 		hi Structure ctermbg=NONE ctermfg=9 cterm=NONE guibg=NONE guifg=#838b73 gui=NONE
-		hi CursorColumn ctermbg=12 ctermfg=15 cterm=NONE guibg=#5c6178 guifg=#bfb8a2 gui=NONE
+		hi CursorColumn ctermbg=8 ctermfg=15 cterm=NONE guibg=#5c6178 guifg=#bfb8a2 gui=NONE
 		hi ModeMsg ctermbg=NONE ctermfg=15 cterm=NONE guibg=NONE guifg=#bfb8a2 gui=NONE
 		hi SpellBad ctermbg=NONE ctermfg=1 cterm=underline guibg=NONE guifg=#d26464 gui=underline guisp=#d26464
 		hi SpellCap ctermbg=NONE ctermfg=4 cterm=underline guibg=NONE guifg=#4d7099 gui=underline guisp=#4d7099
