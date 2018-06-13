@@ -1,74 +1,77 @@
 ! Taiga
 ! Author: https://github.com/JSpeedie
 
-! Background, Lighter (+4), Medium (+6), Lightest (+10)
-#define colour0 #1f1f1f
-#define colour1 #292929
-#define colour2 #383838
-#define colour3 #525252
-! Darkest Foreground (-18), Medium (-10), Darker (-6), Foreground
-#define colour4 #756c5d
-#define colour5 #a39681
-#define colour6 #bdae95
-#define colour7 #ccbca1
-! Red-ish
-#define colour8 #ad6549
-! Orange
-#define colour9 #c2783c
-! Yellow
-#define colour10 #bd9255
-! Lighter Green
-#define colour11 #73855c
-! Dark Green
-#define colour12 #5c6b4b
-! Blue-ish
-#define colour13 #576b69
-! Light Brown
-#define colour14 #85673d
-! Purple-ish brown
-#define colour15 #514039
+! Black, Lighter (+4), +8
+#define black_dark   #262626
+#define black_medium #303030
+#define black_light  #454545
+! White, Darker (-16)
+#define white_light #e6d4b5
+#define white_dark  #bdae94
 
-*.foreground:   colour7
-*.background:   colour0
-*.cursorColor:  colour7
+! Red, Darker (-10)
+#define red_light #ad5449
+#define red_dark  #94483e
+! Orange, Darker (-10)
+#define orange_light #c2783c
+#define orange_dark  #a86834
+! Yellow, Darker (-10)
+#define yellow_light #bd9255
+#define yellow_dark  #a37e49
+! Green, Darker (-10)
+#define green_light #73855c
+#define green_dark  #5d6b4a
+! Blue-ish, Darker (-10)
+#define blue_light #576b69
+#define blue_dark  #425250
+! Light Brown
+#define brown_light #85673d
+#define brown_dark  #6b5331
+! Purple-ish brown
+#define purple_light #7a525d
+#define purple_dark  #61414a
+
+*.foreground:   white_light
+*.background:   black_dark
+*.cursorColor:  white_light
 
 ! Comments below represent the colours that will be used if none were set.
 ! It is also what most programs will expect. For instance, by default,
 ! git will use 'color1' for outputting file paths when running 'git status'
 
 ! Black
-*.color0:       colour0
+*.color0:       black_dark
 ! Red
-*.color1:       colour8
+*.color1:       red_light
 ! Green
-*.color2:       colour11
+*.color2:       green_light
 ! Yellow
-*.color3:       colour10
+*.color3:       yellow_light
 ! Blue
-*.color4:       colour13
+*.color4:       blue_light
 ! Purple
-*.color5:       colour15
+*.color5:       purple_light
 ! Cyan
-*.color6:       colour14
+*.color6:       brown_light
 ! Gray
-*.color7:       colour4
+*.color7:       black_light
 
 ! Light Black
-*.color8:       colour3
+*.color8:       black_medium
 ! Light Red
-*.color9:       colour9
+*.color9:       red_dark
 ! Light Green
-*.color10:      colour12
+*.color10:      green_dark
 ! Light Yellow
-*.color11:      colour1
+*.color11:      yellow_dark
 ! Light Blue
-*.color12:      colour2
+*.color12:      blue_dark
 ! Light Purple
-*.color13:      colour5
+*.color13:      purple_dark
 ! Light Cyan
-*.color14:      colour6
+*.color14:      brown_dark
 ! White
-*.color15:      colour7
+*.color15:      white_light
 
 Xft.dpi: 96
 Xft.antialias: true
@@ -108,10 +111,10 @@ rofi.hide-scrollbar: true
 rofi.color-enabled: true
 !! 					bg					border				separator
 rofi.color-window:	argb:BF1f1f1f,		argb:BF1f1f1f,		argb:BF1f1f1f
-!! 					bg					fg					bg alt				hl bg		hl fg
-rofi.color-normal:	argb:BF1f1f1f,		colour7,				argb:BF1f1f1f,		colour7,		argb:BF1f1f1f
-rofi.color-active:	colour7,			argb:BF1f1f1f,			colour7,			colour7,		argb:BF1f1f1f
-rofi.color-urgent:	argb:BF1f1f1f,		colour7,				argb:BF1f1f1f,		colour7,		argb:BF1f1f1f
+!! 					bg					fg					bg alt				hl bg				hl fg
+rofi.color-normal:	argb:BF1f1f1f,		white_light,		argb:BF1f1f1f,		white_light,		argb:BF1f1f1f
+rofi.color-active:	white_light,		argb:BF1f1f1f,		white_light,		white_light,		argb:BF1f1f1f
+rofi.color-urgent:	argb:BF1f1f1f,		white_light,		argb:BF1f1f1f,		white_light,		argb:BF1f1f1f
 rofi.bw: 4
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
