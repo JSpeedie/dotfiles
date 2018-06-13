@@ -1,4 +1,4 @@
-* Todo list [15/44]:
+* Todo list [15/45]:
 ** TODO [TEMP] 1. Get line numbers padded and right justified
  Solution is really laggy
 ** TODO 2. Prevent mouse from affect vim modes (Normal, Visual, Insert)
@@ -72,10 +72,16 @@ Highlights them wherever they can be found
 ** TODO 42. Open emacs in a non-floating mode
 ** TODO 43. Add line numbers even when the file is empty
 ** TODO 44. hitting enter in org mode bullet points doesn't require C-w to get them right
+** TODO 45. / doesn't support \s or regexes??
 ** Notes:
 C-h k <key series> to get documentation/name of function executed to key series
 zM to close all folds works wonders in markdown mode
 zR to open all folds
+M Shift RET to start a new TODO item in org
+C-c C-o to open links in org mode
+M arrow keys to raise, lower and promote demote headlines in org mode
+Shift left and right to toggle between todo, done and empty in org
+To get a list of colour M-x list-colors-display
 *** magit
 Launch with magit-status
 M-n  next section
@@ -399,6 +405,14 @@ s    on a git diff hunk to stage only that hunk
 ;; Add syntax highlighting to org-mode code blocks
 (setq org-src-fontify-natively t)
 (setq org-log-done 'time)
+(setq org-todo-keywords
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(setq org-todo-keyword-faces
+      '(("TODO" . org-todo)
+        ("IN-PROGRESS" . (:foreground "OliveDrab2" :weight bold))
+        ("WAITING" . (:foreground "light slate blue" :weight bold))
+        ("DONE" . org-done)
+))
 #+END_SRC
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp
