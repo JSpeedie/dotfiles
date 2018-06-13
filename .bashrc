@@ -6,6 +6,10 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export ANDROID_HOME=/opt/android-sdk
+export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
+export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
+
+# env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
 
 ##############################
 #          Aliases           #
