@@ -22,7 +22,7 @@ OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	adobe-source-code-pro-fonts ttf-roboto veracrypt libreoffice-fresh \
 	avidemux-qt mpv gtop cmatrix asp obs-studio figlet lolcat jre8-openjdk \
 	cmake racket ghc ghc-static clang java-runtime-common \
-	java-environment-common bless ntp)
+	java-environment-common bless ntp gnome-clocks)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
