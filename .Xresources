@@ -98,24 +98,42 @@ URxvt.fading: 5
 !! white, black \e[1;37m \e[1;30m
 !! gray, light gray \e[0;30m \e[0;37m
 
+
 !! Rofi configuration
-rofi.width: 800
-!! Centered
-rofi.location: 2
-roft.yoffset: 0
-roft.xoffset: 0
-rofi.lines: 12
+!! rofi.width: 800
+!! 1 2 3
+!! 8 0 4
+!! 7 6 5
+rofi.location: 0
+!! Set number of lines and columns
+rofi.lines: 14
+rofi.columns: 3
+!! Set gaps around rows both between rows and between columns. Deprecated
+rofi.line-padding: 5
+rofi.line-margin: 5
+!! Whether or not rofi underlines what you have typed in the search results
+rofi.show-match: true
+!! Have choice of modes at the bottom of rofi and which ones it shows
+rofi.sidebar-mode: true
+rofi.modi: window,run
+!! Keybinds for switching mode
+rofi.kb-mode-next: Alt+j,Alt+l
+rofi.kb-mode-previous: Alt+k,Alt+h
 !! rofi.font: Hermit 10
-rofi.font: Tamzen 12
+rofi.font: Tamzen 16
 rofi.hide-scrollbar: true
 rofi.color-enabled: true
-!! 					bg					border				separator
-rofi.color-window:	argb:BF1f1f1f,		argb:BF1f1f1f,		argb:BF1f1f1f
-!! 					bg					fg					bg alt				hl bg				hl fg
-rofi.color-normal:	argb:BF1f1f1f,		white_light,		argb:BF1f1f1f,		white_light,		argb:BF1f1f1f
-rofi.color-active:	white_light,		argb:BF1f1f1f,		white_light,		white_light,		argb:BF1f1f1f
-rofi.color-urgent:	argb:BF1f1f1f,		white_light,		argb:BF1f1f1f,		white_light,		argb:BF1f1f1f
-rofi.bw: 4
+
+
+!!                  bg              border          separator
+rofi.color-window:  black_dark,     green_dark,    black_dark
+!!                  bg              fg              bg alt          hl bg           hl fg
+rofi.color-normal:  black_dark,     white_light,    black_dark,     black_dark,   green_light
+rofi.color-active:  black_medium,   white_light,    black_medium,   black_dark,   green_light
+rofi.color-urgent:  black_dark,     red_light,      black_dark,     black_dark,   red_dark
+!! Border width and padding around the edges
+rofi.bw: 2
+rofi.padding: 30
 rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"
