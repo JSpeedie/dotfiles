@@ -67,11 +67,9 @@ upt () {
 
 reset=$(tput sgr0)
 # colour directory and colour actual directory
-c_d=$(tput setaf 7; tput setab 8)
-c_ad=$(tput setaf 7; tput setab 8)
-# colour directory and colour actual directory on failed command
-c_d_f=$(tput setaf 8; tput setab 7)
-c_ad_f=$(tput setaf 8; tput setab 7)
+c_d=$(tput setaf 14; tput setab 0)
+success=$(tput setaf 7; tput setab 0)
+fail=$(tput setaf 1; tput setab 0)
 
 cur_dir() {
 	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
@@ -79,9 +77,9 @@ cur_dir() {
 
 prompt () {
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001${c_d_f}\002[\001${c_ad_f}\002$(cur_dir)\001${c_d_f}\002]\001${reset}\002 "; \
+				printf "\001${c_d}\002$(cur_dir)\001${reset}\002 \001${fail}\002_\001${reset}\002 "; \
 			else \
-				printf "\001${c_d}\002[\001${c_ad}\002$(cur_dir)\001${c_d}\002]\001${reset}\002 "; \
+				printf "\001${c_d}\002$(cur_dir)\001${reset}\002 \001${success}\002_\001${reset}\002 "; \
 			fi)'
 	printf "${result}"
 }
