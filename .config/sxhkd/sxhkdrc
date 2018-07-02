@@ -27,6 +27,11 @@ super + w
 super + {s,f}
 	bspc node -t ~{floating,fullscreen}
 
+# Rotate nodes in desktop 90 degrees counter-clockwise or 90 clockwise
+super + {_,shift} + r
+	bspc node @/ -R {270,90}
+
+
 # Click to focus
 ~button1
 	bspc node -f pointed || wuc -f;
@@ -123,7 +128,7 @@ super + Return
 
 # Bring up launcher
 super + space
-	rofi -show run
+	rofi -show run -width 66.6
 
 # make sxhkd reload its configuration files:
 super + Escape
