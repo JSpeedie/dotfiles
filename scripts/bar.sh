@@ -34,6 +34,8 @@ fi
 siji10="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
 siji17="-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1"
 tamzen="-*-tamzen-medium-*-*-*-17-*-*-*-*-*-*-*"
+light_bg_colour=$color8
+bg_colour=$color0
 text_colour=$color15
 highlight_colour=$color10
 
@@ -191,14 +193,16 @@ cpu_temp() {
 }
 
 workspaces() {
-	status=$(bspc wm -g | tr ':' '\n' | grep -o "^[oOfF]")
+	status=$(bspc wm -g | tr ':' '\n' | grep "^[oOfF]")
 	out=""
 
 	for wksp in $status; do
-		if [[ $wksp == "O" ]] || [[ $wksp == "F" ]]; then
-			out+="%{F$highlight_colour}$icon_wksp_sel%{F-}$bar_sep"
+		if [[ ${wksp} == O* ]] || [[ ${wksp} == F* ]]; then
+			out+="%{B$highlight_colour}%{F$text_colour} ${wksp[@]:1} %{F-}%{B-}$bar_sep"
+		elif [[ ${wksp} == o* ]]; then
+			out+="%{F$text_colour}${wksp[@]:1}%{F-}$bar_sep"
 		else
-			out+="$icon_wksp$bar_sep"
+			out+="%{F$light_bg_colour}${wksp[@]:1}%{F-}$bar_sep"
 		fi
 	done
 
