@@ -2,8 +2,8 @@
 
 . ~/coloursconf
 
-bspc config border_width	2
-bspc config window_gap		4
+bspc config border_width	0
+bspc config window_gap		0
 
 bspc config split_ratio		0.50
 bspc config borderless_monocle	true
