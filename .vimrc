@@ -135,6 +135,19 @@ set statusline+=%3*\ %l/%L\ %*
 set timeout timeoutlen=1000 ttimeoutlen=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"          Zoomy Goomy No Longer Vanilla Stuff :(          "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd FileType c noremap ;p oprintf("\n");<Esc>F\i
+autocmd FileType java noremap ;p iSystem.out.println("");<Esc>F"i
+autocmd FileType latex noremap ;c i\begin{lstlisting}<Enter>\end{lstlisting}<Enter><#^#><Esc>kO
+" Code for markdown
+autocmd FileType markdown noremap ;c i```<Enter>```<Esc>O
+" Code for latex
+" bold for markdown and latex
+" italics for markdown and latex
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                     Hard Mode Stuff!                     "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
