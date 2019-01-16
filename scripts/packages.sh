@@ -13,7 +13,7 @@ end=$'\e[0m'
 PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
 	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
-	xf86-video-intel)
+	xf86-video-intel pkgconfig make fakeroot)
 OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
 	mtpfs gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
@@ -62,6 +62,20 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 
 					# If the user wants to install package-query
 					if [[ ${YAOURT[*]} == "" || ${YAOURT[*]} == "Y" ]]; then
+						# Install 3 dependencies necessary for
+						# building package-query
+						if ! pacman -Qq pkgconfig; then
+							echo "Missing ${red}pkgconfig${end}, installing..."
+							sudo pacman -S pkgconfig --noconfirm --needed
+						fi
+						if ! pacman -Qq make; then
+							echo "Missing ${red}make${end}, installing..."
+							sudo pacman -S make --noconfirm --needed
+						fi
+						if ! pacman -Qq fakeroot; then
+							echo "Missing ${red}fakeroot${end}, installing..."
+							sudo pacman -S fakeroot --noconfirm --needed
+						fi
 						if git clone https://aur.archlinux.org/package-query.git package-query; then
 							cd package-query
 							makepkg -sri
@@ -98,7 +112,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 
 	echo
 	printf "${blue}Packages: (${CPKGL[*]})\n${end}"
-	echo "Type any non-number/whitespace character(s) (besides \"skip\" to exit"
+	echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue"
 	echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
 		"(enter=all)${end} "
 	read -a INPUT
