@@ -12,7 +12,7 @@ $(sh ~/scripts/getxrandr.sh)
 xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constant Deceleration' 1.5 &
 sh ~/scripts/bar.sh &
 dunst -config ~/dunstrc &
-feh --bg-scale ~/Downloads/plants.jpg &
+feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 # The first 3 flags are to eliminate tearing, following flags are for shadows
 # and fade effects
 compton --backend glx --paint-on-overlay --vsync opengl-swc -b -f --fade-delta 2 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
