@@ -20,4 +20,5 @@ sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
 sxhkd &
-exec bspwm
+# exec bspwm
+exec windowchef -c ~/.config/windowchef/windowchefrc
