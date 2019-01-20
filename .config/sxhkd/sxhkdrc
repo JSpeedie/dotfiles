@@ -9,23 +9,46 @@
 ################################
 
 # Focus on a desktop/move cfw to desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} ^{1-9,10}
+# super + {_,shift + }{1-9,0}
+# 	bspc {desktop -f,node -d} ^{1-9,10}
+
+# Add a window to a group of a given number
+super + shift {1-9,0}
+	waitron group_add_window {1-9,10}
+
+# Toggle (display/hide) group of a given number
+super + {1-9,0}
+	waitron group_toggle {1-9,10}
 
 # Exit session
 super + alt + Escape
-	bspc quit
+	killall windowchef
 
 shift + alt + a
 	killall sxhkd
 
+# Focus previously focused window (apostrophe to be like vim's '')
+super + apostrophe
+	waitron window_focus_last
+
 # Kill currently focused window
 super + w
-	bspc node -c
+	waitron window_close
+	#killw $(cfw)
+	#bspc node -c
+
+# Make current window fullscreen
+super + f
+	waitron window_maximize
+
+# Make current window vertically maximized
+super + v
+	waitron window_ver_maximize
+
 
 # Make current window floating or fullscreen respectively
-super + {s,f}
-	bspc node -t ~{floating,fullscreen}
+# super + {s,f}
+#	bspc node -t ~{floating,fullscreen}
 
 # Rotate nodes in desktop 90 degrees counter-clockwise or 90 clockwise
 super + {_,shift} + r
@@ -73,7 +96,8 @@ alt + {h,j,k,l}
 
 # Focus window in a given cardinal direction
 super + {h,j,k,l}
-	wtfc {-lf,-df,-uf,-rf}
+	waitron window_cardinal_focus {left,down,up,right}
+	#wtfc {-lf,-df,-uf,-rf}
 
 # chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
 
@@ -98,9 +122,6 @@ super + shift + {u,i,o,j,k,l,m,less,greater}
 # super + shift + {z,x,c,v}
 # 	wrsr -w {0.25 -h 0.25,0.5 -h 0.5,0.75 -h 0.75,1 -h 1} -W $(cfw) -br
 
-# Kill the focused window
-# super + d
-# 	killw $(cfw)
 
 # Toggle mouse visibility option
 
