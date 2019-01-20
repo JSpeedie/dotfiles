@@ -193,17 +193,45 @@ cpu_temp() {
 }
 
 workspaces() {
-	status=$(bspc wm -g | tr ':' '\n' | grep "^[oOfF]")
+	titles=("u" "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX" "X")
+	active=("f" "f" "f" "f" "f" "f" "f" "f" "f" "f" "f")
+	nonempty=("f" "f" "f" "f" "f" "f" "f" "f" "f" "f" "f")
+	status=$(xprop -root WINDOWCHEF_ACTIVE_GROUPS | sed "s/^.*=//g" | sed "s/ //g"  | tr ',' '\n')
 	out=""
+	# Get the group number for every window that exists
+	for win in $(lsw); do
+		wininfo=$(xprop -id $win WINDOWCHEF_STATUS | sed "s/^.*=//g" | sed 's/\\"/"/g' | sed "s/^..//g" | sed "s/.$//g")
+		wingrp=$(echo $wininfo | grep -Po '"group":.*?[^\\]}' | sed "s/\"group\"://g" | sed "s/}//g")
+		winactive=$(echo $wininfo | grep -Po '"mapped":.*?[^\\],' | sed "s/\"mapped\"://g" | sed "s/,//g")
 
-	for wksp in $status; do
-		if [[ ${wksp} == O* ]] || [[ ${wksp} == F* ]]; then
-			out+="%{B$highlight_colour}%{F$text_colour} ${wksp[@]:1} %{F-}%{B-}$bar_sep"
-		elif [[ ${wksp} == o* ]]; then
-			out+="%{F$text_colour}${wksp[@]:1}%{F-}$bar_sep"
-		else
-			out+="%{F$light_bg_colour}${wksp[@]:1}%{F-}$bar_sep"
+		# Mark groups as active or non-empty
+		if [[ "$winactive" == "true" ]]; then
+			active[$wingrp+1]="t"
+			nonempty[$wingrp+1]="t"
+		elif [[ "$winactive" == "false" ]]; then
+			nonempty[$wingrp+1]="t"
 		fi
+	done
+
+	for i in $(seq 0 10); do
+		if [[ "${active[$i]}" == "t" ]]; then
+			out+="%{B$highlight_colour}%{F$text_colour}"
+		elif [[ "${nonempty[$i]}" == "t" ]]; then
+			out+="%{F$text_colour}"
+		else
+			out+="%{F$light_bg_colour}"
+		fi
+
+		out+="$bar_sep${titles[$i]}$bar_sep"
+
+		if [[ "${active[$i]}" == "t" ]]; then
+			out+="%{B-}%{F-}"
+		elif [[ "${nonempty[$i]}" == "t" ]]; then
+			out+="%{F-}"
+		else
+			out+=""
+		fi
+		out+=" "
 	done
 
 	echo -e "$out"
