@@ -26,6 +26,8 @@ OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
 
+ALL="f"
+
 cd ~
 clear
 printf "$blue"
@@ -42,7 +44,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	elif [[ $i == "YPKGLIST" ]]; then
 		CPKGL=("${YPKGLIST[@]}")
 
-		# Check if yaourt is installed
+		# Check if yaourt is installed {{{
 		if pacman -Q | grep "^yaourt"; then
 			echo "${green}Found yaourt...${end}"
 		else
@@ -103,6 +105,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 				echo "Missing ${red}yaourt${end}. Cannot continue..."
 				exit 1
 			fi
+			# }}}
 		fi
 	elif [[ $i == "OYPKGLIST" ]]; then
 		CPKGL=("${OYPKGLIST[@]}")
@@ -110,13 +113,20 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		CPKGL=("${PKGLIST[@]}")
 	fi
 
-	echo
-	printf "${blue}Packages: (${CPKGL[*]})\n${end}"
-	echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue"
-	echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
-		"(enter=all)${end} "
-	read -a INPUT
-	printf "\n"
+	if [[ $ALL != "t" ]]; then
+		echo
+		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
+		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue"
+		echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
+			"(enter=all, !=all of every package list)${end} "
+		read -a INPUT
+		printf "\n"
+		# If the user wants to install everything
+		if [[ ${INPUT[*]} == "!" ]]; then
+			ALL="t"
+			INPUT=""
+		fi
+	fi
 
 	# If the user just hits enter
 	if [[ ${INPUT[*]} == "" ]]; then
