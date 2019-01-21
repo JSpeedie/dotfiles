@@ -193,27 +193,16 @@ cpu_temp() {
 }
 
 workspaces() {
-	titles=("u" "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX" "X")
-	active=("f" "f" "f" "f" "f" "f" "f" "f" "f" "f" "f")
-	nonempty=("f" "f" "f" "f" "f" "f" "f" "f" "f" "f" "f")
+	titles=("I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX" "X")
+	active=("f" "f" "f" "f" "f" "f" "f" "f" "f" "f")
 	status=$(xprop -root WINDOWCHEF_ACTIVE_GROUPS | sed "s/^.*=//g" | sed "s/ //g"  | tr ',' '\n')
 	out=""
-	# Get the group number for every window that exists
-	for win in $(lsw); do
-		wininfo=$(xprop -id $win WINDOWCHEF_STATUS | sed "s/^.*=//g" | sed 's/\\"/"/g' | sed "s/^..//g" | sed "s/.$//g")
-		wingrp=$(echo $wininfo | grep -Po '"group":.*?[^\\]}' | sed "s/\"group\"://g" | sed "s/}//g")
-		winactive=$(echo $wininfo | grep -Po '"mapped":.*?[^\\],' | sed "s/\"mapped\"://g" | sed "s/,//g")
 
-		# Mark groups as active or non-empty
-		if [[ "$winactive" == "true" ]]; then
-			active[$wingrp+1]="t"
-			nonempty[$wingrp+1]="t"
-		elif [[ "$winactive" == "false" ]]; then
-			nonempty[$wingrp+1]="t"
-		fi
+	for st in $status; do
+		active[$st-1]="t"
 	done
 
-	for i in $(seq 0 10); do
+	for i in $(seq 0 9); do
 		if [[ "${active[$i]}" == "t" ]]; then
 			out+="%{B$highlight_colour}%{F$text_colour}"
 		elif [[ "${nonempty[$i]}" == "t" ]]; then
@@ -231,7 +220,7 @@ workspaces() {
 		else
 			out+=""
 		fi
-		out+=" "
+		#out+=" "
 	done
 
 	echo -e "$out"
