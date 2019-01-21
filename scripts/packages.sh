@@ -24,7 +24,7 @@ OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	cmake racket ghc ghc-static clang java-runtime-common \
 	java-environment-common bless ntp pavucontrol sl asciiquarium)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git)
-OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text)
+OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text peaclock)
 
 ALL="f"
 
