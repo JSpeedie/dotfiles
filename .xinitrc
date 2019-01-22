@@ -1,6 +1,9 @@
 $HOME/.monicarc   # monitor calibration
 xmodmap ~/.Xmodmap
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
+if ! pgrep -x "pulseaudio"; then
+	pulseaudio --start &
+fi
 xset +fp ~/.fonts/tamzen-font/bdf
 xset +fp /usr/share/fonts/local/
 xset +fp ~/.fonts
