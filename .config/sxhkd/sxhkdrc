@@ -45,25 +45,29 @@ super + f
 super + v
 	waitron window_ver_maximize
 
+# Focus window in a given cardinal direction
+super + {h,j,k,l}
+	waitron window_cardinal_focus {left,down,up,right}
+	#wtfc {-lf,-df,-uf,-rf}
 
 # Make current window floating or fullscreen respectively
 # super + {s,f}
 #	bspc node -t ~{floating,fullscreen}
 
 # Rotate nodes in desktop 90 degrees counter-clockwise or 90 clockwise
-super + {_,shift} + r
-	bspc node @/ -R {270,90}
+# super + {_,shift} + r
+# 	bspc node @/ -R {270,90}
 
 
 # Click to focus
-~button1
-	bspc node -f pointed || wuc -f;
+# ~button1
+# 	bspc node -f pointed || wuc -f;
 
 # Window moving and resizing
-super + z
-	sh ~/scripts/windowMove.sh
-super + a
-	sh ~/scripts/windowResize.sh
+# super + z
+# 	sh ~/scripts/windowMove.sh
+# super + a
+# 	sh ~/scripts/windowResize.sh
 
 # super + button{1-3}
 # 	bspc pointer -g {move,resize_side,resize_corner}
@@ -91,13 +95,9 @@ super + a
 # super + d + hjkl is pretty ez but d for what?
 
 # sigh gotta make this shit usable
-alt + {h,j,k,l}
-	bspc node -f {west,south,north,east}
+# alt + {h,j,k,l}
+# 	bspc node -f {west,south,north,east}
 
-# Focus window in a given cardinal direction
-super + {h,j,k,l}
-	waitron window_cardinal_focus {left,down,up,right}
-	#wtfc {-lf,-df,-uf,-rf}
 
 # chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
 
