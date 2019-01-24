@@ -30,7 +30,7 @@ super + f
 
 # Keybinds for "fullscreen" within non-bar screen
 super + s
-	waitron window_put_in_grid 1920 1050 0 30 1920 1050
+	sh /home/me/scripts/windowfullscreenbar.sh
 
 # Make current window vertically maximized
 super + v
@@ -51,6 +51,10 @@ super + m
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+
+# Change stack order by placing window at bottom of stack
+super + d
+	chwso -l $(cfw)
 # }}}
 
 
@@ -69,9 +73,9 @@ super + shift + {u,i,o,j,k,l,m,less,greater}
 
 # Keybinds for 2-window-horizontal within non-bar screen
 super + shift + z
-	waitron window_put_in_grid 1920 1050 0 30 960 1050
+	sh /home/me/scripts/windowfullscreenbar.sh left
 super + shift + v
-	waitron window_put_in_grid 1920 1050 960 30 960 1050
+	sh /home/me/scripts/windowfullscreenbar.sh right
 # }}}
 
 
