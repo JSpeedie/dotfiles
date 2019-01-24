@@ -1,166 +1,116 @@
-################################
-#     sxhkd/parse.c dummy      #
-################################
+###################################
+#               __    __       __ #
+#    ______  __/ /_  / /______/ / #
+#   / ___/ |/_/ __ \/ //_/ __  /  #
+#  (__  )>  </ / / / ,< / /_/ /   #
+# /____/_/|_/_/ /_/_/|_|\__,_/    #
+#                                 #
+#         sxhkd/parse.c           #
+#                                 #
+###################################
 
-################################
-#                              #
-#  Still needed bspc commands  #
-#                              #
-################################
 
-# Focus on a desktop/move cfw to desktop
-# super + {_,shift + }{1-9,0}
-# 	bspc {desktop -f,node -d} ^{1-9,10}
-
-# Add a window to a group of a given number
-super + shift {1-9,0}
-	waitron group_add_window {1-9,10}
+# ===============
+# ==== super ====
+# ===============
+# {{{
 
 # Toggle (display/hide) group of a given number
 super + {1-9,0}
 	waitron group_toggle {1-9,10}
 
-# Exit session
-super + alt + Escape
-	killall windowchef
-
-shift + alt + a
-	killall sxhkd
-
-# Focus previously focused window (apostrophe to be like vim's '')
-super + apostrophe
-	waitron window_focus_last
-
 # Kill currently focused window
 super + w
 	waitron window_close
 	#killw $(cfw)
-	#bspc node -c
 
 # Make current window fullscreen
 super + f
 	waitron window_maximize
 
+# Keybinds for "fullscreen" within non-bar screen
+super + s
+	waitron window_put_in_grid 1920 1050 0 30 1920 1050
+
 # Make current window vertically maximized
 super + v
 	waitron window_ver_maximize
 
-# Focus window in a given cardinal direction
-super + {h,j,k,l}
-	waitron window_cardinal_focus {left,down,up,right}
-	#wtfc {-lf,-df,-uf,-rf}
-
-# Make current window floating or fullscreen respectively
-# super + {s,f}
-#	bspc node -t ~{floating,fullscreen}
-
-# Rotate nodes in desktop 90 degrees counter-clockwise or 90 clockwise
-# super + {_,shift} + r
-# 	bspc node @/ -R {270,90}
-
-
-# Click to focus
-# ~button1
-# 	bspc node -f pointed || wuc -f;
-
-# Window moving and resizing
-# super + z
-# 	sh ~/scripts/windowMove.sh
-# super + a
-# 	sh ~/scripts/windowResize.sh
-
-# super + button{1-3}
-# 	bspc pointer -g {move,resize_side,resize_corner}
-
-# super + @button{1-3}
-# 	bspc pointer -u
-
-###############################################################################
-
-# move mouse to bottom left of focused window
-# && wmp $(($(wattr x $(cfw))+$(wattr w $(cfw)))) $(($(wattr y $(cfw))+$(wattr h $(cfw))))
-
-# key combos I can use:
-# super + x
-# super + alt + x (bit uncomfortable)
-# alt + shift + x
-# alt + ctrl + x
-# If I just accept the no home row hand position:
-# super + shift + x
-# super + ctrl + x
-# super + alt + x
-# Make use of like super qwert,asdfg,zxcvb instead of fucking
-# super + shift or super + any modifier
-# doesn't woooooooooooooooork
-# super + d + hjkl is pretty ez but d for what?
-
-# sigh gotta make this shit usable
-# alt + {h,j,k,l}
-# 	bspc node -f {west,south,north,east}
-
-
-# chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
-
-
-
-# Move focused window
-alt + shift + {h,j,k,l}
-	wsft -x {-50 -y 0,0 -y 50,0 -y -50,50 -y 0} -w $(cfw) -m
-
-# Resize window (needs to be able to resize in both directions)
-alt + ctrl + {h,j,k,l}
-	wrsz -w {-50 -h 0,0 -h 50,0 -h -50,50 -h 0} -W $(cfw) -r
-
-# Resize window to ratios of screen
-super + ctrl + {u,i,o,j,k,l,m,comma,period}
- 	wrsr -w {0.33 -h 0.33,0.66 -h 0.33,1 -h 0.33,0.33 -h 0.66,0.66 -h 0.66,1 -h 0.66,0.33 -h 1,0.66 -h 1,1 -h 1} -W $(cfw) -br
-
-# Move window into corners of screen
-super + shift + {u,i,o,j,k,l,m,less,greater}
- 	wtsr -x {0 -y 0,0.5 -y 0,1 -y 0,0 -y 0.5,0.5 -y 0.5,1 -y 0.5,0 -y 1,0.5 -y 1,1 -y 1} -w $(cfw) -bm
-
-# super + shift + {z,x,c,v}
-# 	wrsr -w {0.25 -h 0.25,0.5 -h 0.5,0.75 -h 0.75,1 -h 1} -W $(cfw) -br
-
-
-# Toggle mouse visibility option
-
-# Move (and resize?) windows with the mouse.
-# Stolen form z3bra's "you are the wm" post
-# super + !button{1,3}
-#     {wmv, wrs} -a %i %i $(cfw)
-
-# For resizing, perhaps have a mode to not hog all the good keybindings a la i3
-
-# Toggle visibility of a window/windows(s)
-# super + d # something to do with mapw
-
-###############################################################################
-
-##############################
-#                            #
-#   Wm Independent Hotkeys   #
-#                            #
-##############################
-
-# Create terminal emulator
+# Spawn terminal emulator
 super + Return
 	urxvt
 
 # Bring up launcher
 super + space
 	rofi -show run -width 66.6
+#
+# Toggle mute
+super + m
+	sh ~/scripts/togglemute.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
+# }}}
 
-######################
-#    mpd keybinds    #
-######################
 
-# Don't forget to 'mpc update' after setting it all up
+# =======================
+# ==== super + shift ====
+# =======================
+# {{{
+#
+# Add a window to a group of a given number
+super + shift {1-9,0}
+	waitron group_add_window {1-9,10}
 
+# Move window into corners of screen
+super + shift + {u,i,o,j,k,l,m,less,greater}
+ 	wtsr -x {0 -y 0,0.5 -y 0,1 -y 0,0 -y 0.5,0.5 -y 0.5,1 -y 0.5,0 -y 1,0.5 -y 1,1 -y 1} -w $(cfw) -bm
+
+# Keybinds for 2-window-horizontal within non-bar screen
+super + shift + z
+	waitron window_put_in_grid 1920 1050 0 30 960 1050
+super + shift + v
+	waitron window_put_in_grid 1920 1050 960 30 960 1050
+# }}}
+
+
+# ======================
+# ==== super + ctrl ====
+# ======================
+# {{{
+
+# Resize window to ratios of screen
+super + ctrl + {u,i,o,j,k,l,m,comma,period}
+ 	wrsr -w {0.33 -h 0.33,0.66 -h 0.33,1 -h 0.33,0.33 -h 0.66,0.66 -h 0.66,1 -h 0.66,0.33 -h 1,0.66 -h 1,1 -h 1} -W $(cfw) -br
+# }}}
+
+
+# =====================
+# ==== super + alt ====
+# =====================
+# {{{
+
+# Exit session
+super + alt + Escape
+	killall windowchef; killall sxhkd;
+# }}}
+
+
+# =============
+# ==== alt ====
+# =============
+# {{{
+
+# Focus previously focused window (apostrophe to be like vim's '')
+alt + apostrophe
+	waitron window_focus_last
+
+# Focus window in a given cardinal direction
+alt + {h,j,k,l}
+	waitron window_cardinal_focus {left,down,up,right}
+	#wtfc {-lf,-df,-uf,-rf}
+#
 # Seek backwards
 alt + y
 	mpc seek -00:00:10
@@ -173,10 +123,6 @@ alt + u
 alt + i
 	sh ~/scripts/playsong.sh
 
-# Use rofi to "fuzzy" find remove a song (I as in the inverse of insert)
-alt + shift + i
-	sh ~/scripts/removesongfromplaylist.sh
-
 # Play next song in mpd playlist
 alt + o
 	mpc next
@@ -185,22 +131,9 @@ alt + o
 alt + p
 	mpc toggle
 
-# Show songs in current playlist allowing user to pick the
-# song playing (p for Pick)
-alt + shift + p
-	sh ~/scripts/playsongfromplaylist.sh
-
-# Seek forwards
-alt + bracketleft
-	mpc seek +00:00:10
-
-######################
-#  volume keybinds   #
-######################
-
-# Toggle mute
-super + m
-	sh ~/scripts/togglemute.sh
+# Lock the system
+alt + Escape
+	sh ~/scripts/lock.sh
 
 # Decrease volume by 2%
 alt + n
@@ -209,18 +142,88 @@ alt + n
 alt + m
 	pamixer -i 2
 
-#################################
-#      brightness keybinds      #
-#################################
+# Seek forwards
+alt + bracketleft
+	mpc seek +00:00:10
+# }}}
+
+
+# =====================
+# ==== alt + shift ====
+# =====================
+# {{{
+
+# Use rofi to "fuzzy" find remove a song (I as in the inverse of insert)
+alt + shift + i
+	sh ~/scripts/removesongfromplaylist.sh
+
+# Move focused window
+alt + shift + {h,j,k,l}
+	wsft -x {-50 -y 0,0 -y 50,0 -y -50,50 -y 0} -w $(cfw) -m
+
+# Show songs in current playlist allowing user to pick the
+# song playing (p for Pick)
+alt + shift + p
+	sh ~/scripts/playsongfromplaylist.sh
 
 # Decrease screen brightness by 5 percent
-alt + shift +  n
+alt + shift + n
 	xbacklight -time 5 -steps 1 -dec 5
 # Increase screen brightness by 5 percent
-alt + shift +  m
+alt + shift + m
 	xbacklight -time 5 -steps 1 -inc 5
+# }}}
 
-# Lock the system
-alt + Escape
-	sh ~/scripts/lock.sh
 
+# ====================
+# ==== alt + ctrl ====
+# ====================
+# {{{
+
+# Resize window (needs to be able to resize in both directions)
+alt + ctrl + {h,j,k,l}
+	wrsz -w {-50 -h 0,0 -h 50,0 -h -50,50 -h 0} -W $(cfw) -r
+# }}}
+
+
+# ==============
+# ==== bspc ====
+# ==============
+# {{{
+
+# Kill currently focused window
+# super + w
+# 	bspc node -c
+
+# Focus on a desktop/move cfw to desktop
+# super + {_,shift + }{1-9,0}
+# 	bspc {desktop -f,node -d} ^{1-9,10}
+
+# Make current window floating or fullscreen respectively
+# super + {s,f}
+#	bspc node -t ~{floating,fullscreen}
+
+# Rotate nodes in desktop 90 degrees counter-clockwise or 90 clockwise
+# super + {_,shift} + r
+# 	bspc node @/ -R {270,90}
+
+# Click to focus
+# ~button1
+# 	bspc node -f pointed || wuc -f;
+
+# super + button{1-3}
+# 	bspc pointer -g {move,resize_side,resize_corner}
+
+# super + @button{1-3}
+# 	bspc pointer -u
+
+# sigh gotta make this shit usable
+# alt + {h,j,k,l}
+# 	bspc node -f {west,south,north,east}
+# }}}
+
+
+# chwb -s 0 $(cfw); chwb -s 4 -c 0x8064cc $(wtfc {-lf,-df,-uf,-rf})
+
+# Toggle visibility of a window/windows(s)
+# super + d # something to do with mapw
