@@ -73,9 +73,9 @@ super + shift + {u,i,o,j,k,l,m,less,greater}
 
 # Keybinds for 2-window-horizontal within non-bar screen
 super + shift + z
-	sh /home/me/scripts/windowfullscreenbar.sh left
+	sh ~/scripts/windowhalfscreenbar.sh left
 super + shift + v
-	sh /home/me/scripts/windowfullscreenbar.sh right
+	sh ~/scripts/windowhalfscreenbar.sh right
 # }}}
 
 
