@@ -119,6 +119,7 @@ s    on a git diff hunk to stage only that hunk
     (package-install 'spacemacs-theme)          ;; For spacemacs colour theme
     ;;(package-install 'telephone-line)           ;; For another nice mode line
     (package-install 'markdown-mode)            ;; For markdown syntax highlighting
+    (package-install 'haskell-mode)             ;; For haskell syntax highlighting
     #+END_SRC
 *** evil
 #+BEGIN_SRC emacs-lisp

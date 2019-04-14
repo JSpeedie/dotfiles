@@ -10,6 +10,7 @@ export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
 export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
 
 # env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
+# sudo usermod -a -G vboxusers,vboxsf,wheel [username_here]
 
 ##############################
 #          Aliases           #
@@ -40,6 +41,7 @@ alias rwfus='wtp 0 0 304 164 $(cfw)'
 alias fuckyou='yes "$(echo "fuck you" | figlet -f slant)" | lolcat'
 alias ctest='sh ~/scripts/colortest.sh'
 alias bonsai='sh ~/scripts/bonsai.sh 2 6'
+alias slippi='./Slippi-Launcher-1.4.2-x86_64.AppImage'
 alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
 
 ##############################
@@ -178,6 +180,10 @@ xfd-siji() {
 
 	font='-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1'
 	xfd -fn $font 2>&1 >/dev/null &
+}
+
+trim () {
+	ffmpeg -i $1 -ss $2 -to $3 -c copy -async 1 $4
 }
 
 PS1=$(prompt)
