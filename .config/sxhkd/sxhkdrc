@@ -38,11 +38,11 @@ super + v
 
 # Spawn terminal emulator
 super + Return
-	urxvt
+	termite
 
 # Bring up launcher
 super + space
-	rofi -show run -width 66.6
+	rofi -theme /home/me/.rofi.rasi -show run -width 66.6
 #
 # Toggle mute
 super + m
@@ -97,7 +97,7 @@ super + ctrl + {u,i,o,j,k,l,m,comma,period}
 
 # Exit session
 super + alt + Escape
-	killall windowchef; killall sxhkd;
+	killall i3; killall bspwm; killall windowchef; killall sxhkd;
 # }}}
 
 

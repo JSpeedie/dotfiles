@@ -12,6 +12,18 @@ set backspace=indent,eol,start
 "                         My Stuff                         "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" ==========
+" = Vundle =
+" ==========
+"
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Plugin 'mhartington/oceanic-next'
+"Plugin 'AlessandroYorba/Sierra'
+"Plugin 'AlessandroYorba/Arcadia'
+Plugin 'AlessandroYorba/Despacio'
+":PluginInstall
+
 " Set how many lines of history vim must remember
 set history=1000
 
@@ -67,7 +79,8 @@ filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 " Display tabs
 set list
-set listchars=tab:\|\ 
+set listchars=tab:\|\ ,eol:$,space:·,extends:⟩,precedes:⟨
+
 " Set too less laggy regex engine
 set regexpengine=1
 
@@ -86,8 +99,21 @@ call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
 " Matches an escaped whitespace character that is not at the cursor
 call matchadd('Visual', '\\\zs\s\%#\@<!$')
 
+" Theme
+syntax on
+" for vim 7
+set t_Co=256
+
+" for vim 8
+if (has("termguicolors"))
+	set termguicolors
+endif
+
+" syntax on
+"let g:sierra_Sunset = 1
+
 " Set the colorcscheme
-colorscheme taiga
+colorscheme despacio
 
 " Darker bg with darker fg (used for middle section of status line
 " which has no text)

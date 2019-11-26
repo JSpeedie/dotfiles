@@ -1,10 +1,13 @@
 ! Taiga
 ! Author: https://github.com/JSpeedie
 
-! Black, Lighter (+4), +8
+! Black, Lighter (+8), +16
+!#define black_dark   #262626
+!#define black_medium #303030
+!#define black_light  #454545
 #define black_dark   #262626
-#define black_medium #303030
-#define black_light  #454545
+#define black_medium #3a3a3a
+#define black_light  #4f4f4f
 ! White, Darker (-16)
 #define white_light #e6d4b5
 #define white_dark  #bdae94
@@ -84,7 +87,10 @@ Xft.lcdfilter: lcddefault
 !! Urxvt configuration
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
-URxvt.font: -*-tamzen-medium-*-*-*-20-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
+!!URxvt.font: xft:Code New Roman:size=13
+URxvt.font: xft:Meslo LG S:size=12
+!!URxvt.font: xft:mononoki:size=14
+!! URxvt.font: -*-tamzen-medium-*-*-*-20-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8
 URxvt.fading: 5
 !
@@ -99,41 +105,34 @@ URxvt.fading: 5
 !! gray, light gray \e[0;30m \e[0;37m
 
 
-!! Rofi configuration
-!! rofi.width: 800
-!! 1 2 3
-!! 8 0 4
-!! 7 6 5
-rofi.location: 0
-!! Set number of lines and columns
-rofi.lines: 14
-rofi.columns: 3
-!! Set gaps around rows both between rows and between columns. Deprecated
-rofi.line-padding: 5
-rofi.line-margin: 5
-!! Whether or not rofi underlines what you have typed in the search results
-rofi.show-match: true
-!! Have choice of modes at the bottom of rofi and which ones it shows
-rofi.sidebar-mode: true
-rofi.modi: window,run
-!! Keybinds for switching mode
-rofi.kb-mode-next: Alt+j,Alt+l
-rofi.kb-mode-previous: Alt+k,Alt+h
-!! rofi.font: Hermit 10
-rofi.font: Tamzen 16
-rofi.hide-scrollbar: true
-rofi.color-enabled: true
-
-
-!!                  bg              border          separator
-rofi.color-window:  black_dark,     green_dark,    black_dark
-!!                  bg              fg              bg alt          hl bg           hl fg
-rofi.color-normal:  black_dark,     white_light,    black_dark,     black_dark,   green_light
-rofi.color-active:  black_medium,   white_light,    black_medium,   black_dark,   green_light
-rofi.color-urgent:  black_dark,     red_light,      black_dark,     black_dark,   red_dark
-!! Border width and padding around the edges
-rofi.bw: 2
-rofi.padding: 30
-rofi.separator-style: solid
+!!    !! Rofi configuration
+!!    !! rofi.width: 800
+!!    !! 1 2 3
+!!    !! 8 0 4
+!!    !! 7 6 5
+!!    rofi.location: 0
+!!    !! Set number of lines and columns
+!!    rofi.lines: 14
+!!    rofi.columns: 3
+!!    !! Set gaps around rows both between rows and between columns. Deprecated
+!!    rofi.line-padding: 5
+!!    rofi.line-margin: 5
+!!    !! Whether or not rofi underlines what you have typed in the search results
+!!    rofi.show-match: true
+!!    !! Have choice of modes at the bottom of rofi and which ones it shows
+!!    rofi.sidebar-mode: true
+!!    rofi.modi: window,run
+!!    !! Keybinds for switching mode
+!!    rofi.kb-mode-next: Alt+j,Alt+l
+!!    rofi.kb-mode-previous: Alt+k,Alt+h
+!!    !! rofi.font: Hermit 10
+!!    rofi.font: Tamzen 16
+!!    rofi.hide-scrollbar: true
+!!    rofi.color-enabled: true
+!!    
+!!    !! Border width and padding around the edges
+!!    rofi.bw: 2
+!!    rofi.padding: 30
+!!    rofi.separator-style: solid
 !! the separator style won't work unless you're on rofi v 0.15.10 or higher
 !! you can check your version with "rofi -v"
