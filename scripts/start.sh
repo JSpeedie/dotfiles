@@ -17,7 +17,7 @@ windowList=$(bspc query --nodes)
 # we created any.
 sortedIds=$(echo $currentWin)
 # Windows to make upon start up
-Win=(firefox urxvt urxvt)
+Win=(firefox termite termite)
 # The WM_CLASS name of the windows you want to sort/move
 WinNames=(Firefox URxvt URxvt)
 # The desktops you want each window to be sorted/moved to

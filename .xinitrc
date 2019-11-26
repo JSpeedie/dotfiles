@@ -1,9 +1,6 @@
 $HOME/.monicarc   # monitor calibration
 xmodmap ~/.Xmodmap
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
-if ! pgrep -x "pulseaudio"; then
-	pulseaudio --start &
-fi
 xset +fp ~/.fonts/tamzen-font/bdf
 xset +fp /usr/share/fonts/local/
 xset +fp ~/.fonts
@@ -22,6 +19,4 @@ compton --backend glx --paint-on-overlay --vsync opengl-swc -b -f --fade-delta 2
 sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
-sxhkd &
-# exec bspwm
-exec windowchef -c ~/.config/windowchef/windowchefrc
+exec i3
