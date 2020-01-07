@@ -65,3 +65,7 @@ copy_fonts
 copy_files
 # Make bspwm config executable
 sudo chmod +x ~/.config/bspwm/bspwmrc
+
+# Install vim-plug for managing vim plugins
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

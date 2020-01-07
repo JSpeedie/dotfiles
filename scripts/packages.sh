@@ -13,7 +13,8 @@ end=$'\e[0m'
 PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
 	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
-	xf86-video-intel pkgconfig make fakeroot jq flex bison zsh zsh-completions)
+	xf86-video-intel pkgconfig make fakeroot jq flex bison zsh zsh-completions \
+	neovim)
 OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
 	mtpfs gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
