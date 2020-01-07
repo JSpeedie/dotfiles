@@ -2,8 +2,8 @@
 # ~/.bashrc
 #
 
-export VISUAL=vim
-export EDITOR="$VISUAL"
+export EDITOR=vim
+export VISUAL="$EDITOR"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export ANDROID_HOME=/opt/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
@@ -16,6 +16,13 @@ export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
 #          Aliases           #
 ##############################
 
+# If the system has neovim, use that, otherwise use regular vim
+if type nvim > /dev/null 2>&1; then
+	alias vim="nvim"
+	alias vimdiff='nvim -d'
+	export EDITOR=nvim
+	export VISUAL="$EDITOR"
+fi
 alias conuni='sudo wpa_supplicant -c ~/wpa_supplicant.conf -i wlp2s0 -D nl80211 -B && sudo dhcpcd wlp2s0'
 alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
