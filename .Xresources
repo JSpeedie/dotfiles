@@ -1,80 +1,117 @@
-! Taiga
-! Author: https://github.com/JSpeedie
+! ! Taiga
+! ! Author: https://github.com/JSpeedie
+! 
+! ! Black, Lighter (+8), +16
+! !#define black_dark   #262626
+! !#define black_medium #303030
+! !#define black_light  #454545
+! #define black_dark   #262626
+! #define black_medium #3a3a3a
+! #define black_light  #4f4f4f
+! ! White, Darker (-16)
+! #define white_light #e6d4b5
+! #define white_dark  #bdae94
+! 
+! ! Red, Darker (-10)
+! #define red_light #ad5449
+! #define red_dark  #94483e
+! ! Orange, Darker (-10)
+! #define orange_light #c2783c
+! #define orange_dark  #a86834
+! ! Yellow, Darker (-10)
+! #define yellow_light #bd9255
+! #define yellow_dark  #a37e49
+! ! Green, Darker (-10)
+! #define green_light #73855c
+! #define green_dark  #5d6b4a
+! ! Blue-ish, Darker (-10)
+! #define blue_light #576b69
+! #define blue_dark  #425250
+! ! Light Brown
+! #define brown_light #85673d
+! #define brown_dark  #6b5331
+! ! Purple-ish brown
+! #define purple_light #7a525d
+! #define purple_dark  #61414a
+! 
+! *.foreground:   white_light
+! *.background:   black_dark
+! *.cursorColor:  white_light
+! 
+! ! Comments below represent the colours that will be used if none were set.
+! ! It is also what most programs will expect. For instance, by default,
+! ! git will use 'color1' for outputting file paths when running 'git status'
+! 
+! ! Black
+! *.color0:       black_dark
+! ! Red
+! *.color1:       red_light
+! ! Green
+! *.color2:       green_light
+! ! Yellow
+! *.color3:       yellow_light
+! ! Blue
+! *.color4:       blue_light
+! ! Purple
+! *.color5:       purple_light
+! ! Cyan
+! *.color6:       brown_light
+! ! Gray
+! *.color7:       black_light
+! 
+! ! Light Black
+! *.color8:       black_medium
+! ! Light Red
+! *.color9:       red_dark
+! ! Light Green
+! *.color10:      green_dark
+! ! Light Yellow
+! *.color11:      yellow_dark
+! ! Light Blue
+! *.color12:      blue_dark
+! ! Light Purple
+! *.color13:      purple_dark
+! ! Light Cyan
+! *.color14:      brown_dark
+! ! White
+! *.color15:      white_light
 
-! Black, Lighter (+8), +16
-!#define black_dark   #262626
-!#define black_medium #303030
-!#define black_light  #454545
-#define black_dark   #262626
-#define black_medium #3a3a3a
-#define black_light  #4f4f4f
-! White, Darker (-16)
-#define white_light #e6d4b5
-#define white_dark  #bdae94
+! special
+*.foreground:   #ffffdf
+*.background:   #303030
+*.cursorColor:  #dfdfaf
 
-! Red, Darker (-10)
-#define red_light #ad5449
-#define red_dark  #94483e
-! Orange, Darker (-10)
-#define orange_light #c2783c
-#define orange_dark  #a86834
-! Yellow, Darker (-10)
-#define yellow_light #bd9255
-#define yellow_dark  #a37e49
-! Green, Darker (-10)
-#define green_light #73855c
-#define green_dark  #5d6b4a
-! Blue-ish, Darker (-10)
-#define blue_light #576b69
-#define blue_dark  #425250
-! Light Brown
-#define brown_light #85673d
-#define brown_dark  #6b5331
-! Purple-ish brown
-#define purple_light #7a525d
-#define purple_dark  #61414a
+! black
+*.color0:       #303030
+*.color8:       #767676
 
-*.foreground:   white_light
-*.background:   black_dark
-*.cursorColor:  white_light
+! red
+*.color1:       #d75f5f
+*.color9:       #d75f5f
 
-! Comments below represent the colours that will be used if none were set.
-! It is also what most programs will expect. For instance, by default,
-! git will use 'color1' for outputting file paths when running 'git status'
+! green
+*.color2:       #5f8787
+*.color10:      #5f8787
 
-! Black
-*.color0:       black_dark
-! Red
-*.color1:       red_light
-! Green
-*.color2:       green_light
-! Yellow
-*.color3:       yellow_light
-! Blue
-*.color4:       blue_light
-! Purple
-*.color5:       purple_light
-! Cyan
-*.color6:       brown_light
-! Gray
-*.color7:       black_light
+! yellow
+*.color3:       #dfaf87
+*.color11:      #dfaf87
 
-! Light Black
-*.color8:       black_medium
-! Light Red
-*.color9:       red_dark
-! Light Green
-*.color10:      green_dark
-! Light Yellow
-*.color11:      yellow_dark
-! Light Blue
-*.color12:      blue_dark
-! Light Purple
-*.color13:      purple_dark
-! Light Cyan
-*.color14:      brown_dark
-! White
-*.color15:      white_light
+! blue
+*.color4:       #af875f
+*.color12:      #af875f
+
+! magenta
+*.color5:       #875f5f
+*.color13:      #875f5f
+
+! cyan
+*.color6:       #87afaf
+*.color14:      #87afaf
+
+! white
+*.color7:       #ffffdf
+*.color15:      #ffffdf
 
 Xft.dpi: 96
 Xft.antialias: true
@@ -88,7 +125,7 @@ Xft.lcdfilter: lcddefault
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
 !!URxvt.font: xft:Code New Roman:size=13
-URxvt.font: xft:Meslo LG S:size=12
+URxvt.font: xft:Meslo LG S:size=12, xft:SauceCodePro Nerd:size=16
 !!URxvt.font: xft:mononoki:size=14
 !! URxvt.font: -*-tamzen-medium-*-*-*-20-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8
