@@ -14,18 +14,6 @@ set backspace=indent,eol,start
 "                         My Stuff                         "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" ==========
-" = Vundle =
-" ==========
-"
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" Plugin 'mhartington/oceanic-next'
-"Plugin 'AlessandroYorba/Sierra'
-"Plugin 'AlessandroYorba/Arcadia'
-Plugin 'AlessandroYorba/Despacio'
-":PluginInstall
-
 " Set how many lines of history vim must remember
 set history=1000
 
@@ -113,9 +101,6 @@ endif
 
 " syntax on
 "let g:sierra_Sunset = 1
-
-" Set the colorcscheme
-colorscheme despacio
 
 " Darker bg with darker fg (used for middle section of status line
 " which has no text)
