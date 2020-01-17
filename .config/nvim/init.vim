@@ -15,8 +15,13 @@ source ~/.vimrc
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+" Colour Scheme of choice (Despacio)
+""""""""""""""""""""""""""""""""""""
+Plug 'AlessandroYorba/Despacio'
+
 " Conquer of Completion (COC) (For autocompletion)
 """"""""""""""""""""""""""""""""""""""""""""""""""
+" - Requires 'npm'
 " Use release branch (Recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
@@ -242,6 +247,9 @@ let g:airline_theme='deus'
 """"""""""""""""""""
 "  General Config  "
 """"""""""""""""""""
+
+" Set the colorcscheme
+colorscheme despacio
 
 " Don't highlight search results
 set nohlsearch
