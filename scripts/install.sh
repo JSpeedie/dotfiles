@@ -9,6 +9,14 @@
 #                                                                    #
 ######################################################################
 
+red=$'\e[1;31m'
+green=$'\e[1;32m'
+yellow=$'\e[1;33m'
+blue=$'\e[1;34m'
+magenta=$'\e[1;35m'
+cyan=$'\e[1;36m'
+end=$'\e[0m'
+
 # This script is used to "install" all the parts of the setup.
 
 fontdir=/usr/share/fonts
@@ -66,6 +74,10 @@ copy_files
 # Make bspwm config executable
 sudo chmod +x ~/.config/bspwm/bspwmrc
 
-# Install vim-plug for managing vim plugins
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo -n "${blue}==> Install vim-plug for neovim? [Y/n]${end} "
+read -a INPUT
+printf "\n"
+# If the user wants to install vim-plug for managing vim plugins
+if [[ ${INPUT[*]} == "Y" ]] || [[ ${INPUT[*]} == "" ]]; then
+	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
