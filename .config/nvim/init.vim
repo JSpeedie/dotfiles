@@ -41,7 +41,7 @@ Plug 'tpope/vim-commentary'
 " - Surround text objects using (for Ex.) ysiw' to surround in-word with '.
 " - yss to surround a line.
 Plug 'tpope/vim-commentary'
-"
+
 " CtrlP (for fuzzy finding files, etc)
 """"""""""""""""""""""""""""""""""""""
 " - <c-j>, <c-k> for navigating results
@@ -49,10 +49,22 @@ Plug 'tpope/vim-commentary'
 " - <c-d> for filename only search (as opposed to full file path)
 " - <c-r> for regex search
 Plug 'ctrlpvim/ctrlp.vim'
-"
+
 " vim-gitgutter (showing which lines have been changed next to the line numbers)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'airblade/vim-gitgutter'
+
+" vim-devicons (for file format icons in NERDTree)
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" This plugin requires a nerd font to be installed.
+"     'yay nerd-fonts-source-code-pro', for instance.
+Plug 'ryanoasis/vim-devicons'
+
+" vim-airline (for an informative status bar)
+"""""""""""""""""""""""""""""""""""""""""""""
+Plug 'vim-airline/vim-airline'
+" For theming the status bar
+Plug 'vim-airline/vim-airline-themes'
 
 " End Plugin manager
 call plug#end()
@@ -200,6 +212,10 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 """"""""""""""""
 " Enable jshint linting
 let g:neomake_javascript_enabled_makers = ['jshint']
+" Enable pylint linting (requires 'pip install pylint')
+let g:neomake_python_enabled_makers = ['pylint']
+" Enable C linting
+let g:neomake_c_enabled_makers=['clang']
 " Full config: when writing or reading a buffer, and on changes in insert and
 " normal mode (after 1s; no delay when writing).
 call neomake#configure#automake('nrwi', 500)
@@ -212,6 +228,14 @@ map <C-n> :NERDTreeToggle<CR>
 """"""""""""""
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" vim-devicons config
+"""""""""""""""""""""
+set encoding=UTF-8
+
+" vim-airline config
+"""""""""""""""""""""
+let g:airline_theme='deus'
 
 
 
