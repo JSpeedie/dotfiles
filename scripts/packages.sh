@@ -26,7 +26,7 @@ OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
 	java-environment-common bless ntp pavucontrol sl asciiquarium unrar ghex \
 	virtualbox-guest-utils autoconf automake noto-fonts python-pip npm)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git ttf-meslo \
-	flat-remix-gtk)
+	flat-remix-gtk ttf-ms-fonts ttf-vista-fonts)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text peaclock \
 	virtualbox-ext-oracle)
 
