@@ -15,7 +15,9 @@ dunst -config ~/dunstrc &
 feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 # The first 3 flags are to eliminate tearing, following flags are for shadows
 # and fade effects
-compton --backend glx --paint-on-overlay --vsync opengl-swc -b -f --fade-delta 2 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
+# compton --backend glx --paint-on-overlay --vsync opengl-swc -b -f --fade-delta 2 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
+# Picom replaces compton. Need experimental backend because graphics card is old, I believe
+picom --experimental-backends --config .config/picom/picom.conf &
 sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
