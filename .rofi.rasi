@@ -1,218 +1,198 @@
 * {
-    /* Theme settings */
-    highlight: bold italic;
-    scrollbar: false;
+	/* Theme settings */
+	highlight: bold italic;
+	scrollbar: false;
 
-    /* Colour Scheme */
+	/* Colour Scheme */
 
-    /* Black, Lighter (+8), +16 */
-    black-dark:   #262626;
-    black-medium: #3a3a3a;
-    black-light:  #4f4f4f;
+	/* Black, Lighter (+8), +16 */
+	black-dark: #262626;
+	black-dark-translucent: #26262677;
+	black-medium: #3a3a3a;
+	black-light: #4f4f4f;
 
-    /* White, Darker (-16) */
-    white-light: #e6d4b5;
-    white-dark:  #bdae94;
+	/* White, Darker (-16) */
+	white-light: #e6d4b5;
+	white-light-translucent: #e6d4b577;
+	white-dark: #bdae94;
 
-    /* Red, Darker (-10) */
-    red-light: #ad5449;
-    red-dark:  #94483e;
+	/* Red, Darker (-10) */
+	red-light: #ad5449;
+	red-dark: #94483e;
 
-    // Orange, Darker (-10)
-    orange-light: #c2783c;
-    orange-dark:  #a86834;
+	// Orange, Darker (-10)
+	orange-light: #c2783c;
+	orange-dark: #a86834;
 
-    // Yellow, Darker (-10)
-    yellow-light: #bd9255;
-    yellow-dark:  #a37e49;
+	// Yellow, Darker (-10)
+	yellow-light: #bd9255;
+	yellow-dark: #a37e49;
 
-    // Green, Darker (-10)
-    green-light: #73855c;
-    green-dark:  #5d6b4a;
+	// Green, Darker (-10)
+	green-light: #73855c;
+	green-dark: #5d6b4a;
 
-    // Blue-ish, Darker (-10)
-    blue-light: #576b69;
-    blue-dark:  #425250;
+	// Blue-ish, Darker (-10)
+	blue-light: #576b69;
+	blue-dark: #425250;
 
-    // Light Brown
-    brown-light: #85673d;
-    brown-dark:  #6b5331;
+	// Light Brown
+	brown-light: #85673d;
+	brown-dark: #6b5331;
 
-    // Purple-ish brown
-    purple-light: #7a525d;
-    purple-dark:  #61414a;
-
-
-//!!    !! Rofi configuration
-//!!    !! rofi.width: 800
-//!!    !! 1 2 3
-//!!    !! 8 0 4
-//!!    !! 7 6 5
-//!!    rofi.location: 0
-//!!    rofi.line-padding: 5
-//!!    rofi.line-margin: 5
-//!!    rofi.show-match: true
-//!!    rofi.sidebar-mode: true
-//!!    rofi.modi: window,run
-//!!    rofi.kb-mode-next: Alt+j,Alt+l
-//!!    rofi.kb-mode-previous: Alt+k,Alt+h
-//!!    rofi.font: Tamzen 16
-//!!    rofi.bw: 2
-//!!    rofi.padding: 30
-//!!    rofi.separator-style: solid
+	// Purple-ish brown
+	purple-light: #7a525d;
+	purple-dark: #61414a;
 
 
-    font: "Hermit 12";
+	/* Can be found using gnome-font-viewer and using the name before the "," */
+	font: "Meslo LG S 12";
 
-    /* Theme colors */
-    background:                  @black-dark;
-    background-color:            @background;
-    foreground:                  @white-light;
-    border-color:                @green-dark;
-    separatorcolor:              @border-color;
-    scrollbar-handle:            @border-color;
+	/* Theme colors */
+	background-translucent: @black-dark-translucent;
+	background: @black-dark;
+	foreground: @white-light;
+	border-color: @green-dark;
+	separatorcolor: @border-color;
+	scrollbar-handle: @border-color;
+}
 
-    normal-background:           @background;
-    normal-foreground:           @foreground;
-    alternate-normal-background: @background;
-    alternate-normal-foreground: @foreground;
-    selected-normal-background:  @background;
-    selected-normal-foreground:  @green-dark;
+configuration {
+	/* Highlight an entry under the mouse pointer */
+	hover-select: false;
+	/* Disable MousePrimary as an entry selector
+	 * Without this setting you won't be able to set MousePrimary as an entry
+	 * acceptor.
+	 */
+	me-select-entry: "";
 
-    active-background:           @black-medium;
-    active-foreground:           @foreground;
-    alternate-active-background: @black-medium;
-    alternate-active-foreground: @foreground;
-    selected-active-background:  @black-dark;
-    selected-active-foreground:  @green-dark;
-
-    urgent-background:           @red-dark;
-    urgent-foreground:           @background;
-    alternate-urgent-background: @urgent-background;
-    alternate-urgent-foreground: @urgent-foreground;
-    selected-urgent-background:  @red-light;
-    selected-urgent-foreground:  @urgent-foreground;
+	/* Use either LMB single click or RMB single click or LMB double click
+	 * to accept an entry
+	 */
+	me-accept-entry: [ MousePrimary, MouseSecondary, MouseDPrimary ];
+	show-icons: true;
+	icon-theme: "Papirus";
+	sidebar-mode: false;
 }
 
 window {
-    background-color: @background;
-    border:           2;
-    padding:          30;
-    location:         0;
-}
-
-mainbox {
-    border:  0;
-    padding: 0;
-}
-
-message {
-    border:       2px 0 0;
-    border-color: @separatorcolor;
-    padding:      1px;
-}
-
-textbox {
-    highlight:  @highlight;
-    text-color: @foreground;
+	transparency: "real";
+	background-color: @background-translucent;
+	text-color: @foreground;
+	padding: 40;
+	/* location: 0; */
+	width: 100%;
+	height: 100%;
 }
 
 listview {
-    border:       2px solid 0 0;
-    padding:      2px 0 0;
-    border-color: @separatorcolor;
-    spacing:      2px;
-    scrollbar:    @scrollbar;
-    lines:        14;
-    columns:      3;
+	background-color: inherit;
+	columns: 5;
+	lines: 5;
+	spacing: 2%;
+	cycle: false;
+	dynamic: true;
+	layout: vertical;
 }
+
+mainbox {
+	background-color: #00000000;
+	border: 0;
+	padding: 10% 8.5% 10% 8.5%;
+	spacing: 8%;
+	children: [ inputbar, listview ];
+}
+
+message {
+	border: 2px 0 0;
+	border-color: @separatorcolor;
+	padding: 1px;
+}
+
+textbox {
+	highlight: @highlight;
+	text-color: @foreground;
+}
+
 
 element {
-    border:  0;
-    padding: 2px;
+	border: 0;
+	padding: 1.5% 0.95% 1.5% 0.95%;
+	background-color: @background;
+	text-color: @foreground;
+	orientation: vertical;
 }
 
-element.normal.normal {
-    background-color: @normal-background;
-    text-color:       @normal-foreground;
+element-icon {
+	background-color: #00000000;
+	text-color: inherit;
+	horizontal-align: 0.5;
+	vertical-align: 0.5;
+	size: 5%;
+	border: 0px;
 }
 
-element.normal.urgent {
-    background-color: @urgent-background;
-    text-color:       @urgent-foreground;
+element-text {
+	background-color: #00000000;
+	text-color: inherit;
+	expand: false;
+	horizontal-align: 0.5;
+	vertical-align: 0.5;
+	margin: 0.5% 0.5% 0.5% 0.5%;
 }
 
-element.normal.active {
-    background-color: @active-background;
-    text-color:       @active-foreground;
-}
-
-element.selected.normal {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
-}
-
-element.selected.urgent {
-    background-color: @selected-urgent-background;
-    text-color:       @selected-urgent-foreground;
-}
-
-element.selected.active {
-    background-color: @selected-active-background;
-    text-color:       @selected-active-foreground;
-}
-
-element.alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
-}
-
-element.alternate.urgent {
-    background-color: @alternate-urgent-background;
-    text-color:       @alternate-urgent-foreground;
-}
-
-element.alternate.active {
-    background-color: @alternate-active-background;
-    text-color:       @alternate-active-foreground;
+element selected {
+	background-color: @foreground;
+	text-color: inherit;
+	border: 0% 0% 0% 0%;
+	border-radius: 12px;
+	border-color: @accent;
 }
 
 scrollbar {
-    width:        4px;
-    border:       0;
-    handle-color: @scrollbar-handle;
-    handle-width: 8px;
-    padding:      0;
+	width: 4px;
+	border: 0;
+	handle-color: @scrollbar-handle;
+	handle-width: 8px;
+	padding: 0;
 }
 
 mode-switcher {
-    border:       2px 0 0;
-    border-color: @separatorcolor;
+	border: 2px 0 0;
+	border-color: @separatorcolor;
 }
 
+/* The top input section of the menu as a whole */
 inputbar {
-    spacing:    0;
-    text-color: @normal-foreground;
-    padding:    2px;
-    children:   [ prompt, textbox-prompt-sep, entry, case-indicator ];
+	background-color: inherit;
+	text-color: @foreground;
+	padding: 0.5%;
+	border: 0.1%;
+	border-radius: 0.5%;
+	border-color: @foreground;
+	margin: 2% 30% 2% 30%;
+	/*
+	* textbox-prompt-sep is the piece of text to the left of the textfield search bar
+	* entry is the search bar itself
+	*/
+	children: [ textbox-prompt-sep, entry ];
 }
 
-case-indicator,
-entry,
-prompt,
-button {
-    spacing:    0;
-    text-color: @normal-foreground;
-}
-
-button.selected {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
+entry {
+	background-color: inherit;
+	text-color: @foreground;
+	placeholder-color: @white-light-translucent;
+	expand: false;
+	horizontal-align: 0;
+	placeholder: "Search";
+	padding: 0% 0% 0% 0%;
+	blink: true;
 }
 
 textbox-prompt-sep {
-    expand:     false;
-    str:        " →";
-    text-color: @normal-foreground;
-    margin:     0 0.3em 0 0;
+	background-color: inherit;
+	text-color: @foreground;
+	expand: false;
+	str: " > ";
+	margin: 0 0 0 0;
 }
