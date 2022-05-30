@@ -23,6 +23,7 @@ if type nvim > /dev/null 2>&1; then
 	export EDITOR=nvim
 	export VISUAL="$EDITOR"
 fi
+alias organizerawsandjpgs='bash ~/organizerawsandjpgs.sh'
 alias conuni='sudo wpa_supplicant -c ~/wpa_supplicant.conf -i wlp2s0 -D nl80211 -B && sudo dhcpcd wlp2s0'
 alias ls='ls --color=auto'
 alias dtest='sh ~/scripts/difftest.sh'
