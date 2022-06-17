@@ -28,6 +28,8 @@ set updatetime=30000
 " if I get an error.
 set number
 set relativenumber
+" Show a few lines of context around the cursor (affects H, L, zt, zb, /, etc.)
+set scrolloff=3
 " Highlight the cursor line
 set cursorline
 " Highlight results for your search while you're typing
@@ -97,6 +99,25 @@ set t_Co=256
 " for vim 8
 if (has("termguicolors"))
 	set termguicolors
+endif
+
+" Only do this part when Vim was compiled with the +eval feature.
+if 1
+	" Put these in an autocmd group, so that you can revert them with:
+	" ":augroup vimStartup | exe 'au!' | augroup END"
+	augroup vimStartup
+		au!
+
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid, when inside an event handler
+		" (happens when dropping a file on gvim) and for a commit message (it's
+		" likely a different one than last time).
+		autocmd BufReadPost *
+			\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+			\ |	 exe "normal! g`\""
+			\ | endif
+
+	augroup END
 endif
 
 " syntax on
