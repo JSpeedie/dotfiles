@@ -17,11 +17,11 @@ windowList=$(bspc query --nodes)
 # we created any.
 sortedIds=$(echo $currentWin)
 # Windows to make upon start up
-Win=(firefox termite termite)
+Win=(termite)
 # The WM_CLASS name of the windows you want to sort/move
-WinNames=(Firefox URxvt URxvt)
+WinNames=(URxvt)
 # The desktops you want each window to be sorted/moved to
-WinDesktop=(7 6 6)
+WinDesktop=(6)
 # }}}
 
 # Add a delay so .Xresources can be read
