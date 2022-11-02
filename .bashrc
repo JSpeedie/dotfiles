@@ -99,7 +99,16 @@ mdtopdf () {
 }
 
 textopdf () {
+	# pdflatex $1
+	# Older method
 	pandoc -f latex $1 --pdf-engine=lualatex -o $2
+}
+
+# concatenate pdf $1 and pdf $2 into output pdf $3.
+# You can have more inputs which could take the form:
+#	pdftk $1 $2 $3 cat output $4
+concatenatepdfs () {
+	pdftk $1 $2 cat output $3
 }
 
 # Converts the video to be 480 by 320 at 30fps. convert then optimizes
