@@ -23,6 +23,8 @@ syntax enable
 " I set it to 5 minutes
 set updatetime=30000
 
+" Disable the mouse jeez
+set mouse=
 " Show relative line numbers because it makes prefixing a command easier,
 " but still supports things like [lineNumber]G which I only really use
 " if I get an error.
