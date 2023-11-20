@@ -32,8 +32,8 @@ alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedir
 alias updatepelagic='sh ~/scripts/updatedir.sh ~/.vim/colors/ ~/pelagicGit/ ~/scripts/updatedirpelagic.sh'
 alias barscr='ffmpeg -video_size 1220x40 -framerate 60 -f x11grab -i :0.0+2590,0 -vframes 1 output.png'
 # Record Desktop (full screen)
-alias rd='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 output.mp4'
-alias rdl='ffmpeg -video_size 1920x1080 -framerate 60 -f x11grab -i :0.0+0,0 -c:v libx264 -qp 0 -preset ultrafast output.mkv'
+alias rd='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :1.0+0,0 output.mp4'
+alias rdl='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 -c:v libx264 -qp 0 -preset ultrafast output.mkv'
 # Record Desktop Medium (1/2 of the screen)
 alias rdm='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
 # Record Desktop Small (1/3 of the screen)
@@ -94,6 +94,11 @@ prompt () {
 	printf "${result}"
 }
 
+# jpgtopdf 42389.jpg receipt.pdf
+jpgtopdf () {
+	convert $1 -auto-orient $2
+}
+
 mdtopdf () {
 	pandoc $1 --pdf-engine=lualatex -o $2
 }
@@ -127,6 +132,24 @@ convmp4gif () {
 	ffmpeg -i $1 -vf "scale=480:320,select=gt(scene\,${3})" -r 30 .temp_${2} && \
 	convert .temp_${2} -coalesce -layers OptimizeFrame ${2}
 	rm .temp_${2}
+}
+
+# Add a cover image (i.e. prepend a page which is just the first image) to a pdf
+# TODO: turn into a function - this is just a reference at the moment
+pdfaddcoverpage () {
+	convert kantpoliticalwritings2ndedcover.jpg kantpoliticalwritings2ndedcover.pdf
+
+	# Unused - possibly unnecessary
+	# pdfjam --paper 'a4paper' --scale 0.5 --offset '0cm -0cm' kantpoliticalwritings2ndedcover.pdf
+
+	# Make a copy of the first page of the pdf for us to stamp the cover image onto
+	pdftk Kant_\ Political\ Writings.pdf cat 1 output firstpage.pdf
+
+	# Stamp the cover image onto the duplicated first page
+	pdftk firstpage.pdf stamp kantpoliticalwritings2ndedcover.pdf output stampedfirstpage.pdf
+
+	# Prepend the stamped first page to the original document
+	pdftk stampedfirstpage.pdf Kant_\ Political\ Writings.pdf cat output combined.pdf
 }
 
 # Taken from http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
