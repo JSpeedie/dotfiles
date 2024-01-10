@@ -1,16 +1,15 @@
 # Table of Contents
 <details><summary>Click to Expand</summary><p>
 
-* [Info](#info)
+* [Purpose](#purpose)
 * [Installation](#installation)
 * [Screenshots](#screenshots)
 * [Feature list](#feature-list)
-* [Purpose](#purpose)
 * [Contents](#contents)
 * [Bugs/To Be Fixed](#bugsto-be-fixed)
 </p></details>
 
-## Info
+## Purpose
 
 This repository contains all my configurations for my preferred Linux setup.
 The purpose of the repo is to provide an easy way for me to get my preferred
@@ -18,8 +17,19 @@ working environment quickly when I am faced with a new installation or computer.
 Part of this function is to provide me with and configure all my
 most used tools, and the other part is to achieve the stylistic qualities I like.
 
-### Some unorganized notes to consider before diving into the details:
 
+## Installation
+
+```
+git clone git@github.com:JSpeedie/dotfiles.git dotfilesGit
+cd dotfilesGit/scripts
+sh packages.sh
+sh install.sh
+```
+
+### Some unorganized notes to consider before diving into the details
+
+<details><summary>Click to Expand</summary><p>
 This setup expects you to use `startx` upon boot as it does not use a
 display manager.
 
@@ -32,15 +42,7 @@ info on the bar.
 * Siji as my icon font and Tamzen as my normal-text-font.
 * `rofi` as my launcher.
 * `nvim` as my text editor
-
-## Installation
-
-```
-git clone git@github.com:JSpeedie/dotfiles.git dotfilesGit
-cd dotfilesGit/scripts
-sh packages.sh
-sh install.sh
-```
+</p></details>
 
 ## Screenshots
 
