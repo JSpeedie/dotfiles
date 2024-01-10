@@ -1,21 +1,46 @@
+# Table of Contents
+<details><summary>Click to Expand</summary><p>
+
+* [Info](#info)
+* [Installation](#installation)
+* [Screenshots](#screenshots)
+* [Feature list](#feature-list)
+* [Purpose](#purpose)
+* [Contents](#contents)
+* [Bugs/To Be Fixed](#bugsto-be-fixed)
+</p></details>
+
 ## Info
+
+This repository contains all my configurations for my preferred Linux setup.
+The purpose of the repo is to provide an easy way for me to get my preferred
+working environment quickly when I am faced with a new installation or computer.
+Part of this function is to provide me with and configure all my
+most used tools, and the other part is to achieve the stylistic qualities I like.
+
+### Some unorganized notes to consider before diving into the details:
+
 This setup expects you to use `startx` upon boot as it does not use a
 display manager.
 
-The important parts of this setup are:
-* `bspwm` (and `sxhkd`) as my wm (for now...)
-* [kryptn-bar](https://github.com/krypt-n/bar)/`lemonbar-xft-git`<sup>aur</sup> as my bar
-* `urxvt` as my terminal emulator
-
 I use a couple of other, less important things to achieve what I want in my
-setup (A E S T H E T I Cally and functionally). Here's some of them:
+setup (aesthetically and functionally). Here's some of them:
 * `pulseaudio`, `pamixer`, and `xorg-xbacklight` for volume and brightness
 info on the bar.
 * `dunst` for notifications.
 * `compton` for shadows, fading and transparency.
 * Siji as my icon font and Tamzen as my normal-text-font.
 * `rofi` as my launcher.
-* `vim` as my text editor
+* `nvim` as my text editor
+
+## Installation
+
+```
+git clone git@github.com:JSpeedie/dotfiles.git dotfilesGit
+cd dotfilesGit/scripts
+sh packages.sh
+sh install.sh
+```
 
 ## Screenshots
 
