@@ -48,69 +48,49 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	elif [[ $i == "YPKGLIST" ]]; then
 		CPKGL=("${YPKGLIST[@]}")
 
-		# Check if yaourt is installed {{{
-		if pacman -Q | grep "^yaourt"; then
-			echo "${green}Found yaourt...${end}"
+		# Check if yay (AUR helper of choice) is installed {{{
+		if pacman -Qq yay; then
+			echo "${green}Found yay...${end}"
 		else
-			echo -n "Missing ${red}yaourt${end}. Would you like to install it? [Y/n] (enter=Y) "
-			read -a YAOURT
+			echo -n "Missing ${red}yay${end}. Would you like to install it? [Y/n] (enter=Y) "
+			read -a AURHELPER
 			printf "\n"
 
-			# If the user wants to install yaourt
-			if [[ ${YAOURT[*]} == "" || ${YAOURT[*]} == "Y" ]]; then
-				# Check if the necessary AUR package (package-query) for yaourt is installed
-				if pacman -Q | grep "^package-query"; then
-					echo "${green}Found package-query...${end}"
+			# If the user wants to install yay
+			if [[ ${AURHELPER[*]} == "" || ${AURHELPER[*]} == "Y" ]]; then
+				# Check if the necessary packages for yay are installed
+				if pacman -Qq git && pacman -Qq base-devel; then
+					echo "${green}Found necessary dependencies for yay...${end}"
 				else
-					echo -n "Missing ${red}yaourt${end} dependency ${red}package-query${end}. Would you like to install it? [Y/n] (enter=Y) "
-					read -a YAOURT
+					echo -n "Missing ${red}yay${end} dependencies (some of: ${red}git${end}, ${red}base-devel${end}). Would you like to install them? [Y/n] (enter=Y) "
+					read -a AURHELPER
 					printf "\n"
 
-					# If the user wants to install package-query
-					if [[ ${YAOURT[*]} == "" || ${YAOURT[*]} == "Y" ]]; then
-						# Install 3 dependencies necessary for
-						# building package-query
-						if ! pacman -Qq pkgconfig; then
-							echo "Missing ${red}pkgconfig${end}, installing..."
-							sudo pacman -S pkgconfig --noconfirm --needed
-						fi
-						if ! pacman -Qq make; then
-							echo "Missing ${red}make${end}, installing..."
-							sudo pacman -S make --noconfirm --needed
-						fi
-						if ! pacman -Qq fakeroot; then
-							echo "Missing ${red}fakeroot${end}, installing..."
-							sudo pacman -S fakeroot --noconfirm --needed
-						fi
-						if git clone https://aur.archlinux.org/package-query.git package-query; then
-							cd package-query
-							makepkg -sri
+					# If the user wants to install the dependencies
+					if [[ ${AURHELPER[*]} == "" || ${AURHELPER[*]} == "Y" ]]; then
+						# Install the 2 dependencies
+						sudo pacman -S --needed --noconfirm git base-devel
+						if git clone https://aur.archlinux.org/yay.git yay; then
+							cd yay
+							makepkg -si
 							cd ..
 						else
-							echo "${red}Failed to download package-query. Cannot continue...${end}"
+							echo "${red}Failed to download yay. Cannot continue...${end}"
 							exit 1
 						fi
-					# If the user does not want to install package-query.
+					# If the user does not want to install the dependencies
 					else
-						echo "Missing ${red}package-query${end}. Cannot continue..."
+						echo "Missing some of: ${red}git${end}, ${red}base-devel${end}. Cannot continue..."
 						exit 1
 					fi
 				fi
-				if git clone https://aur.archlinux.org/yaourt.git yaourt; then
-					cd yaourt
-					makepkg -sri
-					cd ..
-				else
-					echo "${red}Failed to download yaourt. Cannot continue...${end}"
-					exit 1
-				fi
-			# If the user does not want to install yaourt.
+			# If the user does not want to install yay.
 			else
-				echo "Missing ${red}yaourt${end}. Cannot continue..."
+				echo "Missing ${red}yay${end}. Cannot continue..."
 				exit 1
 			fi
-			# }}}
 		fi
+		# }}}
 	elif [[ $i == "OYPKGLIST" ]]; then
 		CPKGL=("${OYPKGLIST[@]}")
 	else
@@ -120,7 +100,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	if [[ $ALL != "t" ]]; then
 		echo
 		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
-		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue"
+		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
 		echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
 			"(enter=all, !=all of every package list)${end} "
 		read -a INPUT
@@ -144,6 +124,7 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 	# For if the user doesn't want to install anything from the collection
 	elif [[ ${INPUT[*]} == "skip" ]]; then
 		echo "Skipping to next collection of packages..."
+		continue
 	# If the user entered a white space delimited list of numbers
 	elif [[ ${INPUT[*]} =~ ^([ \t]*[0-9]{1,}[ \t]*){1,}$ ]]; then
 		pkg=${INPUT[*]}
@@ -155,11 +136,10 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		exit 1
 	fi
 
-
+	# Go through the package list and install all the packages
 	for j in $pkg; do
-
 		if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
-			yaourt ${CPKGL[j-1]} --noconfirm
+			yay -S ${CPKGL[j-1]} --noconfirm
 		else
 			sudo pacman -S ${CPKGL[j-1]} --noconfirm --needed
 		fi
