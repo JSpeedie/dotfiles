@@ -21,7 +21,10 @@ most used tools, and the other part is to achieve the stylistic qualities I like
 ## Installation
 
 ```
+# If you want to push to the repo
 git clone git@github.com:JSpeedie/dotfiles.git dotfilesGit
+# If you are just installing
+git clone https://www.github.com/JSpeedie/dotfiles dotfilesGit
 cd dotfilesGit/scripts
 sh packages.sh
 sh install.sh
@@ -45,12 +48,6 @@ info on the bar.
 </p></details>
 
 ## Screenshots
-
-These will be updated in the not-too-distant future although for now, they
-give an accurate view of my setup.
-First one is a reorganized version of the second one which is what my setup
-is actually like. I included the first pic just because I thought it would be
-easier to view and make it easier to see the whole rice.
 
 ![Screenfetch](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/Setup23PelagicSFUnconf.png)
 ![Fake Work](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/Setup24PelagicWork.png)
@@ -76,14 +73,15 @@ not rely on too many in case I have to use someone elses' setup or `vi`).
 * Sets the history to 1000, enables syntax highlighting, enables folding
 via markers ("{{{" and "}}}" by default), shows relative line numbers
 to make j and k movements easier.
-* Some regexes I would consider impressive if only because they are hard
-to understand. Highlights trailing whitespace red for easy removal and gray
-if it's escaped (only highlights the first escaped whitespace character).
+* Some regexes I would consider impressive if only because it took me quite
+  some time to come to to understand them. Highlights trailing whitespace red
+  for easy removal and gray if it's escaped (only highlights the first escaped
+  whitespace character).
 * Here come dat statusline! No plugins here. Fairly simple statusline with a
-modified version of the `%m` modified flag
+  modified version of the `%m` modified flag
 * Well commented for your line-stealing needs.
 
-![Gif of my sick ass prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
+![Gif of my sick prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
 *.bashrc:*
 * Coloured prompt to make it more clear where one command's output ends and
 another command begins.
@@ -99,10 +97,6 @@ prompt every time you hit enter (like having the colours change, or current
 directory). Luckily you can use `\001` and `\002` as replacements with the
 small downside that you have to add either ` -e` to your `echo` call or use
 `printf`.
-* Side note: Yes this prompt is based off of the one done by reddit
-user /u/tudurom, however they did not have a solution to issue #3. Seeing as I
-had to work so hard to get the functionality, I'll claim this prompt as my own,
-but I give full credit to them for inspiration.
 
 *scripts/updatedir.sh:*
 * One of my most used scripts. Compares the contents of two
@@ -150,7 +144,7 @@ from github user pipeseroni.
 but I mean that's about it :/
 
 ## Contents
-* The sickest bash prompt you will ever see in your life.
+* A very simple responsive prompt
 * A setup script you can run that will install all the packages you need and
 optionally some of the applications I use on a day to day basis (`packages.sh`)
 * A second setup script that installs (read: copies them to the correct
@@ -161,7 +155,7 @@ for Hermit).~~
 * All my dotfiles and bar script (`.Xresources`, `.vimrc`, `.xinitrc`,
 `dunstrc`, `compton.conf`, etc.)
 * Color test scripts (`colortest.sh`, `rupee.sh`, `pipes.sh`)
-* Some randy scripts that I use. `updatedir.sh` for updating dotfiles repo,
+* Some miscellaneous scripts that I use. `updatedir.sh` for updating dotfiles repo,
 `lock.sh` for locking my system, etc.
 
 ## Bugs/To Be Fixed
