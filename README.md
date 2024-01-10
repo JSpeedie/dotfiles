@@ -28,6 +28,7 @@ git clone https://www.github.com/JSpeedie/dotfiles dotfilesGit
 cd dotfilesGit/scripts
 sh packages.sh
 sh install.sh
+sh configure.sh
 ```
 
 ### Some unorganized notes to consider before diving into the details
