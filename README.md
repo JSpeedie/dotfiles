@@ -20,7 +20,7 @@ most used tools, and the other part is to achieve the stylistic qualities I like
 
 ## Installation
 
-```
+```bash
 # If you want to push to the repo
 git clone git@github.com:JSpeedie/dotfiles.git dotfilesGit
 # If you are just installing
