@@ -15,3 +15,17 @@ if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
 		echo "User chose not to configure neovim. Continuing..."
 	fi
 fi
+
+
+echo -n "About to configure Despacio colourscheme for neovim. Would you like to proceed? [Y/n] (enter=Y) "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to configure neovim.
+if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
+	if sed -i '/^.*MatchParen.*$/c\highlight MatchParen guifg=NONE guibg=#87afaf gui=reverse ctermfg=NONE ctermbg=109 cterm=reverse' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+		echo "Succeeded!"
+	else
+		echo "Failed to configure Despacio colourscheme"
+	fi
+fi
