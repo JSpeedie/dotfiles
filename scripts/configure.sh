@@ -33,7 +33,11 @@ printf "\n"
 # If the user wants to fix the neovim colourscheme
 if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
 	if sed -i '/^.*MatchParen.*$/c\highlight MatchParen guifg=NONE guibg=#87afaf gui=reverse ctermfg=NONE ctermbg=109 cterm=reverse' ~/.vim/plugged/Despacio/colors/despacio.vim; then
-		echo "Succeeded!"
+		if sed -i '/^.*PmenuSel.*$/c\highlight PmenuSel guifg=#eeeeee guibg=NONE gui=NONE ctermfg=255 ctermbg=NONE cterm=NONE' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+			echo "Succeeded!"
+		else
+			echo "Failed to configure Despacio colourscheme"
+		fi
 	else
 		echo "Failed to configure Despacio colourscheme"
 	fi
