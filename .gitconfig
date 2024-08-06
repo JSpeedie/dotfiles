@@ -1,0 +1,7 @@
+[user]
+	email = julianspeedie@gmail.com
+	name = JSpeedie
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main
