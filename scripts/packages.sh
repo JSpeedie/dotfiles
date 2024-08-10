@@ -1,6 +1,6 @@
-# Installs everything needed for this setup which is, primarily,\
-# bspwm + sxhkd but also all the things I use like urxvt, xrandr, firefox, \
-# alsamixer, screenfetch, xinit, etc.
+# Installs everything needed for my setup including packages for base
+# functionality, my most commonly used apps, programs I use to build my setup,
+# programs I use for development, and so on.
 
 red=$'\e[1;31m'
 green=$'\e[1;32m'
@@ -10,27 +10,46 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-PKGLIST=(vim alsa-utils lm_sensors rofi feh rxvt-unicode xorg xorg-xinit \
-	xorg-xrandr dunst libnotify pulseaudio pamixer bspwm sxhkd mpd mpc ctags \
-	ttf-dejavu rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
-	xf86-video-intel pkgconfig make fakeroot jq flex bison zsh zsh-completions \
-	yay neovim)
-OPKGLIST=(firefox ranger nautilus scrot screenfetch flashplugin unzip zip eog \
-	gimp xorg-xfontsel dosfstools mtools ntfs-3g pandoc texlive-core mtp \
-	mtpfs gvfs-mtp tree openssh vlc qt4 evince audacity easytags valgrind gdb ddd \
-	xterm git svn numlockx network-manager network-manager-applet stalonetray \
-	xorg-xfd gnome-control-center lxappearance gst-libav pitivi ttf-droid \
-	adobe-source-code-pro-fonts ttf-roboto veracrypt libreoffice-fresh \
-	avidemux-qt mpv gtop cmatrix asp obs-studio figlet lolcat jre8-openjdk \
-	cmake racket ghc ghc-static clang java-runtime-common \
-	java-environment-common bless ntp pavucontrol sl asciiquarium unrar ghex \
-	virtualbox-guest-utils autoconf automake noto-fonts python-pip npm)
+BASEPKGLIST=(alsa-utils lm_sensors rxvt-unicode xorg xorg-xinit \
+	xorg-xrandr libnotify pulseaudio pamixer sxhkd \
+	rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
+	xf86-video-intel flashplugin ntp pavucontrol)
+APPPKGLIST=(firefox nautilus evince gimp libreoffice-fresh obs-studio eog vlc \
+	mpv audacity ranger)
+EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
+	network-manager network-manager-applet stalonetray xorg-xfd xorg-xfontsel \
+	gnome-control-center lxappearance gst-libav pitivi veracrypt avidemux-qt \
+	cmatrix asp figlet lolcat bless sl asciiquarium)
+# jq bison
+DEVPKGLIST=(tree gtop jq \
+	vim neovim ctags \
+	make cmake fakeroot pkgconfig \
+	yay \
+	git svn \
+	valgrind gdb \
+	pandoc texlive-core texlive-pictures \
+	openssh \
+	xterm \
+	clang \
+	jre8-openjdk java-runtime-common java-environment-common \
+	virtualbox-guest-utils \
+	racket ghc ghc-static \
+	autoconf automake \
+	python-pip \
+	npm \
+	ghex)
+FONTPKGLIST=(ttf-dejavu ttf-droid adobe-source-code-pro-fonts ttf-roboto \
+	noto-fonts)
+FSPKGLIST=(dosfstools mtools ntfs-3g \
+	mtp mtpfs gvfs-mtp \
+	unzip zip unrar)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git ttf-meslo \
 	flat-remix-gtk ttf-ms-fonts ttf-vista-fonts)
 OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text peaclock \
 	virtualbox-ext-oracle)
 
 ALL="f"
+
 
 cd ~
 clear
@@ -40,14 +59,31 @@ printf " ║                  SETUP SCRIPT                  ║ \n"
 printf " ╚════════════════════════════════════════════════╝ \n"
 printf "                  Script for: Arch\n"
 printf "$end\n"
-for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
-	if [[ $i == "PKGLIST" ]]; then
+
+for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST\nYPKGLIST\nOYPKGLIST"); do
+	if [[ $i == "BASEPKGLIST" ]]; then
+		CPKGL=("${BASEPKGLIST[@]}")
+	elif [[ $i == "APPPKGLIST" ]]; then
+		CPKGL=("${APPPKGLIST[@]}")
+	elif [[ $i == "EXTRAPKGLIST" ]]; then
+		CPKGL=("${EXTRAPKGLIST[@]}")
+	elif [[ $i == "DEVPKGLIST" ]]; then
+		CPKGL=("${DEVPKGLIST[@]}")
+	elif [[ $i == "FONTPKGLIST" ]]; then
+		CPKGL=("${FONTPKGLIST[@]}")
+	elif [[ $i == "PKGLIST" ]]; then
 		CPKGL=("${PKGLIST[@]}")
-	elif [[ $i == "OPKGLIST" ]]; then
-		CPKGL=("${OPKGLIST[@]}")
+	elif [[ $i == "FSPKGLIST" ]]; then
+		CPKGL=("${FSPKGLIST[@]}")
 	elif [[ $i == "YPKGLIST" ]]; then
 		CPKGL=("${YPKGLIST[@]}")
+	elif [[ $i == "OYPKGLIST" ]]; then
+		CPKGL=("${OYPKGLIST[@]}")
+	else
+		continue
+	fi
 
+	if [[ $i == "YPKGLIST" || $i == "OYPKGLIST" ]]; then
 		# Check if yay (AUR helper of choice) is installed {{{
 		if pacman -Qq yay; then
 			echo "${green}Found yay...${end}"
@@ -91,10 +127,6 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 			fi
 		fi
 		# }}}
-	elif [[ $i == "OYPKGLIST" ]]; then
-		CPKGL=("${OYPKGLIST[@]}")
-	else
-		CPKGL=("${PKGLIST[@]}")
 	fi
 
 	if [[ $ALL != "t" ]]; then
@@ -145,5 +177,3 @@ for i in $(printf "PKGLIST\nOPKGLIST\nYPKGLIST\nOYPKGLIST"); do
 		fi
 	done
 done
-
-# Configure git stuff (tba)
