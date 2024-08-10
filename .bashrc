@@ -51,6 +51,7 @@ alias ctest='sh ~/scripts/colortest.sh'
 alias bonsai='sh ~/scripts/bonsai.sh 2 6'
 alias slippi='./Slippi-Launcher-1.4.2-x86_64.AppImage'
 alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
+alias get_idf='. $HOME/esp/esp-idf/export.sh'
 
 ##############################
 #    Colour for man pages    #
@@ -76,10 +77,10 @@ upt () {
 ##############################
 
 reset=$(tput sgr0)
-# colour directory and colour actual directory
-c_d=$(tput setaf 14; tput setab 0)
-success=$(tput setaf 7; tput setab 0)
-fail=$(tput setaf 1; tput setab 0)
+# 'c_d' = invokes the foreground and background colour of the directory
+c_d=$(tput setaf 7; tput setab 0; tput bold)
+success=$(tput setaf 0; tput setab 2)
+fail=$(tput setaf 0; tput setab 1)
 
 cur_dir() {
 	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
@@ -87,9 +88,9 @@ cur_dir() {
 
 prompt () {
 	result='$(if [[ $? -ne 0 ]]; then \
-				printf "\001${c_d}\002$(cur_dir)\001${reset}\002 \001${fail}\002_\001${reset}\002 "; \
+				printf "\001${c_d}\002$(cur_dir) \001${reset}\002\001${fail}\002$\001${reset}\002 "; \
 			else \
-				printf "\001${c_d}\002$(cur_dir)\001${reset}\002 \001${success}\002_\001${reset}\002 "; \
+				printf "\001${c_d}\002$(cur_dir) \001${reset}\002\001${success}\002$\001${reset}\002 "; \
 			fi)'
 	printf "${result}"
 }
@@ -104,9 +105,9 @@ mdtopdf () {
 }
 
 textopdf () {
-	# pdflatex $1
+	pdflatex $1
 	# Older method
-	pandoc -f latex $1 --pdf-engine=lualatex -o $2
+	#pandoc -f latex $1 --pdf-engine=lualatex -o $2
 }
 
 # concatenate pdf $1 and pdf $2 into output pdf $3.
@@ -137,20 +138,39 @@ convmp4gif () {
 # Add a cover image (i.e. prepend a page which is just the first image) to a pdf
 # TODO: turn into a function - this is just a reference at the moment
 pdfaddcoverpage () {
-	convert kantpoliticalwritings2ndedcover.jpg kantpoliticalwritings2ndedcover.pdf
+	# If you want to take the cover photo from an Amazon page, hover over the image
+	# right click, inspect element, then hover over the image, and move your
+	# mouse from image to the inspect console without any gap that would close
+	# the detailed-image window. Then scroll to the bottom or search for the
+	# "zoomWindow" div, and in there, the "detailImg" img
+	convert cover.jpg cover.pdf
 
-	# Unused - possibly unnecessary
-	# pdfjam --paper 'a4paper' --scale 0.5 --offset '0cm -0cm' kantpoliticalwritings2ndedcover.pdf
+	# preprend the cover page to the pdf
+	pdftk cover.pdf Kant_\ Political\ Writings.pdf cat output combined.pdf
 
-	# Make a copy of the first page of the pdf for us to stamp the cover image onto
-	pdftk Kant_\ Political\ Writings.pdf cat 1 output firstpage.pdf
-
-	# Stamp the cover image onto the duplicated first page
-	pdftk firstpage.pdf stamp kantpoliticalwritings2ndedcover.pdf output stampedfirstpage.pdf
-
-	# Prepend the stamped first page to the original document
-	pdftk stampedfirstpage.pdf Kant_\ Political\ Writings.pdf cat output combined.pdf
 }
+
+# Update meta (page numbering + bookmarks)
+pdfupdatemeta () {
+	pdftk kantpoliticalwritings.pdf dump_data > meta.txt
+	cp meta.txt oldmeta.txt
+	# Make the changes to the meta data. If you added a cover image, you will
+	# need to increase all the "PageLabelNewIndex: 14"'s by 1
+	vim meta.txt
+	pdftk kantpoliticalwritings.pdf update_info_utf8 meta.txt output combinedwithmetadata.pdf
+}
+
+# Split pages of pdf that contain 2 pages of the text into multiple pages in the pdf
+# TODO: turn into a function - this is just a reference at the moment
+#pdfsplitcombinedpages () {
+	# Start gscan2pdf and open the pdf you want to work on
+	# Shift select all the pages you want to split in the left toolbar
+	# Click "Tools" in the menu bar (the list on the top left of the window)
+	# Select "Clean Up"
+	# Set Layout to "Double", and # Output pages to 2. Turn off deskew, Check "No border scan", "No mask scan", no black filter", etc. etc. Turn off all the filter
+	# Ignore the unpaper errors, wait for it to finish, and you're done!
+	# Click "File" in the menu bar, for Page Range, select "All", and save the file as the output file and you're done!
+#}
 
 # Taken from http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 # Fantastic gif quality, smaller sizes without even using convert.
@@ -222,8 +242,25 @@ xfd-siji() {
 	xfd -fn $font 2>&1 >/dev/null &
 }
 
-trim () {
-	ffmpeg -i $1 -ss $2 -to $3 -c copy -async 1 $4
+ffmpeg-trim () {
+	# Trims the video from the 47th second to the 57th second
+	ffmpeg -i in.mov -ss 00:00:47 -to 00:00:57 -async 1 out.mov
+}
+
+ffmpeg-crop () {
+	ffmpeg -i in.mp4 -vf "crop=out_w:out_h:x:y" out.mp4
+}
+
+ffmpeg-resize () {
+	# Resize so the height is out_h, and the width maintains the aspect ratio
+	ffmpeg -i in.mp4 -vf scale="trunc(oh*a/2)*2:out_h" out.mp4
+	# Resize so the width is out_w, and the height maintains the aspect ratio
+	ffmpeg -i in.mp4 -vf scale="out_w:trunc(ow/a/2)*2" out.mp4
+}
+
+ffmpeg-remove-audio () {
+	# The -an flag removes audio from the video
+	ffmpeg -i in.mp4 -c copy -an out.mp4
 }
 
 PS1=$(prompt)
@@ -240,3 +277,4 @@ export PS1 PS2
 # '
 #     clear
 # fi
+. "$HOME/.cargo/env"
