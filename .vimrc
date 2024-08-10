@@ -40,6 +40,9 @@ set incsearch
 set foldmethod=marker
 " Set a line at the 80th character for code style stuff
 set colorcolumn=80
+" Set a line at the 100th character for Rust (following the formatting
+" conventions specified in The Book)
+autocmd FileType rust setlocal colorcolumn=100
 " Set a line at the 79th character for C (following PEP7 and GNU's standards)
 autocmd FileType c setlocal colorcolumn=79
 " Set a line at the 100th character for java (checkstyle)
