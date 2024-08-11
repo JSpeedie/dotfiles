@@ -26,7 +26,7 @@ DEVPKGLIST=(tree gtop jq \
 	make cmake fakeroot pkgconfig \
 	yay \
 	git svn \
-	valgrind gdb \
+	valgrind gdb perf \
 	pandoc texlive-core texlive-pictures \
 	openssh \
 	xterm \
@@ -35,8 +35,8 @@ DEVPKGLIST=(tree gtop jq \
 	virtualbox-guest-utils \
 	racket ghc ghc-static \
 	autoconf automake \
-	python-pip \
-	npm \
+	python python-pip \
+	nodejs npm \
 	ghex)
 FONTPKGLIST=(ttf-dejavu ttf-droid adobe-source-code-pro-fonts ttf-roboto \
 	noto-fonts)
@@ -71,8 +71,6 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		CPKGL=("${DEVPKGLIST[@]}")
 	elif [[ $i == "FONTPKGLIST" ]]; then
 		CPKGL=("${FONTPKGLIST[@]}")
-	elif [[ $i == "PKGLIST" ]]; then
-		CPKGL=("${PKGLIST[@]}")
 	elif [[ $i == "FSPKGLIST" ]]; then
 		CPKGL=("${FSPKGLIST[@]}")
 	elif [[ $i == "YPKGLIST" ]]; then
