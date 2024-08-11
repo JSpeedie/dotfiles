@@ -57,7 +57,7 @@ printf "$blue"
 printf " ╔════════════════════════════════════════════════╗ \n"
 printf " ║                  SETUP SCRIPT                  ║ \n"
 printf " ╚════════════════════════════════════════════════╝ \n"
-printf "                  Script for: Arch\n"
+printf "          Script for: Debian-based Distros          \n"
 printf "$end\n"
 
 for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST\nYPKGLIST\nOYPKGLIST"); do

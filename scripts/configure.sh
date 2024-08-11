@@ -49,7 +49,7 @@ else
 	printf "Skipping vim/neovim plugins installation.\n\n"
 fi
 # }}}
-#
+
 
 # Install COC vim/neovim code completion language servers
 # {{{
