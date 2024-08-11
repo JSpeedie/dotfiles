@@ -3,9 +3,10 @@ set packpath+=~/.vim
 source ~/.vimrc
 
 "  :PlugInstall  to install a new addon
-"  :PlugUpdate  to update all plugins  (Run this when setting up a new
-"                                      machine)
-"  :CocInstall coc-rust-analyzer  (Installs the rust analyzer)
+"  :PlugUpdate  to update all plugins
+"      * If you use my configure.sh script, you may need to run this command.
+"      * If you added a new plugin in the Plugins section of this file,
+"          restart vim and then run this command to install it.
 """"""""""""""""""""
 "     Plugins      "
 """"""""""""""""""""
@@ -40,15 +41,23 @@ Plug 'scrooloose/nerdtree'
 
 " vim-commentary (for commenting with gc)
 """""""""""""""""""""""""""""""""""""""""
+" - E.g. gcc comments out a line
+" - E.g. you can select multiple lines with V, then comment them out with gcc
 Plug 'tpope/vim-commentary'
 
 " vim-surround (for surrounding with cs)
 """""""""""""""""""""""""""""""""""""""""
-" - Works with HTML tags, with 't' for tags. Ex cst' converts <q>h</q> to 'h'.
-"   - Surround with tag (for Ex.) ysiw<em> to create <em>h</em>.
-" - Surround text objects using (for Ex.) ysiw' to surround in-word with '.
+" - E.g. while inside '[hello]' cs[) will give you '(hello)':
+"       [hello]
+" - E.g. while inside a word 'hello', ysiw" will give you \"hello\":
+"       hello
+" - E.g. while inside a word 'hello', ysiw<em> will give you <em>hello</em>:
+"       hello
+" - Works with HTML tags, with 't' for tags. E.g. while inside <q>hi</q>, cst"
+"   will give you \"hi\":
+"       <q>hi</q>
 " - yss to surround a line.
-Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
 " CtrlP (for fuzzy finding files, etc)
 """"""""""""""""""""""""""""""""""""""
