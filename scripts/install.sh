@@ -39,19 +39,13 @@ get_ignore_list () {
 }
 
 
-copy_fonts () {
-	cd $parent_folder
-	# Wanna copy over the fonts here
-	sudo cp font-awesome-4.5.0/fonts/FontAwesome.otf $fontdir/OTF/
-	sudo cp otf-hermit*/Hermit-medium.otf $fontdir/OTF/
-}
-
 copy_files () {
 	# All the files and folders we want to copy in a newline delimited list
 	files=$(cd $parent_folder; git ls-files | grep -v "$ignoregrep")
 
-	echo "${files[@]}"
-	printf "\n------------------------------------------------------------\n\n"
+	# Print out all the files that will be copied
+	# echo "${files[@]}"
+	# printf "\n------------------------------------------------------------\n\n"
 
 	for file in $files; do
 		# If the given file has directories
@@ -68,16 +62,6 @@ copy_files () {
 	done
 }
 
-get_ignore_list
-copy_fonts
-copy_files
-# Make bspwm config executable
-sudo chmod +x ~/.config/bspwm/bspwmrc
 
-echo -n "${blue}==> Install vim-plug for neovim? [Y/n]${end} "
-read -a INPUT
-printf "\n"
-# If the user wants to install vim-plug for managing vim plugins
-if [[ ${INPUT[*]} == "Y" ]] || [[ ${INPUT[*]} == "" ]]; then
-	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+get_ignore_list
+copy_files
