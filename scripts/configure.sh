@@ -1,5 +1,7 @@
 # Configure all the things installed in previous steps.
 
+red=$'\e[1;31m'
+
 # Install vim-plug for vim and neovim plugins
 # {{{
 # Ask if the user wants to install vim-plug for managing vim plugins
@@ -49,6 +51,10 @@ else
 	printf "Skipping vim/neovim plugins installation.\n\n"
 fi
 # }}}
+
+
+printf "${red}WARNING:${end} You may have to run \":call coc#util#install()\" otherwise the next step
+will fail.\n"
 
 
 # Install COC vim/neovim code completion language servers
