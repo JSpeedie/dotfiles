@@ -3,8 +3,9 @@ set packpath+=~/.vim
 source ~/.vimrc
 
 "  :PlugInstall  to install a new addon
-"  :PlugUpdate  to update all plugins
-"  :CocInstall coc-rust-analyzer      to install the rust analyzer
+"  :PlugUpdate  to update all plugins  (Run this when setting up a new
+"                                      machine)
+"  :CocInstall coc-rust-analyzer  (Installs the rust analyzer)
 """"""""""""""""""""
 "     Plugins      "
 """"""""""""""""""""
