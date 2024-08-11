@@ -10,44 +10,34 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-BASEPKGLIST=(alsa-utils lm_sensors rxvt-unicode xorg xorg-xinit \
-	xorg-xrandr libnotify pulseaudio pamixer sxhkd \
-	rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
-	xf86-video-intel flashplugin ntp pavucontrol)
-APPPKGLIST=(firefox nautilus evince gimp libreoffice-fresh obs-studio eog vlc \
-	mpv audacity ranger)
-EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
-	network-manager network-manager-applet stalonetray xorg-xfd xorg-xfontsel \
-	gnome-control-center lxappearance gst-libav pitivi veracrypt avidemux-qt \
-	cmatrix asp figlet lolcat bless sl asciiquarium)
-# jq bison
-DEVPKGLIST=(tree gtop jq \
-	vim neovim ctags \
-	make cmake fakeroot pkgconfig \
-	yay \
-	git svn \
-	valgrind gdb \
-	pandoc texlive-core texlive-pictures \
-	openssh \
+BASEPKGLIST=(rxvt-unicode xorg libnotify4 pulseaudio pamixer sxhkd rsync \
+	cronie dialog pavucontrol)
+APPPKGLIST=(firefox nautilus evince gimp libreoffice obs-studio eog vlc \
+	mpv audacity ranger pitivi)
+# I think I'm done with lemonbar. Time to investigate maybe polybar or waybar
+EXTRAPKGLIST=(rofi feh dunst compton scrot screenfetch numlockx \
+	network-manager stalonetray gnome-control-center lxappearance \
+	cmatrix figlet lolcat sl)
+# 'linux-tools-common' for 'perf'
+DEVPKGLIST=(tree jq \
+	vim neovim universal-ctags \
+	make cmake fakeroot \
+	git subversion \
+	valgrind gdb linux-tools-common \
+	pandoc texlive-full \
+	openssh-client openssh-server \
 	xterm \
 	clang \
-	jre8-openjdk java-runtime-common java-environment-common \
-	virtualbox-guest-utils \
-	racket ghc ghc-static \
+	virtualbox virtualbox-guest-utils \
 	autoconf automake \
-	python-pip \
-	npm \
+	python3 python3-pip \
+	nodejs npm \
 	ghex)
-FONTPKGLIST=(ttf-dejavu ttf-droid adobe-source-code-pro-fonts ttf-roboto \
-	noto-fonts)
+# racket ghc ghc-static \
+#jre8-openjdk java-runtime-common java-environment-common \
+FONTPKGLIST=(fonts-roboto fonts-noto)
 FSPKGLIST=(dosfstools mtools ntfs-3g \
-	mtp mtpfs gvfs-mtp \
 	unzip zip unrar)
-YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git ttf-meslo \
-	flat-remix-gtk ttf-ms-fonts ttf-vista-fonts)
-OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text peaclock \
-	virtualbox-ext-oracle)
-
 ALL="f"
 
 
@@ -60,7 +50,7 @@ printf " ╚══════════════════════�
 printf "          Script for: Debian-based Distros          \n"
 printf "$end\n"
 
-for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST\nYPKGLIST\nOYPKGLIST"); do
+for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST"); do
 	if [[ $i == "BASEPKGLIST" ]]; then
 		CPKGL=("${BASEPKGLIST[@]}")
 	elif [[ $i == "APPPKGLIST" ]]; then
@@ -71,62 +61,10 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		CPKGL=("${DEVPKGLIST[@]}")
 	elif [[ $i == "FONTPKGLIST" ]]; then
 		CPKGL=("${FONTPKGLIST[@]}")
-	elif [[ $i == "PKGLIST" ]]; then
-		CPKGL=("${PKGLIST[@]}")
 	elif [[ $i == "FSPKGLIST" ]]; then
 		CPKGL=("${FSPKGLIST[@]}")
-	elif [[ $i == "YPKGLIST" ]]; then
-		CPKGL=("${YPKGLIST[@]}")
-	elif [[ $i == "OYPKGLIST" ]]; then
-		CPKGL=("${OYPKGLIST[@]}")
 	else
 		continue
-	fi
-
-	if [[ $i == "YPKGLIST" || $i == "OYPKGLIST" ]]; then
-		# Check if yay (AUR helper of choice) is installed {{{
-		if pacman -Qq yay; then
-			echo "${green}Found yay...${end}"
-		else
-			echo -n "Missing ${red}yay${end}. Would you like to install it? [Y/n] (enter=Y) "
-			read -a AURHELPER
-			printf "\n"
-
-			# If the user wants to install yay
-			if [[ ${AURHELPER[*]} == "" || ${AURHELPER[*]} == "Y" ]]; then
-				# Check if the necessary packages for yay are installed
-				if pacman -Qq git && pacman -Qq base-devel; then
-					echo "${green}Found necessary dependencies for yay...${end}"
-				else
-					echo -n "Missing ${red}yay${end} dependencies (some of: ${red}git${end}, ${red}base-devel${end}). Would you like to install them? [Y/n] (enter=Y) "
-					read -a AURHELPER
-					printf "\n"
-
-					# If the user wants to install the dependencies
-					if [[ ${AURHELPER[*]} == "" || ${AURHELPER[*]} == "Y" ]]; then
-						# Install the 2 dependencies
-						sudo pacman -S --needed --noconfirm git base-devel
-						if git clone https://aur.archlinux.org/yay.git yay; then
-							cd yay
-							makepkg -si
-							cd ..
-						else
-							echo "${red}Failed to download yay. Cannot continue...${end}"
-							exit 1
-						fi
-					# If the user does not want to install the dependencies
-					else
-						echo "Missing some of: ${red}git${end}, ${red}base-devel${end}. Cannot continue..."
-						exit 1
-					fi
-				fi
-			# If the user does not want to install yay.
-			else
-				echo "Missing ${red}yay${end}. Cannot continue..."
-				exit 1
-			fi
-		fi
-		# }}}
 	fi
 
 	if [[ $ALL != "t" ]]; then
@@ -168,12 +106,15 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		exit 1
 	fi
 
-	# Go through the package list and install all the packages
+	PKGS=""
+
+	# Go through the specified packages and create a list we can pass to
+	# our package manager
 	for j in $pkg; do
-		if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
-			yay -S ${CPKGL[j-1]} --noconfirm
-		else
-			sudo pacman -S ${CPKGL[j-1]} --noconfirm --needed
-		fi
+		PKGS+="${CPKGL[j-1]} "
 	done
+
+	echo "Packages to be installed: ${PKGS[*]}"
+
+	sudo apt install --assume-yes ${PKGS[*]}
 done
