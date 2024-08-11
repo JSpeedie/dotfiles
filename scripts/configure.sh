@@ -1,44 +1,103 @@
-# Install/Initialize all nvim plugins so nvim will work as intended
+# Configure all the things installed in previous steps.
 
-echo -n "About to configure plugins for neovim. Would you like to proceed? [Y/n] (enter=Y) "
+# Install vim-plug for vim and neovim plugins
+# {{{
+# Ask if the user wants to install vim-plug for managing vim plugins
+echo -n "Would you like to install vim-plug for vim/neovim? [Y/n] (enter=Y) "
+read -a ANSWER
+printf "\n"
+
+if [[ ${ANSWER[*]} == "Y" ]] || [[ ${ANSWER[*]} == "" ]]; then
+	if curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; then
+		printf "\n"
+		printf "Attempted to install vim-plug.\n\n"
+	else
+		printf "\n"
+		printf "WARNING: Possibly experienced an error attempting to install vim-plug\n\n."
+	fi
+else
+	printf "Skipping vim-plug installation.\n\n"
+fi
+# }}}
+
+
+# Use vim-plug to install the plugins specified in your neovim config
+# {{{
+echo -n "Would you like to configure the vim/neovim plugins found in your neovim config file? [Y/n] (enter=Y) "
 read -a ANSWER
 printf "\n"
 
 # If the user wants to install all the neovim plugins.
-if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
-	echo -n "Neovim will now launch and attempt to install all the plugins specified in the init file. Give it time to complete this and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+# TODO: This should check to see if vim plug is installed some how
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
 	read -a ANSWER
 	printf "\n"
-	if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
-		nvim -c "PlugInstall"
 
-		echo -n "Neovim will now attempt to install some COC code completion language servers. Give it time to complete this and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
-		read -a ANSWER
-		printf "\n"
-		if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
-			nvim -c "CocInstall coc-clangd coc-sh coc-vimlsp"
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim -c "PlugInstall"; then
+			printf "\n"
+			printf "Attempted to install vim/neovim plugins.\n\n"
 		else
-			echo "User chose not to install COC code completion language servers. Continuing..."
+			printf "\n"
+			printf "WARNING: Possibly experienced an error attempting to install vim/neovim plugins.\n\n"
 		fi
 	else
-		echo "User chose not to configure neovim. Continuing..."
+		printf "Skipping vim/neovim plugins installation.\n\n"
 	fi
+else
+	printf "Skipping vim/neovim plugins installation.\n\n"
 fi
+# }}}
+#
+
+# Install COC vim/neovim code completion language servers
+# {{{
+echo -n "Would you like to install COC code completion language servers. Give it time to complete this and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+read -a ANSWER
+printf "\n"
+
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim -c "CocInstall coc-clangd coc-sh coc-vimlsp coc-rust-analyzer"; then
+			printf "\n"
+			printf "Attempted to install COC code completion language servers.\n\n"
+		else
+			printf "\n"
+			printf "WARNING: Possibly experienced an error attempting to install COC code completion language servers.\n\n"
+		fi
+	fi
+else
+	printf "Skipping COC code completion language servers installation.\n\n"
+fi
+# }}}
 
 
-echo -n "About to configure Despacio colourscheme for neovim. Would you like to proceed? [Y/n] (enter=Y) "
+# Apply the MatchParen fix to the Despacio colourscheme
+# {{{
+echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y) "
 read -a ANSWER
 printf "\n"
 
 # If the user wants to fix the neovim colourscheme
-if [[ ${ANSWER[*]} == "" || ${ANSWER[*]} == "Y" ]]; then
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 	if sed -i '/^.*MatchParen.*$/c\highlight MatchParen guifg=NONE guibg=#87afaf gui=reverse ctermfg=NONE ctermbg=109 cterm=reverse' ~/.vim/plugged/Despacio/colors/despacio.vim; then
 		if sed -i '/^.*PmenuSel.*$/c\highlight PmenuSel guifg=#eeeeee guibg=NONE gui=NONE ctermfg=255 ctermbg=NONE cterm=NONE' ~/.vim/plugged/Despacio/colors/despacio.vim; then
-			echo "Succeeded!"
+			printf "\n"
+			printf "Attempted to fix MatchParen highlighting in Despacio colourscheme.\n\n"
 		else
-			echo "Failed to configure Despacio colourscheme"
+			printf "\n"
+			printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
 		fi
 	else
-		echo "Failed to configure Despacio colourscheme"
+		printf "\n"
+		printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
 	fi
+else
+	printf "Skipping MatchParen fix for Despacio.\n\n"
 fi
+# }}}
