@@ -41,13 +41,11 @@ FSPKGLIST=(dosfstools mtools ntfs-3g \
 ALL="f"
 
 
-cd ~
-clear
 printf "$blue"
-printf " ╔════════════════════════════════════════════════╗ \n"
-printf " ║                  SETUP SCRIPT                  ║ \n"
-printf " ╚════════════════════════════════════════════════╝ \n"
-printf "          Script for: Debian-based Distros          \n"
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                  1. Install Packages                 ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+printf "             Script for: Debian-based Distros            \n"
 printf "$end\n"
 
 for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST"); do
@@ -72,7 +70,7 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
 		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
 		echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
-			"(enter=all, !=all of every package list)${end} "
+			"(enter=all, !=all of every package list)${end}: "
 		read -a INPUT
 		printf "\n"
 		# If the user wants to install everything

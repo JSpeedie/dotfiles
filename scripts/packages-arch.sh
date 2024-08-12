@@ -51,13 +51,11 @@ OYPKGLIST=(google-chrome-beta google-talkplugin sublime-text peaclock \
 ALL="f"
 
 
-cd ~
-clear
 printf "$blue"
-printf " ╔════════════════════════════════════════════════╗ \n"
-printf " ║                  SETUP SCRIPT                  ║ \n"
-printf " ╚════════════════════════════════════════════════╝ \n"
-printf "           Script for: Arch-based Distros           \n"
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                  1. Install Packages                 ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+printf "              Script for: Arch-based Distros             \n"
 printf "$end\n"
 
 for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST\nYPKGLIST\nOYPKGLIST"); do
@@ -86,7 +84,7 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		if pacman -Qq yay; then
 			echo "${green}Found yay...${end}"
 		else
-			echo -n "Missing ${red}yay${end}. Would you like to install it? [Y/n] (enter=Y) "
+			echo -n "Missing ${red}yay${end}. Would you like to install it? [Y/n] (enter=Y): "
 			read -a AURHELPER
 			printf "\n"
 
@@ -96,7 +94,7 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 				if pacman -Qq git && pacman -Qq base-devel; then
 					echo "${green}Found necessary dependencies for yay...${end}"
 				else
-					echo -n "Missing ${red}yay${end} dependencies (some of: ${red}git${end}, ${red}base-devel${end}). Would you like to install them? [Y/n] (enter=Y) "
+					echo -n "Missing ${red}yay${end} dependencies (some of: ${red}git${end}, ${red}base-devel${end}). Would you like to install them? [Y/n] (enter=Y): "
 					read -a AURHELPER
 					printf "\n"
 
@@ -132,7 +130,7 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
 		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
 		echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
-			"(enter=all, !=all of every package list)${end} "
+			"(enter=all, !=all of every package list)${end}: "
 		read -a INPUT
 		printf "\n"
 		# If the user wants to install everything
@@ -166,6 +164,11 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 		exit 1
 	fi
 
+	# TODO: make this execute one giant pacman command (and maybe one giant yay
+	# command, if yay supports that) instead of doing sudo pacman -S vim,
+	# sudo pacman -S gdb, sudo pacman -S firefox... etc. like the
+	# packages-debian.sh script
+	#
 	# Go through the package list and install all the packages
 	for j in $pkg; do
 		if [[ $i == "YPKGLIST" ]] || [[ $i == "OYPKGLIST" ]]; then
