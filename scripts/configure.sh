@@ -1,11 +1,17 @@
 # Configure all the things installed in previous steps.
 
 red=$'\e[1;31m'
+end=$'\e[0m'
+
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                  3. Configure Setup                  ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+echo
 
 # Install vim-plug for vim and neovim plugins
 # {{{
 # Ask if the user wants to install vim-plug for managing vim plugins
-echo -n "Would you like to install vim-plug for vim/neovim? [Y/n] (enter=Y) "
+echo -n "Would you like to install vim-plug for vim/neovim? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 
@@ -25,14 +31,14 @@ fi
 
 # Use vim-plug to install the plugins specified in your neovim config
 # {{{
-echo -n "Would you like to configure the vim/neovim plugins found in your neovim config file? [Y/n] (enter=Y) "
+echo -n "Would you like to configure the vim/neovim plugins found in your neovim config file? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 
 # If the user wants to install all the neovim plugins.
 # TODO: This should check to see if vim plug is installed some how
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y): "
 	read -a ANSWER
 	printf "\n"
 
@@ -53,18 +59,17 @@ fi
 # }}}
 
 
-printf "${red}WARNING:${end} You may have to run \":call coc#util#install()\" otherwise the next step
-will fail.\n"
+printf "${red}WARNING:${end} You may have to run \":call coc#util#install()\" otherwise the next step will fail.\n\n"
 
 
 # Install COC vim/neovim code completion language servers
 # {{{
-echo -n "Would you like to install COC code completion language servers. Give it time to complete this and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+echo -n "Would you like to install COC code completion language servers. Give it time to complete this and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y) "
+	echo -n "Neovim will start up and run the necessary command. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y): "
 	read -a ANSWER
 	printf "\n"
 
@@ -85,7 +90,7 @@ fi
 
 # Apply the MatchParen fix to the Despacio colourscheme
 # {{{
-echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y) "
+echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 

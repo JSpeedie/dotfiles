@@ -17,6 +17,10 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                 2. Copy Over Dotfiles                ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+
 # This script is used to "install" all the parts of the setup.
 
 fontdir=/usr/share/fonts
