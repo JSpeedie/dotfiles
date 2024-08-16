@@ -1,12 +1,143 @@
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
-source ~/.vimrc
 
 "  :PlugInstall  to install a new addon
 "  :PlugUpdate  to update all plugins
 "      * If you use my configure.sh script, you may need to run this command.
 "      * If you added a new plugin in the Plugins section of this file,
 "          restart vim and then run this command to install it.
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" Set how many lines of history vim must remember
+set history=1500
+
+" Set the custom colorscheme
+colorscheme ayu
+let ayucolor="light"  " light, mirage, dark
+" Set the vim-airline theme
+let g:airline_theme='ayu'
+
+" Set the leader key to space
+let mapleader=" "
+
+" Disable the mouse, jeez
+set mouse=
+
+" Show line numbers
+set number
+" Make line numbers relative
+set relativenumber
+
+" TODO:
+" Enables syntax highlighting
+" syntax enable
+
+" Updates the swap file if nothing is typed after x milliseconds
+" I set it to 5 minutes
+set updatetime=30000
+
+" Display tabs as 4 spaces
+set tabstop=4
+" Set the auto indent (includes >>) width
+set shiftwidth=4
+" Each press of the tab key gives you a 4 space indent, which, if you
+" set tabstop to the same value, gives you your full tab size
+set softtabstop=4
+" Use multiple of shiftwidth when indenting with '<' and '>'
+set shiftround
+" TODO:
+" Makes coding much more comfortable as you no longer have to hit tab 5 times
+" every time you open a new line
+"set autoindent
+
+" Show a few lines of context around the cursor after certain moves (affects
+" H, L, zt, zb, /, etc.)
+set scrolloff=3
+
+" Have a block cursor instead of a line cursor when in insert mode
+set guicursor = ""
+
+" Don't highlight search results
+set nohlsearch
+" Highlight the nearest result for your search as you type it (default is to
+" not highlight anything at all in the code as you construct your search)
+set incsearch
+
+" Don't wrap lines when displaying them on windows that aren't wide enough
+set nowrap
+
+" Set folding style (so you can use {{{ and }}} to make folds)
+set foldmethod=marker
+
+" Highlight the cursor line
+set cursorline
+" Set default column line at the 80th character for code style stuff. This
+" should ideally change based on the type of file, but this is the default if
+" no rule is set for the currently open file type.
+set colorcolumn=80
+" Set a line at the 100th character for Rust (following the formatting
+" conventions specified in The Book)
+autocmd FileType rust setlocal colorcolumn=100
+" Set a line at the 79th character for C (following PEP7 and GNU's standards)
+autocmd FileType c setlocal colorcolumn=79
+" Set a line at the 100th character for java (checkstyle)
+autocmd FileType java setlocal colorcolumn=100
+" Set a line at the 100th character for html and php
+autocmd FileType html setlocal colorcolumn=100
+autocmd FileType php setlocal colorcolumn=100
+
+" When creating verical splits (:vsplit), put the new window on the right
+set splitright
+" When creating horizontal splits (:split), put the new window below
+set splitbelow
+
+" Mark whitespace characters with specific symbols to make them easier to see
+set list
+set listchars=tab:\|\ ,eol:$,space:·,extends:⟩,precedes:⟨
+
+" Awesome setting to always jump to the last known cursor position when
+" reopening a file.
+" Note: Only do this part when Vim was compiled with the +eval feature.
+if 1
+	" Put these in an autocmd group, so that you can revert them with:
+	" ":augroup vimStartup | exe 'au!' | augroup END"
+	augroup vimStartup
+		au!
+
+		" When editing a file, always jump to the last known cursor position.
+		" Don't do it when the position is invalid, when inside an event handler
+		" (happens when dropping a file on gvim) and for a commit message (it's
+		" likely a different one than last time).
+		autocmd BufReadPost *
+			\ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+			\ |	 exe "normal! g`\""
+			\ | endif
+
+	augroup END
+endif
+
+" Regexes that highlight trailing whitespace {{{
+"
+" The problem with these regexes is they are slow and you can see your
+" terminal flicker sometimes on start up.
+"
+" Explanation on how they work:
+"   \\ matches a '\'. Used for matching an escaped or non escaped whitespace char
+"   \@<! NOT anything before this atom. For example, NOT \ (non escaped)
+"   \zs anything before this atom. For example, \ (escaped)
+"   \s\+ matches one or more whitespace chars
+"   \%# vim atom for cursor position
+"   \@<! NOT anything before this atom. For example, NOT \%# (not cursor position)
+"   $ matches the end of a line
+" }}}
+
+" Matches trailing whitespace that is not escaped and not at the cursor
+" call matchadd('Error', '\\\@<!\s\+\%#\@<!$')
+" Matches an escaped whitespace character that is not at the cursor
+" call matchadd('Visual', '\\\zs\s\%#\@<!$')
+
 """"""""""""""""""""
 "     Plugins      "
 """"""""""""""""""""
@@ -29,15 +160,7 @@ Plug 'ayu-theme/ayu-vim'
 " Use release branch (Recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Or build from source code by use yarn: https://yarnpkg.com
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-
-" Neomake (For linting)
-"""""""""""""""""""""""
-Plug 'neomake/neomake'
-
-" NERDTree (for directory tree)
-"""""""""""""""""""""""""""""""
-Plug 'scrooloose/nerdtree'
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " vim-commentary (for commenting with gc)
 """""""""""""""""""""""""""""""""""""""""
@@ -59,14 +182,6 @@ Plug 'tpope/vim-commentary'
 " - yss to surround a line.
 Plug 'tpope/vim-surround'
 
-" CtrlP (for fuzzy finding files, etc)
-""""""""""""""""""""""""""""""""""""""
-" - <c-j>, <c-k> for navigating results
-" - <c-t>, or <c-v>, <c-x> for opening in new tab or split
-" - <c-d> for filename only search (as opposed to full file path)
-" - <c-r> for regex search
-Plug 'ctrlpvim/ctrlp.vim'
-
 " vim-gitgutter (showing which lines have been changed next to the line numbers)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'airblade/vim-gitgutter'
@@ -85,7 +200,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 " End Plugin manager
 call plug#end()
-
 
 " }}}
 "
@@ -113,25 +227,26 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" " Use tab for trigger completion with characters ahead and navigate.
+" " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" ?
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" " Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -159,29 +274,29 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+" " Remap for rename current word
+" nmap <leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" " Remap for format selected region
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"   " Update signature help on jump placeholder
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+" " Remap for do codeAction of current line
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" " Fix autofix problem of current line
+" nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
 xmap if <Plug>(coc-funcobj-i)
@@ -225,54 +340,6 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " }}}
 
-" Neomake config
-""""""""""""""""
-" Enable jshint linting
-let g:neomake_javascript_enabled_makers = ['jshint']
-" Enable pylint linting (requires 'pip install pylint')
-let g:neomake_python_enabled_makers = ['pylint']
-" Enable C linting
-let g:neomake_c_enabled_makers=['clang']
-" Full config: when writing or reading a buffer, and on changes in insert and
-" normal mode (after 1s; no delay when writing).
-call neomake#configure#automake('nrwi', 500)
-
-" NERDTree config
-"""""""""""""""""
-map <C-n> :NERDTreeToggle<CR>
-
-" CtrlP config
-""""""""""""""
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-
 " vim-devicons config
 """""""""""""""""""""
 set encoding=UTF-8
-
-" vim-airline config
-"""""""""""""""""""""
-"let g:airline_theme='deus'
-let g:airline_theme='ayu'
-
-
-
-""""""""""""""""""""
-"  General Config  "
-""""""""""""""""""""
-
-" Set the colorcscheme
-"colorscheme despacio
-let ayucolor="light"
-colorscheme ayu
-
-" Don't highlight search results
-set nohlsearch
-
-
-
-
-
-" Plugins to be added?
-" vim-radical  (see octal, hexadecimal and binary reps of number)
-" vim-polyglot (more language support, better language support?)

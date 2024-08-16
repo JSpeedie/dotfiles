@@ -1,44 +1,69 @@
 " ~/.config/nvim/init.vim   < neovim specific config
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                 Stuff From Example Vimrc                 "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect
 set nocompatible
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                         My Stuff                         "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Set how many lines of history vim must remember
-set history=1000
+set history=1500
 
+" Disable the mouse jeez
+set mouse=
+
+" Show line numbers
+set number
+" Make line numbers relative
+set relativenumber
+
+" TODO:
 " Enables syntax highlighting
-syntax enable
+" syntax enable
+
 " Updates the swap file if nothing is typed after x milliseconds
 " I set it to 5 minutes
 set updatetime=30000
 
-" Disable the mouse jeez
-set mouse=
-" Show relative line numbers because it makes prefixing a command easier,
-" but still supports things like [lineNumber]G which I only really use
-" if I get an error.
-set number
-set relativenumber
-" Show a few lines of context around the cursor (affects H, L, zt, zb, /, etc.)
+" Display tabs as 4 spaces
+set tabstop=4
+" Set the auto indent (includes >>) width
+set shiftwidth=4
+" Each press of the tab key gives you a 4 space indent, which, if you
+" set tabstop to the same value, gives you your full tab size
+set softtabstop=4
+" Use multiple of shiftwidth when indenting with '<' and '>'
+set shiftround
+" TODO:
+" Makes coding much more comfortable as you no longer have to hit tab 5 times
+" every time you open a new line
+"set autoindent
+
+" Show a few lines of context around the cursor after certain moves (affects
+" H, L, zt, zb, /, etc.)
 set scrolloff=3
-" Highlight the cursor line
-set cursorline
-" Highlight results for your search while you're typing
+
+" Have a block cursor instead of a line cursor when in insert mode
+set guicursor = ""
+
+" Don't highlight search results
+set nohlsearch
+" Highlight the nearest result for your search as you type it (default is to
+" not highlight anything at all in the code as you construct your search)
 set incsearch
+
+" Don't wrap lines when displaying them on windows that aren't wide enough
+set nowrap
+
 " Set folding style (so you can use {{{ and }}} to make folds)
 set foldmethod=marker
-" Set a line at the 80th character for code style stuff
+
+" Highlight the cursor line
+set cursorline
+" Set default column line at the 80th character for code style stuff. This
+" should ideally change based on the type of file, but this is the default if
+" no rule is set for the currently open file type.
 set colorcolumn=80
 " Set a line at the 100th character for Rust (following the formatting
 " conventions specified in The Book)
@@ -50,31 +75,13 @@ autocmd FileType java setlocal colorcolumn=100
 " Set a line at the 100th character for html and php
 autocmd FileType html setlocal colorcolumn=100
 autocmd FileType php setlocal colorcolumn=100
-" Set the tab width to 4 spaces
-set tabstop=4
-" Set the auto indent (includes >>) width
-set shiftwidth=4
-" Use multiple of shiftwidth when indenting with '<' and '>'
-set shiftround
-" Makes coding much more comfortable as you no longer have to hit tab 5 times
-" every time you open a new line
-set autoindent
-" Allows proper use of zh and zl
-set nowrap
+
 " When creating verical splits (:vsplit), put the new window on the right
 set splitright
 " When creating horizontal splits (:split), put the new window below
 set splitbelow
-" Tell vim where to look for tags to make this work you also need to use the command
-" $ ctags -R -f ~/.vim/systags /usr/include /usr/local/include
-set tags+=~/.vim/systags
-" Allow omnicompletion because it's pretty sick even if it doesn't always work
-" Languages that work out of the box: SQL, HTML, CSS, JS, PHP.
-" C and PHP will also take advantage of tags files.
-" Keyboard shortcut is C-x C-o
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-" Display tabs
+
+" Mark whitespace characters with specific symbols to make them easier to see
 set list
 set listchars=tab:\|\ ,eol:$,space:·,extends:⟩,precedes:⟨
 
@@ -106,7 +113,9 @@ if (has("termguicolors"))
 	set termguicolors
 endif
 
-" Only do this part when Vim was compiled with the +eval feature.
+" Awesome setting to always jump to the last known cursor position when
+" reopening a file.
+" Note: Only do this part when Vim was compiled with the +eval feature.
 if 1
 	" Put these in an autocmd group, so that you can revert them with:
 	" ":augroup vimStartup | exe 'au!' | augroup END"
@@ -124,9 +133,6 @@ if 1
 
 	augroup END
 endif
-
-" syntax on
-"let g:sierra_Sunset = 1
 
 " Darker bg with darker fg (used for middle section of status line
 " which has no text)
@@ -159,7 +165,6 @@ function! GetSyntax()
     exec "hi ".synIDattr(GetSyntaxParentID(), 'name')
 endfunction
 
-
 " Always show the status bar
 set laststatus=2
 " Filename, file type, modified flag
@@ -172,34 +177,6 @@ set statusline+=%2*%{Modified()}%*
 set statusline+=%3*\ %l/%L\ %*
 " Pseudo fix for delayed 'O' in normal mode following a C-[ input
 set timeout timeoutlen=1000 ttimeoutlen=100
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"          Zoomy Goomy No Longer Vanilla Stuff :(          "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-autocmd FileType c noremap ;p oprintf("\n");<Esc>F\i
-autocmd FileType java noremap ;p iSystem.out.println("");<Esc>F"i
-autocmd FileType latex noremap ;c i\begin{lstlisting}<Enter>\end{lstlisting}<Enter><#^#><Esc>kO
-" Code for markdown
-autocmd FileType markdown noremap ;c i```<Enter>```<Esc>O
-" Code for latex
-" bold for markdown and latex
-" italics for markdown and latex
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                     Hard Mode Stuff!                     "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Unbind the arrow keys for insert mode
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-" Unbind the arrow keys and hjkl for normal mode too
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "         How To Get This Vimrc to Work With Sudo          "
