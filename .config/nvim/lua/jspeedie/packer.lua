@@ -16,9 +16,9 @@ return require('packer').startup(function(use)
 
   -- nvim-treesitter (for significantly better syntax highlighting)
   ----------------------------------------------------------------
-  use ({
+  use {
     'nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' }
-  })
+  }
 
   -- vim-commentary (for commenting with gc)
   ------------------------------------------
@@ -49,4 +49,21 @@ return require('packer').startup(function(use)
   use 'vim-airline/vim-airline'
   -- For theming the status bar
   use 'vim-airline/vim-airline-themes'
+
+  -- nvim-cmp (+all its dependencies)
+  -----------------------------------
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      {'hrsh7th/cmp-path'}, -- File path completions
+      {'hrsh7th/cmp-buffer'}, -- Completions for all words, based on the current buffer.
+      {'hrsh7th/cmp-cmdline'}, -- Completions for / searches, based on the current buffer.
+                               -- For it to work, cmp-path and cmp-buffer are necessary.
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'neovim/nvim-lspconfig'},
+      -- For vsnip users.
+      {'hrsh7th/cmp-vsnip'},
+      {'hrsh7th/vim-vsnip'}
+    }
+  }
 end)
