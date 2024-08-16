@@ -99,6 +99,14 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars={ tab = '| ', eol = '$', space = '·', extends = '⟩', precedes = '⟨'}
 
+-- Disable the additional sign columns that appear to the left of the line
+-- numbers. nvim-cmp uses these columns to display 'E's on lines where there
+-- are errors, but the column appears and disappears as errors come up and are
+-- dealt, and the column disappears once you go into insert mode. It's super
+-- annoying and jittery, and having the columns always visible takes up
+-- valuable screen real estate, so I entirely disable them.
+vim.opt.signcolumn = "no"
+
 -- Awesome setting to always jump to the last known cursor position when
 -- reopening a file.
 -- Note: Only do this part when Vim was compiled with the +eval feature.
