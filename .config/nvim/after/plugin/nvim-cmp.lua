@@ -49,10 +49,21 @@ cmp.setup.cmdline(':', {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'pyright' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
     capabilities = capabilities,
   }
 end
+-- For this to work, you may have to install rust-analyzer using
+-- 'rustup component add rust-analyzer' and additionally installing rust-src:
+-- 'rustup component add rust-src'
+lspconfig.rust_analyzer.setup {
+  -- Server-specific settings. See `:help lspconfig-setup`
+  -- on_attach = my_custom_on_attach,
+  -- capabilities = capabilities,
+  -- settings = {
+  --   ['rust-analyzer'] = {},
+  -- },
+}
