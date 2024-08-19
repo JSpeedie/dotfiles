@@ -2,10 +2,12 @@
 #                              WARNING!                              #
 ######################################################################
 #                                                                    #
-#           Replaces all existing files of the same names.           #
-#   This includes things like .bashrc and .Xresources. BE PREPARED!  #
-#        Make sure this script is run from the same directory        #
-#          You cloned the git repo into or it will not work.         #
+#      This script will replace many of the files in your home       #
+#    directory! This script takes all the files tracked by git in    #
+#          the ~/dotfiles directory and copies them to ~/.           #
+#                                                                    #
+#   This includes important files such as .bashrc and .Xresources.   #
+#                            BE PREPARED!                            #
 #                                                                    #
 ######################################################################
 
@@ -17,6 +19,13 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
+# Stores the full, absolute path to the directory this script is in. This is
+# used to call "sibling" scripts this script expects to be in the same
+# directory.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Functional alternative, but realpath may not be installed on all systems
+# SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
 printf " ╔══════════════════════════════════════════════════════╗\n"
 printf " ║                 2. Copy Over Dotfiles                ║\n"
 printf " ╚══════════════════════════════════════════════════════╝\n"
@@ -26,7 +35,11 @@ printf " ╚══════════════════════�
 fontdir=/usr/share/fonts
 MANUALINS=(font-awesome* otf-hermit*)
 IGNORELIST=(\\.git README.md LICENSE)
-parent_folder=$(git rev-parse --show-toplevel)
+# The absolute path for the root level directory for the git repo
+# we are currently in. Strip the final "/" if there is one. There
+# shouldn't be, but its possible future versions of git will print
+# directories with a "/" at the end.
+git_repo_root=$(git rev-parse --show-toplevel | sed "s/\/$//")
 
 get_ignore_list () {
 	ignoregrep=""
@@ -44,25 +57,30 @@ get_ignore_list () {
 
 
 copy_files () {
-	# All the files and folders we want to copy in a newline delimited list
-	files=$(cd $parent_folder; git ls-files | grep -v "$ignoregrep")
+	# The following 'mapfile' command puts the output of the command wrapped
+	# in parentheses in an array 'git_files' which contains the relative
+	# file paths (from the git repo root) for all the git files and
+	# directories we want to copy.
+	mapfile -t git_files < <(cd $git_repo_root; git ls-files | grep -v "$ignoregrep" )
 
-	# Print out all the files that will be copied
-	# echo "${files[@]}"
-	# printf "\n------------------------------------------------------------\n\n"
+	# Populate 'git_files_fullpath' with the absolute paths to all the git
+	# files we wish to copy.
+	git_files_fullpath=()
+	for file in ${git_files[@]}; do
+		git_files_fullpath+=("${git_repo_root}/${file}")
+	done
 
-	for file in $files; do
-		# If the given file has directories
-		if [[ $(echo "$file" | grep "\/") ]]; then
-			# File path removing everything after the last "/"
+	for i in "${!git_files[@]}"; do
+		# If the current file path includes a directory
+		if [[ $(echo "${git_files[$i]}" | grep "\/") ]]; then
+			# Create the parent directory for the file in the user's home directory
 			# [^\/] matches any char that is NOT "/"
-			necessary_folders=$(echo "$file" | sed "s/\/[^\/]*$//")
-			# Create path for copying
-			mkdir -p ~/$necessary_folders;
+			git_file_parent_dir=$(echo "${git_files[$i]}" | sed "s/\/[^\/]*$//")
+			mkdir -p ~/$git_file_parent_dir;
 		fi
-		sudo cp -Rv $file ~/$file
-		# Change ownership to current user
-		sudo chown $USER ~/$file
+		# Copy file from git directory, and modify its ownership to the current user
+		cp -Rv ${git_files_fullpath[$i]} ~/${git_files[$i]}
+		chown $USER ~/${git_files[$i]}
 	done
 }
 
