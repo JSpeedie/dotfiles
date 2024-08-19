@@ -1,2 +1,2 @@
--- lua/jspeedie/init.lua <- Location of proper config
-require("jspeedie")
+-- lua/config/init.lua <- Location of proper config
+require("config")
