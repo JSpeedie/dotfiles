@@ -1,4 +1,20 @@
 return {
+  -- My colourscheme of choice
+  {
+    "ayu-theme/ayu-vim",
+	name = "ayu",
+    lazy = false, -- Load this on startup
+    priority = 1000, -- High priority, load before all other plugins
+    -- config = function()
+    --   -- Set the colourscheme
+    --   vim.cmd([[
+	    -- set background="dark"
+		-- let ayucolor="light"
+	    -- colorscheme ayu
+	  -- ]])
+    -- end,
+  },
+
   -- For fuzzy finding files
   {
     "nvim-telescope/telescope.nvim",
@@ -8,25 +24,15 @@ return {
     }
   },
 
-  -- My colourscheme of choice
-  {
-    "ayu-theme/ayu-vim",
-    lazy = false, -- Load this on startup
-    priority = 1000, -- High priority, load before all other plugins
-    -- config = function()
-    --   -- Set the colourscheme
-    --   vim.cmd([[colorscheme ayu]])
-    -- end,
-  },
-
   -- nvim-treesitter (for significantly better syntax highlighting)
   ----------------------------------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
-    build = function()
-      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-      ts_update()
-    end,
+	build = ":TSUpdate",
+    -- build = function()
+    --   local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+    --   ts_update()
+    -- end,
   },
 
   -- vim-commentary (for commenting with gc)
@@ -70,6 +76,7 @@ return {
                               -- For it to work, cmp-path and cmp-buffer are necessary.
       "hrsh7th/cmp-nvim-lsp",
       "neovim/nvim-lspconfig",
+      "onsails/lspkind.nvim",  -- For icons in auto complete
       -- For vsnip users.
       "hrsh7th/cmp-vsnip",
       "hrsh7th/vim-vsnip"
