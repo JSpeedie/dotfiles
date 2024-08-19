@@ -10,7 +10,7 @@ magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
 
-BASEPKGLIST=(rxvt-unicode xorg libnotify4 pulseaudio pamixer sxhkd rsync \
+BASEPKGLIST=(alacritty xorg libnotify4 pulseaudio pamixer sxhkd rsync \
 	cronie dialog pavucontrol)
 APPPKGLIST=(firefox nautilus evince gimp libreoffice obs-studio eog vlc \
 	mpv audacity ranger pitivi)
@@ -45,7 +45,7 @@ printf "$blue"
 printf " ╔══════════════════════════════════════════════════════╗\n"
 printf " ║                  1. Install Packages                 ║\n"
 printf " ╚══════════════════════════════════════════════════════╝\n"
-printf "             Script for: Debian-based Distros            \n"
+printf "                  Script for: Linux Mint                 \n"
 printf "$end\n"
 
 for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST"); do
