@@ -38,15 +38,15 @@ printf "\n\n"
 
 # If the user wants to install the packages
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	echo -n "Are you restoring your setup on an Arch-based distro or a Debian-based distro? [arch/debian] (enter=arch): "
+	echo -n "Are you restoring your setup on an Arch-based distro or a Debian-based distro? [arch/mint] (enter=arch): "
 	read -a ANSWER
 	printf "\n"
 
 	if [[ ${ANSWER[*]} == "arch" || ${ANSWER[*]} == "" ]]; then
 		bash ${SCRIPT_DIR}/packages-arch.sh
 		printf "\n"
-	elif [[ ${ANSWER[*]} == "debian" ]]; then
-		bash ${SCRIPT_DIR}/packages-debian.sh
+	elif [[ ${ANSWER[*]} == "mint" ]]; then
+		bash ${SCRIPT_DIR}/packages-mint.sh
 		printf "\n"
 	else
 		printf "\n"
