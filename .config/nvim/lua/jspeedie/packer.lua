@@ -61,6 +61,7 @@ return require('packer').startup(function(use)
                                -- For it to work, cmp-path and cmp-buffer are necessary.
       {'hrsh7th/cmp-nvim-lsp'},
       {'neovim/nvim-lspconfig'},
+      {'onsails/lspkind.nvim'},
       -- For vsnip users.
       {'hrsh7th/cmp-vsnip'},
       {'hrsh7th/vim-vsnip'}
