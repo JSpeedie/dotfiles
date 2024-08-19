@@ -1,18 +1,19 @@
-require("jspeedie.packer")
-require("jspeedie.remap")
+require("config.lazy")
+require("config.remap")
 
 --
 -- Neovim Configuration File Structure:
 --
--- ~/.config/nvim/init.lua                    -- Base init file, mostly calls on these files
--- ~/.config/nvim/lua/jspeedie/init.lua       -- This file, most of my nvim config
--- ~/.config/nvim/lua/jspeedie/packer.lua     -- Configure the plugin manager and the plugins
--- ~/.config/nvim/lua/jspeedie/remap.lua      -- Keymap rebinds
--- ~/.config/nvim/after/plugin/[plugin].lua   -- Individual plugin config for configs that need it
+-- ~/.config/nvim/init.lua                   -- Base init file, mostly calls on these files
+-- ~/.config/nvim/lua/config/init.lua        -- This file, most of my nvim config
+-- ~/.config/nvim/lua/config/lazy.lua        -- Configure the plugin manager
+-- ~/.config/nvim/lua/config/remap.lua       -- Keymap rebinds
+-- ~/.config/nvim/lua/plugins/spec.lua       -- Configure the plugins
+-- ~/.config/nvim/after/plugin/[plugin].lua  -- Individual plugin config for configs that need it
 
--- Run ":PackerSync" to install/update all plugins
+-- Run ":Lazy sync" to install/update all plugins
 
--- Plugins are added to ~/.config/nvim/lua/jspeedie/packer.lua
+-- Plugins are added to ~/.config/nvim/lua/config/lazy.lua
 -- and then individually configured in their own lua files
 -- (if necessary) in ~/.config/nvim/after/plugin/[plugin].lua
 
