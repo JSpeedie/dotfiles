@@ -1,3 +1,19 @@
+# A script for printing the terminal colours from 0-7 on row 1, then 8-15 on
+# row 2. Can take 0 to 2 arguments. If given 1 argument, the height of the
+# blocks of colour that make up the output is set to that number. If 2
+# arguments are given, the first will refer to the width of the blocks, the
+# second to the height. If given no arguments, the scripts defaults to a width
+# of 4 and a height of 1.
+#
+# $ sh colortest.sh 1 2
+# █ █ █ █ █ █ █ █
+# █ █ █ █ █ █ █ █
+# █ █ █ █ █ █ █ █
+# █ █ █ █ █ █ █ █
+# $ sh colortest.sh 4 1
+# ████ ████ ████ ████ ████ ████ ████ ████
+# ████ ████ ████ ████ ████ ████ ████ ████
+
 end=$'\e[0m'
 color0=$'\e[0;30m'
 color1=$'\e[0;31m'
@@ -16,81 +32,47 @@ color12=$'\e[1;34m'
 color13=$'\e[1;35m'
 color14=$'\e[1;36m'
 color15=$'\e[1;37m'
-block='█'
-# If there is no first argument
-if [[ -z $1 ]]; then
-	printf "$color0████ "
-	printf "$color1████ "
-	printf "$color2████ "
-	printf "$color3████ "
-	printf "$color4████ "
-	printf "$color5████ "
-	printf "$color6████ "
-	printf "$color7████ "
-	printf "$end\n"
-	printf "$color08████ "
-	printf "$color09████ "
-	printf "$color10████ "
-	printf "$color11████ "
-	printf "$color12████ "
-	printf "$color13████ "
-	printf "$color14████ "
-	printf "$color15████ "
-	printf "$end\n"
-# If a command line argument is given, print that many rows for each colour
-else
-	# If there is a first argument but no second argument
-	if [[ -z $2 ]]; then
-		for i in $(seq $1); do
-			printf "$color0████ "
-			printf "$color1████ "
-			printf "$color2████ "
-			printf "$color3████ "
-			printf "$color4████ "
-			printf "$color5████ "
-			printf "$color6████ "
-			printf "$color7████ "
-			printf "$end\n"
-		done
-		for i in $(seq $1); do
-			printf "$color08████ "
-			printf "$color09████ "
-			printf "$color10████ "
-			printf "$color11████ "
-			printf "$color12████ "
-			printf "$color13████ "
-			printf "$color14████ "
-			printf "$color15████ "
-			printf "$end\n"
-		done
-	# If there is a first and second argument
-	else
-		block_out=""
-		for i in $(seq $1); do
-			block_out=$(echo "${block_out}${block}")
-		done
-		for i in $(seq $2); do
-			printf "$color0${block_out} "
-			printf "$color1${block_out} "
-			printf "$color2${block_out} "
-			printf "$color3${block_out} "
-			printf "$color4${block_out} "
-			printf "$color5${block_out} "
-			printf "$color6${block_out} "
-			printf "$color7${block_out} "
-			printf "$end\n"
-		done
-		for i in $(seq $2); do
-			printf "$color08${block_out} "
-			printf "$color09${block_out} "
-			printf "$color10${block_out} "
-			printf "$color11${block_out} "
-			printf "$color12${block_out} "
-			printf "$color13${block_out} "
-			printf "$color14${block_out} "
-			printf "$color15${block_out} "
-			printf "$end\n"
-		done
-	fi
+
+# Default width and height
+bwidth=4
+bheight=1
+
+# If a second argument was NOT given, but the first argument was
+if [[ -z $2 && ! -z $1 ]]; then
+	bheight=$1
+# If two arguments were given
+elif [[ ! -z $2 && ! -z $1 ]]; then
+	bheight=$2
+	bwidth=$1
 fi
+
+# Create a row of blocks based on the specified (or default) width
+block_row=""
+for i in $(seq $bwidth); do
+	block_row=$(echo "${block_row}█")
+done
+
+# Print the specified (or default) number of rows.
+for i in $(seq $bheight); do
+	printf "$color0${block_row} "
+	printf "$color1${block_row} "
+	printf "$color2${block_row} "
+	printf "$color3${block_row} "
+	printf "$color4${block_row} "
+	printf "$color5${block_row} "
+	printf "$color6${block_row} "
+	printf "$color7${block_row}"
+	printf "$end\n"
+done
+for i in $(seq $bheight); do
+	printf "$color08${block_row} "
+	printf "$color09${block_row} "
+	printf "$color10${block_row} "
+	printf "$color11${block_row} "
+	printf "$color12${block_row} "
+	printf "$color13${block_row} "
+	printf "$color14${block_row} "
+	printf "$color15${block_row}"
+	printf "$end\n"
+done
 
