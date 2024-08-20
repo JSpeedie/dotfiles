@@ -14,24 +14,37 @@
 # ████ ████ ████ ████ ████ ████ ████ ████
 # ████ ████ ████ ████ ████ ████ ████ ████
 
-end=$'\e[0m'
-color0=$'\e[0;30m'
-color1=$'\e[0;31m'
-color2=$'\e[0;32m'
-color3=$'\e[0;33m'
-color4=$'\e[0;34m'
-color5=$'\e[0;35m'
-color6=$'\e[0;36m'
-color7=$'\e[0;37m'
+end=$'\033[0m'
+color0=$'\033[0;30m'
+color1=$'\033[0;31m'
+color2=$'\033[0;32m'
+color3=$'\033[0;33m'
+color4=$'\033[0;34m'
+color5=$'\033[0;35m'
+color6=$'\033[0;36m'
+color7=$'\033[0;37m'
 
-color08=$'\e[1;30m'
-color09=$'\e[1;31m'
-color10=$'\e[1;32m'
-color11=$'\e[1;33m'
-color12=$'\e[1;34m'
-color13=$'\e[1;35m'
-color14=$'\e[1;36m'
-color15=$'\e[1;37m'
+# For terminals like Termite, use these command sequeuences for terminal
+# colours 8-15
+# color08=$'\033[1;30m'
+# color09=$'\033[1;31m'
+# color10=$'\033[1;32m'
+# color11=$'\033[1;33m'
+# color12=$'\033[1;34m'
+# color13=$'\033[1;35m'
+# color14=$'\033[1;36m'
+# color15=$'\033[1;37m'
+
+# For terminals like Alacritty and Kitty, use these command sequeuences for
+# terminal colours 8-15
+color08=$'\033[0;90m'
+color09=$'\033[0;91m'
+color10=$'\033[0;92m'
+color11=$'\033[0;93m'
+color12=$'\033[0;94m'
+color13=$'\033[0;95m'
+color14=$'\033[0;96m'
+color15=$'\033[0;97m'
 
 # Default width and height
 bwidth=4
@@ -75,4 +88,3 @@ for i in $(seq $bheight); do
 	printf "$color15${block_row}"
 	printf "$end\n"
 done
-
