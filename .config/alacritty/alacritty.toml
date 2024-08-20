@@ -1,0 +1,51 @@
+# Ayu Light Alacritty Colors
+# Default colors
+[colors.primary]
+background = "#FAFAFA"
+foreground = "#5C6773"
+
+[colors.cursor]
+cursor = '#ABB0B6'
+text = '#5C6773'
+
+# Normal colors
+[colors.normal]
+# color 0
+black= "#FAFAFA"
+# color 1
+red = "#F07178"
+# color 2
+green = "#86B300"
+# color 3
+yellow = "#FF6A00"
+# color 4
+blue = "#36A3D9"
+# color 5
+magenta = "#A37ACC"
+# color 6
+cyan = "#4CBF99"
+# color 7
+white = "#FFFFFF"
+
+# Bright colors
+[colors.bright]
+# color 8
+black = "#828C99"
+# color 9
+red = "#FF3333"
+# color 10
+green = "#86B300"
+# color 11
+yellow = "#FF6A00"
+# color 12
+blue = "#36A3D9"
+# color 13
+magenta = "#A37ACC"
+# color 14
+cyan = "#4CBF99"
+# color 15
+white = "#ABB0B6"
+
+[env]
+# Pretend to be xterm for color schemes.
+TERM = "xterm-256color"
