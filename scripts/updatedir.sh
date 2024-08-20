@@ -79,7 +79,7 @@ function nextFile {
 		read ANS
 		# Default to "Y" (hitting enter is equivalent to entering "Y")
 		if [[ $ANS == "Y" ]] || [[ $ANS == "" ]]; then
-			cp -v $First$file -T $Second$file;
+			cp -iv $First$file -T $Second$file;
 		elif [[ $ANS == "n" ]]; then
 			echo "Continuing to next file..."
 		elif [[ $ANS == "c" ]]; then
