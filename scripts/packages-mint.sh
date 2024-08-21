@@ -9,6 +9,8 @@ blue=$'\e[1;34m'
 magenta=$'\e[1;35m'
 cyan=$'\e[1;36m'
 end=$'\e[0m'
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 BASEPKGLIST=(alacritty xorg libnotify4 pulseaudio pamixer sxhkd rsync \
 	cronie dialog pavucontrol)
@@ -48,71 +50,149 @@ printf " ╚══════════════════════�
 printf "                  Script for: Linux Mint                 \n"
 printf "$end\n"
 
-for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIST\nFSPKGLIST"); do
-	if [[ $i == "BASEPKGLIST" ]]; then
-		CPKGL=("${BASEPKGLIST[@]}")
-	elif [[ $i == "APPPKGLIST" ]]; then
-		CPKGL=("${APPPKGLIST[@]}")
-	elif [[ $i == "EXTRAPKGLIST" ]]; then
-		CPKGL=("${EXTRAPKGLIST[@]}")
-	elif [[ $i == "DEVPKGLIST" ]]; then
-		CPKGL=("${DEVPKGLIST[@]}")
-	elif [[ $i == "FONTPKGLIST" ]]; then
-		CPKGL=("${FONTPKGLIST[@]}")
-	elif [[ $i == "FSPKGLIST" ]]; then
-		CPKGL=("${FSPKGLIST[@]}")
-	else
-		continue
-	fi
+# BASEPKGLIST
+# APPPKGLIST
+# EXTRAPKGLIST
+# DEVPKGLIST
+# FONTPKGLIST
+# FSPKGLIST
 
-	if [[ $ALL != "t" ]]; then
-		echo
-		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
-		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
-		echo -n "${cyan}==> Enter n° of packages to be installed (ex: 1 2 3) " \
-			"(enter=all, !=all of every package list)${end}: "
-		read -a INPUT
-		printf "\n"
-		# If the user wants to install everything
-		if [[ ${INPUT[*]} == "!" ]]; then
-			ALL="t"
-			INPUT=""
+PKGS_TO_INSTALL=()
+MASTER_PKG_LIST=()
+
+printf "Would you like to install ${bold}ALL${end} the packages? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to install all the packages specified in this script
+if [[ "${ANSWER[*]}" == "Y" || "${ANSWER[*]}" == "" ]]; then
+	# Create a master list of packages to be installed by concatenating all the
+	# different package lists into one
+	for i in $(seq 0 5); do
+		if [[ "$i" == "0" ]]; then CPKGL=("${BASEPKGLIST[@]}")
+		elif [[ "$i" == "1" ]]; then CPKGL=("${APPPKGLIST[@]}")
+		elif [[ "$i" == "2" ]]; then CPKGL=("${EXTRAPKGLIST[@]}")
+		elif [[ "$i" == "3" ]]; then CPKGL=("${DEVPKGLIST[@]}")
+		elif [[ "$i" == "4" ]]; then CPKGL=("${FONTPKGLIST[@]}")
+		elif [[ "$i" == "5" ]]; then CPKGL=("${FSPKGLIST[@]}")
 		fi
-	fi
+
+		# Go through the current package list and append its packages to
+		# the master package list
+		for p in ${CPKGL[*]}; do
+			MASTER_PKG_LIST+=("$p")
+		done
+	done
+
+	echo
+	printf "${blue}Packages: (${MASTER_PKG_LIST[*]})\n${end}"
+	echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
+	echo -n "${cyan}==> Enter the n° of the packages you want to install (ex: 1 2 3) (enter=all)${end}: "
+	read -a INPUT
+	printf "\n"
+
+	custom_selection="f"
 
 	# If the user just hits enter
-	if [[ ${INPUT[*]} == "" ]]; then
+	if [[ "${INPUT[*]}" == "" ]]; then
+		# Construct a list (1 2 3 4 5 ...) that effectively selects every
+		# package from the collection
 		pkg=""
 		num=1
-		for n in ${CPKGL[*]}; do
+		for n in ${MASTER_PKG_LIST[*]}; do
 			pkg+="$num "
 			let num+=1
 		done
-		echo "Packages chosen: $pkg"
-	# For if the user doesn't want to install anything from the collection
-	elif [[ ${INPUT[*]} == "skip" ]]; then
-		echo "Skipping to next collection of packages..."
-		continue
+	# If the user changes their mind and decides not install the packages
+	elif [[ "${INPUT[*]}" == "skip" ]]; then
+		echo "Cancelling package installation process..."
+		exit 1
 	# If the user entered a white space delimited list of numbers
 	elif [[ ${INPUT[*]} =~ ^([ \t]*[0-9]{1,}[ \t]*){1,}$ ]]; then
 		pkg=${INPUT[*]}
-		echo "Packages chosen: $pkg"
-	# The user chose to exit by input "any non-number/whitespace
-	# characters (besides "skip")"
+		echo "Package indices chosen: $pkg"
+		custom_selection="t"
+	# If the user input invalid input
 	else
 		echo "Invalid input. Exiting..."
 		exit 1
 	fi
 
-	PKGS=""
-
-	# Go through the specified packages and create a list we can pass to
+	# Go through the package numbers specified and create a list we can pass to
 	# our package manager
 	for j in $pkg; do
-		PKGS+="${CPKGL[j-1]} "
+		PKGS_TO_INSTALL+=("${MASTER_PKG_LIST[j-1]}")
 	done
 
-	echo "Packages to be installed: ${PKGS[*]}"
+	if [[ "$custom_selection" == "t" ]]; then
+		echo "Packages chosen: ${bold}(${PKGS_TO_INSTALL[*]})${end}"
+	fi
 
-	sudo apt install --assume-yes ${PKGS[*]}
-done
+	sudo apt install --assume-yes ${PKGS_TO_INSTALL[*]}
+
+	printf "\nPackage installation complete!\n"
+elif [[ "${ANSWER[*]}" == "n" ]]; then
+	for i in $(seq 0 5); do
+		if [[ "$i" == "0" ]]; then CPKGL=("${BASEPKGLIST[@]}")
+		elif [[ "$i" == "1" ]]; then CPKGL=("${APPPKGLIST[@]}")
+		elif [[ "$i" == "2" ]]; then CPKGL=("${EXTRAPKGLIST[@]}")
+		elif [[ "$i" == "3" ]]; then CPKGL=("${DEVPKGLIST[@]}")
+		elif [[ "$i" == "4" ]]; then CPKGL=("${FONTPKGLIST[@]}")
+		elif [[ "$i" == "5" ]]; then CPKGL=("${FSPKGLIST[@]}")
+		else
+			continue
+		fi
+
+		echo
+		printf "${blue}Packages: (${CPKGL[*]})\n${end}"
+		echo "Type any non-number/whitespace character(s) (besides \"skip\" to continue)"
+		echo -n "${cyan}==> Enter the n° of the packages you want to install (ex: 1 2 3) (enter=all)${end}: "
+		read -a INPUT
+		printf "\n"
+
+		custom_selection="f"
+
+		# If the user just hits enter
+		if [[ "${INPUT[*]}" == "" ]]; then
+			# Construct a list (1 2 3 4 5 ...) that effectively selects every
+			# package from the collection
+			pkg=""
+			num=1
+			for n in ${CPKGL[*]}; do
+				pkg+="$num "
+				let num+=1
+			done
+		# If the user doesn't want to install anything from the collection
+		elif [[ "${INPUT[*]}" == "skip" ]]; then
+			echo "Skipping to next collection of packages..."
+			continue
+		# If the user entered a white space delimited list of numbers
+		elif [[ ${INPUT[*]} =~ ^([ \t]*[0-9]{1,}[ \t]*){1,}$ ]]; then
+			pkg=${INPUT[*]}
+			echo "Package indices chosen: $pkg"
+			custom_selection="t"
+		# If the user input invalid input
+		else
+			echo "Invalid input. Exiting..."
+			exit 1
+		fi
+
+		PKGS_TO_INSTALL=""
+
+		# Go through the specified packages and create a list we can pass to
+		# our package manager
+		for j in $pkg; do
+			PKGS_TO_INSTALL+=("${CPKGL[j-1]}")
+		done
+
+		echo "Packages chosen: ${bold}(${PKGS_TO_INSTALL[*]})${end}"
+
+		sudo apt install --assume-yes ${PKGS_TO_INSTALL[*]}
+	done
+
+	printf "\nPackage installation complete!\n"
+else
+	echo "Invalid input. Exiting..."
+	exit 1
+fi
+
