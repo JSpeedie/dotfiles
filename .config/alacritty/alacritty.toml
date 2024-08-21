@@ -46,6 +46,19 @@ cyan = "#4CBF99"
 # color 15
 white = "#ABB0B6"
 
+[font]
+size = 15.0
+
+[font.normal]
+family = "RobotoMono"
+
+# Keybinding for Ctrl+Shift+Enter for spawning a new terminal in the
+# same directory.
+[keyboard]
+bindings = [
+	{ key = "Return", mods = "Control|Shift", action = "SpawnNewInstance" }
+]
+
 [env]
 # Pretend to be xterm for color schemes.
 TERM = "xterm-256color"
