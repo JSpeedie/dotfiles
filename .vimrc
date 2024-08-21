@@ -1,4 +1,4 @@
-" ~/.config/nvim/init.vim   < neovim specific config
+" ~/.config/nvim/lua/config/init.lua   < neovim specific config
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect
