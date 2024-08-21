@@ -20,6 +20,12 @@ require("config.remap")
 -- Set how many lines of history vim must remember
 vim.g.history = 1500
 
+-- Use full color range if the terminal supports it (IMPORTANT)
+vim.cmd[[
+if has("termguicolors")
+	set termguicolors
+endif
+]]
 -- Set the custom colorscheme
 vim.g.colors_name = 'ayu'
 vim.g.ayucolor = 'light' -- light, mirage or dark
