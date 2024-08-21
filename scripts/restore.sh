@@ -10,6 +10,9 @@ end=$'\e[0m'
 bold=$(tput bold)
 normal=$(tput sgr0) 
 
+distros=("Arch" "Linux Mint")
+distro_scripts=("packages-arch.sh" "packages-mint.sh")
+
 # Stores the full, absolute path to the directory this script is in. This is
 # used to call "sibling" scripts this script expects to be in the same
 # directory.
@@ -36,22 +39,86 @@ echo -n "Would you like to install the packages from my package lists? [Y/n] (en
 read -a ANSWER
 printf "\n\n"
 
+graceful_exit () {
+	tput cnorm
+	exit 1
+}
+
+paint_distro_selection () {
+	tput sc    # Save cursor position
+	tput civis # Make the cursor invisible
+	selected=$1
+	for i in ${!distros[@]}; do
+		if [[ "$i" -eq "$selected" ]]; then
+			tput rev   # Invert text foreground and background color
+			tput bold   # Make text bold
+			printf " %-56s" "${distros[$i]}"
+			printf "\n"
+			tput sgr0  # Reset text to default colors
+		else
+			printf " %-56s" "${distros[$i]}"
+			printf "\n"
+		fi
+	done
+}
+
+unpaint_distro_selection () {
+	tput rc    # Restore the cursor position
+	for i in ${!distros[@]}; do
+		tput el    # Clear the line from the cursor to the end of the line
+		tput cud1  # Move the cursor down one line
+	done
+	tput rc    # Restore the cursor position
+}
+
+trap graceful_exit SIGINT
+trap graceful_exit SIGTERM
+
 # If the user wants to install the packages
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	echo -n "Are you restoring your setup on an Arch-based distro or a Debian-based distro? [arch/mint] (enter=arch): "
-	read -a ANSWER
-	printf "\n"
+	printf "Which distro are you restoring your setup on? [Select and press enter]:\n"
+	selection_index=0
+	paint_distro_selection $selection_index
 
-	if [[ ${ANSWER[*]} == "arch" || ${ANSWER[*]} == "" ]]; then
-		bash ${SCRIPT_DIR}/packages-arch.sh
-		printf "\n"
-	elif [[ ${ANSWER[*]} == "mint" ]]; then
-		bash ${SCRIPT_DIR}/packages-mint.sh
-		printf "\n"
-	else
-		printf "\n"
-		printf "No valid distro chosen - restore.sh cannot choose which package script to call.\n\n"
-	fi
+	# Loop, reading the user input until they select one of the distro
+	# options
+	while true; do
+		# If the last character read was not the beginning of an array key byte
+		# sequence
+		if [[ "${INPUT}" != "" ]]; then
+			read -rsn 1 INPUT
+		fi
+		if [[ "${INPUT}" == "" ]]; then
+			read -sn 1 INPUT
+			if [[ "${INPUT}" == "[" ]]; then
+				read -sn 1 INPUT
+				# If the down arrow was pressed
+				if [[ "${INPUT}" == "B" ]]; then
+					if [[ "$selection_index" -lt `expr ${#distros[@]} - 1` ]]; then
+						selection_index=$(expr $selection_index + 1)
+						unpaint_distro_selection
+						paint_distro_selection $selection_index
+					fi
+				fi
+				# If the up arrow was pressed
+				if [[ "${INPUT}" == "A" ]]; then
+					if [[ "$selection_index" -gt "0" ]]; then
+						selection_index=$(expr $selection_index - 1)
+						unpaint_distro_selection
+						paint_distro_selection $selection_index
+					fi
+				fi
+			fi
+		# If the user selected a distro
+		elif [[ "${INPUT}" == "" ]]; then
+			break
+		fi
+	done
+
+	printf "\n"
+	tput cnorm
+	bash ${SCRIPT_DIR}/${distro_scripts[$selection_index]}
+	printf "\n"
 else
 	printf "\n"
 	printf "Skipping over installing packages.\n\n"
