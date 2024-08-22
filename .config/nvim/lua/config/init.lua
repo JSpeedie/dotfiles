@@ -21,16 +21,16 @@ require("config.remap")
 vim.g.history = 1500
 
 -- Use full color range if the terminal supports it (IMPORTANT)
-vim.cmd[[
-if has("termguicolors")
-	set termguicolors
-endif
-]]
--- Set the custom colorscheme
-vim.g.colors_name = 'ayu'
-vim.g.ayucolor = 'light' -- light, mirage or dark
--- Set the vim-airline theme
-vim.g.airline_theme = 'ayu'
+if vim.fn.has("termguicolors") == 1 then
+	vim.opt.termguicolors = true
+	-- Set the custom colorscheme
+	vim.g.colors_name = 'ayu'
+	vim.g.ayucolor = 'light' -- light, mirage or dark
+else
+	-- For some reason the lua version doesn't work
+	-- vim.g.colors_name = 'elflord'
+	-- vim.cmd[[colorscheme elflord]]
+end
 
 -- Set the leader key to space
 vim.g.mapleader = " "
