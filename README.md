@@ -68,18 +68,17 @@ randy website).
 * Scrolling text for `song()` (requires `scrolltext2.sh`)
 
 ![Gif of vim setup](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/vim.gif)  
-*.vimrc*:
-* Short and sweet. Doesn't rely on a million plugins (I personally prefer to
-not rely on too many in case I have to use someone elses' setup or `vi`).
-* Sets the history to 1000, enables syntax highlighting, enables folding
-via markers ("{{{" and "}}}" by default), shows relative line numbers
-to make j and k movements easier.
-* Some regexes I would consider impressive if only because it took me quite
-  some time to come to to understand them. Highlights trailing whitespace red
-  for easy removal and gray if it's escaped (only highlights the first escaped
-  whitespace character).
-* Here come dat statusline! No plugins here. Fairly simple statusline with a
-  modified version of the `%m` modified flag
+*neovim configuration*:
+* Bootstrapping (and fast) plugin manager `lazy.nvim` so you can think as
+  little as possible about your plugin manager.
+* Language-aware autocomplete achieved using `nvim-cmp`.
+* Better syntax highlighting using `nvim-treesitter`.
+* Moderately minimal status line configuration using lualine.
+* Remembers your last known location in a file and jumps there when opening a file.
+* Easy-of-life improvements with `vim-commentary` and `vim-surround` providing
+a commenting operation and a surrounding operation you can apply around a
+motion, respectively.
+* Fuzzy file finding using `telescope.nvim`
 * Well commented for your line-stealing needs.
 
 ![Gif of my sick prompt I worked so hard on](https://raw.githubusercontent.com/wiki/JSpeedie/dotfiles/images/bashprompt.gif)  
