@@ -24,31 +24,14 @@ if type nvim > /dev/null 2>&1; then
 	export VISUAL="$EDITOR"
 fi
 alias organizerawsandjpgs='bash ~/organizerawsandjpgs.sh'
-alias conuni='sudo wpa_supplicant -c ~/wpa_supplicant.conf -i wlp2s0 -D nl80211 -B && sudo dhcpcd wlp2s0'
 alias ls='ls --color=auto'
-alias dtest='sh ~/scripts/difftest.sh'
 alias lock='sh ~/scripts/lock.sh'
 alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
-alias updatepelagic='sh ~/scripts/updatedir.sh ~/.vim/colors/ ~/pelagicGit/ ~/scripts/updatedirpelagic.sh'
-alias barscr='ffmpeg -video_size 1220x40 -framerate 60 -f x11grab -i :0.0+2590,0 -vframes 1 output.png'
 # Record Desktop (full screen)
 alias rd='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :1.0+0,0 output.mp4'
 alias rdl='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 -c:v libx264 -qp 0 -preset ultrafast output.mkv'
-# Record Desktop Medium (1/2 of the screen)
-alias rdm='ffmpeg -video_size 960x540 -framerate 60 -f x11grab -i :0.0+480,270 output.mp4'
-# Record Desktop Small (1/3 of the screen)
-alias rds='ffmpeg -video_size 640x360 -framerate 60 -f x11grab -i :0.0+640,360 output.mp4'
-alias rwfs='wtp 0 0 608 328 $(cfw)'
-# Record Desktop Very Small (1/4 of the screen)
-alias rdvs='ffmpeg -video_size 480x270 -framerate 60 -f x11grab -i :0.0+720,405 output.mp4'
-alias rwfvs='wtp 0 0 456 246 $(cfw)'
-# Record Desktop Ultra Small (1/6 of the screen)
-alias rdus='ffmpeg -video_size 320x180 -framerate 60 -f x11grab -i :0.0+800,450 output.mp4'
-alias rwfus='wtp 0 0 304 164 $(cfw)'
 # For when you gotta let em know
 alias fuckyou='yes "$(echo "fuck you" | figlet -f slant)" | lolcat'
-alias ctest='sh ~/scripts/colortest.sh'
-alias bonsai='sh ~/scripts/bonsai.sh 2 6'
 alias slippi='./Slippi-Launcher-1.4.2-x86_64.AppImage'
 alias elgato='sudo ~/elgato-gchd/build/src/gchd -i component'
 alias get_idf='. $HOME/esp/esp-idf/export.sh'
@@ -68,10 +51,6 @@ export LESS_TERMCAP_us=$(tput setaf 3) # Blue
 # "Status bar" of less
 export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 
-upt () {
-	awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime
-}
-
 ##############################
 #       Dynamic Prompt       #
 ##############################
@@ -82,6 +61,7 @@ c_d=$(tput setaf 7; tput setab 0; tput bold)
 success=$(tput setaf 0; tput setab 2)
 fail=$(tput setaf 0; tput setab 1)
 
+# Helper function for the 'prompt()' function
 cur_dir() {
 	printf "$(pwd | sed -e "s/\/home\/$USER/~/" | tr "\/" "\n" | tail -n 1)"
 }
@@ -93,6 +73,10 @@ prompt () {
 				printf "\001${c_d}\002$(cur_dir) \001${reset}\002\001${success}\002$\001${reset}\002 "; \
 			fi)'
 	printf "${result}"
+}
+
+upt () {
+	awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime
 }
 
 # jpgtopdf 42389.jpg receipt.pdf
@@ -237,7 +221,6 @@ convdeintmp4 () {
 }
 
 xfd-siji() {
-
 	font='-wuncon-siji-medium-r-normal--17-120-100-100-c-80-iso10646-1'
 	xfd -fn $font 2>&1 >/dev/null &
 }
