@@ -76,42 +76,34 @@
 ! ! White
 ! *.color15:      white_light
 
-! special
-*.foreground:   #ffffdf
-*.background:   #303030
-*.cursorColor:  #dfdfaf
-
+! Ayu (Light) (Converted from VSCode, customized by me)
+*.foreground:   #5c6166
+*.background:   #f8f9fa
+*.cursorColor:  #c7c7c7
 ! black
-*.color0:       #303030
-*.color8:       #767676
-
+*.color0:       #f8f9fa
+*.color8:       #c7c7c7
 ! red
-*.color1:       #d75f5f
-*.color9:       #d75f5f
-
+*.color1:       #ea6c6d
+*.color9:       #f07171
 ! green
-*.color2:       #5f8787
-*.color10:      #5f8787
-
+*.color2:       #68b841
+*.color10:      #6cbf43
 ! yellow
-*.color3:       #dfaf87
-*.color11:      #dfaf87
-
+*.color3:       #eca944
+*.color11:      #f2ae49
 ! blue
-*.color4:       #af875f
-*.color12:      #af875f
-
+*.color4:       #3199e1
+*.color12:      #399ee6
 ! magenta
-*.color5:       #875f5f
-*.color13:      #875f5f
-
+*.color5:       #9e75c7
+*.color13:      #a37acc
 ! cyan
-*.color6:       #87afaf
-*.color14:      #87afaf
-
+*.color6:       #46ba94
+*.color14:      #4cbf99
 ! white
-*.color7:       #ffffdf
-*.color15:      #ffffdf
+*.color7:       #5c6166
+*.color15:      #313d46
 
 Xft.dpi: 96
 Xft.antialias: true
@@ -125,7 +117,7 @@ Xft.lcdfilter: lcddefault
 URxvt.scrollBar: false
 !! URxvt.font: xft:Hermit:size=10
 !!URxvt.font: xft:Code New Roman:size=13
-URxvt.font: xft:Meslo LG S:size=12, xft:SauceCodePro Nerd:size=16
+URxvt.font: xft:Roboto Mono:size=15, xft:SauceCodePro Nerd:size=16
 !!URxvt.font: xft:mononoki:size=14
 !! URxvt.font: -*-tamzen-medium-*-*-*-20-*-*-*-*-*-*-*, -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1
 URxvt.internalBorder: 8

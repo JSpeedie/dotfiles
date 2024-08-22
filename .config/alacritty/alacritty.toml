@@ -1,50 +1,49 @@
-# Ayu Light Alacritty Colors
-# Default colors
+# Ayu (Light) (Converted from VSCode, customized by me)
 [colors.primary]
-background = "#FAFAFA"
-foreground = "#5C6773"
+foreground = "#5c6166"
+background = "#f8f9fa"
 
 [colors.cursor]
-cursor = '#ABB0B6'
-text = '#5C6773'
+cursor = '#c7c7c7'
+text = '#5c6166'
 
 # Normal colors
 [colors.normal]
 # color 0
-black= "#FAFAFA"
+black= "#f8f9fa"
 # color 1
-red = "#F07178"
+red = "#ea6c6d"
 # color 2
-green = "#86B300"
+green = "#68b841"
 # color 3
-yellow = "#FF6A00"
+yellow = "#eca944"
 # color 4
-blue = "#36A3D9"
+blue = "#3199e1"
 # color 5
-magenta = "#A37ACC"
+magenta = "#9e75c7"
 # color 6
-cyan = "#4CBF99"
+cyan = "#46ba94"
 # color 7
-white = "#FFFFFF"
+white = "#5c6166"
 
 # Bright colors
 [colors.bright]
 # color 8
-black = "#828C99"
+black = "#c7c7c7"
 # color 9
-red = "#FF3333"
+red = "#f07171"
 # color 10
-green = "#86B300"
+green = "#6cbf43"
 # color 11
-yellow = "#FF6A00"
+yellow = "#f2ae49"
 # color 12
-blue = "#36A3D9"
+blue = "#399ee6"
 # color 13
-magenta = "#A37ACC"
+magenta = "#a37acc"
 # color 14
-cyan = "#4CBF99"
+cyan = "#4cbf99"
 # color 15
-white = "#ABB0B6"
+white = "#313d46"
 
 [font]
 size = 15.0
