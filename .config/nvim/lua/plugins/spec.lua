@@ -59,11 +59,12 @@ return {
   -------------------------------------------------------------------------------------------
   { "airblade/vim-gitgutter" },
 
-  -- vim-airline (for an informative status bar)
-  ----------------------------------------------
-  { "vim-airline/vim-airline" },
-  -- For theming the status bar
-  { "vim-airline/vim-airline-themes" },
+  -- lualine (for a fast and informative status bar)
+  --------------------------------------------------
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
 
   -- nvim-cmp (+all its dependencies)
   -----------------------------------
