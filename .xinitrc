@@ -42,7 +42,7 @@ xset +fp ~/.fonts
 xset fp rehash &
 xset -dpms &
 xset s off &
-xset r rate 330 50 &
+xset r rate 250 50 &
 # Placeholder until I fix the script
 # xrandr --output DP-0 --mode 1920x1080 --rate 144.00 --left-of DP-2 --output DP-2 --mode 2560x1440 --rate 59.95 --primary 
 $(sh ~/scripts/getxrandr.sh)
@@ -53,9 +53,9 @@ feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 # The first 3 flags are to eliminate tearing, following flags are for shadows
 # and fade effects
 # compton --backend glx --paint-on-overlay --vsync opengl-swc -b -f --fade-delta 2 -O 0.05 --shadow-opacity 0.5 --config ~/compton.conf &
-# Picom replaces compton. Need experimental backend because graphics card is old, I believe
-picom --experimental-backends --config .config/picom/picom.conf &
-sh ~/scripts/start.sh &
+# Picom replaces compton
+picom --config .config/picom/picom.conf &
+# sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
 exec i3
