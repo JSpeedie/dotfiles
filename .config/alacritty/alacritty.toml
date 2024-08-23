@@ -1,49 +1,153 @@
-# Ayu (Light) (Converted from VSCode, customized by me)
+# Ayu (Light) (Converted from ayu.vim terminal colours, modified to use classic
+# terminal colours (red, gren, yellow, blue, magenta, cyan, instead of
+# including colours like orange) and to include darker variants for colours
+# 8-15.
 [colors.primary]
-foreground = "#5c6166"
-background = "#f8f9fa"
+foreground = "#5c6773"
+background = "#fafafa"
 
 [colors.cursor]
-cursor = '#c7c7c7'
-text = '#5c6166'
+cursor = '#d9d8d7'
+text = '#5c6773'
 
 # Normal colors
 [colors.normal]
 # color 0
-black= "#f8f9fa"
+black= "#fafafa"
 # color 1
-red = "#ea6c6d"
+red = "#f07178"
 # color 2
-green = "#68b841"
+green = "#86b300"
 # color 3
-yellow = "#eca944"
+yellow = "#e7c547"
 # color 4
-blue = "#3199e1"
+blue = "#36a3d9"
 # color 5
-magenta = "#9e75c7"
+magenta = "#a37acc"
 # color 6
-cyan = "#46ba94"
+cyan = "#4cbf99"
 # color 7
-white = "#5c6166"
+white = "#828c99"
 
 # Bright colors
 [colors.bright]
 # color 8
-black = "#c7c7c7"
+black = "#f3f3f3"
 # color 9
-red = "#f07171"
+red = "#e66c73"
 # color 10
-green = "#6cbf43"
+green = "#7ea900"
 # color 11
-yellow = "#f2ae49"
+yellow = "#ddbc44"
 # color 12
-blue = "#399ee6"
+blue = "#349dd1"
 # color 13
-magenta = "#a37acc"
+magenta = "#9b74c2"
 # color 14
-cyan = "#4cbf99"
+cyan = "#48b591"
 # color 15
-white = "#313d46"
+white = "#5c6773"
+
+
+
+
+# # Ayu (Light) (Converted from ayu.vim terminal colours, no modifications)
+# [colors.primary]
+# foreground = "#5C6773"
+# background = "#FAFAFA"
+# 
+# [colors.cursor]
+# # TODO:
+# # cursor = '#c7c7c7'
+# # text = '#5c6166'
+# 
+# # Normal colors
+# [colors.normal]
+# # color 0
+# black= "#FAFAFA"
+# # color 1
+# red = "#F07178"
+# # color 2
+# green = "#86B300"
+# # color 3
+# yellow = "#FF6A00"
+# # color 4
+# blue = "#36A3D9"
+# # color 5
+# magenta = "#A37ACC"
+# # color 6
+# cyan = "#4CBF99"
+# # color 7
+# white = "#FFFFFF"
+# 
+# # Bright colors
+# [colors.bright]
+# # color 8
+# black = "#828C99"
+# # color 9
+# red = "#FF3333"
+# # color 10
+# green = "#86B300"
+# # color 11
+# yellow = "#FF6A00"
+# # color 12
+# blue = "#36A3D9"
+# # color 13
+# magenta = "#A37ACC"
+# # color 14
+# cyan = "#4CBF99"
+# # color 15
+# white = "#ABB0B6"
+
+
+
+
+# # Ayu (Light) (Converted from VSCode, customized by me)
+# [colors.primary]
+# foreground = "#5c6166"
+# background = "#f8f9fa"
+# 
+# [colors.cursor]
+# cursor = '#c7c7c7'
+# text = '#5c6166'
+# 
+# # Normal colors
+# [colors.normal]
+# # color 0
+# black= "#f8f9fa"
+# # color 1
+# red = "#ea6c6d"
+# # color 2
+# green = "#68b841"
+# # color 3
+# yellow = "#eca944"
+# # color 4
+# blue = "#3199e1"
+# # color 5
+# magenta = "#9e75c7"
+# # color 6
+# cyan = "#46ba94"
+# # color 7
+# white = "#5c6166"
+# 
+# # Bright colors
+# [colors.bright]
+# # color 8
+# black = "#c7c7c7"
+# # color 9
+# red = "#f07171"
+# # color 10
+# green = "#6cbf43"
+# # color 11
+# yellow = "#f2ae49"
+# # color 12
+# blue = "#399ee6"
+# # color 13
+# magenta = "#a37acc"
+# # color 14
+# cyan = "#4cbf99"
+# # color 15
+# white = "#313d46"
 
 [font]
 size = 15.0

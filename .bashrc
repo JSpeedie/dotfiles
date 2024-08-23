@@ -57,7 +57,7 @@ export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 
 reset=$(tput sgr0)
 # 'c_d' = invokes the foreground and background colour of the directory
-c_d=$(tput setaf 7; tput setab 0; tput bold)
+c_d=$(tput setaf 15; tput setab 0; tput bold)
 success=$(tput setaf 0; tput setab 2)
 fail=$(tput setaf 0; tput setab 1)
 
