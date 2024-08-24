@@ -1,7 +1,11 @@
+-- Change the blue color of lualine's Ayu Light since it is erroneous
+local custom_ayu_light = require'lualine.themes.ayu_light'
+custom_ayu_light.normal.a.bg = '#36a3d9'
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
+    theme = custom_ayu_light, -- Use the commented out line below for automatic detection
+    -- theme = 'auto',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
