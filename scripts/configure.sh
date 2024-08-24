@@ -87,6 +87,54 @@ else
 fi
 # }}}
 
+# Add nvim-cmp highlighting to the Ayu colourscheme
+# {{{
+echo -n "Would you like to add nvim-cmp highlighting to the Ayu colourscheme? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to fix the neovim colourscheme
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	printf "
+	============================================================================
+	nvim-cmp
+	\" ---------
+	\" Matching Letters: blue text with no bg
+	exe \"hi! CmpItemAbbrMatch\"      .s:fg_tag .s:bg_none .s:fmt_none
+	exe \"hi! link CmpItemAbbrMatchFuzzy CmpItemAbbrMatch\"
+	\" Deprecated Recommendations: gray text with no bg, struckthrough
+	exe \"hi! CmpItemAbbrDeprecated  gui=strikethrough \" .s:fg_comment .s:bg_none
+	\" Default: white text with orange bg
+	exe \"hi! CmpItemKind\"           .s:fg_bg .s:bg_function .s:fmt_none
+	\" Module: white text with red bg
+	exe \"hi! CmpItemKindModule\"     .s:fg_bg .s:bg_markup .s:fmt_none
+	\" Interface: white text with purple bg
+	exe \"hi! CmpItemKindInterface\"  .s:fg_bg .s:bg_constant .s:fmt_none
+	\" Struct: white text with orange bg
+	exe \"hi! CmpItemKindStruct\"     .s:fg_bg .s:bg_function .s:fmt_none
+	\" Enum: white text with green bg
+	exe \"hi! CmpItemKindEnum\"       .s:fg_bg .s:bg_string .s:fmt_none
+	exe \"hi! link CmpItemKindEnumMember CmpItemKindEnum\"
+	\" Methods: white text with yellow bg
+	exe \"hi! CmpItemKindMethod\"     .s:fg_bg .s:bg_operator .s:fmt_none
+	\" Functions: white text with yellow bg
+	exe \"hi! CmpItemKindFunction\"   .s:fg_bg .s:bg_operator .s:fmt_none
+	\" Variable: white text with blue bg
+	exe \"hi! CmpItemKindVariable\"   .s:fg_bg .s:bg_tag .s:fmt_none
+	\" Keyword: white text with teal bg
+	exe \"hi! CmpItemKindKeyword\"    .s:fg_bg .s:bg_regexp .s:fmt_none
+	\" Constant: white text with teal bg
+	exe \"hi! CmpItemKindConstant\"   .s:fg_bg .s:bg_regexp .s:fmt_none
+	\" Text: white text with gray bg
+	exe \"hi! CmpItemKindText\"       .s:fg_bg .s:bg_guide .s:fmt_none
+	============================================================================
+
+	Copy the code in between the lines and paste it at the end of: 
+	.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+else
+	printf "Skipping MatchParen fix for Despacio.\n\n"
+fi
+# }}}
 
 # Apply the MatchParen fix to the Despacio colourscheme
 # {{{
