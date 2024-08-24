@@ -30,7 +30,7 @@ DEVPKGLIST=(tree gtop jq \
 	pandoc texlive-core texlive-pictures \
 	openssh \
 	xterm \
-	clang \
+	clang lua-language-server \
 	jre8-openjdk java-runtime-common java-environment-common \
 	virtualbox-guest-utils \
 	racket ghc ghc-static \
