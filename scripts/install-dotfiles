@@ -1,3 +1,10 @@
+#!/usr/bin/env bash
+#
+# Takes no arguments, copies over every git-tracked file in the git repo
+# the home directory, creating the necessary parent directories if needed.
+#
+# This is a very dangerous script so be careful with it.
+#
 ######################################################################
 #                              WARNING!                              #
 ######################################################################
@@ -84,6 +91,19 @@ copy_files () {
 	done
 }
 
+echo -n "Are you sure you would like to install your dotfiles to your home directory? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
 
-get_ignore_list
-copy_files
+# If the user is sure they want to copy over the dotfiles from the dotfiles git repo to their home folder
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	get_ignore_list
+	copy_files
+
+	printf "\n"
+	printf "Attempted to install the dotfiles.\n\n"
+else
+	printf "\n"
+	printf "User chose not to install the dotfiles. Exiting...\n"
+fi
+
