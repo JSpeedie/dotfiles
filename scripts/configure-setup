@@ -1,4 +1,10 @@
-# Configure all the things installed in previous steps.
+#!/usr/bin/env bash
+#
+# Takes no arguments, prompts the user to help them configure my customized
+# setup. This script assumes that it is running on a machine that has already
+# executed its sibling scripts install-packages-_____ and install-dotfiles which
+# set the stage for this script. This script configures everything installed by
+# the previous scripts.
 
 red=$'\e[1;31m'
 end=$'\e[0m'

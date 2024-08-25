@@ -1,4 +1,8 @@
-# Installing the packages for the system
+#!/usr/bin/env bash
+#
+# Takes no arguments. This is the primary script used for restoring my Linux
+# setup. One calls this script which prompts the user and runs the correct
+# helper scripts in order to restore my setup as simply as possible.
 
 red=$'\e[1;31m'
 green=$'\e[1;32m'
@@ -147,7 +151,7 @@ printf "\n"
 
 # If the user wants to copy over the dotfiles from the dotfiles git repo to their home folder
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	bash ${SCRIPT_DIR}/copy-dotfiles.sh
+	${SCRIPT_DIR}/ ~/scripts/packages-arch.sh
 	printf "\n"
 else
 	printf "\n"
