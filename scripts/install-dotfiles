@@ -106,4 +106,3 @@ else
 	printf "\n"
 	printf "User chose not to install the dotfiles. Exiting...\n"
 fi
-
