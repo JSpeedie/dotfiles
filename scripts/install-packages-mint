@@ -1,6 +1,12 @@
-# Installs everything needed for my setup including packages for base
-# functionality, my most commonly used apps, programs I use to build my setup,
-# programs I use for development, and so on.
+#!/usr/bin/env bash
+#
+# Takes no arguments, prompts the user about what packages they want installed
+# on their system, pulling from a series of lists specified in this file. The
+# main purpose of this script is to install everything needed for my setup
+# including packages for base functionality, my most commonly used apps,
+# programs I use to build my setup, programs I use for development, and so on.
+# This script has several versions, one for each distro I have used seriously.
+
 
 red=$'\e[1;31m'
 green=$'\e[1;32m'
@@ -29,7 +35,7 @@ DEVPKGLIST=(tree jq \
 	pandoc texlive-full \
 	openssh-client openssh-server \
 	xterm \
-	clang \
+	clang clangd \
 	virtualbox virtualbox-guest-utils \
 	autoconf automake \
 	python3 python3-pip \
