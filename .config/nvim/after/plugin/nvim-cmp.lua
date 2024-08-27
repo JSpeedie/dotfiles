@@ -182,6 +182,38 @@ lspconfig.vimls.setup {
 -- For this to work, you have to install 'rust-analyzer' and 'rust-src' using
 -- 'rustup component add rust-analyzer' and
 -- 'rustup component add rust-src'
+-- On Linux Mint, the rust LSP wasn't working.
+-- 1. I first tested the rust-analyzer to see if it was reporting any errors
+--    using the following command:
+--
+--    cd [some-rust-project]
+--    rust-analyzer analysis-stats -v .
+--
+--    The rust-analyzer was reporting quite a few errors related to perf
+--    counters. On investigation it seemed that perf was not properly setup
+--    on my machine.
+-- 2. To make sure perf was setup and working correctly, I ran the following
+--    command looking for any errors (warnings are okay):
+--
+--    perf record /bin/ls
+--
+-- 3. Installing perf (fully) is (possibly) a multistep process on ubuntu so
+--    I installed the following packages:
+--
+--    sudo apt-get install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+--
+-- 4. You may need to adjust perfs monitoring and obervation permissions. If
+--    these permissions are really causing you issues, running the test perf
+--    command listed in step 2 will warn you about it. You can adjust the
+--    permissions using the following command:
+--
+--    sudo sysctl kernel.perf_event_paranoid=-1
+--
+-- 5. Then to confirm everything works as expected, test-run rust-analyzer
+--    again to make sure it's not erroring out:
+--
+--    rust-analyzer analysis-stats -v .
+--
 lspconfig.rust_analyzer.setup {
   capabilities = capabilities,
 }

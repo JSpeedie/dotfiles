@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+#
+# Takes no arguments, prompts the user to help them configure my customized
+# setup. This script assumes that it is running on a machine that has already
+# executed its sibling scripts install-packages-_____ and install-dotfiles which
+# set the stage for this script. This script configures everything installed by
+# the previous scripts.
+
+red=$'\e[1;31m'
+end=$'\e[0m'
+
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                  3. Configure Setup                  ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+echo
+
+# Use vim-plug to install the plugins specified in your neovim config
+# {{{
+echo -n "Would you like to setup neovim? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to do their first neovim launch where neovim downloads
+# all the plugins and sets itself up
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will start up and the plugin manager should automatically start installing the correct plugins. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim; then
+			printf "\n"
+			printf "Attempted to setup neovim.\n\n"
+		else
+			printf "\n"
+			printf "WARNING: Possibly experienced an error attempting to neovim.\n\n"
+		fi
+	else
+		printf "Skipping neovim setup.\n\n"
+	fi
+else
+	printf "Skipping neovim setup.\n\n"
+fi
+# }}}
+
+
+# Add nvim-cmp highlighting to the Ayu colourscheme
+# {{{
+echo -n "Would you like to add nvim-cmp highlighting to the Ayu colourscheme? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to fix the neovim colourscheme
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	printf "
+	============================================================================
+	\" nvim-cmp
+	\" ---------
+	\" Matching Letters: blue text with no bg
+	exe \"hi! CmpItemAbbrMatch\"      .s:fg_tag .s:bg_none .s:fmt_none
+	exe \"hi! link CmpItemAbbrMatchFuzzy CmpItemAbbrMatch\"
+	\" Deprecated Recommendations: gray text with no bg, struckthrough
+	exe \"hi! CmpItemAbbrDeprecated  gui=strikethrough \" .s:fg_comment .s:bg_none
+	\" Default: white text with orange bg
+	exe \"hi! CmpItemKind\"           .s:fg_bg .s:bg_function .s:fmt_none
+	\" Module: white text with red bg
+	exe \"hi! CmpItemKindModule\"     .s:fg_bg .s:bg_markup .s:fmt_none
+	\" Interface: white text with purple bg
+	exe \"hi! CmpItemKindInterface\"  .s:fg_bg .s:bg_constant .s:fmt_none
+	\" Struct: white text with orange bg
+	exe \"hi! CmpItemKindStruct\"     .s:fg_bg .s:bg_function .s:fmt_none
+	\" Enum: white text with green bg
+	exe \"hi! CmpItemKindEnum\"       .s:fg_bg .s:bg_string .s:fmt_none
+	exe \"hi! link CmpItemKindEnumMember CmpItemKindEnum\"
+	\" Methods: white text with yellow bg
+	exe \"hi! CmpItemKindMethod\"     .s:fg_bg .s:bg_operator .s:fmt_none
+	\" Functions: white text with yellow bg
+	exe \"hi! CmpItemKindFunction\"   .s:fg_bg .s:bg_operator .s:fmt_none
+	\" Variable: white text with blue bg
+	exe \"hi! CmpItemKindVariable\"   .s:fg_bg .s:bg_tag .s:fmt_none
+	\" Keyword: white text with teal bg
+	exe \"hi! CmpItemKindKeyword\"    .s:fg_bg .s:bg_regexp .s:fmt_none
+	\" Constant: white text with teal bg
+	exe \"hi! CmpItemKindConstant\"   .s:fg_bg .s:bg_regexp .s:fmt_none
+	\" Text: white text with gray bg
+	exe \"hi! CmpItemKindText\"       .s:fg_bg .s:bg_guide .s:fmt_none
+	============================================================================
+
+	Copy the code in between the lines and paste it after the GitGutter section
+	near the end of: 
+
+	.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+else
+	printf "Skipping Ayu nvim-cmp highlighting fix.\n\n"
+fi
+# }}}
+
+# # Apply the MatchParen fix to the Despacio colourscheme
+# # {{{
+# echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y): "
+# read -a ANSWER
+# printf "\n"
+
+# # If the user wants to fix the neovim colourscheme
+# if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+# 	if sed -i '/^.*MatchParen.*$/c\highlight MatchParen guifg=NONE guibg=#87afaf gui=reverse ctermfg=NONE ctermbg=109 cterm=reverse' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+# 		if sed -i '/^.*PmenuSel.*$/c\highlight PmenuSel guifg=#eeeeee guibg=NONE gui=NONE ctermfg=255 ctermbg=NONE cterm=NONE' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+# 			printf "\n"
+# 			printf "Attempted to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 		else
+# 			printf "\n"
+# 			printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 		fi
+# 	else
+# 		printf "\n"
+# 		printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 	fi
+# else
+# 	printf "Skipping MatchParen fix for Despacio.\n\n"
+# fi
+# # }}}

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# This is a helper script for my 'updatedir' script. This script is meant to
+# be run in the second directory given to the 'updatedir' script and returns
+# a list of relative file paths to files in the second directory.
+#
+# The command below returns the list of all git-tracked files in the directory
+# minus relative file paths that begin with "otf-hermit", or "font-awesome", or
+# are "README.md", or "LICENSE"
+git ls-tree -r master --name-only | grep -v "\(^otf-hermit\)\|\(^font-awesome\)\|\(^README.md$\)\|\(^LICENSE$\)"

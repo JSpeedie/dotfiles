@@ -26,7 +26,7 @@ fi
 alias organizerawsandjpgs='bash ~/organizerawsandjpgs.sh'
 alias ls='ls --color=auto'
 alias lock='sh ~/scripts/lock.sh'
-alias updatedot='sh ~/scripts/updatedir.sh ~/ ~/dotfilesGit/ ~/scripts/updatedirgit.sh'
+alias updatedot='~/scripts/updatedir ~/ ~/dotfiles/ ~/scripts/updatedir-dotfiles-filelist'
 # Record Desktop (full screen)
 alias rd='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :1.0+0,0 output.mp4'
 alias rdl='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 -c:v libx264 -qp 0 -preset ultrafast output.mkv'
@@ -131,7 +131,6 @@ pdfaddcoverpage () {
 
 	# preprend the cover page to the pdf
 	pdftk cover.pdf Kant_\ Political\ Writings.pdf cat output combined.pdf
-
 }
 
 # Update meta (page numbering + bookmarks)

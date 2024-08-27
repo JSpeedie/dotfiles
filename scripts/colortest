@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+#
 # A script for printing the terminal colours from 0-7 on row 1, then 8-15 on
 # row 2. Can take 0 to 2 arguments. If given 1 argument, the height of the
 # blocks of colour that make up the output is set to that number. If 2
