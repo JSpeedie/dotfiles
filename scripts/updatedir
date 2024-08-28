@@ -79,6 +79,22 @@ else
 fi
 
 
+# Expects 2 arguments, both strings representing file paths to files
+# we wish to diff
+diff_files() {
+	FIRST_FILE=$1
+	SECOND_FILE=$2
+	# If the system has neovim, use it to diff the 2 files
+	if type nvim > /dev/null 2>&1; then
+		nvim -d $FIRST_FILE $SECOND_FILE
+	# If the system does not have neovim, assume it has 'vim' and by extension,
+	# 'vimdiff'
+	else
+		vimdiff $FIRST_FILE $SECOND_FILE
+	fi
+}
+
+
 # Used for when a user inputs "c" to compare two files. This would usually
 # Output the usual file comparison output (files differ, [Y/n/c/r], etc)
 # the purpose of this function is to remove the first comparison output.
@@ -123,7 +139,7 @@ function compareFileInTwoDirectories {
 		elif [[ $ANS == "n" ]]; then
 			echo "Continuing to next file..."
 		elif [[ $ANS == "c" ]]; then
-			vimdiff ${FIRST_DIR}/${file} ${SECOND_DIR}/${file}
+			diff_files ${FIRST_DIR}/${file} ${SECOND_DIR}/${file}
 			# Remove previous output to avoid confusion upon re-reading it
 			# 1 for "==>" files do/don't differ line
 			# 1 for Y=Yes line
