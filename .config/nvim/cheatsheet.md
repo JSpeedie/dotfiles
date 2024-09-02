@@ -13,6 +13,26 @@
 
 * `gv` : Reselect the most recent selection.
 
+* `gn` : A motion for the next `/`/`?` match. You can search for something using
+`/` then using `cgn` to change the match (which itself is useful since it can be
+more precise than using `ciw`) and after making the change, you can use `.` to
+repeat the change instead of using `n.`.
+
+* `<C-a>`: When used on a selection, increments all numbers (that are first on
+  their line) in the selection by 1.
+* `<C-x>`: When used on a selection, decrements all numbers (that are first on
+  their line) in the selection by 1.
+* `g<C-a>`: When used on a selection, increments each number in the selection
+  (that is first on its line) by its index in the list of numbers + 1. For
+  example, if you have a selection with three zeros each on a newline:
+  "0\n0\n0", selecting them with `V` and then using `g<C-a>` will give you "1\n2
+  \n3".
+* `g<C-x>`: When used on a selection, decrements each number in the selection
+  (that is first on its line) by its index in the list of numbers + 1. For
+  example, if you have a selection with three numbers each on a newline:
+  "1\n2\n3", selecting them with `V` and then using `g<C-a>` will give you "0\n0
+  \n0".
+
 * `zz` : Move the view so the line the cursor is on is verticalled centered.
 * `zt` : Move the view so the line the cursor is at the top of the screen.
 * `zb` : Move the view so the line the cursor is at the bottom of the screen.
