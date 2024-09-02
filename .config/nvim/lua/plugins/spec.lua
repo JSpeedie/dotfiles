@@ -2,16 +2,16 @@ return {
   -- My colourscheme of choice
   {
     "ayu-theme/ayu-vim",
-	name = "ayu",
+  name = "ayu",
     lazy = false, -- Load this on startup
     priority = 1000, -- High priority, load before all other plugins
     -- config = function()
     --   -- Set the colourscheme
     --   vim.cmd([[
-	    -- set background="dark"
-		-- let ayucolor="light"
-	    -- colorscheme ayu
-	  -- ]])
+    --     set background="dark"
+    --     let ayucolor="light"
+    --     colorscheme ayu
+    --   ]])
     -- end,
   },
 
@@ -28,7 +28,7 @@ return {
   ----------------------------------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
-	build = ":TSUpdate",
+    build = ":TSUpdate",
     -- build = function()
     --   local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
     --   ts_update()
