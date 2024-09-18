@@ -155,7 +155,8 @@ cmp.setup.cmdline(':', {
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- Enable some language servers with the additional completion capabilities
+-- offered by nvim-cmp
 -- vimls: requires installation with 'npm install -g vim-language-server'
 local servers = { 'pyright' }
 for _, lsp in ipairs(servers) do
@@ -165,11 +166,23 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- For this to work, you have to install clang. On Arch, you would do that using
--- 'sudo pacman -S clang'
--- On Linux Mint, you would do that using
--- 'sudo apt install clang clangd'
+-- For this to work, you have to install clang. On Arch, you would do that
+-- using 'sudo pacman -S clang'. On Linux Mint, you would do that using 'sudo
+-- apt install clang clangd'
+--
+-- By default, when neovim attaches an LSP it overwrites 'formatexpr' and
+-- when it comes to clang, this results in broken functionality. For example,
+-- if you use 'V' to select multiple lines and then run 'gq' - for whatever
+-- reason - 'gq' will format lines that were not a part of the selection. It
+-- also indented too much and with spaces when I've set it to use tabs.
+-- The solution is to write a custom 'on_attach' function which sets
+-- 'formatexpr' to its default of "".
+local on_attach_use_internal_formatexpr = function(client, bufnr)
+  -- Disable lsp formatexpr (use the internal one)
+  vim.opt.formatexpr = ""
+end
 lspconfig.clangd.setup {
+  on_attach = on_attach_use_internal_formatexpr,
   capabilities = capabilities,
 }
 
