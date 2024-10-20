@@ -35,7 +35,7 @@ DEVPKGLIST=(tree jq \
 	pandoc texlive-full \
 	openssh-client openssh-server \
 	xterm \
-	clang clangd \
+	clang clangd libcriterion-dev \
 	virtualbox virtualbox-guest-utils \
 	autoconf automake \
 	python3 python3-pip \
