@@ -19,7 +19,9 @@ BASEPKGLIST=(alsa-utils lm_sensors rxvt-unicode xorg xorg-xinit \
 	xorg-xrandr libnotify pulseaudio pamixer sxhkd \
 	rsync cronie dialog wpa_supplicant arc-gtk-theme arc-icon-theme \
 	xf86-video-intel flashplugin ntp pavucontrol)
-APPPKGLIST=(firefox nautilus evince gimp libreoffice-fresh obs-studio eog vlc \
+APPPKGLIST=(firefox nautilus evince gimp \
+	libreoffice-fresh hunspell hyphen-en languagetool \
+	obs-studio eog vlc \
 	mpv audacity ranger)
 EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
 	network-manager network-manager-applet stalonetray xorg-xfd xorg-xfontsel \
