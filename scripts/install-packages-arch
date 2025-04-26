@@ -33,7 +33,7 @@ DEVPKGLIST=(tree gtop jq \
 	make cmake fakeroot pkgconfig \
 	yay \
 	git svn \
-	valgrind gdb perf \
+	valgrind gdb perf kcachegrind \
 	pandoc texlive-core texlive-pictures \
 	openssh \
 	xterm \
