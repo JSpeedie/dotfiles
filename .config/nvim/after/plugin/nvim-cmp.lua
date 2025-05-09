@@ -141,16 +141,49 @@ cmp.setup.cmdline({ '/', '?' }, {
   }
 })
 
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  }),
-  matching = { disallow_symbol_nonprefix_matching = false }
-})
+-- I think I prefer vim's standard ':' cmdline file matching stuff so I've disabled
+-- this for now.
+-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--   -- mapping = cmp.mapping.preset.cmdline(),
+-- -- OR:
+--   mapping = cmp.mapping.preset.cmdline({
+--     -- This makes tab autocomplete if there's only 1 option. Unfortunately,
+--     -- I haven't figured out how to disable the fuzzy matching for the cmdline
+--     -- nor how to match the search case sensitive.
+--     ['<Tab>'] = {
+--       c = function(_)
+--         if cmp.visible() then
+--           if #cmp.get_entries() == 1 then
+--             cmp.confirm({ select = true })
+--           else
+--             cmp.select_next_item()
+--           end
+--         else
+--           cmp.complete()
+--           if #cmp.get_entries() == 1 then
+--             cmp.confirm({ select = true })
+--           end
+--         end
+--       end,
+--     }
+--   }),
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   -- }, {
+--   --   { name = 'cmdline' }
+--   }),
+--   -- I really don't want fuzzy matching so I tried disabling this stuff but
+--   -- that didn't seem to work.
+--   matching = {
+--     -- disallow_fullfuzzy_matching = true,
+--     -- disallow_fuzzy_matching = true,
+--     -- disallow_partial_fuzzy_matching = true,
+--     -- disallow_partial_matching = true,
+--     -- disallow_prefix_unmatching = false,
+--     -- disallow_symbol_nonprefix_matching = true,
+--   }
+-- })
 
 
 -- Set up lspconfig.
