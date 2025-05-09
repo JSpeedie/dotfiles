@@ -49,7 +49,8 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     -- ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<C-CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false`
+                                                         -- to only confirm explicitly selected items.
     ['<C-e>'] = cmp.mapping.abort(),
   }),
   sources = cmp.config.sources({
@@ -157,7 +158,10 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
 -- Enable some language servers with the additional completion capabilities
 -- offered by nvim-cmp
--- vimls: requires installation with 'npm install -g vim-language-server'
+-- vimls: requires installation with 'sudo npm install -g vim-language-server'
+-- pyright: This is a node package and so you need to install it with `npm`. On
+-- Linux Mint I first installed `vim-language-server` and then ran `sudo npm
+-- install -g pyright` and that got `pyright` working for me.
 local servers = { 'pyright' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -170,12 +174,12 @@ end
 -- using 'sudo pacman -S clang'. On Linux Mint, you would do that using 'sudo
 -- apt install clang clangd'
 --
--- By default, when neovim attaches an LSP it overwrites 'formatexpr' and
--- when it comes to clang, this results in broken functionality. For example,
--- if you use 'V' to select multiple lines and then run 'gq' - for whatever
--- reason - 'gq' will format lines that were not a part of the selection. It
--- also indented too much and with spaces when I've set it to use tabs.
--- The solution is to write a custom 'on_attach' function which sets
+-- By default, when neovim attaches an LSP it overwrites 'formatexpr' and when
+-- it comes to clang, this results in broken functionality. For example, if you
+-- use 'V' to select multiple lines and then run 'gq', 'gq' will format lines
+-- that were not a part of the selection, for some unknown reason. It also
+-- indented too far and did so with spaces even though I've told vim to use
+-- tabs. The solution is to write a custom 'on_attach' function which sets
 -- 'formatexpr' to its default of "".
 local on_attach_use_internal_formatexpr = function(client, bufnr)
   -- Disable lsp formatexpr (use the internal one)
@@ -187,7 +191,7 @@ lspconfig.clangd.setup {
 }
 
 -- For this to work, you have to install 'vim-language-server' using
--- 'npm install -g vim-language-server'
+-- 'sudo npm install -g vim-language-server'
 lspconfig.vimls.setup {
   capabilities = capabilities,
 }
