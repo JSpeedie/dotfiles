@@ -48,7 +48,7 @@ DEVPKGLIST=(tree gtop jq \
 FONTPKGLIST=(ttf-dejavu ttf-droid adobe-source-code-pro-fonts ttf-roboto \
 	noto-fonts)
 FSPKGLIST=(dosfstools mtools ntfs-3g \
-	mtp mtpfs gvfs-mtp \
+	mtp mtpfs gvfs-mtp android-tools \
 	unzip zip unrar)
 YPKGLIST=(compton lemonbar-xft-git tamzen-font-git siji-git ttf-meslo \
 	flat-remix-gtk ttf-ms-fonts ttf-vista-fonts)
