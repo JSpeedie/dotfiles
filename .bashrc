@@ -9,6 +9,12 @@ export ANDROID_HOME=/opt/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
 export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
 
+# Make sure multiple bash terminals each write their history to one giant file
+shopt -s histappend
+# Increase the size of the remembered bash history
+export HISTSIZE=20000
+export HISTFILESIZE=40000
+
 # env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
 # sudo usermod -a -G vboxusers,vboxsf,wheel [username_here]
 
@@ -245,6 +251,10 @@ ffmpeg-remove-audio () {
 	ffmpeg -i in.mp4 -c copy -an out.mp4
 }
 
+# Makes it so the history of our current bash session is appended to the bash
+# history file every time bash displays a prompt (i.e. our history is appended
+# every time we run a command)
+export PROMPT_COMMAND='history -a'
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
