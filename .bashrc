@@ -254,7 +254,7 @@ ffmpeg-remove-audio () {
 # Makes it so the history of our current bash session is appended to the bash
 # history file every time bash displays a prompt (i.e. our history is appended
 # every time we run a command)
-export PROMPT_COMMAND='history -a'
+export PROMPT_COMMAND='history -a; history -r'
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
