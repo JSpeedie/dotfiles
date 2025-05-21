@@ -40,7 +40,8 @@ DEVPKGLIST=(tree jq \
 	autoconf automake \
 	python3 python3-pip \
 	nodejs npm \
-	ghex)
+	ghex \
+	ffmpeg)
 # racket ghc ghc-static \
 #jre8-openjdk java-runtime-common java-environment-common \
 FONTPKGLIST=(fonts-roboto fonts-noto)
