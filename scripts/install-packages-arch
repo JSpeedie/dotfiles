@@ -28,6 +28,7 @@ EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
 	gnome-control-center lxappearance gst-libav pitivi veracrypt avidemux-qt \
 	cmatrix asp figlet lolcat bless sl asciiquarium)
 # jq bison
+# 'sysstat' for 'iostat' and the like
 DEVPKGLIST=(tree gtop jq \
 	vim neovim ctags \
 	make cmake fakeroot pkgconfig \
