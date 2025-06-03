@@ -27,11 +27,12 @@ EXTRAPKGLIST=(rofi feh dunst compton scrot screenfetch numlockx \
 	network-manager stalonetray gnome-control-center lxappearance \
 	cmatrix figlet lolcat sl)
 # 'linux-tools-common' for 'perf'
+# 'sysstat' for 'iostat' and the like
 DEVPKGLIST=(tree jq \
 	vim neovim universal-ctags \
 	make cmake fakeroot \
 	git subversion \
-	valgrind gdb linux-tools-common \
+	valgrind gdb linux-tools-common sysstat \
 	pandoc texlive-full \
 	openssh-client openssh-server \
 	xterm \
