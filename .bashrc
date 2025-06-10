@@ -9,11 +9,59 @@ export ANDROID_HOME=/opt/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
 export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
 
-# Make sure multiple bash terminals each write their history to one giant file
+##############################
+#            Bash            #
+##############################
+# {{{
+# One important detail of this configuration is that I achieve certain
+# functionality related to the command history in Bash. The goal here is to get
+# it so that when I use the up-arrow in a Bash terminal, I cycle through the
+# command history *only of that terminal*, but when I run `history`, I see the
+# history of all terminals, live, without having to wait for the Bash session
+# to exit before I see their history (which is the default time when Bash
+# history is written). To accomplish this, several things are required.
+#
+# BH1. We need to make it so Bash history appends rather than overwrites
+# BH2. We need to make it so that each time we run a command, our Bash history
+#     is appended to the "global" history.
+# BH1. We need to make it so Bash history appends rather than overwrites
+
+# BH1: Make it so that each bash instance appends to (rather than overwrites)
+# the bash history file
 shopt -s histappend
+
 # Increase the size of the remembered bash history
 export HISTSIZE=20000
 export HISTFILESIZE=40000
+
+# BH2: Makes it so the history of our current bash session is appended to the
+# bash history file every time bash displays a prompt (i.e. our history is
+# appended every time we run a command)
+export PROMPT_COMMAND='history -a'
+
+# BH3: Create a function that overrides the `history` command, allowing us to
+# get the "global" history without modifying or impacting the "local" history.
+history() {
+	# Generate a temp file
+	temp_file=$(mktemp)
+
+	# Save session-local history to a temp file
+	builtin history -w "${temp_file}"
+
+	# Append the current terminal's history to the history file
+	builtin history -a
+	# Read other terminals' history additions into memory
+	builtin history -r
+
+	# Run the original history command with any args provided
+	builtin history "$@"
+
+	# Clear local history
+	builtin history -c
+	# Restore session-local history
+	builtin history -r "${temp_file}"
+}
+# }}}
 
 # env XDG_CURRENT_DESKTOP=GNOME gnome-control-center
 # sudo usermod -a -G vboxusers,vboxsf,wheel [username_here]
@@ -251,10 +299,6 @@ ffmpeg-remove-audio () {
 	ffmpeg -i in.mp4 -c copy -an out.mp4
 }
 
-# Makes it so the history of our current bash session is appended to the bash
-# history file every time bash displays a prompt (i.e. our history is appended
-# every time we run a command)
-export PROMPT_COMMAND='history -a; history -r'
 PS1=$(prompt)
 PS2='> '
 export PS1 PS2
