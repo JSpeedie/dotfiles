@@ -155,6 +155,9 @@ size = 15.0
 [font.normal]
 family = "RobotoMono"
 
+[scrolling]
+history = 80000
+
 # Keybinding for Ctrl+Shift+Enter for spawning a new terminal in the
 # same directory.
 [keyboard]
