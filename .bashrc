@@ -44,6 +44,10 @@ export PROMPT_COMMAND='history -a'
 history() {
 	# Generate a temp file
 	temp_file=$(mktemp)
+	if [[ $? -ne 0 ]]; then
+		echo "ERROR: \`mktemp\` failed. Aborting \`history\` command." >&2
+		return 1
+	fi
 
 	# Save session-local history to a temp file
 	builtin history -w "${temp_file}"
@@ -60,6 +64,9 @@ history() {
 	builtin history -c
 	# Restore session-local history
 	builtin history -r "${temp_file}"
+
+	# Delete the temp file when we're done with it
+	rm -f "${temp_file}"
 }
 # }}}
 
