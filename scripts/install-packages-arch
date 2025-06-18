@@ -25,7 +25,8 @@ APPPKGLIST=(firefox nautilus evince gimp \
 	mpv audacity ranger)
 EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
 	network-manager network-manager-applet stalonetray xorg-xfd xorg-xfontsel \
-	gnome-control-center lxappearance gst-libav pitivi veracrypt avidemux-qt \
+	gnome-control-center polkit-gnome lxappearance gst-libav pitivi veracrypt \
+	avidemux-qt \
 	cmatrix asp figlet lolcat bless sl asciiquarium)
 # jq bison
 # 'sysstat' for 'iostat' and the like
