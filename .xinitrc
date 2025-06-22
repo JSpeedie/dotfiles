@@ -1,4 +1,5 @@
 #!/bin/sh
+
 #########################
 # Default xinitrc stuff #
 #########################
@@ -57,7 +58,7 @@ feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 picom --config .config/picom/picom.conf &
 # Start our authentication agent (so we get GUI password prompts when we
 # attempt to perform an operation that requires root access in a GUI application)
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 # sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
