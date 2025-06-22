@@ -14,8 +14,12 @@ end=$'\e[0m'
 bold=$(tput bold)
 normal=$(tput sgr0) 
 
-distros=("Arch" "Linux Mint")
-distro_scripts=("install-packages-arch" "install-packages-mint")
+distros=("Arch" \
+	"Debian" \
+	"Linux Mint")
+distro_scripts=("install-packages-arch" \
+	"install-packages-debian" \
+	"install-packages-mint")
 
 # Stores the full, absolute path to the directory this script is in. This is
 # used to call "sibling" scripts this script expects to be in the same
@@ -188,3 +192,7 @@ else
 	printf "Skipping over configuring the setup.\n\n"
 fi
 # }}}
+
+echo
+echo "Setup restoration complete!"
+echo

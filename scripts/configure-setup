@@ -89,7 +89,7 @@ if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 	Copy the code in between the lines and paste it after the GitGutter section
 	near the end of: 
 
-	.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
 else
 	printf "Skipping Ayu nvim-cmp highlighting fix.\n\n"
 fi
@@ -119,3 +119,7 @@ fi
 # 	printf "Skipping MatchParen fix for Despacio.\n\n"
 # fi
 # # }}}
+
+echo
+echo "Configuration complete!"
+echo
