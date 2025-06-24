@@ -23,8 +23,8 @@ BASEPKGLIST=(alacritty xorg libnotify4 pulseaudio pamixer sxhkd rsync \
 APPPKGLIST=(firefox-esr nautilus evince gimp libreoffice obs-studio eog vlc \
 	mpv audacity ranger pitivi)
 # I think I'm done with lemonbar. Time to investigate maybe polybar or waybar
-EXTRAPKGLIST=(rofi feh dunst compton scrot screenfetch numlockx \
-	network-manager gnome-control-center lxappearance \
+EXTRAPKGLIST=(wget rofi arandr feh dunst compton scrot screenfetch numlockx \
+	network-manager lemonbar gnome-control-center lxappearance \
 	cmatrix figlet lolcat sl)
 # 'linux-perf' for 'perf'
 # 'sysstat' for 'iostat' and the like
