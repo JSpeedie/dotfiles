@@ -44,9 +44,9 @@ xset fp rehash &
 xset -dpms &
 xset s off &
 xset r rate 250 50 &
-# Placeholder until I fix the script
-# xrandr --output DP-0 --mode 1920x1080 --rate 144.00 --left-of DP-2 --output DP-2 --mode 2560x1440 --rate 59.95 --primary 
-$(sh ~/scripts/getxrandr.sh)
+# $(~/scripts/getxrandr)
+# Alternative to my `xrandr` script: just use my `arandr` config
+./.screenlayout/desktop.sh
 xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constant Deceleration' 1.5 &
 sh ~/scripts/bar.sh &
 dunst -config ~/dunstrc &
@@ -57,8 +57,16 @@ feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 # Picom replaces compton
 picom --config .config/picom/picom.conf &
 # Start our authentication agent (so we get GUI password prompts when we
-# attempt to perform an operation that requires root access in a GUI application)
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# attempt to perform an operation that requires root access in a GUI
+# application)
+# For Manjaro and Arch(?)
+if [ -e /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
+	/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+fi
+# For Debian
+if [ -e /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 ]; then
+	/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
+fi
 # sh ~/scripts/start.sh &
 [ ! -s ~/.config/mpd/pid ] && mpd ~/.config/mpd/mpd.conf
 numlockx &
