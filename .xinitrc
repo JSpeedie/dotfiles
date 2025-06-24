@@ -3,6 +3,23 @@
 #########################
 # Default xinitrc stuff #
 #########################
+
+# Set up a clean environment for X11 session. Right now I use i3, so I set
+# the exports accordingly
+export XDG_SESSION_TYPE=x11
+export XDG_CURRENT_DESKTOP=i3
+export XDG_SESSION_DESKTOP=i3
+export XDG_SESSION_CLASS=user
+export DESKTOP_SESSION=i3
+export QT_QPA_PLATFORM=xcb  # helps with Qt apps in X11
+export GDK_BACKEND=x11      # helps with GTK apps in X11
+
+# Ensure dbus is running. I found this to be necessary to make nautilus load in
+# a reasonable amount of time on a display-manager-less Debian setup.
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+    eval "$(dbus-launch --sh-syntax)"
+fi
+
 userresources=$HOME/.Xresources-ayu
 usermodmap=$HOME/.Xmodmap
 sysresources=/etc/X11/xinit/.Xresources
@@ -74,11 +91,11 @@ picom --config .config/picom/picom.conf &
 # attempt to perform an operation that requires root access in a GUI
 # application)
 # For Manjaro and Arch(?)
-if [ -e /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
+if [ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]; then
 	/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 fi
 # For Debian
-if [ -e /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 ]; then
+if [ -x /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 ]; then
 	/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 fi
 # sh ~/scripts/start.sh &
