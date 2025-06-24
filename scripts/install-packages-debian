@@ -19,7 +19,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 BASEPKGLIST=(alacritty xorg libnotify4 pulseaudio pamixer sxhkd rsync \
-	cron dialog pavucontrol)
+	cron dialog pavucontrol picom)
 APPPKGLIST=(firefox-esr nautilus evince gimp libreoffice obs-studio eog vlc \
 	mpv audacity ranger pitivi)
 # I think I'm done with lemonbar. Time to investigate maybe polybar or waybar
