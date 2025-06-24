@@ -44,11 +44,25 @@ xset fp rehash &
 xset -dpms &
 xset s off &
 xset r rate 250 50 &
+
+#########################
+# Monitor configuration #
+#########################
+# 1. My script for configuring my monitors. Downside: difficult to change if I add
+# another monitor or just change my monitor setup in general
 # $(~/scripts/getxrandr)
-# Alternative to my `xrandr` script: just use my `arandr` config
-./.screenlayout/desktop.sh
+
+# 2. Alternative to my `xrandr` script. Downside: there's no way to set refresh
+# rate with `arandr` it seems.
+# ./.screenlayout/desktop.sh
+
+# 3. Settled on solution: run `sudo nvidia-settings`, go to "X Server Display
+# Configuration", configure your monitors there, and "Save to X Configuration
+# File"
+# sudo nvidia-settings
+
 xinput --set-prop 'Kingsis Peripherals ZOWIE Gaming mouse' 'Device Accel Constant Deceleration' 1.5 &
-sh ~/scripts/bar.sh &
+~/scripts/bar &
 dunst -config ~/dunstrc &
 feh --bg-scale ~/Pictures/Wallpapers/plants.jpg &
 # The first 3 flags are to eliminate tearing, following flags are for shadows
