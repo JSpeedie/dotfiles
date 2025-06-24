@@ -1,0 +1,69 @@
+# Ayu (Light) (Converted from ayu.vim terminal colours, modified to use classic
+# terminal colours (red, gren, yellow, blue, magenta, cyan, instead of
+# including colours like orange) and to include darker variants for colours
+# 8-15.
+
+colors:
+  primary:
+    foreground: '0x5c6773'
+    background: '0xfafafa'
+  cursor:
+    cursor: '0xd9d8d7'
+    text: '0x5c6773'
+
+  # Normal colors
+  normal:
+    # color 0
+    black: '0xfafafa'
+    # color 1
+    red: '0xf07178'
+    # color 2
+    green: '0x86b300'
+    # color 3
+    yellow: '0xe7c547'
+    # color 4
+    blue: '0x36a3d9'
+    # color 5
+    magenta: '0xa37acc'
+    # color 6
+    cyan: '0x4cbf99'
+    # color 7
+    white: '0x828c99'
+
+  # Bright colors
+  bright:
+    # color 8
+    black: '0xd9d8d7'
+    # color 9
+    red: '0xe66c73'
+    # color 10
+    green: '0x7ea900'
+    # color 11
+    yellow: '0xddbc44'
+    # color 12
+    blue: '0x349dd1'
+    # color 13
+    magenta: '0x9b74c2'
+    # color 14
+    cyan: '0x48b591'
+    # color 15
+    white: '0x5c6773'
+
+
+font:
+  size: 15.0
+
+  normal:
+    family: RobotoMono
+
+scrolling:
+  history: 80000
+
+# Keybinding for Ctrl+Shift+Enter for spawning a new terminal in the
+# same directory.
+  key_bindings:
+  - { key = Return, mods = Control|Shift, action = SpawnNewInstance }
+
+env:
+  # Pretend to be xterm for color schemes.
+  TERM: xterm-256color
