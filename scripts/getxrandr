@@ -1,3 +1,19 @@
+#!/usr/bin/env bash
+
+# Takes no arguments and outputs an `xrandr` command for configuring my
+# monitors such that the highest resolution monitor is to the right of the
+# lower resolution monitor. Currently, I've only tested this script when I have
+# exactly 2 monitors plugged in. In the future (time of writing: 2025-06-24)
+# I'd like to switch to some other method for configuring my monitors. Perhaps
+# some standalone GUI tool where I can drag and drop them once after installing
+# a new OS or getting a new monitor or something and then forget about it.
+#
+# EXAMPLES:
+#
+#   ./getxrandr
+#   xrandr --output DP-0 --mode 1920x1080 --rate 144.00 --left-of DP-2 --output DP-2 --mode 2560x1440 --rate 59.95 --primary
+#
+#
 # Notes:
 #
 # sort -rn
@@ -17,19 +33,32 @@
 # grep -o "^DP.\?[0-9]"
 # \? means [0-9] is optional
 
-# TODO: select primary monitor based on resolution, not "highest number DP"
+logfile="getxrandr.out"
 
-outputs=$(xrandr | grep -o "^.* connected" | sed "s/ connected//g")
-# For the foreseeable future I will want the monitor that is hooked up through
-# the highest number DiplayPort to be my primary monitor
-displayportconns=$(echo "$outputs" | grep -o "^DP.\?[0-9]" | awk '{print $1}')
-primary_outp=$(echo "$displayportconns" | sort | tail -n 1)
+mapfile -t outputs < <(xrandr | grep -o "^.* connected" | sed "s/ connected//g")
+echo "[$(date '+%F %T.%N')] outputs=\"${outputs[@]}\"" >> $logfile
+# TODO: if an output is marked as primary, it will not be caught by this command
+# and will not appear in $resolutions
+mapfile -t resolutions < <(xrandr | grep -o "^.* connected [0-9]\+x[0-9]\+" | sed "s/^.* connected //g")
+echo "[$(date '+%F %T.%N')] resolutions=\"${resolutions[@]}\"" >> $logfile
+
+let highest_res_monitor_index="0"
+let num_pixels="0"
+for i in ${!resolutions[@]}; do
+	if [[ "$num_pixels" -lt $(echo "${resolutions[$i]}" | sed "s/x/ * /g" | bc) ]]; then
+		let highest_res_monitor_index="$i"
+	fi
+done
+echo "[$(date '+%F %T.%N')] highest_res_monitor_index=\"$highest_res_monitor_index\"" >> $logfile
+
+primary_outp=$(echo "${outputs[$highest_res_monitor_index]}")
 
 final_out="xrandr "
 
 # For each monitor:
-for outp in $(echo "$outputs"); do
+for outp in ${outputs[@]}; do
 	# 0. Get a string of all its options that we will reuse
+	# TODO: how does this `sed` command work??
 	monitoroptions=$(xrandr | sed -n "/$outp/,/^\S/{//!p}")
 	# 1. Find its highest resolution (assumption: it's the
 	# first one (top most) in the list produced by the xrandr command)
@@ -49,5 +78,5 @@ for outp in $(echo "$outputs"); do
 done
 
 # For debugging
-# echo "$final_out" >> ~/getxrandr.sh.out
+echo "[$(date '+%F %T.%N')] $final_out" >> $logfile
 echo "$final_out"
