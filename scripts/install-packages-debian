@@ -37,7 +37,7 @@ DEVPKGLIST=(tree jq \
 	openssh-client openssh-server \
 	xterm \
 	clang clangd libcriterion-dev \
-	virtualbox virtualbox-guest-utils \
+	virtualbox virtualbox-ext-pack virtualbox-dkms virtualbox-guest-utils \
 	autoconf automake \
 	python3 python3-pip \
 	nodejs npm \
