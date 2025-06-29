@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+#
+# Takes 2 arguments:
+#
+# 1. A string representing a path to a directory that roots a directory tree
+# 2. Another string representing a path to another directory that roots another
+#    directory tree
+#
+# The script goes through all the files in both directory trees and reports any
+# instances where two corresponding files differ in their modification time.
+#
+# EXAMPLE:
+#
+# $ ./compare-mtimes first-dir/ second-dir/
+
+
+# Check the arguments given to the script
+if [[ -n "$1" ]]; then
+	if [[ -e "$1" ]]; then
+		# Strip possible trailing "/"
+		FIRST_DIR=$(echo "$1" | sed "s/\/$//")
+	else
+		echo "Provided first directory does not exist. Exiting..."
+		exit 1
+	fi
+else
+	echo "No arguments provided. Script expects 2 paths to directories. Exiting..."
+	exit 1
+fi
+
+if [[ -n "$2" ]]; then
+	if [[ -e "$2" ]]; then
+		# Strip possible trailing "/"
+		SECOND_DIR=$(echo "$2" | sed "s/\/$//")
+	else
+		echo "Provided second directory does not exist. Exiting..."
+		exit 1
+	fi
+else
+	echo "No second directory provided. Exiting..."
+	exit 1
+fi
+
+# cd into the directory of interest, print the file's name with the name of the
+# starting-point under which it was found removed and remove any empty lines
+# (using '%P\n' prints the directory on which the find call was executed as an
+# empty line which we must remove)
+mapfile -t FIRST_DIR_FILE_LIST < <(cd "$FIRST_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
+mapfile -t SECOND_DIR_FILE_LIST < <(cd "$SECOND_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
+
+# While we have not yet compared all the files
+for i in ${!FIRST_DIR_FILE_LIST[@]}; do
+	D1_FILE="${FIRST_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
+	D2_FILE="${SECOND_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
+
+	# If one of the files being compared does not exist, note it
+	if [ ! -e "$D1_FILE" ] || [ ! -e "$D2_FILE" ]; then
+		echo "Either $D1_FILE or $D2_FILE does not exist!"
+	else
+		D1_mtime_unix=$(stat -c "%.Y" "$D1_FILE")
+		D2_mtime_unix=$(stat -c "%.Y" "$D2_FILE")
+
+		# if [[ $(echo "$D1_mtime_unix < $D2_mtime_unix" | bc) -eq 1 ]]; then
+		# 	echo "$D1_mtime_unix"
+		# 	echo "$D2_mtime_unix"
+		# 	echo "$D1_FILE has an earlier modification time than $D2_FILE"
+		# fi
+		if [[ $(echo "$D1_mtime_unix == $D2_mtime_unix" | bc -l) -ne 1 ]]; then
+			echo "$D1_FILE differs in modification time to $D2_FILE"
+		fi
+	fi
+
+done
