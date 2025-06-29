@@ -190,11 +190,18 @@ cmp.setup.cmdline({ '/', '?' }, {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
 -- Enable some language servers with the additional completion capabilities
--- offered by nvim-cmp
--- vimls: requires installation with 'sudo npm install -g vim-language-server'
--- pyright: This is a node package and so you need to install it with `npm`. On
--- Linux Mint I first installed `vim-language-server` and then ran `sudo npm
--- install -g pyright` and that got `pyright` working for me.
+-- offered by nvim-cmp. To get any of these LSPs to work, you need to install
+-- the vim language server:
+--
+--     # Linux Mint:
+--     sudo apt install npm
+--     sudo npm install -g vim-language-server
+
+-- To get Python LSP working you need to install `pyright`:
+--
+--     # Linux Mint:
+--     sudo npm install -g pyright
+--
 local servers = { 'pyright' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -203,9 +210,12 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- For this to work, you have to install clang. On Arch, you would do that
--- using 'sudo pacman -S clang'. On Linux Mint, you would do that using 'sudo
--- apt install clang clangd'
+-- To get the C/C++ LSP working you need to install Clang:
+--
+--     # Arch:
+--     sudo pacman -S clang
+--     # Linux Mint:
+--     sudo apt install clang clangd
 --
 -- By default, when neovim attaches an LSP it overwrites 'formatexpr' and when
 -- it comes to clang, this results in broken functionality. For example, if you
@@ -222,35 +232,38 @@ lspconfig.clangd.setup {
   on_attach = on_attach_use_internal_formatexpr,
   capabilities = capabilities,
 }
-
--- For this to work, you have to install 'vim-language-server' using
--- 'sudo npm install -g vim-language-server'
 lspconfig.vimls.setup {
   capabilities = capabilities,
 }
 
--- For this to work, you have to install 'rust-analyzer' and 'rust-src' using
--- 'rustup component add rust-analyzer' and
--- 'rustup component add rust-src'
--- On Linux Mint, the rust LSP wasn't working.
--- 1. I first tested the rust-analyzer to see if it was reporting any errors
+-- To get the Rust LSP working you need to install `rust-analyzer` and
+-- `rust-src`:
+--
+--     rustup component add rust-analyzer
+--     rustup component add rust-src
+--
+-- On Linux Mint (and Debian!), the the above commands were not enough to get
+-- the Rust LSP to work.
+-- 1. I first tested `rust-analyzer` to see if it was reporting any errors
 --    using the following command:
 --
 --    cd [some-rust-project]
 --    rust-analyzer analysis-stats -v .
 --
---    The rust-analyzer was reporting quite a few errors related to perf
---    counters. On investigation it seemed that perf was not properly setup
+--    `rust-analyzer` was reporting quite a few errors related to perf
+--    counters. On investigation it seemed that `perf` was not properly setup
 --    on my machine.
--- 2. To make sure perf was setup and working correctly, I ran the following
+-- 2. To make sure `perf` was setup and working correctly, I ran the following
 --    command looking for any errors (warnings are okay):
 --
 --    perf record /bin/ls
 --
--- 3. Installing perf (fully) is (possibly) a multistep process on ubuntu so
---    I installed the following packages:
+-- 3. Installing perf (fully) is (possibly) a multistep process on Linux Mint
+--    so I installed the following packages:
 --
---    sudo apt-get install linux-tools-common linux-tools-generic linux-tools-`uname -r`
+--    (For Debian you can skip this installation step)
+--
+--    sudo apt install linux-tools-common linux-tools-generic linux-tools-`uname -r`
 --
 -- 4. You may need to adjust perfs monitoring and obervation permissions. If
 --    these permissions are really causing you issues, running the test perf
@@ -268,8 +281,20 @@ lspconfig.rust_analyzer.setup {
   capabilities = capabilities,
 }
 
--- For this to work, you have to install 'lua-language-server'. On Arch you
--- can run 'sudo pacman -S lua-language-server'
+-- To get the Lua LSP working you need to install the Lua Language Server:
+--
+--     # Arch:
+--     sudo pacman -S lua-language-server
+--     # Linux Mint:
+--     ?
+--     # Debian:
+--     * Visit https://github.com/LuaLS/lua-language-server/releases/latest
+--     mkdir -p ~/.local/share/lua-language-server
+--     cd Downloads/
+--     wget https://github.com/LuaLS/lua-language-server/releases/download/3.15.0/lua-language-server-3.15.0-linux-x64.tar.gz
+--     tar xvf lua-language-server-3.15.0-linux-x64.tar.gz -C ~/.local/share/lua-language-server
+--     sudo ln -s ~/.local/share/lua-language-server/bin/lua-language-server /usr/bin/lua-language-server
+--
 lspconfig.lua_ls.setup {
   -- on_attach = on_attach,
   capabilities = capabilities,
