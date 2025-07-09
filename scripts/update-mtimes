@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+#
+# Takes 2 arguments:
+#
+# 1. A string representing a path to a directory that roots a directory tree
+# 2. Another string representing a path to another directory that roots another
+#    directory tree
+#
+# The script goes through all the files in both directory trees and, if it
+# detects a difference in modification time between two corresponding files,
+# prompts the user if they would like to update the modification time of one
+# file with the modification time of the other file.
+#
+# EXAMPLE:
+#
+# $ ./update-mtimes first-dir/ second-dir/
+
+
+# Check the arguments given to the script
+if [[ -n "$1" ]]; then
+	if [[ -e "$1" ]]; then
+		# Strip possible trailing "/"
+		FIRST_DIR=$(echo "$1" | sed "s/\/$//")
+	else
+		echo "Provided first directory does not exist. Exiting..."
+		exit 1
+	fi
+else
+	echo "No arguments provided. Script expects 2 paths to directories. Exiting..."
+	exit 1
+fi
+
+if [[ -n "$2" ]]; then
+	if [[ -e "$2" ]]; then
+		# Strip possible trailing "/"
+		SECOND_DIR=$(echo "$2" | sed "s/\/$//")
+	else
+		echo "Provided second directory does not exist. Exiting..."
+		exit 1
+	fi
+else
+	echo "No second directory provided. Exiting..."
+	exit 1
+fi
+
+# cd into the directory of interest, print the file's name with the name of the
+# starting-point under which it was found removed and remove any empty lines
+# (using '%P\n' prints the directory on which the find call was executed as an
+# empty line which we must remove)
+mapfile -t FIRST_DIR_FILE_LIST < <(cd "$FIRST_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
+mapfile -t SECOND_DIR_FILE_LIST < <(cd "$SECOND_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
+
+# While we have not yet compared all the files
+for i in ${!FIRST_DIR_FILE_LIST[@]}; do
+	D1_FILE="${FIRST_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
+	D2_FILE="${SECOND_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
+
+	# If one of the files being compared does not exist, note it
+	if [ ! -e "$D1_FILE" ] || [ ! -e "$D2_FILE" ]; then
+		echo "Either \"${D1_FILE}\" or \"${D2_FILE}\" does not exist!"
+	else
+		D1_mtime_unix=$(stat -c "%.Y" "$D1_FILE")
+		D2_mtime_unix=$(stat -c "%.Y" "$D2_FILE")
+		D1_mtime=$(stat -c "%y" "$D1_FILE")
+		D2_mtime=$(stat -c "%y" "$D2_FILE")
+
+		# If the two files differ in their modification time
+		if [[ $(echo "$D1_mtime_unix == $D2_mtime_unix" | bc -l) -ne 1 ]]; then
+			echo
+			echo "\"${D1_FILE}\" differs in modification time to \"${D2_FILE}\""
+			echo "A: ${D1_mtime}"
+			echo "B: ${D2_mtime}"
+			echo -n "Would you like to update the mtime of both files to A or B, or do nothing? [A/a/B/b/n] (enter=n): "
+			read -a ANSWER
+
+			if [[ ${ANSWER[*]} == "A" || ${ANSWER[*]} == "a" ]]; then
+				echo "User chose to set the modification time of both files to $D1_mtime."
+				touch -m -r "${D1_FILE}" "${D2_FILE}"
+				D1_mtime=$(stat -c "%y" "$D1_FILE")
+				D2_mtime=$(stat -c "%y" "$D2_FILE")
+				echo "Files now have mtimes:"
+				echo "1: ${D1_mtime}"
+				echo "2: ${D2_mtime}"
+			elif [[ ${ANSWER[*]} == "B" || ${ANSWER[*]} == "b" ]]; then
+				echo "User chose to set the modification time of both files to $D2_mtime."
+				touch -m -r "${D2_FILE}" "${D1_FILE}"
+				D1_mtime=$(stat -c "%y" "$D1_FILE")
+				D2_mtime=$(stat -c "%y" "$D2_FILE")
+				echo "Files now have mtimes:"
+				echo "1: ${D1_mtime}"
+				echo "2: ${D2_mtime}"
+			# If the user does not want to change the modification time of either file
+			elif [[ ${ANSWER[*]} == "n" || ${ANSWER[*]} == "" ]]; then
+				echo "User chose to not modify any files. Continuing..."
+			else
+				echo "Unrecognized input. Skipping..."
+			fi
+		fi
+	fi
+
+done
