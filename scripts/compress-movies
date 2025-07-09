@@ -1,0 +1,334 @@
+#!/usr/bin/env bash
+#
+# EXAMPLE:
+# $ ./compress-movies movie_list.txt
+#
+# Takes 1 argument which is a path to a file in which each line represents a
+# non-escaped path to a video file that we would like compressed by this
+# script. Video compression is done to meet specific requirements (that I came
+# to empirically) such that the compressed video file is suitable for streaming
+# on my Plex server.
+#
+# If you are in a Movies/ directory, you can generate the movie list file by
+# running a `find` command like this:
+#
+#     find . -maxdepth 2 -name "*.mkv" -printf '%P\n' | sort > movie_list.txt
+#
+# Be warned that while this command does most of the work for you, it is still
+# very likely that you will have to do some manual touch ups on the file.
+
+
+# TODO: 2025-07-03: This script is currently incompatible with 4k videos. I
+# think this script should detect if an input file is 4k and if it is, it
+# should print that the file is 4k, and produce a compressed 1080p file. I
+# should not have to open this file and modify it in order to make it work with
+# 4k files.
+
+# TODO:
+# To get this script to compress 4k movies to 1080p, see the following 2
+# options:
+#
+# 1. Keep aspect ratio, but scale so that the height is 1080 pixels
+# See: https://trac.ffmpeg.org/wiki/Scaling#KeepingtheAspectRatio
+#
+#      -vf scale=-1:1080 -sws_flags lanczos
+#      -vf scale=-1:1080:flags=lanczos -sws_flags lanczos
+#
+# 2. Keep the aspect ratio of the video, but scale so that the video fits
+# within a box of 1920x1080.
+# See: https://trac.ffmpeg.org/wiki/Scaling#fit
+#
+#      -vf "scale=w=1920:h=1080:force_original_aspect_ratio=decrease" -sws_flags lanczos
+#      -vf "scale=w=1920:h=1080:force_original_aspect_ratio=decrease:flags=lanczos" -sws_flags lanczos
+#
+# Perhaps you should opt for 1. since what we really want is to keep the height
+# of the video constant, I feel.
+
+
+# Check the arguments given to the script
+# If no first argument was given
+if [[ -n "$1" ]]; then
+	# Check that the first argument is an exisiting regular file
+	if [[ -f "$1" ]]; then
+		MOVIE_LIST_FILE="$1"
+	else
+		echo "Provided movie list file either does not exist or is not a regular file. Exiting..."
+		exit 1
+	fi
+else
+	echo "No arguments provided. Script expects a path to a movie list file. Exiting..."
+	exit 1
+fi
+
+
+mapfile -t MOVIE_LIST < <(cat "$MOVIE_LIST_FILE")
+
+
+# Takes one argument: a path to a video file to be compressed.
+#
+# EXAMPLE:
+#
+#     compress_1p_vbr "Andrei Tarkovsky - Solaris/Solaris.mkv"
+#
+# The compression approach used in this function can be described as
+# single-pass Variable Bit Rate encoding, or as we will call it here for short:
+# 1p-VBR.
+#
+# Note: "Single-pass encoding is used when the encoding speed is most important
+# — e.g. for real-time encoding" (See: Ref 1). This script is used to encode
+# files ahead of time for long term use. In other words, the use case of this
+# script is not for real-time encoding, and so I recommend NOT using this
+# function, but instead opting for its two-pass sibling function below.
+#
+# Ref 1: https://en.wikipedia.org/wiki/Variable_bitrate#Multi-pass_encoding_and_single-pass_encoding
+function compress_1p_vbr() {
+	# {{{
+	vid_bitrate="4M"
+	vid_bitrate_max="4M"
+	vid_bufsize="8M" # Typically 2x or 3x the video bit rate
+	# ultrafast, superfast, veryfast, faster, fast, medium (default), slow, slower, veryslow, placebo (ignore)
+	preset="veryslow"
+
+	# TODO: change these to `input_...` to reflect the fact that they are data
+	#       about the input video file, not the output video file. Also add
+	#       variables for calculated dimensions of the output video and change
+	#       the `ffmpeg` command to use them in the name of the output file.
+	# Get the width and height of the current video being compressed
+	vid_dims=$(ffprobe -v error -select_streams v:0 \
+		-show_entries stream=width,height -of csv=s=x:p=0 "$1")
+	vid_height=$(ffprobe -v error -select_streams v:0 \
+		-show_entries stream=height -of csv=s=x:p=0 "$1")
+	# Get the name of the file without its file extension
+	filename_without_ext=$(echo "$1" | sed "s/\..*$//")
+
+	# -y                   Don't prompt us if a file exists at the output
+	#                      location. Overwrite.
+	# -i "$1"              Path to input file
+	# -preset ${preset}    Use the ffmpeg(? libx264?) preset this script wants
+	#                      to use. Slower presets achieve smaller file sizes
+	#                      for the same quality.
+	# -map 0         Copy all streams (video, audio, subtitles) from the 0th
+	#                input file into the output file. By default, `ffmpeg`
+	#                automatically selects the streams.
+	# -map -0:v:1    Exclude video stream 1 (aka the 2nd video stream) from the
+	#                0th input file into the output file.
+	# -map -0:t      Exclude all attachments (such as fonts, extra images?)
+	#                from the 0th input file into the output file.
+	# -c copy         Copy all streams - i.e. mux only and avoid
+	#                 decoding-filtering-encoding.
+	# -c:v libx264    Set the video codec (encoder/decoder) for the output to
+	#                 libx264, which is widely supported. libx265 would be a
+	#                 nice choice (because it would most likely achieve better
+	#                 compression), but since my plex server won't transcode,
+	#                 we need one, maximally compatible file.
+	# -b:v ${vid_bitrate}          Video goal bitrate average
+	# -bufsize ${vid_bufsize}      (???)
+	# -movflags faststart          Store the moov atom at the beginning of the
+	#                              file so playback can start sooner. This
+	#                              *may* necessitate a second pass?
+	# -max_muxing_queue_size 1024  Increase mux queue size. This may not be
+	#                              necessary, and at this point, may not even
+	#                              be higher than the default value.
+
+	# Ffmpeg command for compressing the video
+	# # TODO: It will also remove `cover.jpeg`, maybe? `cover.jpeg` Might not
+	# always be second video stream though
+		#-max_muxing_queue_size 1024 \
+		# -c copy -c:v libx264 -b:v ${vid_bitrate} -maxrate ${vid_bitrate} \
+	# ffmpeg -y -i "$1" -preset ${preset} -map 0 -map -0:v:1 -map -0:t \
+	# 	-c copy -c:v libx264 -b:v ${vid_bitrate} -maxrate ${vid_bitrate} \
+	# 	-bufsize ${vid_bufsize} -movflags faststart \
+	# 	"${filename_without_ext}-${vid_dims}-1p-vbr-${vid_bitrate}-${vid_bitrate_max}-${vid_bufsize}-${preset}.mkv"
+	ffmpeg -y -i "$1" -preset ${preset} -map 0:v -map 0:a? -map 0:s? \
+		-c:v libx264 -c:a copy -c:s copy  -b:v ${vid_bitrate} \
+		-maxrate ${vid_bitrate} -bufsize ${vid_bufsize} -movflags faststart \
+		"${filename_without_ext}-${vid_dims}-1p-vbr-${vid_bitrate}-${vid_bitrate_max}-${vid_bufsize}-${preset}.mkv"
+	# }}}
+}
+
+
+# Takes one argument: a path to a video file to be compressed.
+#
+# EXAMPLE:
+#
+#     compress_2p_vbr "Andrei Tarkovsky - Solaris/Solaris.mkv"
+#
+# The compression approach used in this function can be described as two-pass
+# Variable Bit Rate encoding, or as we will call it here for short: 2p-VBR.
+#
+# Why is this function good for compressing and optimizing videos for online
+# streaming?
+# {{{
+# Compress the video file to optimize for streaming it off my Plex server.
+# When optimizing for online streaming there are several goals:
+#
+# 1. To maximize compatibility.
+#     * I don't want my server to transcode videos because that will put a
+#       lot of load on my computer which (1) may disrupt me when I'm
+#       working, and (2) would wear out my components faster. Transcoding
+#       is great for increasing the number of devices that can use my
+#       server, but the negatives definitely outweight the positives for
+#       me.
+# 2. To minimize the bit rate to avoid buffering without sacrificing too
+#    much in the way of quality.
+# 3. To maximize the bit rate *stability* in order to avoid a sudden
+#    buffering.
+#
+# Here's how those goals are reflected in the exact compression process
+# performed below.
+#
+# First, I use the `libx264` codec rather than `libx265` even though the
+# latter is supposed to achieve better compression. `libx264` has excellent
+# support and so if I'm not going to allow transcoding, it is an obvious
+# choice.
+#
+# Second, through reference to some online rules of thumb (and trial and
+# error?), I've come to decide (for the time being at least - the movies
+# the current `ffmpeg` commands below generate have not been tested being
+# streamed by someone on a bad network) on 4 megabits per second for the
+# target average bit rate. The visual quality of the resultant movies is
+# plenty good at this bit rate, in my opinion. More than that, I have opted
+# for a two-pass approach since (as backed up by my own tests) it is
+# signficiantly better at creating a video with an average bit rate close
+# to what I requested (See also: Ref 1).
+#
+# Third, I use the `-maxrate` and `-bufsize` flags in
+# such a way as to increase the bit rate stability, avoiding sharp spikes
+# that may cause sudden buffering.
+#
+# Finally, it is worth noting that VBR (or to be more general, VBV) is a form
+# of encoding very well suited to streaming video. As the FFmpeg documentation
+# notes: "Anytime you are encoding video with bandwidth as a limiting factor
+# you should be using VBV (Video Buffer Verifier) with the `-maxrate` and
+# `-bufsize` options" (See: Ref 2).
+#
+# Further still, it is worth noting that two-pass VBR is even better for the
+# purpose of preparing videos for a Plex media server because compared
+# single-pass VBR because: (1) two-pass VBR is much more accurate at hitting
+# the bitrate target (1-3% off vs ~20% off for single-pass, according to
+# ChatGPT), (2) two-pass VBR allocates bits intelligently globally, considering
+# the whole video, whereas single-pass VBR only tries to intelligently
+# allocates bits on a frame by frame basis (according to ChatGPT), and (3) the
+# quality per bit is slightly better with two-pass VBR (according to ChatGPT).
+# Other than that, and the fact that two-pass VBR is around twice as slow, the
+# two approaches are identical. ChatGPT believes two-pass isn't worth the
+# effort for this case since the quality increase is minor (estimated by
+# ChatGPT to be around 5-10% at most) and the increase in encoding time is
+# significant. I disagree because the encoding time isn't much of an issue for
+# me and it's very likely both that I won't re-encode this files again any time
+# soon and that I'll play these files multiple times.
+# 
+# Reference 1: https://trac.ffmpeg.org/wiki/Encode/H.264#ConstrainedencodingVBVmaximumbitrate
+# Reference 2: https://trac.ffmpeg.org/wiki/EncodingForStreamingSites#a-maxrate
+# }}}
+function compress_2p_vbr() {
+	# {{{
+	vid_bitrate="4M"
+	vid_bitrate_max="4M"  # This will be fed to `-maxrate`
+	vid_bufsize="8M"  # Typically recommended to be set to 2x or 3x the `-maxrate`
+	# ultrafast, superfast, veryfast, faster, fast, medium (default), slow, slower, veryslow, placebo (ignore)
+	preset="veryslow"
+
+	# TODO: change these to `input_...` to reflect the fact that they are data
+	#       about the input video file, not the output video file. Also add
+	#       variables for calculated dimensions of the output video and change
+	#       the `ffmpeg` command to use them in the name of the output file.
+	# Get the width and height of the current video being compressed
+	vid_dims=$(ffprobe -v error -select_streams v:0 \
+		-show_entries stream=width,height -of csv=s=x:p=0 "$1")
+	vid_height=$(ffprobe -v error -select_streams v:0 \
+		-show_entries stream=height -of csv=s=x:p=0 "$1")
+	# Get the name of the file without its file extension
+	filename_without_ext=$(echo "$1" | sed "s/\..*$//")
+
+	# -y         Don't prompt us if a file exists at the output location.
+	#            Overwrite.
+	# -i "$1"    Path to input file.
+	# -map 0:v     Copy all video streams from the 0th input file into the
+	#              output file. By default, `ffmpeg` automatically selects the
+	#              streams.
+	# -map 0:a?    Copy all audio streams from the 0th input file into the
+	#              output file, if there are any. By default, `ffmpeg`
+	#              will crash if there are no streams matching the description.
+	# -map 0:s?    Copy all subtitle streams from the 0th input file into the
+	#              output file, if there are any. By default, `ffmpeg`
+	#              will crash if there are no streams matching the description.
+	# -c:v libx264    Set the video codec (encoder/decoder) for the output to
+	#                 libx264, which is widely supported. libx265 would be a
+	#                 nice choice (because it would most likely achieve better
+	#                 compression), but since my plex server won't transcode,
+	#                 we need one, maximally compatible file.
+	# -c:a copy       Set audio codec to "copy" to avoid
+	#                 decoding-filtering-encoding the audio streams.
+	# -c:s copy       Set audio codec to "copy" to avoid
+	#                 decoding-filtering-encoding the subtitle streams.
+	# -b:v ${vid_bitrate}            Specifies the target (average) bit rate
+	#                                for the encoder to aim for. The actual bit
+	#                                rate will likely vary quite a bit.
+	# -maxrate ${vid_bitrate_max}    "Hard cap" on the video bit rate. Must be
+	#                                used in conjunction with `-bufsize`. This
+	#                                cap doesn't mean the video will never go
+	#                                above this bit rate for any time window -
+	#                                rather this flag tells `ffmpeg` how often
+	#                                (in terms of bits) to check if encoding is
+	#                                exceeding the `-maxrate`.
+	# -bufsize ${vid_bufsize}        Tells the encoder how often to calculate
+	#                                the average bit rate and check to see if
+	#                                it conforms to the average bit rate
+	#                                specified. If your video had a very stable
+	#                                average video bit rate of
+	#                                `${vid_bitrate_max}`, then the encoder
+	#                                will check to make sure it's not exceeding
+	#                                the `-maxrate`
+	#                                `${vid_bitrate_max}`/`${vid_bufsize} per
+	#                                second. Keeping this frequency somewhere
+	#                                between every 1 and every 2 seconds is
+	#                                recommended for streaming video. A lower
+	#                                `-bufsize` value is safer for streaming
+	#                                (since it reduces the sharpness of bit
+	#                                rate spikes which will cause buffering if
+	#                                they exceed the streamers download speed),
+	#                                but reduces quality. A higher `-bufsize`
+	#                                value is less safe for streaming, but is
+	#                                better for video quality. More static
+	#                                (i.e. video content with fewer pixel
+	#                                changes per second) can maintain higher
+	#                                visual quality with a smaller `-bufsize`.
+	#                                More dynamic content might necessitate a
+	#                                bigger `-bufsize` to maintain a certain
+	#                                level quality.
+
+	# -pass 1    Let `ffmpeg` know that this is the first pass of a two-pass
+	#            process.
+	# -an        Skip inclusion of audio streams for the first pass.
+	# -f null    Output to a null file descriptor, not an actual file. This
+	#            tells `ffmpeg` to generate a logfile which it will then use
+	#            for the 2nd pass.
+
+	ffmpeg -y -i "$1" -preset ${preset} -map 0:v -map 0:a? -map 0:s? \
+		-c:v libx264 -c:a copy -c:s copy -b:v ${vid_bitrate} \
+		-maxrate ${vid_bitrate_max} -bufsize ${vid_bufsize} -pass 1 -an \
+		-f null /dev/null
+
+	# -pass 2    Let `ffmpeg` know that this is the second pass of a two-pass
+	#            process.
+	# -movflags faststart    Store the moov atom at the beginning of the file
+	#                        so playback and seeking can start sooner. This
+	#                        *may* necessitate a second pass?
+
+	# TODO: add `-max_muxing_queue_size 1024` to this command(? Would avoid
+	# "Too many packets in buffer" errors for large multi-stream encodes)
+	ffmpeg -y -i "$1" -preset ${preset} -map 0:v -map 0:a? -map 0:s? \
+		-c:v libx264 -c:a copy -c:s copy -b:v ${vid_bitrate} \
+		-maxrate ${vid_bitrate_max} -bufsize ${vid_bufsize} -pass 2 \
+		-movflags faststart \
+		"${filename_without_ext}-${vid_dims}-2p-vbr-${vid_bitrate}-${vid_bitrate_max}-${vid_bufsize}-${preset}.mkv"
+	# }}}
+}
+
+
+for m in "${MOVIE_LIST[@]}"; do
+	# Compress the video using the compression process of choice
+	# compress_1p_vbr "$m"
+	compress_2p_vbr "$m"
+done
