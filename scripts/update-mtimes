@@ -1,22 +1,67 @@
 #!/usr/bin/env bash
 #
-# Takes 2 arguments:
+# Takes 2 required, positional arguments:
 #
 # 1. A string representing a path to a directory that roots a directory tree
 # 2. Another string representing a path to another directory that roots another
 #    directory tree
+#
+# Takes 1 optional, non-positional argument:
+#
+# --max_discrepancy [double]
+#     * Takes an double precision float representing the max discrepancy in
+#       modification time (in seconds) this script will tolerate before
+#       flagging two files as having differing modification times. This flag is
+#       useful when trying to compare two directory trees that are on different
+#       file systems which may support different levels of precision when it
+#       comes to modification time.
 #
 # The script goes through all the files in both directory trees and, if it
 # detects a difference in modification time between two corresponding files,
 # prompts the user if they would like to update the modification time of one
 # file with the modification time of the other file.
 #
-# EXAMPLE:
+# EXAMPLES:
 #
 # $ ./update-mtimes first-dir/ second-dir/
+# $ ./update-mtimes first-dir/ second-dir/ --max_discrepancy 0.0000001
 
+POSITIONAL_ARGS=()
+MAX_DISCREP="0.0"
 
-# Check the arguments given to the script
+# Parse the non-positional arguments given to the script
+while [[ $# -gt 0 ]]; do
+	case $1 in
+		--max_discrepancy)
+			if [[ ! -n "$2" ]]; then
+				echo "Error: No value given for the \"$1\" option which requires a value. Exiting..."
+				exit 1
+			else
+				# TODO: this should check for invalid max discrepancy values.
+				# For example negative values should not be accepted
+				MAX_DISCREP="$2"
+				# Shift once for the flag and once for its argument
+				shift
+				shift
+			fi
+			;;
+		# Invalid flag given
+		-*|--*)
+			echo "Error: Unknown option \"$1\". Exiting..."
+			exit 1
+			;;
+		# Positional argument
+		*)
+			POSITIONAL_ARGS+=("$1")
+			shift
+			;;
+	esac
+done
+
+# Reset the arguments to be only the non-consumed positional args
+set -- "${POSITIONAL_ARGS[@]}"
+
+# Parse the positional arguments given to the script
 if [[ -n "$1" ]]; then
 	if [[ -e "$1" ]]; then
 		# Strip possible trailing "/"
@@ -61,11 +106,21 @@ for i in ${!FIRST_DIR_FILE_LIST[@]}; do
 	else
 		D1_mtime_unix=$(stat -c "%.Y" "$D1_FILE")
 		D2_mtime_unix=$(stat -c "%.Y" "$D2_FILE")
+		mtime_unix_diff=0
 		D1_mtime=$(stat -c "%y" "$D1_FILE")
 		D2_mtime=$(stat -c "%y" "$D2_FILE")
 
-		# If the two files differ in their modification time
-		if [[ $(echo "$D1_mtime_unix == $D2_mtime_unix" | bc -l) -ne 1 ]]; then
+		# Calculate the absolute difference in the modification time between
+		# the two files
+		if [[ $(echo "$D1_mtime_unix > $D2_mtime_unix" | bc -l) -eq 1 ]]; then
+			mtime_unix_diff=$(echo "$D1_mtime_unix - $D2_mtime_unix" | bc -l)
+		else
+			mtime_unix_diff=$(echo "$D2_mtime_unix - $D1_mtime_unix" | bc -l)
+		fi
+
+		# If the two files differ in their modification time by more than
+		# the allowed discrepancy
+		if [[ $(echo "$mtime_unix_diff <= $MAX_DISCREP" | bc -l) -ne 1 ]]; then
 			echo
 			echo "\"${D1_FILE}\" differs in modification time to \"${D2_FILE}\""
 			echo "A: ${D1_mtime}"
