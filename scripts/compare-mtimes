@@ -24,6 +24,7 @@
 # $ ./compare-mtimes first-dir/ second-dir/
 # $ ./compare-mtimes first-dir/ second-dir/ --max-discrepancy 0.0000001
 
+
 POSITIONAL_ARGS=()
 MAX_DISCREP="0.0"
 
@@ -86,39 +87,69 @@ else
 	exit 1
 fi
 
-# cd into the directory of interest, print the file's name with the name of the
-# starting-point under which it was found removed and remove any empty lines
-# (using '%P\n' prints the directory on which the find call was executed as an
-# empty line which we must remove)
+
+# cd into the directory of interest, print the file's name WITHOUT the name of
+# the starting-point under which it was found and remove any empty lines (using
+# '%P\n' prints the directory on which the find call was executed as an empty
+# line which we must remove)
 mapfile -t FIRST_DIR_FILE_LIST < <(cd "$FIRST_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
 mapfile -t SECOND_DIR_FILE_LIST < <(cd "$SECOND_DIR" && find -printf '%P\n' | grep -v "^$" | sort)
+
+
+# Takes 3 required arguments:
+#
+# 1. A string representing a path to a file (in the broad sense)
+# 2. Another string representing a path to another file (in the broad sense)
+# 3. A double representing the maximum discrepancy (in seconds) tolerated
+#    before marking two files as differing in their modification times. This
+#    allows us to more comfortably compare files on file systems that may
+#    differ in the accuracy of their modification times.
+#
+# This function compares the modification times of the two files, printing
+# output if a mismatch is found.
+#
+# EXAMPLES:
+#
+# $ compare_files first-dir/ second-dir/ 0.0
+# $ compare_files first-dir/ second-dir/ 0.0000001
+function compare_files() {
+	# {{{
+	d1_file="$1"
+	d2_file="$2"
+	max_discrep="$3"
+
+	# If one of the files being compared does not exist, note it
+	if [ ! -e "$d1_file" ] || [ ! -e "$d2_file" ]; then
+		echo "Either $d1_file or $d2_file does not exist!"
+	else
+		d1_mtime_unix=$(stat -c "%.Y" "$d1_file")
+		d2_mtime_unix=$(stat -c "%.Y" "$d2_file")
+		mtime_unix_diff=0
+
+		# Calculate the absolute difference in the modification time between
+		# the two files
+		if [[ $(echo "$d1_mtime_unix > $d2_mtime_unix" | bc -l) -eq 1 ]]; then
+			mtime_unix_diff=$(echo "$d1_mtime_unix - $d2_mtime_unix" | bc -l)
+		else
+			mtime_unix_diff=$(echo "$d2_mtime_unix - $d1_mtime_unix" | bc -l)
+		fi
+
+		# If the two files differ in their modification time by more than
+		# the allowed discrepancy
+		if [[ $(echo "$mtime_unix_diff <= $max_discrep" | bc -l) -ne 1 ]]; then
+			echo "$d1_file differs in modification time to $d2_file"
+		fi
+	fi
+	# }}}
+}
+
+
+# Compare the two root dirs specified in the commandline arguments
+compare_files "${FIRST_DIR}" "${SECOND_DIR}" "$MAX_DISCREP"
 
 # While we have not yet compared all the files
 for i in ${!FIRST_DIR_FILE_LIST[@]}; do
 	D1_FILE="${FIRST_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
 	D2_FILE="${SECOND_DIR}/${FIRST_DIR_FILE_LIST[$i]}"
-
-	# If one of the files being compared does not exist, note it
-	if [ ! -e "$D1_FILE" ] || [ ! -e "$D2_FILE" ]; then
-		echo "Either $D1_FILE or $D2_FILE does not exist!"
-	else
-		D1_mtime_unix=$(stat -c "%.Y" "$D1_FILE")
-		D2_mtime_unix=$(stat -c "%.Y" "$D2_FILE")
-		mtime_unix_diff=0
-
-		# Calculate the absolute difference in the modification time between
-		# the two files
-		if [[ $(echo "$D1_mtime_unix > $D2_mtime_unix" | bc -l) -eq 1 ]]; then
-			mtime_unix_diff=$(echo "$D1_mtime_unix - $D2_mtime_unix" | bc -l)
-		else
-			mtime_unix_diff=$(echo "$D2_mtime_unix - $D1_mtime_unix" | bc -l)
-		fi
-
-		# If the two files differ in their modification time by more than
-		# the allowed discrepancy
-		if [[ $(echo "$mtime_unix_diff <= $MAX_DISCREP" | bc -l) -ne 1 ]]; then
-			echo "$D1_FILE differs in modification time to $D2_FILE"
-		fi
-	fi
-
+	compare_files "$D1_FILE" "$D2_FILE" "$MAX_DISCREP"
 done
