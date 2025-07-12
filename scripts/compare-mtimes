@@ -8,7 +8,7 @@
 #
 # Takes 1 optional, non-positional argument:
 #
-# --max_discrepancy [double]
+# --max-discrepancy [double]
 #     * Takes an double precision float representing the max discrepancy in
 #       modification time (in seconds) this script will tolerate before
 #       flagging two files as having differing modification times. This flag is
@@ -22,7 +22,7 @@
 # EXAMPLE:
 #
 # $ ./compare-mtimes first-dir/ second-dir/
-# $ ./compare-mtimes first-dir/ second-dir/ --max_discrepancy 0.0000001
+# $ ./compare-mtimes first-dir/ second-dir/ --max-discrepancy 0.0000001
 
 POSITIONAL_ARGS=()
 MAX_DISCREP="0.0"
@@ -30,7 +30,7 @@ MAX_DISCREP="0.0"
 # Parse the non-positional arguments given to the script
 while [[ $# -gt 0 ]]; do
 	case $1 in
-		--max_discrepancy)
+		--max-discrepancy)
 			if [[ ! -n "$2" ]]; then
 				echo "Error: No value given for the \"$1\" option which requires a value. Exiting..."
 				exit 1
