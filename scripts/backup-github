@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# Takes 1 required, positional argument:
+#
+# 1. A string representing a path to a directory where all repositories will be
+#    cloned into.
+#
+# This script also prompts the caller for keyboard input, asking them to
+# provide a string representing a GitHub Personal Access Token (PAT). The PAT
+# is necessary for this script to get a full list of a user's repositories,
+# both private and public.
+#
+# This script then goes through the list of private and public repos and
+# clones them one by one into the target directory.
+#
+# EXAMPLE:
+#
+# $ ./backup-github backup-dir/
+
+
+# Parse the positional arguments given to the script
+if [[ -n "$1" ]]; then
+	if [[ -e "$1" ]]; then
+		# Strip possible trailing "/"
+		BACKUP_DIR=$(echo "$1" | sed "s/\/$//")
+	else
+		echo "Provided backup directory does not exist. Exiting..."
+		exit 1
+	fi
+else
+	echo "No arguments provided. Script expects 1 path to a directory. Exiting..."
+	exit 1
+fi
+
+printf "This script requires a GitHub PAT to work. Please enter it now: "
+read -a PAT_TOKEN
+printf "\n"
+
+CURL_RESPONSE=$(curl -s -H "Authorization: token $PAT_TOKEN" "https://api.github.com/user/repos?per_page=1000&type=owner")
+if [[ $? -ne 0 ]]; then
+	echo "ERROR: \`curl\` failed. Unable to get repo list. Exiting..." >&2
+	exit 1
+fi
+
+SSH_URLS=$(echo "$CURL_RESPONSE" | jq -r '.[].ssh_url')
+if [[ -z "$SSH_URLS" || "$SSH_URLS" == "null" ]]; then
+	echo "ERROR: Couldn't parse any ssh urls from the \`curl\` response. Exiting..." >&2
+	exit 1
+fi
+
+mapfile -t REPO_LIST < <(echo "$SSH_URLS")
+
+cd "${BACKUP_DIR}"
+
+# While we have not yet compared all the files
+for i in ${!REPO_LIST[@]}; do
+	# TODO: remove this.
+	echo "REPO_LIST[$i]: ${REPO_LIST[$i]}"
+
+	# TODO: add check here to see if a directory already exists that would
+	# prevent the clone command from succeeding. If a dir already exists,
+	# prompt the user to see if they'd like to delete it. If no dir already
+	# exists or the dir gets deleted successfully, then run the `git clone`
+	# command
+
+	git clone --mirror ${REPO_LIST[$i]}
+done
