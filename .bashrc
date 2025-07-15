@@ -9,6 +9,15 @@ export ANDROID_HOME=/opt/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
 export PATH=/usr/lib/jvm/java-9-openjdk/bin/:$PATH
 
+# (2025-07-15) Scribble for later about improving tab completion
+# # Makes it so I don't have to hit Tab multiple times to see completion options
+# bind 'set show-all-if-ambiguous on'
+# # Does nothing I can notice(??)
+# bind 'set menu-complete-display-prefix on'
+# # # Set Tab and Shift+Tab to cycle the completion menu forward and backward
+# bind 'TAB:menu-complete'
+# bind '"\e[Z":menu-complete-backward'
+
 ##############################
 #            Bash            #
 ##############################
