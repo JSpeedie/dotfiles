@@ -13,6 +13,16 @@
 # This script then goes through the list of private and public repos and
 # clones them one by one into the target directory.
 #
+# IMPORTANT:
+#
+# You can create a working directory from these mirror'd clone by running a
+# command like this:
+#
+# $ git clone backup-dir/cmp-tree.git/ cmp-tree/
+#
+# This will create a working copy in directory `cmp-tree` from your mirror'd
+# clone `backup-dir/cmp-tree.git/`.
+#
 # EXAMPLE:
 #
 # $ ./backup-github backup-dir/
