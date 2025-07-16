@@ -357,4 +357,3 @@ export PS1 PS2
 # '
 #     clear
 # fi
-. "$HOME/.cargo/env"
