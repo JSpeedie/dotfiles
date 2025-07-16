@@ -25,7 +25,8 @@ APPPKGLIST=(firefox nautilus evince gimp \
 	mpv audacity ranger)
 EXTRAPKGLIST=(rofi feh dunst scrot screenfetch easytags qt4 numlockx \
 	network-manager network-manager-applet stalonetray xorg-xfd xorg-xfontsel \
-	gnome-control-center polkit-gnome lxappearance gst-libav pitivi veracrypt \
+	gnome-control-center gnome-disk-utility polkit-gnome lxappearance \
+	gst-libav pitivi veracrypt \
 	avidemux-qt \
 	cmatrix asp figlet lolcat bless sl asciiquarium)
 # jq bison
@@ -111,19 +112,24 @@ for i in $(printf "BASEPKGLIST\nAPPPKGLIST\nEXTRAPKGLIST\nDEVPKGLIST\nFONTPKGLIS
 					if [[ ${AURHELPER[*]} == "" || ${AURHELPER[*]} == "Y" ]]; then
 						# Install the 2 dependencies
 						sudo pacman -S --needed --noconfirm git base-devel
-						if git clone https://aur.archlinux.org/yay.git yay; then
-							cd yay
-							makepkg -si
-							cd ..
-						else
-							echo "${red}Failed to download yay. Cannot continue...${end}"
-							exit 1
-						fi
-					# If the user does not want to install the dependencies
+					# If the user does not want to install `yay`'s dependencies
 					else
 						echo "Missing some of: ${red}git${end}, ${red}base-devel${end}. Cannot continue..."
 						exit 1
 					fi
+				fi
+
+				# Attempt to download `yay`
+				if git clone https://aur.archlinux.org/yay.git yay; then
+					# If our download is successful, attempt to build/install `yay`
+					cd yay
+					makepkg -si
+					cd ..
+					echo "${green}Successfully installed yay.${end} Ready to continue? (enter=continue): "
+					read -a READY
+				else
+					echo "${red}Failed to download yay. Cannot continue...${end}"
+					exit 1
 				fi
 			# If the user does not want to install yay.
 			else
