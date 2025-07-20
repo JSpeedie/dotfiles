@@ -122,6 +122,34 @@ export LESS_TERMCAP_us=$(tput setaf 3) # Blue
 export LESS_TERMCAP_so=$(tput setab 7; tput setaf 0) # Light gray (fg)
 
 ##############################
+#            Binds           #
+##############################
+
+# The function and two `bind`s below are responsible for making Ctrl+T bring
+# up fzf for inserting a path on the commandline
+__fzf_select__() {
+	find . | fzf
+}
+bind -m emacs-standard '"\er": redraw-current-line'
+# Bind Ctrl+T to `__fzf_select()` which allows us to use `fzf` to insert a file
+# path in our command line
+#
+#  1. C-b: Move the cursor back 1 character
+#  2. C-k: Cut to end of line (`d$` in vim)
+#  3. C-u: Cut to beginning of line (`d^` in vim)
+#  4. C-e: Move the cursor to the end of the line
+#  5. C-a: Move the cursor to the beginning of the line
+#  6. C-y: Paste
+#  7. C-h: Backspace
+#  8. C-e: Move the cursor to the end of the line
+#  9. C-y: Paste
+# 10. C-x: ?
+# 11. C-x: ?
+# 12. C-f: Move the cursor forward 1 character
+#
+bind -m emacs-standard '"\C-t": " \C-b\C-k \C-u`__fzf_select__`\e\C-e\er\C-a\C-y\C-h\C-e\e \C-y\ey\C-x\C-x\C-f"'
+
+##############################
 #       Dynamic Prompt       #
 ##############################
 
