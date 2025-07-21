@@ -1,3 +1,7 @@
+> WARNING: This file has been succeeded by a vim cheatsheet in my
+> reference-work repo book. I need to remove the file you're currently reading
+> from my dotfiles git repo, but I'll get to that another time.
+
 # Vim Cheatsheet
 
 * `gJ` : Join the line below with the current line, but don't add a space in
