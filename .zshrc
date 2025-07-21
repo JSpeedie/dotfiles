@@ -87,7 +87,7 @@ zle -N down-line-or-local-history
 
 alias ls='ls --color=auto'
 alias updatedot='~/scripts/updatedir ~/ ~/dotfiles/ ~/scripts/updatedir-dotfiles-filelist'
-alias cdf='cd $(find . -type d | fzf)'
+alias cdf='cd "$(find . -type d | fzf)"'
 
 
 ##############################
@@ -124,3 +124,25 @@ prompt() {
 }
 
 PROMPT='$(prompt)'
+
+
+##############################
+#      FZF Key Bindings      #
+##############################
+
+__fzf_select() {
+	find . | fzf
+}
+
+fzf-file-widget() {
+	LBUFFER="${LBUFFER}$(__fzf_select)"
+	local ret=$?
+	zle reset-prompt
+	return $ret
+}
+
+# Bind Ctrl+T to (essentially) the `__fzf_select` function
+zle     -N            fzf-file-widget
+bindkey -M emacs '^T' fzf-file-widget
+bindkey -M vicmd '^T' fzf-file-widget
+bindkey -M viins '^T' fzf-file-widget
