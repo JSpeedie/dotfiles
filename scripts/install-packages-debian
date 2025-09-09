@@ -21,7 +21,7 @@ normal=$(tput sgr0)
 BASEPKGLIST=(alacritty xorg libnotify4 pulseaudio pamixer sxhkd rsync \
 	cron dialog pavucontrol picom)
 APPPKGLIST=(firefox-esr nautilus evince gimp libreoffice obs-studio eog vlc \
-	mpv audacity ranger pitivi gparted)
+	mpv audacity ranger pitivi gparted torbrowser-launcher)
 # I think I'm done with lemonbar. Time to investigate maybe polybar or waybar
 EXTRAPKGLIST=(wget rofi arandr feh dunst compton scrot screenfetch numlockx \
 	network-manager lemonbar gnome-control-center lxappearance \
@@ -31,7 +31,7 @@ EXTRAPKGLIST=(wget rofi arandr feh dunst compton scrot screenfetch numlockx \
 DEVPKGLIST=(tree jq \
 	vim neovim universal-ctags \
 	make cmake fakeroot \
-	git subversion \
+	git git-gui subversion \
 	valgrind gdb linux-perf sysstat \
 	pandoc texlive-full \
 	openssh-client openssh-server \
