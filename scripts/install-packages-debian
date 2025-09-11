@@ -25,7 +25,7 @@ APPPKGLIST=(firefox-esr nautilus evince gimp libreoffice obs-studio eog vlc \
 # I think I'm done with lemonbar. Time to investigate maybe polybar or waybar
 EXTRAPKGLIST=(wget rofi arandr feh dunst compton scrot screenfetch numlockx \
 	network-manager lemonbar gnome-control-center lxappearance \
-	cmatrix figlet lolcat sl imagemagick fzf exiftool)
+	cmatrix figlet lolcat sl imagemagick fzf exiftool img2pdf)
 # 'linux-perf' for 'perf'
 # 'sysstat' for 'iostat' and the like
 DEVPKGLIST=(tree jq \
