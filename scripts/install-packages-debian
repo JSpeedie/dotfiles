@@ -43,6 +43,7 @@ DEVPKGLIST=(tree jq \
 	nodejs npm \
 	ghex \
 	usbutils \
+	xdotool \
 	ffmpeg)
 # racket ghc ghc-static \
 #jre8-openjdk java-runtime-common java-environment-common \
