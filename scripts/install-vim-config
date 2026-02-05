@@ -62,21 +62,23 @@ if [[ ${ANSWER[*]} != "" ]]; then
 fi
 # Strip the trailing "/" from `${dest_dir}` if there is one
 dest_dir=$(echo "$dest_dir" | sed "s/\/$//")
+# Evaluate `$dest_dir` to expand all symbols and stuff like that (such as '~'s)
+dest_dir_expanded=$(eval echo "$dest_dir")
 printf "\n"
 
 # Validate that the given destination directory path is valid
 # If `$dest_dir` does not exist then exit early
-if [[ ! -e "${dest_dir}" ]]; then
+if [[ ! -e "${dest_dir_expanded}" ]]; then
 	printf "Specified destination directory does not exist: \"${dest_dir}\". Exiting...\n"
 	exit 1
 fi
 # If `$dest_dir` is not a directory then exit early
-if [[ ! -d "${dest_dir}" ]]; then
+if [[ ! -d "${dest_dir_expanded}" ]]; then
 	printf "Specified destination directory is not a directory: \"${dest_dir}\". Exiting...\n"
 	exit 1
 fi
 # If the user does not have permission to write to `$dest_dir` then exit early
-if [[ ! -w "${dest_dir}" ]]; then
+if [[ ! -w "${dest_dir_expanded}" ]]; then
 	printf "User does not have write permission for the specified destination directory: \"${dest_dir}\". Exiting...\n"
 	exit 1
 fi
