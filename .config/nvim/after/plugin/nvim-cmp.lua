@@ -195,12 +195,12 @@ local lspconfig = require('lspconfig')
 --
 --     # Linux Mint:
 --     sudo apt install npm
---     sudo npm install -g vim-language-server
+--     sudo npm install -g vim-language-server    # It won't work if you don't install this globally with `-g`
 
 -- To get Python LSP working you need to install `pyright`:
 --
 --     # Linux Mint:
---     sudo npm install -g pyright
+--     sudo npm install -g pyright    # It won't work if you don't install this globally with `-g`
 --
 local servers = { 'pyright' }
 for _, lsp in ipairs(servers) do
@@ -285,15 +285,19 @@ lspconfig.rust_analyzer.setup {
 --
 --     # Arch:
 --     sudo pacman -S lua-language-server
---     # Linux Mint:
---     ?
---     # Debian:
---     * Visit https://github.com/LuaLS/lua-language-server/releases/latest
+--     # Debian and Linux Mint:
+--     * Visit https://github.com/LuaLS/lua-language-server/releases/latest.
+--       This page will tell you what the latest version of
+--       `lua-language-server` is. We'll need to specify a version in one of
+--       the upcoming commands, so if you want to install the latest version,
+--       take note of what you see on that page.
 --     mkdir -p ~/.local/share/lua-language-server
 --     cd Downloads/
 --     wget https://github.com/LuaLS/lua-language-server/releases/download/3.15.0/lua-language-server-3.15.0-linux-x64.tar.gz
 --     tar xvf lua-language-server-3.15.0-linux-x64.tar.gz -C ~/.local/share/lua-language-server
 --     sudo ln -s ~/.local/share/lua-language-server/bin/lua-language-server /usr/bin/lua-language-server
+--     rm lua-language-server-3.15.0-linux-x64.tar.gz
+--     cd
 --
 lspconfig.lua_ls.setup {
   -- on_attach = on_attach,
