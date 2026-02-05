@@ -22,7 +22,8 @@ FILES=(.vimrc .config/nvim/)
 
 # The absolute path for the current directory. Strip the trailing "/" if there
 # is one. There shouldn't be, but better safe than sorry.
-source_dir=$(pwd | sed "s/\/$//")
+# source_dir=$(pwd | sed "s/\/$//")
+source_dir="~/dotfiles/"
 dest_dir="~/"
 commands_to_be_run=()
 
@@ -42,7 +43,7 @@ generate_command_list () {
 		# Once we have made any necessary parent directories in `${dest_dir}`
 		# copy the file/dir from `${source_dir}` to `${dest_dir}`, and modify
 		# its ownership to the current user
-		commands_to_be_run+=("cp -Tria \"${source_dir}/${FILES[$i]}\" \"${dest_dir}/${FILES[$i]}\"")
+		commands_to_be_run+=("cp -Triav \"${source_dir}/${FILES[$i]}\" \"${dest_dir}/${FILES[$i]}\"")
 		commands_to_be_run+=("chown $USER \"${dest_dir}/${FILES[$i]}\"")
 	done
 }
@@ -53,6 +54,18 @@ print_command_list () {
 		echo "${commands_to_be_run[$i]}"
 	done
 }
+#
+# Prompt the user for the source directory
+echo -n "What is the path to the source directory? (enter=${source_dir}) "
+read -a ANSWER
+if [[ ${ANSWER[*]} != "" ]]; then
+	source_dir="${ANSWER[*]}"
+fi
+# Evaluate `$source_dir` to expand all symbols and stuff like that (such as '~'s)
+source_dir_expanded=$(eval echo "$source_dir")
+# Strip the trailing "/" from `${source_dir}` if there is one
+source_dir=$(echo "$source_dir_expanded" | sed "s/\/$//")
+printf "\n"
 
 # Prompt the user for the destination directory
 echo -n "What is the path to the destination directory? (enter=${dest_dir}) "
@@ -60,11 +73,28 @@ read -a ANSWER
 if [[ ${ANSWER[*]} != "" ]]; then
 	dest_dir="${ANSWER[*]}"
 fi
-# Strip the trailing "/" from `${dest_dir}` if there is one
-dest_dir=$(echo "$dest_dir" | sed "s/\/$//")
 # Evaluate `$dest_dir` to expand all symbols and stuff like that (such as '~'s)
 dest_dir_expanded=$(eval echo "$dest_dir")
+# Strip the trailing "/" from `${dest_dir}` if there is one
+dest_dir=$(echo "$dest_dir_expanded" | sed "s/\/$//")
 printf "\n"
+
+# Validate that the given source directory path is valid
+# If `$source_dir` does not exist then exit early
+if [[ ! -e "${source_dir_expanded}" ]]; then
+	printf "Specified source directory does not exist: \"${source_dir}\". Exiting...\n"
+	exit 1
+fi
+# If `$source_dir` is not a directory then exit early
+if [[ ! -d "${source_dir_expanded}" ]]; then
+	printf "Specified source directory is not a directory: \"${source_dir}\". Exiting...\n"
+	exit 1
+fi
+# If the user does not have permission to write to `$source_dir` then exit early
+if [[ ! -w "${source_dir_expanded}" ]]; then
+	printf "User does not have write permission for the specified source directory: \"${source_dir}\". Exiting...\n"
+	exit 1
+fi
 
 # Validate that the given destination directory path is valid
 # If `$dest_dir` does not exist then exit early
