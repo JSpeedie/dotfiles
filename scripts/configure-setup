@@ -2,9 +2,9 @@
 #
 # Takes no arguments, prompts the user to help them configure my customized
 # setup. This script assumes that it is running on a machine that has already
-# executed its sibling scripts install-packages-_____ and install-dotfiles which
-# set the stage for this script. This script configures everything installed by
-# the previous scripts.
+# executed its sibling scripts install-packages-_____ and install-dotfiles
+# which set the stage for this script. This script configures everything
+# installed by the previous scripts.
 
 red=$'\e[1;31m'
 end=$'\e[0m'
@@ -14,9 +14,9 @@ printf " ║                  3. Configure Setup                  ║\n"
 printf " ╚══════════════════════════════════════════════════════╝\n"
 echo
 
-# Use vim-plug to install the plugins specified in your neovim config
+# Install the plugins specified in my Neovim config
 # {{{
-echo -n "Would you like to setup neovim? [Y/n] (enter=Y): "
+echo -n "Would you like to install the Neovim plugins my setup uses? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 
@@ -30,16 +30,16 @@ if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 		if nvim; then
 			printf "\n"
-			printf "Attempted to setup neovim.\n\n"
+			printf "Attempted to install the Neovim plugins.\n\n"
 		else
 			printf "\n"
-			printf "WARNING: Possibly experienced an error attempting to neovim.\n\n"
+			printf "WARNING: Possibly experienced an error attempting to install the Neovim plugins.\n\n"
 		fi
 	else
-		printf "Skipping neovim setup.\n\n"
+		printf "Skipping initial installation of Neovim plugins.\n\n"
 	fi
 else
-	printf "Skipping neovim setup.\n\n"
+	printf "Skipping initial installation of Neovim plugins.\n\n"
 fi
 # }}}
 
@@ -95,6 +95,7 @@ else
 fi
 # }}}
 
+
 # # Apply the MatchParen fix to the Despacio colourscheme
 # # {{{
 # echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y): "
@@ -119,6 +120,37 @@ fi
 # 	printf "Skipping MatchParen fix for Despacio.\n\n"
 # fi
 # # }}}
+
+
+# Open up `~/.config/nvim/after/plugin/nvim-cmp.lua` so the user can follow the
+# instructions in that file to install the dependencies for the LSPs my setup
+# uses
+# {{{
+echo -n "Would you like to install the necessary dependencies for your LSPs for Neovim? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user entered "Y" or hit enter
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will open up \"~/.config/nvim/after/plugin/nvim-cmp.lua\" and you will be expected to follow the instructions in the comments. You are expected to open another terminal from which you will run the various installation commands. When you're done you can \":qa\" out of the first terminal, the one running Neovim. Are you ready to proceed? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim ~/.config/nvim/after/plugin/nvim-cmp.lua; then
+			printf "\n"
+			printf "Attempted to install the necessary dependencies for the LSPs used by the neovim setup.\n\n"
+		else
+			printf "\n"
+			printf "WARNING: Possibly experienced an error when attempting to install the necessary dependencies for the LSPs used by the neovim setup.\n\n"
+		fi
+	else
+		printf "Skipping the installation of the dependencies for the LSPs Neovim will use.\n\n"
+	fi
+else
+	printf "Skipping the installation of the dependencies for the LSPs Neovim will use.\n\n"
+fi
+# }}}
 
 echo
 echo "Configuration complete!"
