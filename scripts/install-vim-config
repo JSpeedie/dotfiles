@@ -94,7 +94,7 @@ if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 	# Execute all the commands in the command list
 	for i in "${!commands_to_be_run[@]}"; do
 		# Run the current command
-		${commands_to_be_run[$i]}
+		eval ${commands_to_be_run[$i]}
 	done
 	printf "\n"
 	printf "Attempted to copy files over.\n\n"
