@@ -97,4 +97,5 @@ if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
 else
 	printf "\n"
 	printf "User chose not to install the dotfiles. Exiting...\n"
+	exit 1
 fi
