@@ -5,15 +5,17 @@ require("config.remap")
 -- Neovim Configuration File Structure:
 --
 -- ~/.config/nvim/init.lua                   -- Base init file, mostly calls on the files below:
--- ~/.config/nvim/lua/config/init.lua        -- This file, the core, vim-y part of my config
+-- ~/.config/nvim/lua/config/init.lua        -- This file. The core, vim-y part of my config
 -- ~/.config/nvim/lua/config/lazy.lua        -- Configure the plugin manager itself
 -- ~/.config/nvim/lua/config/remap.lua       -- Keymap rebinds
 -- ~/.config/nvim/lua/plugins/spec.lua       -- Contains the list of plugins I want and configures them
 -- ~/.config/nvim/after/plugin/[plugin].lua  -- Individual plugin config for configs that need it
+-- ~/.config/nvim/after/plugin/nvim-cmp.lua        -- Configuration for my autocomplete tool
+-- ~/.config/nvim/after/plugin/nvim-lspconfig.lua  -- Configuration for my LSP stuff
 
 -- Run ":Lazy sync" to install/update all plugins
 
--- Plugins are added to ~/.config/nvim/lua/config/lazy.lua
+-- Plugins are specified in ~/.config/nvim/lua/plugins/spec.lua
 -- and then individually configured in their own lua files
 -- (if necessary) in ~/.config/nvim/after/plugin/[plugin].lua
 
