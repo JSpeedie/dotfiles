@@ -122,7 +122,7 @@ fi
 # # }}}
 
 
-# Open up `~/.config/nvim/after/plugin/nvim-cmp.lua` so the user can follow the
+# Open up `~/.config/nvim/after/plugin/nvim-lspconfig.lua` so the user can follow the
 # instructions in that file to install the dependencies for the LSPs my setup
 # uses
 # {{{
@@ -132,12 +132,12 @@ printf "\n"
 
 # If the user entered "Y" or hit enter
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	echo -n "Neovim will open up \"~/.config/nvim/after/plugin/nvim-cmp.lua\" and you will be expected to follow the instructions in the comments. You are expected to open another terminal from which you will run the various installation commands. When you're done you can \":qa\" out of the first terminal, the one running Neovim. Are you ready to proceed? [Y/n] (enter=Y): "
+	echo -n "Neovim will open up \"~/.config/nvim/after/plugin/nvim-lspconfig.lua\" and you will be expected to follow the instructions in the comments. You are expected to open another terminal from which you will run the various installation commands. When you're done you can \":qa\" out of the first terminal, the one running Neovim. Are you ready to proceed? [Y/n] (enter=Y): "
 	read -a ANSWER
 	printf "\n"
 
 	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-		if nvim ~/.config/nvim/after/plugin/nvim-cmp.lua; then
+		if nvim ~/.config/nvim/after/plugin/nvim-lspconfig.lua; then
 			printf "\n"
 			printf "Attempted to install the necessary dependencies for the LSPs used by the neovim setup.\n\n"
 		else
