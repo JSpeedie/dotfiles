@@ -85,7 +85,7 @@ set splitbelow
 set list
 set listchars=tab:\|\ ,eol:$,space:·,extends:⟩,precedes:⟨
 
-" Set too less laggy regex engine
+" Set to less laggy regex engine
 set regexpengine=1
 
 " Explanation of regexes below {{{
