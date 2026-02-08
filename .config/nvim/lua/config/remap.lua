@@ -1,4 +1,5 @@
 -- Add key bindings for going to the next diagnostic. Useful for moving to
 -- the next error or warning
-vim.keymap.set("n", "]g", vim.diagnostic.goto_next)
-vim.keymap.set("n", "[g", vim.diagnostic.goto_prev)
+-- I disabled these because there are already similar defaults of `]d` and `[d`
+-- vim.keymap.set("n", "]g", vim.diagnostic.goto_next)
+-- vim.keymap.set("n", "[g", vim.diagnostic.goto_prev)
