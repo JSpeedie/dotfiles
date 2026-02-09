@@ -44,54 +44,100 @@ fi
 # }}}
 
 
-# Add nvim-cmp highlighting to the Ayu colourscheme
+# Patch up Ayu coloursheme. This step accomplishes the following:
+# 1. Adds nvim-cmp highlighting to the Ayu colourscheme
+# 2. Fixes the diff highlighting with the Ayu colourscheme
+# 3. Removes the unfinished and unnecessary "Diff Syntax Highlighting" section
+#   of the Ayu colourscheme
 # {{{
-echo -n "Would you like to add nvim-cmp highlighting to the Ayu colourscheme? [Y/n] (enter=Y): "
+echo -n "Would you like to manually patch the Ayu colourscheme? [Y/n] (enter=Y): "
 read -a ANSWER
 printf "\n"
 
-# If the user wants to fix the neovim colourscheme
+# If the user wants to manually patch the neovim colourscheme
 if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
-	printf "
-	============================================================================
-	\" nvim-cmp
-	\" ---------
-	\" Matching Letters: blue text with no bg
-	exe \"hi! CmpItemAbbrMatch\"      .s:fg_tag .s:bg_none .s:fmt_none
-	exe \"hi! link CmpItemAbbrMatchFuzzy CmpItemAbbrMatch\"
-	\" Deprecated Recommendations: gray text with no bg, struckthrough
-	exe \"hi! CmpItemAbbrDeprecated  gui=strikethrough \" .s:fg_comment .s:bg_none
-	\" Default: white text with orange bg
-	exe \"hi! CmpItemKind\"           .s:fg_bg .s:bg_function .s:fmt_none
-	\" Module: white text with red bg
-	exe \"hi! CmpItemKindModule\"     .s:fg_bg .s:bg_markup .s:fmt_none
-	\" Interface: white text with purple bg
-	exe \"hi! CmpItemKindInterface\"  .s:fg_bg .s:bg_constant .s:fmt_none
-	\" Struct: white text with orange bg
-	exe \"hi! CmpItemKindStruct\"     .s:fg_bg .s:bg_function .s:fmt_none
-	\" Enum: white text with green bg
-	exe \"hi! CmpItemKindEnum\"       .s:fg_bg .s:bg_string .s:fmt_none
-	exe \"hi! link CmpItemKindEnumMember CmpItemKindEnum\"
-	\" Methods: white text with yellow bg
-	exe \"hi! CmpItemKindMethod\"     .s:fg_bg .s:bg_operator .s:fmt_none
-	\" Functions: white text with yellow bg
-	exe \"hi! CmpItemKindFunction\"   .s:fg_bg .s:bg_operator .s:fmt_none
-	\" Variable: white text with blue bg
-	exe \"hi! CmpItemKindVariable\"   .s:fg_bg .s:bg_tag .s:fmt_none
-	\" Keyword: white text with teal bg
-	exe \"hi! CmpItemKindKeyword\"    .s:fg_bg .s:bg_regexp .s:fmt_none
-	\" Constant: white text with teal bg
-	exe \"hi! CmpItemKindConstant\"   .s:fg_bg .s:bg_regexp .s:fmt_none
-	\" Text: white text with gray bg
-	exe \"hi! CmpItemKindText\"       .s:fg_bg .s:bg_guide .s:fmt_none
-	============================================================================
+	echo -n "Are you ready to add nvim-cmp highlighting to the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
 
-	Copy the code in between the lines and paste it after the GitGutter section
-	near the end of: 
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+\" nvim-cmp
+\" ---------
+\" Matching Letters: blue text with no bg
+exe \"hi! CmpItemAbbrMatch\"      .s:fg_tag .s:bg_none .s:fmt_none
+exe \"hi! link CmpItemAbbrMatchFuzzy CmpItemAbbrMatch\"
+\" Deprecated Recommendations: gray text with no bg, struckthrough
+exe \"hi! CmpItemAbbrDeprecated  gui=strikethrough \" .s:fg_comment .s:bg_none
+\" Default: white text with orange bg
+exe \"hi! CmpItemKind\"           .s:fg_bg .s:bg_function .s:fmt_none
+\" Module: white text with red bg
+exe \"hi! CmpItemKindModule\"     .s:fg_bg .s:bg_markup .s:fmt_none
+\" Interface: white text with purple bg
+exe \"hi! CmpItemKindInterface\"  .s:fg_bg .s:bg_constant .s:fmt_none
+\" Struct: white text with orange bg
+exe \"hi! CmpItemKindStruct\"     .s:fg_bg .s:bg_function .s:fmt_none
+\" Enum: white text with green bg
+exe \"hi! CmpItemKindEnum\"       .s:fg_bg .s:bg_string .s:fmt_none
+exe \"hi! link CmpItemKindEnumMember CmpItemKindEnum\"
+\" Methods: white text with yellow bg
+exe \"hi! CmpItemKindMethod\"     .s:fg_bg .s:bg_operator .s:fmt_none
+\" Functions: white text with yellow bg
+exe \"hi! CmpItemKindFunction\"   .s:fg_bg .s:bg_operator .s:fmt_none
+\" Variable: white text with blue bg
+exe \"hi! CmpItemKindVariable\"   .s:fg_bg .s:bg_tag .s:fmt_none
+\" Keyword: white text with teal bg
+exe \"hi! CmpItemKindKeyword\"    .s:fg_bg .s:bg_regexp .s:fmt_none
+\" Constant: white text with teal bg
+exe \"hi! CmpItemKindConstant\"   .s:fg_bg .s:bg_regexp .s:fmt_none
+\" Text: white text with gray bg
+exe \"hi! CmpItemKindText\"       .s:fg_bg .s:bg_guide .s:fmt_none
+============================================================================
 
-	~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+Copy the code in between the lines and paste it after the GitGutter section,
+near the end of: 
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
+
+	echo -n "Are you ready to patch the diff highlighting of the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+\" \`DiffAdd\` is for added lines
+exe \"hi! DiffAdd\"       .s:fg_string      .s:bg_panel       .s:fmt_none
+\" \`DiffDelete\` is for removed lines
+exe \"hi! DiffDelete\"    .s:fg_error       .s:bg_panel       .s:fmt_none
+\" \`DiffChange\` is for the parts of a changed line that did NOT change
+exe \"hi! DiffChange\"    .s:fg_tag         .s:bg_panel       .s:fmt_none
+\" \`DiffText\` is for the parts of a changed line that actually changed
+exe \"hi! DiffText\"      .s:fg_fg          .s:bg_panel       .s:fmt_none
+============================================================================
+
+Copy the code in between the lines and paste it (replacing the corresponding
+lines) in the \"Vim Highlighting\" section of:
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
+
+	echo -n "Are you ready to remove the incomplete \"Diff Syntax Highlighting\" section of the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+
+Delete the whole section labelled \"Diff Syntax Highlighting\" in the file:
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
 else
-	printf "Skipping Ayu nvim-cmp highlighting fix.\n\n"
+	printf "Skipping manual patching of the Ayu colourscheme.\n\n"
 fi
 # }}}
 
