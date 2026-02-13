@@ -43,6 +43,15 @@ set shiftround
 " Show a few lines of context around the cursor after certain moves (affects
 " H, L, zt, zb, /, etc.)
 set scrolloff=3
+" Make the minimum horizontal scroll increment 1 column so we can perform 1
+" column side-scrolls
+set sidescroll=1
+" Ensure there is always 2 columns on the left or right of the cursor. The
+" `sidescrolloff` setting below (paired with the `sidescroll` setting above)
+" solve the problem of using `$` on a line that is wider than your screen and
+" seeing your `listchars` `extends` character rather than the final character
+" of the line.
+set sidescrolloff=2
 
 " Have a block cursor instead of a line cursor when in insert mode
 set guicursor = ""

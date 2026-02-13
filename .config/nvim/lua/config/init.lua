@@ -70,6 +70,15 @@ vim.cmd[[autocmd FileType lua set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 -- Show a few lines of context around the cursor after certain moves (affects
 -- H, L, zt, zb, /, etc.)
 vim.opt.scrolloff = 3
+-- Make the minimum horizontal scroll increment 1 column so we can perform 1
+-- column side-scrolls
+vim.opt.sidescroll = 1
+-- Ensure there is always 2 columns on the left or right of the cursor. The
+-- `sidescrolloff` setting below (paired with the `sidescroll` setting above)
+-- solve the problem of using `$` on a line that is wider than your screen and
+-- seeing your `listchars` `extends` character rather than the final character
+-- of the line.
+vim.opt.sidescrolloff = 2
 
 -- Have a block cursor instead of a line cursor when in insert mode
 vim.opt.guicursor = ""
@@ -103,9 +112,9 @@ vim.cmd[[autocmd FileType java setlocal colorcolumn=100]]
 vim.cmd[[autocmd FileType html setlocal colorcolumn=100]]
 vim.cmd[[autocmd FileType php setlocal colorcolumn=100]]
 
--- When creating verical splits (:vsplit), put the new window on the right
+-- When creating verical splits (:vs[plit]), put the new window on the right
 vim.opt.splitright = true
--- When creating horizontal splits (:split), put the new window below
+-- When creating horizontal splits (:sp[lit]), put the new window below
 vim.opt.splitbelow = true
 
 -- Mark whitespace characters with specific symbols to make them easier to see
