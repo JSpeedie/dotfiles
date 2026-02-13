@@ -42,6 +42,8 @@ shopt -s histappend
 # Increase the size of the remembered bash history
 export HISTSIZE=20000
 export HISTFILESIZE=40000
+# Make it so that Bash history keeps track of the time you ran the commands
+export HISTTIMEFORMAT="%F %T "
 
 # BH2: Makes it so the history of our current bash session is appended to the
 # bash history file every time bash displays a prompt (i.e. our history is
@@ -86,7 +88,8 @@ history() {
 #          Aliases           #
 ##############################
 
-# If the system has neovim, use that, otherwise use regular vim
+# If the system has neovim, use that. Because we set the default editor to vim
+# above, if the system doesn't have neovim, it will fall back to vim.
 if type nvim > /dev/null 2>&1; then
 	alias vim="nvim"
 	alias vimdiff='nvim -d'
@@ -173,10 +176,6 @@ prompt () {
 	printf "${result}"
 }
 
-upt () {
-	awk '{printf "%.2f\n", $1 / 86400}' /proc/uptime
-}
-
 # jpgtopdf 42389.jpg receipt.pdf
 jpgtopdf () {
 	convert $1 -auto-orient $2
@@ -190,13 +189,6 @@ textopdf () {
 	pdflatex $1
 	# Older method
 	#pandoc -f latex $1 --pdf-engine=lualatex -o $2
-}
-
-# concatenate pdf $1 and pdf $2 into output pdf $3.
-# You can have more inputs which could take the form:
-#	pdftk $1 $2 $3 cat output $4
-concatenatepdfs () {
-	pdftk $1 $2 cat output $3
 }
 
 # Converts the video to be 480 by 320 at 30fps. convert then optimizes
