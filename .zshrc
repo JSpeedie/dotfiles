@@ -86,6 +86,7 @@ zle -N down-line-or-local-history
 ##############################
 
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 alias updatedot='~/scripts/updatedir ~/ ~/dotfiles/ ~/scripts/updatedir-dotfiles-filelist'
 alias cdf='cd "$(find . -type d | fzf)"'
 

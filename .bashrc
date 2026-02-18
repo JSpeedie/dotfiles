@@ -96,6 +96,12 @@ if type nvim > /dev/null 2>&1; then
 	export EDITOR=nvim
 	export VISUAL="$EDITOR"
 fi
+# Make `grep` and `ls` colour their output by default
+if [ -x /usr/bin/dircolors ]; then
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	alias grep='grep --color=auto'
+fi
 alias organizerawsandjpgs='bash ~/organizerawsandjpgs.sh'
 alias ls='ls --color=auto'
 alias lock='sh ~/scripts/lock.sh'
