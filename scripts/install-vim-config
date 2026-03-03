@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 #
-# Takes no arguments, copies a hard-coded list of vim/nvim related
-# configuration files to the home directory, creating the necessary parent
-# directories if needed.
+# Takes no arguments.
+#
+# This script copies a hard-coded list of vim/nvim related configuration files
+# to the home directory, creating the necessary parent directories if needed.
+#
+# EXAMPLE:
+#
+# $ ./install-vim-config
+
 
 # TODO: update this warning to be accurate to this file, not `install-dotfiles`
 ######################################################################

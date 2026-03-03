@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Takes no arguments.
+#
+# This script executes all the scripts related to configuring my setup once all
+# the packages, and dotfiles and config files have been installed. At the
+# moment the only configuration that is called for is running
+# "configure-vim-setup".
+#
+# EXAMPLE:
+#
+# $ ./configure-setup
+
+
+# TODO: you need to modify this so it works by running the script of this name
+# that is a sibling to *this* script. Right now if you invoke *this* script by
+# running, say, `./scripts/configure-setup`, this line will fail, I believe.
+./configure-vim-setup
+
+echo
+echo "Configuration complete!"
+echo

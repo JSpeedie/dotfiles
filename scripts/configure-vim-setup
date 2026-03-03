@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 #
-# Takes no arguments, prompts the user to help them configure my customized
-# setup. This script assumes that it is running on a machine that has already
-# executed its sibling scripts install-packages-_____ and install-dotfiles
-# which set the stage for this script. This script configures everything
-# installed by the previous scripts.
+# Takes no arguments.
+#
+# This script walks the user through a handful of manual steps necessary for
+# configuring my vim setup properly. This script assumes that it is running on
+# a machine that has already executed its sibling script, "install-vim-config"
+# which set the stage for this script.
+#
+# EXAMPLE:
+#
+# $ ./configure-vim-setup
+
 
 red=$'\e[1;31m'
 end=$'\e[0m'
-
-printf " ╔══════════════════════════════════════════════════════╗\n"
-printf " ║                  3. Configure Setup                  ║\n"
-printf " ╚══════════════════════════════════════════════════════╝\n"
-echo
 
 # Install the plugins specified in my Neovim config
 # {{{
@@ -199,5 +200,5 @@ fi
 # }}}
 
 echo
-echo "Configuration complete!"
+echo "Vim configuration complete!"
 echo
