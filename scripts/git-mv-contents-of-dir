@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Takes two arguments representing two directories. All the regular files in the
+# first directory are `git mv`'d to the second directory.
+#
+
+# Remove any "/" at the end of the path arguments
+FIRST=$(echo "$1" | sed "s/\/$//")
+SECOND=$(echo "$2" | sed "s/\/$//")
+
+# mapfile -t FILE_LIST < <(find "$1" -type f -printf "%P\n")
+mapfile -t FILE_LIST < <(find "$1" -maxdepth 1 -type f -printf "%P\n")
+
+for i in "${!FILE_LIST[@]}"; do
+    echo "git mv ${FIRST}/${FILE_LIST[$i]} ${SECOND}/${FILE_LIST[$i]}"
+done
