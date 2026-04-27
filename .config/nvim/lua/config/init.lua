@@ -65,7 +65,7 @@ vim.cmd[[autocmd FileType lua set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 -- TODO:
 -- " Makes coding much more comfortable as you no longer have to hit tab 5 times
 -- " every time you open a new line
--- set autoindent
+-- vim.cmd[[set autoindent]]
 
 -- Show a few lines of context around the cursor after certain moves (affects
 -- H, L, zt, zb, /, etc.)
@@ -128,6 +128,14 @@ vim.opt.listchars={ tab = '| ', eol = '$', space = '·', extends = '⟩', preced
 -- annoying and jittery, and having the columns always visible takes up
 -- valuable screen real estate, so I entirely disable them.
 vim.opt.signcolumn = "no"
+
+-- Set options related to "diff" mode, typically launched
+-- with `vimdiff` of `nvim -d`. Here all we do is make it so
+-- opening a new split to diff with `:diffs [file]` opens a
+-- new vertical split (default is horizontal), and increase
+-- the total number of lines in the diff hunk to 60 (at the
+-- time of writing, default is 40).
+vim.opt.diffopt="vertical,linematch:60"
 
 -- Awesome setting to always jump to the last known cursor position when
 -- reopening a file.
