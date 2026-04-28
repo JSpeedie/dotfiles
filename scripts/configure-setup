@@ -1,21 +1,202 @@
 #!/usr/bin/env bash
 #
-# Takes no arguments.
-#
-# This script executes all the scripts related to configuring my setup once all
-# the packages, and dotfiles and config files have been installed. At the
-# moment the only configuration that is called for is running
-# "configure-vim-setup".
-#
-# EXAMPLE:
-#
-# $ ./configure-setup
+# Takes no arguments, prompts the user to help them configure my customized
+# setup. This script assumes that it is running on a machine that has already
+# executed its sibling scripts install-packages-_____ and install-dotfiles
+# which set the stage for this script. This script configures everything
+# installed by the previous scripts.
+
+red=$'\e[1;31m'
+end=$'\e[0m'
+
+printf " ╔══════════════════════════════════════════════════════╗\n"
+printf " ║                  3. Configure Setup                  ║\n"
+printf " ╚══════════════════════════════════════════════════════╝\n"
+echo
+
+# Install the plugins specified in my Neovim config
+# {{{
+echo -n "Would you like to install the Neovim plugins my setup uses? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to do their first neovim launch where neovim downloads
+# all the plugins and sets itself up
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will start up and the plugin manager should automatically start installing the correct plugins. Give it time to complete and then \":qa\" out. Are you ready to proceed? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim; then
+			printf "\n"
+			printf "Attempted to install the Neovim plugins.\n\n"
+		else
+			printf "\n"
+			printf "WARNING: Possibly experienced an error attempting to install the Neovim plugins.\n\n"
+		fi
+	else
+		printf "Skipping initial installation of Neovim plugins.\n\n"
+	fi
+else
+	printf "Skipping initial installation of Neovim plugins.\n\n"
+fi
+# }}}
 
 
-# TODO: you need to modify this so it works by running the script of this name
-# that is a sibling to *this* script. Right now if you invoke *this* script by
-# running, say, `./scripts/configure-setup`, this line will fail, I believe.
-./configure-vim-setup
+# Patch up Ayu coloursheme. This step accomplishes the following:
+# 1. Adds nvim-cmp highlighting to the Ayu colourscheme
+# 2. Fixes the diff highlighting with the Ayu colourscheme
+# 3. Removes the unfinished and unnecessary "Diff Syntax Highlighting" section
+#   of the Ayu colourscheme
+# {{{
+echo -n "Would you like to manually patch the Ayu colourscheme? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user wants to manually patch the neovim colourscheme
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Are you ready to add nvim-cmp highlighting to the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+\" nvim-cmp
+\" ---------
+\" Matching Letters: blue text with no bg
+exe \"hi! CmpItemAbbrMatch\"      .s:fg_tag .s:bg_none .s:fmt_none
+exe \"hi! link CmpItemAbbrMatchFuzzy CmpItemAbbrMatch\"
+\" Deprecated Recommendations: gray text with no bg, struckthrough
+exe \"hi! CmpItemAbbrDeprecated  gui=strikethrough \" .s:fg_comment .s:bg_none
+\" Default: white text with orange bg
+exe \"hi! CmpItemKind\"           .s:fg_bg .s:bg_function .s:fmt_none
+\" Module: white text with red bg
+exe \"hi! CmpItemKindModule\"     .s:fg_bg .s:bg_markup .s:fmt_none
+\" Interface: white text with purple bg
+exe \"hi! CmpItemKindInterface\"  .s:fg_bg .s:bg_constant .s:fmt_none
+\" Struct: white text with orange bg
+exe \"hi! CmpItemKindStruct\"     .s:fg_bg .s:bg_function .s:fmt_none
+\" Enum: white text with green bg
+exe \"hi! CmpItemKindEnum\"       .s:fg_bg .s:bg_string .s:fmt_none
+exe \"hi! link CmpItemKindEnumMember CmpItemKindEnum\"
+\" Methods: white text with yellow bg
+exe \"hi! CmpItemKindMethod\"     .s:fg_bg .s:bg_operator .s:fmt_none
+\" Functions: white text with yellow bg
+exe \"hi! CmpItemKindFunction\"   .s:fg_bg .s:bg_operator .s:fmt_none
+\" Variable: white text with blue bg
+exe \"hi! CmpItemKindVariable\"   .s:fg_bg .s:bg_tag .s:fmt_none
+\" Keyword: white text with teal bg
+exe \"hi! CmpItemKindKeyword\"    .s:fg_bg .s:bg_regexp .s:fmt_none
+\" Constant: white text with teal bg
+exe \"hi! CmpItemKindConstant\"   .s:fg_bg .s:bg_regexp .s:fmt_none
+\" Text: white text with gray bg
+exe \"hi! CmpItemKindText\"       .s:fg_bg .s:bg_guide .s:fmt_none
+============================================================================
+
+Copy the code in between the lines and paste it after the GitGutter section,
+near the end of: 
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
+
+	echo -n "Are you ready to patch the diff highlighting of the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+\" \`DiffAdd\` is for added lines
+exe \"hi! DiffAdd\"       .s:fg_string      .s:bg_panel       .s:fmt_none
+\" \`DiffDelete\` is for removed lines
+exe \"hi! DiffDelete\"    .s:fg_error       .s:bg_panel       .s:fmt_none
+\" \`DiffChange\` is for the parts of a changed line that did NOT change
+exe \"hi! DiffChange\"    .s:fg_tag         .s:bg_panel       .s:fmt_none
+\" \`DiffText\` is for the parts of a changed line that actually changed
+exe \"hi! DiffText\"      .s:fg_fg          .s:bg_panel       .s:fmt_none
+============================================================================
+
+Copy the code in between the lines and paste it (replacing the corresponding
+lines) in the \"Vim Highlighting\" section of:
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
+
+	echo -n "Are you ready to remove the incomplete \"Diff Syntax Highlighting\" section of the colourscheme? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		printf "
+============================================================================
+
+Delete the whole section labelled \"Diff Syntax Highlighting\" in the file:
+
+~/.local/share/nvim/lazy/ayu/colors/ayu.vim\n\n"
+	fi
+else
+	printf "Skipping manual patching of the Ayu colourscheme.\n\n"
+fi
+# }}}
+
+
+# # Apply the MatchParen fix to the Despacio colourscheme
+# # {{{
+# echo -n "Would you like to apply the MatchParen fix to the Despacio colourscheme? [Y/n] (enter=Y): "
+# read -a ANSWER
+# printf "\n"
+
+# # If the user wants to fix the neovim colourscheme
+# if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+# 	if sed -i '/^.*MatchParen.*$/c\highlight MatchParen guifg=NONE guibg=#87afaf gui=reverse ctermfg=NONE ctermbg=109 cterm=reverse' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+# 		if sed -i '/^.*PmenuSel.*$/c\highlight PmenuSel guifg=#eeeeee guibg=NONE gui=NONE ctermfg=255 ctermbg=NONE cterm=NONE' ~/.vim/plugged/Despacio/colors/despacio.vim; then
+# 			printf "\n"
+# 			printf "Attempted to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 		else
+# 			printf "\n"
+# 			printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 		fi
+# 	else
+# 		printf "\n"
+# 		printf "WARNING: Possibly experienced an error attempting to fix MatchParen highlighting in Despacio colourscheme.\n\n"
+# 	fi
+# else
+# 	printf "Skipping MatchParen fix for Despacio.\n\n"
+# fi
+# # }}}
+
+
+# Open up `~/.config/nvim/after/plugin/nvim-lspconfig.lua` so the user can follow the
+# instructions in that file to install the dependencies for the LSPs my setup
+# uses
+# {{{
+echo -n "Would you like to install the necessary dependencies for your LSPs for Neovim? [Y/n] (enter=Y): "
+read -a ANSWER
+printf "\n"
+
+# If the user entered "Y" or hit enter
+if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+	echo -n "Neovim will open up \"~/.config/nvim/after/plugin/nvim-lspconfig.lua\" and you will be expected to follow the instructions in the comments. You are expected to open another terminal from which you will run the various installation commands. When you're done you can \":qa\" out of the first terminal, the one running Neovim. Are you ready to proceed? [Y/n] (enter=Y): "
+	read -a ANSWER
+	printf "\n"
+
+	if [[ ${ANSWER[*]} == "Y" || ${ANSWER[*]} == "" ]]; then
+		if nvim ~/.config/nvim/after/plugin/nvim-lspconfig.lua; then
+			printf "\n"
+			printf "Attempted to install the necessary dependencies for the LSPs used by the neovim setup.\n\n"
+		else
+			printf "\n"
+			printf "WARNING: Possibly experienced an error when attempting to install the necessary dependencies for the LSPs used by the neovim setup.\n\n"
+		fi
+	else
+		printf "Skipping the installation of the dependencies for the LSPs Neovim will use.\n\n"
+	fi
+else
+	printf "Skipping the installation of the dependencies for the LSPs Neovim will use.\n\n"
+fi
+# }}}
 
 echo
 echo "Configuration complete!"
