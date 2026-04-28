@@ -137,10 +137,13 @@ vim.opt.signcolumn = "no"
 -- time of writing, default is 40).
 vim.opt.diffopt="vertical,linematch:60"
 
--- Awesome setting to always jump to the last known cursor position when
--- reopening a file.
+------------------------------------------------
+-- Vim remembers last cursor position in file --
+------------------------------------------------
+-- {{{
 -- Note: Only do this part when Vim was compiled with the +eval feature.
 vim.cmd[[
+" Change to `if 0` to quickly disable
 if 1
 	" Put these in an autocmd group, so that you can revert them with:
 	" ":augroup vimStartup | exe 'au!' | augroup END"
@@ -159,6 +162,62 @@ if 1
 	augroup END
 endif 
 ]]
+-- }}}
+
+----------------------------------------------------------------------------
+-- Undo files but with a warning for when you are about to undo to a file --
+-- state prior to the current session                                     --
+----------------------------------------------------------------------------
+-- TODO: this is not fully thought out. Vim's undo history is a tree, does this
+-- code handle cases where we reopen a file, go back in the history and make
+-- some new changes well? Further, do you want to store info for multiple
+-- sessions to give more information?
+-- {{{
+vim.cmd[[
+" Change to `if 0` to quickly disable
+if 1
+  " Enable undo files
+  set undofile
+  set undodir=~/.vim/undo
+  
+  augroup SessionUndoBoundary
+    autocmd!
+    " Mark the current undo sequence number as the start-of-session boundary
+    autocmd BufReadPost * let b:undo_session_start = undotree().seq_cur
+  augroup END
+  
+  function! SessionUndo()
+    " If no session boundary exists or we are already behind or ahead of the boundary, just undo
+    if !exists('b:undo_session_start') || undotree().seq_cur != b:undo_session_start
+      return "u"
+    endif
+  
+    " If we made it here, that means we are *at* the session boundary
+    " (i.e. `undotree().seq_cur == b:undo_session_start`)
+
+    " If we also happen to be at the very beginning of the file's undo history
+    " (i.e. `undotree().seq_cur == 0`) then just return normally
+    if undotree().seq_cur == 0
+      return "u"
+    endif
+  
+    " If we are at the session boundary but not at the beginning of the file's
+    " undo history
+    let l:choice = confirm("Undo into previous session?", "&Yes\n&No", 2)
+    if l:choice == 1
+      " User said yes, move the boundary back so they aren't prompted again 
+      " for every single keystroke in the past history.
+      " let b:undo_session_start = -1 
+      return "u"
+    else
+      return ""
+    endif
+  endfunction
+  
+  nnoremap <expr> u SessionUndo()
+endif
+]]
+-- }}}
 
 -- Regexes that highlight trailing whitespace {{{
 --
