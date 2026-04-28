@@ -1,3 +1,5 @@
+-- If you run into issues with this line later, add an "s" to "config"
+-- require'nvim-treesitter.configs'.setup {
 require'nvim-treesitter.config'.setup {
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
   -- https://github.com/nvim-treesitter/nvim-treesitter#supported-languages
