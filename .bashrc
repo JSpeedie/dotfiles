@@ -45,6 +45,13 @@ export HISTFILESIZE=40000
 # Make it so that Bash history keeps track of the time you ran the commands
 export HISTTIMEFORMAT="%F %T "
 
+# Scribble for later
+# Generate a temp file with a suffix containing a session identifier for this
+# Bash session.
+# B_SESSION_ID=$(tty | sed "s#/dev/##; s#/##g")
+# Make it so that Bash history keeps track of the time you ran the commands
+# LOCAL_HISTORY=$(mktemp --suffix=".${B_SESSION_ID}")
+
 # BH2: Makes it so the history of our current bash session is appended to the
 # bash history file every time bash displays a prompt (i.e. our history is
 # appended every time we run a command)
