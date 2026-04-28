@@ -122,9 +122,12 @@ if (has("termguicolors"))
 	set termguicolors
 endif
 
-" Awesome setting to always jump to the last known cursor position when
-" reopening a file.
+""""""""""""""""""""""""""""""""""""""""""""""
+" Vim remembers last cursor position in file "
+""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 " Note: Only do this part when Vim was compiled with the +eval feature.
+" Change to `if 0` to quickly disable
 if 1
 	" Put these in an autocmd group, so that you can revert them with:
 	" ":augroup vimStartup | exe 'au!' | augroup END"
@@ -142,6 +145,85 @@ if 1
 
 	augroup END
 endif
+" }}}
+
+""""""""""""""""""""""""""""""""""""""""""
+" Undo files but with a session boundary "
+""""""""""""""""""""""""""""""""""""""""""
+" {{{
+" Change to `if 0` to quickly disable
+if 1
+  " Enable undo files
+  set undofile
+  set undodir=~/.vim/undo
+  " On opening a file, mark the most recent undo as the boundary for the session
+  " in the undo tree
+  augroup SessionUndoBoundary
+    autocmd!
+    " If an undo file for the file exists, save the most recent undo sequence
+    " number as the boundary marking the end of the current session's undo
+    " history
+    autocmd BufWinEnter *
+      \ if &undofile
+        \ | let b:session_seq = undotree().seq_last
+      \ | endif
+  augroup END
+  function! SessionUndo()
+    let ut = undotree()
+
+    " No boundary stored (new file etc.)
+    if !exists('b:session_seq')
+      return 'u'
+    endif
+
+    " If we're already in the undo history prior to the current session
+    if ut.seq_cur < b:session_seq
+        echo "ut.seq_cur:" . ut.seq_cur . " and b:session_seq:" . b:session_seq
+      " Undo normally
+      return 'u'
+    endif
+
+    " If we're still in the undo history of the current session
+    if ut.seq_cur > b:session_seq
+      echo "ut.seq_cur:" . ut.seq_cur . " and b:session_seq:" . b:session_seq
+      " Undo normally
+      return 'u'
+    endif
+
+    " TODO: This `for` block below is ChatGPT generated. I don't exactly know
+    " what it accomplishes or if it covers all cases
+
+    " Find parent of current node
+    for entry in ut.entries
+      if entry.seq == ut.seq_cur
+        if has_key(entry, 'alt')
+          let parent = entry.alt[0]
+        else
+          let parent = entry.seq - 1
+        endif
+        break
+      endif
+    endfor
+
+    " If the parent node of the current node is from a previous session
+    if parent < b:session_seq
+      " Confirm if we want to undo past our current session
+      let choice = confirm(
+          \ "Undo into previous session?", "&Yes\n&No", 2)
+
+      " If the user chose not to undo into the next session
+      if choice != 1
+        " Do not undo normally
+        return ''
+      endif
+    endif
+
+    return 'u'
+  endfunction
+
+  nnoremap <expr> u SessionUndo()
+endif
+" }}}
 
 " Darker bg with darker fg (used for middle section of status line
 " which has no text)
