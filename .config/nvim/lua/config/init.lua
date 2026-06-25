@@ -60,8 +60,8 @@ vim.opt.softtabstop = 4
 vim.opt.shiftround = true
 -- Set tab values so that when editing HTML and LUA files tabs are converted
 -- to 2 spaces
-vim.cmd[[autocmd FileType html set tabstop=2 softtabstop=2 shiftwidth=2 expandtab]]
-vim.cmd[[autocmd FileType lua set tabstop=2 softtabstop=2 shiftwidth=2 expandtab]]
+vim.cmd[[autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab]]
+vim.cmd[[autocmd FileType lua setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab]]
 -- TODO:
 -- " Makes coding much more comfortable as you no longer have to hit tab 5 times
 -- " every time you open a new line
