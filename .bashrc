@@ -4,6 +4,33 @@
 
 export EDITOR=vim
 export VISUAL="$EDITOR"
+# The following `SYSTEMD_EDITOR` variable only works if you add this line to
+# your sudoers file:
+#
+# ```bash
+# sudo visudo
+# ```
+# ```
+# Defaults env_keep += "SYSTEMD_EDITOR"
+# ```
+#
+# You may also want to comment out the line that reads
+#
+# ```
+# #Defaults:%sudo env_keep += "EDITOR"
+# ```
+#
+# Uncommenting that line will make it so that your default editor is used for
+# the `sudo visudo` command
+#
+export SYSTEMD_EDITOR="$EDITOR"
+# If the system has neovim, use that. Because we set the default editor to vim
+# above, if the system doesn't have neovim, it will fall back to vim.
+if type nvim > /dev/null 2>&1; then
+	export EDITOR=nvim
+	export VISUAL="$EDITOR"
+	export SYSTEMD_EDITOR="$EDITOR"
+fi
 export _JAVA_AWT_WM_NONREPARENTING=1
 export ANDROID_HOME=/opt/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-9-openjdk/
@@ -100,8 +127,6 @@ history() {
 if type nvim > /dev/null 2>&1; then
 	alias vim="nvim"
 	alias vimdiff='nvim -d'
-	export EDITOR=nvim
-	export VISUAL="$EDITOR"
 fi
 # Make `grep` and `ls` colour their output by default
 if [ -x /usr/bin/dircolors ]; then
